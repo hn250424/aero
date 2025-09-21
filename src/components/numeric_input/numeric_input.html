@@ -1,0 +1,30 @@
+<style>
+    #numeric-input-div {
+        border: 1px solid #ccc;
+
+        min-width: 100px;
+        min-height: 30px;
+        width: 150px;
+    }
+
+    #numeric-input-input {
+        width: inherit;
+        height: inherit;
+
+        box-sizing: border-box;
+        border: none;
+
+        text-align: center;
+        vertical-align: middle;
+    }
+
+    #numeric-input-input:focus {
+        outline: none;
+    }
+    
+    #numeric-input-input::-webkit-inner-spin-button { appearance: none; }
+</style>
+
+<div id="numeric-input-div">
+    <input id="numeric-input-input" type="number" />
+</div>
