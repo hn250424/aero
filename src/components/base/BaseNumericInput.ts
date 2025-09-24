@@ -1,12 +1,15 @@
-export default class BaseNumericInput extends HTMLElement {
+import BaseShadowComponent from "./BaseShadowComponent"
+
+export default abstract class BaseNumericInput extends BaseShadowComponent {
     protected input!: HTMLInputElement
     protected nMin!: number
     protected nMax!: number
     protected nStep!: number
     protected decimalPlaces!: number
 
-    constructor() {
-        super()
+    constructor(htmlTemplate: string) {
+        super(htmlTemplate)
+        this.initializeInput()
 
         this.nMin = Number(this.getAttribute('min') ?? 0)
         this.nMax = Number(this.getAttribute('max') ?? 100)
@@ -15,12 +18,25 @@ export default class BaseNumericInput extends HTMLElement {
         this.decimalPlaces = this.nStep.toString().split('.')[1]?.length || 0
     }
 
+    protected abstract getInputSelector(): string
+
+    private initializeInput() {
+        this.input = this.query(this.getInputSelector())
+        this.input.addEventListener('focusout', () => {
+            const validatedValue = this.getValidateValue(Number(this.input.value))
+            this.insertValueToInputDom(validatedValue)
+        })
+    }
+
 
     
-    protected validateValue() {
-        let value = Number(this.input.value)
+    protected getValidateValue(value: number): string {
         value = Math.min(this.nMax, Math.max(this.nMin, Math.round(value / this.nStep) * this.nStep))
-        this.input.value = value.toFixed(this.decimalPlaces)
+        return value.toFixed(this.decimalPlaces)
+    }
+
+    protected insertValueToInputDom(value: string) {
+        this.input.value = value
     }
 
 

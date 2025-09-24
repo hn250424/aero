@@ -1,4 +1,4 @@
-import spinboxTemplateHtml from './spinbox.html?raw'
+import spinboxHtmlTemplate from './spinbox.html?raw'
 import BaseNumericInput from '../../base/BaseNumericInput'
 
 export default class Spinbox extends BaseNumericInput {
@@ -6,25 +6,20 @@ export default class Spinbox extends BaseNumericInput {
     private plus: HTMLElement
 
     constructor() {
-        super()
-        
-        const template = document.createElement('template')
-        template.innerHTML = spinboxTemplateHtml
+        super(spinboxHtmlTemplate)
 
-        const shadow = this.attachShadow({ mode: 'open' })
-        shadow.appendChild(template.content.cloneNode(true))
-
-        this.input = shadow.querySelector('.input')!
-        this.input.addEventListener('focusout', () => this.validateValue())
-
-
-        
         this.minus = this.shadowRoot!.querySelector('.minus')!
         this.plus = this.shadowRoot!.querySelector('.plus')!
 
         this.minus.addEventListener('click', this.decrement.bind(this))
         this.plus.addEventListener('click', this.increment.bind(this))
     }
+
+    protected getInputSelector(): string {
+        return '.input'
+    }
+
+
 
     decrement() {
         let newValue = Number(this.input.value) - this.nStep
