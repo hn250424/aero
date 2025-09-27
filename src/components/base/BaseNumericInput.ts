@@ -35,7 +35,7 @@ export default abstract class BaseNumericInput extends BaseShadowComponent {
         return value.toFixed(this.decimalPlaces)
     }
 
-    protected insertValueToInputDom(value: string) {
+    public insertValueToInputDom(value: string) {
         this.input.value = value
     }
 
