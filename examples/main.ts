@@ -5,4 +5,3 @@ import * as aero from '../src'
 
 // const numericInput = new aero.NumericInput()
 // dynamicContainer?.appendChild(numericInput)
-
