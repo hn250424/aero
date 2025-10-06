@@ -1,5 +1,5 @@
 <style>
-    .spinbox {
+    #spinbox {
         border: 1px solid #ccc;
         display: grid;
         grid-template-columns: 30px 1fr 30px;
@@ -8,14 +8,20 @@
         width: 150px;
     }
 
-    .spinbox > * { width: 100%; height: 100%; border: none; }
-    .spinbox > input[type=number]::-webkit-inner-spin-button { appearance: none; }
-    .spinbox > input[type=number] { text-align: center; }
-    .spinbox > button { background-color: #ccc; }
+    #spinbox > * { width: 100%; height: 100%; border: none; }
+    #spinbox > button { background-color: #ccc; }
+
+    #input {
+        padding: 0;
+        text-align: center;
+    }
+
+    #input:focus { outline: none; }
+    #input::-webkit-inner-spin-button { appearance: none; }
 </style>
 
-<div class="spinbox">
-    <button class="minus">-</button>
-    <input class="input" type="number">
-    <button class="plus">+</button>
+<div id="spinbox">
+    <button id="minus">-</button>
+    <input id="input" type="number">
+    <button id="plus">+</button>
 </div>
