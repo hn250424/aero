@@ -8,15 +8,15 @@ export default class Spinbox extends BaseNumericInput {
     constructor() {
         super(spinboxHtmlTemplate)
 
-        this.minus = this.shadowRoot!.querySelector('.minus')!
-        this.plus = this.shadowRoot!.querySelector('.plus')!
+        this.minus = this.shadowRoot!.querySelector('#minus')!
+        this.plus = this.shadowRoot!.querySelector('#plus')!
 
         this.minus.addEventListener('click', this.decrement.bind(this))
         this.plus.addEventListener('click', this.increment.bind(this))
     }
 
     protected getInputSelector(): string {
-        return '.input'
+        return '#input'
     }
 
 

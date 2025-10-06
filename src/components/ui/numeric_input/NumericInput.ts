@@ -8,7 +8,7 @@ export default class NumericInput extends BaseNumericInput {
     }
 
     protected getInputSelector(): string {
-        return '.input'
+        return '#input'
     }
 }
 
