@@ -19,7 +19,7 @@
             gap: 5px;
         }
 
-        #app div {
+        #app > div {
             padding: 5px;
             
             display: flex;
@@ -38,6 +38,22 @@
             height: 100%;
             border: 1px solid blue;
         }
+
+
+
+        aero-resize-box {
+            display: flex;
+            justify-content: center;
+
+        }
+        /* #div {
+            width: 300px;
+            height: 50px;
+            border: 1px solid #ccc;
+        } */
+
+
+
     </style>
     <!-- <link href="./examples/style.css" rel="stylesheet" /> -->
 </head>
@@ -48,13 +64,15 @@
             <aero-numeric-input min="0.4" max="100" step="0.46" value="77"></aero-numeric-input>
             <aero-spinbox min="0.4" max="100" step="0.46" value="77"></aero-spinbox>
             <!-- <aero-progress-spinner container-background="grey" spinner-background="green" spinner-color="yellow"></aero-progress-spinner> -->
+            <aero-resize-box>
+                <div id="user-semantic1" style="background-color: red; width: 10px; height: 10px;"></div>
+                <div id="user-semantic2" style="background-color: burlywood; width: 10px; height: 10px;"></div>
+            </aero-resize-box>
+            <!-- <div id="div" style="display: flex; justify-content: center; flex-direction: row;">
+                <div id="user-semantic3" style="background-color: red; width: 10px; height: 10px;"></div>
+                <div id="user-semantic4" style="background-color: burlywood; width: 10px; height: 10px;"></div>
+            </div> -->
         </div>
-        <!-- <aero-spinbox min="0.4" max="100" step="0.46" value="77" slider-id="speedRange"
-            button-color="red"></aero-spinbox>
-        <input type="range" id="speedRange" min="0.4" max="100" step="0.46"> -->
-
-        
-
         
             
         <!-- <div id="app-dynamic"></div> -->
