@@ -5,10 +5,6 @@ export default class ResizeBox extends BaseResizeBox {
     constructor() {
         super(resizeBoxHtmlTemplate)
     }
-
-    protected getResizerSelector(): string {
-        return '#resizer'
-    }
 }
 
 customElements.define('aero-resize-box', ResizeBox)
