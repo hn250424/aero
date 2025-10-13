@@ -14,4 +14,10 @@ export default class BaseShadowComponent extends HTMLElement {
     protected query<T extends HTMLElement>(selector: string): T {
         return this.shadow.querySelector(selector)! as T
     }
+
+    protected applyStyles(style: string) {
+        const tag = document.createElement('style')
+        tag.textContent = style
+        this.shadow.appendChild(tag)
+    }
 }
