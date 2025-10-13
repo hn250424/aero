@@ -8,11 +8,44 @@ export default class Spinbox extends BaseNumericInput {
     constructor() {
         super(spinboxHtmlTemplate)
 
-        this.minus = this.shadowRoot!.querySelector('#minus')!
-        this.plus = this.shadowRoot!.querySelector('#plus')!
+        this.minus = this.query('#minus')
+        this.plus = this.query('#plus')
 
         this.minus.addEventListener('click', this.decrement.bind(this))
         this.plus.addEventListener('click', this.increment.bind(this))
+
+
+
+        const fontSize = this.getAttribute('font-size') || '1rem'
+        const fontColor = this.getAttribute('font-color') || 'black'
+        const buttonBackgroundColor = this.getAttribute('button-backgroundColor') || '#ccc'
+        const textMinus = this.getAttribute('text-minus') || '-'
+        const textPlus = this.getAttribute('text-plus') || '+'
+
+        const computedStyle = getComputedStyle(this)
+        const height = parseInt(computedStyle.height) || 30
+        
+
+
+        this.minus.textContent = textMinus
+        this.plus.textContent = textPlus
+        this.applyStyles(
+            `#spinbox {
+                grid-template-columns: ${height}px 1fr ${height}px;
+            }
+            
+            #spinbox > * {
+                font-size: ${fontSize};
+                color: ${fontColor};
+            }
+
+            #spinbox > button { 
+                background-color: ${buttonBackgroundColor};
+            
+            }`
+        )
+
+        
     }
 
     protected getInputSelector(): string {
@@ -22,14 +55,14 @@ export default class Spinbox extends BaseNumericInput {
 
 
     decrement() {
-        let newValue = Number(this.input.value) - this.nStep
-        newValue = Math.max(Number(this.nMin), parseFloat(newValue.toFixed(this.decimalPlaces)))
+        let newValue = Number(this.input.value) - this.step
+        newValue = Math.max(Number(this.min), parseFloat(newValue.toFixed(this.decimalPlaces)))
         this.updateValue(newValue)
     }
 
     increment() {
-        let newValue = Number(this.input.value) + this.nStep
-        newValue = Math.min(Number(this.nMax), parseFloat(newValue.toFixed(this.decimalPlaces)))
+        let newValue = Number(this.input.value) + this.step
+        newValue = Math.min(Number(this.max), parseFloat(newValue.toFixed(this.decimalPlaces)))
         this.updateValue(newValue)
     }
 

@@ -1,76 +1,72 @@
 import BaseShadowComponent from "./BaseShadowComponent"
 
 export default abstract class BaseNumericInput extends BaseShadowComponent {
-    protected input!: HTMLInputElement
-    protected nMin!: number
-    protected nMax!: number
-    protected nStep!: number
-    protected decimalPlaces!: number
+    private _input!: HTMLInputElement
+    private _min!: number
+    private _max!: number
+    private _step!: number
+    private _decimalPlaces!: number
 
     constructor(htmlTemplate: string) {
         super(htmlTemplate)
         this.initializeInput()
 
-        this.nMin = Number(this.getAttribute('min') ?? 0)
-        this.nMax = Number(this.getAttribute('max') ?? 100)
-        this.nStep = Number(this.getAttribute('step') ?? 1)
-
-        this.decimalPlaces = this.nStep.toString().split('.')[1]?.length || 0
+        this._min = Number(this.getAttribute('min') ?? 0)
+        this._max = Number(this.getAttribute('max') ?? 100)
+        this._step = Number(this.getAttribute('step') ?? 1)
+        this._decimalPlaces = this._step.toString().split('.')[1]?.length || 0
     }
 
     protected abstract getInputSelector(): string
 
     private initializeInput() {
-        this.input = this.query(this.getInputSelector())
-        this.input.addEventListener('focusout', () => {
-            const validatedValue = this.getValidateValue(Number(this.input.value))
-            this.insertValueToInputDom(validatedValue)
+        this._input = this.query(this.getInputSelector())
+        this._input.addEventListener('focusout', () => {
+            const validatedValue = this.getValidateValue(Number(this._input.value))
+            this._input.value = validatedValue
         })
     }
 
 
     
     protected getValidateValue(value: number): string {
-        value = Math.min(this.nMax, Math.max(this.nMin, Math.round(value / this.nStep) * this.nStep))
-        return value.toFixed(this.decimalPlaces)
-    }
-
-    public insertValueToInputDom(value: string) {
-        this.input.value = value
+        value = Math.min(this._max, Math.max(this._min, Math.round(value / this._step) * this._step))
+        return value.toFixed(this._decimalPlaces)
     }
 
 
 
-    get min() { 
-        return this.nMin 
+    static get observedAttributes() {
+        return ['min', 'max', 'step']
     }
+
+    attributeChangedCallback(name: string, oldValue: string | null, newValue: string | null) {
+        const num = Number(newValue)
+
+        const handlers: Record<string, () => void> = {
+            min: () => { this._min = num },
+            max: () => { this._max = num },
+            step: () => {
+                this._step = num
+                this._decimalPlaces = this._step.toString().split('.')[1]?.length || 0
+            }
+        }
+
+        handlers[name]?.()
+    }
+
+
+
+    get input() { return this._input }
+
+    get min() { return this._min }
+    set min(val: number) { this.setAttribute('min', val.toString()) }
+
+    get max() { return this._max }
+    set max(val: number) { this.setAttribute('max', val.toString()) }
+
+    get step() { return this._step }
+    set step(val: number) { this.setAttribute('step', val.toString()) }
+
     
-    set min(val: number) { 
-        this.setAttribute('min', val.toString())
-        this.nMin = val
-    }
-
-    get max() { 
-        return this.nMax
-    }
-
-    set max(val: number) { 
-        this.setAttribute('max', val.toString()) 
-        this.nMax = val
-    }
-
-    get step() { 
-        return this.nStep
-    }
-
-    set step(val: number) { 
-        this.setAttribute('step', val.toString()) 
-        this.nStep = val
-    }
-
-
-
-    get inputElement() { 
-        return this.input 
-    }
 }
