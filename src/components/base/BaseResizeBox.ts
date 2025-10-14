@@ -143,7 +143,7 @@ export default abstract class BaseResizeBox extends BaseShadowComponent {
         return ['min-width', 'max-width', 'min-height', 'max-height']
     }
 
-    attributeChangedCallback(name: string, oldValue: string | null, newValue: string | null) {
+    attributeChangedCallback(name: string, _oldValue: string | null, newValue: string | null) {
         const num = Number(newValue)
 
         const handlers: Record<string, () => void> = {
