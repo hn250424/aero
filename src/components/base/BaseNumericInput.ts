@@ -40,7 +40,7 @@ export default abstract class BaseNumericInput extends BaseShadowComponent {
         return ['min', 'max', 'step']
     }
 
-    attributeChangedCallback(name: string, oldValue: string | null, newValue: string | null) {
+    attributeChangedCallback(name: string, _oldValue: string | null, newValue: string | null) {
         const num = Number(newValue)
 
         const handlers: Record<string, () => void> = {
@@ -67,6 +67,8 @@ export default abstract class BaseNumericInput extends BaseShadowComponent {
 
     get step() { return this._step }
     set step(val: number) { this.setAttribute('step', val.toString()) }
+
+    get decimalPlaces() { return this._decimalPlaces }
 
     
 }
