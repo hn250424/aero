@@ -15,7 +15,7 @@ document.addEventListener("DOMContentLoaded", () => {
                         margin: 0;
                         box-sizing: border-box;
                     }
-                    
+
                     html,
                     body {
                         width: 100%;
