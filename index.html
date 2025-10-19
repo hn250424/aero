@@ -6,162 +6,49 @@
     <link rel="icon" href="./demo/assets/icons/logo/logo.png" type="image/png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Aero</title>
-
-    <style>
-        #app {
-            width: 800px;
-            height: 100%;
-            border: 1px solid #ccc;
-
-            display: flex;
-
-            padding: 5px;
-            gap: 5px;
-        }
-
-        #app>div {
-            padding: 5px;
-
-            display: flex;
-            flex-direction: column;
-            gap: 5px;
-        }
-
-        #static-container {
-            width: 100%;
-            height: 100%;
-            border: 1px solid red;
-        }
-
-        #dynamic-container {
-            width: 100%;
-            height: 100%;
-            border: 1px solid blue;
-        }
-
-
-        aero-numeric-input {
-            border: 1px solid #ccc;
-
-            min-width: 100px;
-            min-height: 30px;
-            width: 150px;
-            height: 60px;
-        }
-
-        aero-spinbox {
-            width: 150px;
-            height: 40px;
-
-            border: 1px solid #ccc;
-        }
-
-        .resizer-container {
-            width: 400px;
-            height: 100px;
-            border: 1px solid #ccc;
-        }
-
-        aero-resize-box {
-            display: flex;
-            justify-content: center;
-
-            width: 300px;
-            height: 50px;
-            border: 1px solid #ccc;
-
-            min-height: 11px;
-        }
-    </style>
     <link href="./demo/styles/index.css" rel="stylesheet" />
 </head>
 
 <body>
     <header>
         <figure>
-            <img src="./demo/assets/icons/logo/logo.png" />
+            <a href="./index.html">
+                <img id="logo" src="./demo/assets/icons/logo/logo.png" />
+            </a>
         </figure>
     </header>
     <main>
         <aside>
             <nav>
                 <ul>
-                    <li>Numeric Input</li>
-                    <li>Spinbox</li>
-                    <li>Resize Box</li>
+                    <li data-key="NumericInput">Numeric Input</li>
+                    <li data-key="Spinbox">Spinbox</li>
+                    <li data-key="ResizeBox">Resize Box</li>
                 </ul>
             </nav>
         </aside>
 
         <section>
-            <div class="section-container">
-                <div class="preview-container">
-                    <div class="preview-input">
-                        <div class="html-box">
-                            <label class="html-label">HTML</label>
-                        </div>
-                        <div class="css-box">
-                            <label class="css-label">CSS</label>
-                        </div>
-                        <div class="javascript-box">
-                            <label class="javascript-label">JavaScript</label>
-                        </div>
+            <div class="preview-container">
+                <div class="preview-input">
+                    <div class="html-box">
+                        <label class="html-label">HTML</label>
                     </div>
-    
-                    <div class="preview-output">
-                        <iframe class="preview-iframe"></iframe>
+                    <div class="css-box">
+                        <label class="css-label">CSS</label>
                     </div>
+                    <div class="javascript-box">
+                        <label class="javascript-label">JavaScript</label>
+                    </div>
+                </div>
+
+                <div class="preview-output">
+                    <iframe class="preview-iframe"></iframe>
                 </div>
             </div>
         </section>
     </main>
     <footer></footer>
-
-
-
-
-    <div id="app" style="display: none;">
-        <div id="static-container">
-            <aero-numeric-input min="0.4" max="100" step="0.46" value="77" font-size="1.5rem"
-                font-color="red"></aero-numeric-input>
-            <aero-spinbox min="0.4" max="100" step="0.46" value="77" font-size="1.1rem" font-color="red" text-minus="m"
-                text-plus="p" button-backgroundColor="green"></aero-spinbox>
-            <!-- <aero-progress-spinner container-background="grey" spinner-background="green" spinner-color="yellow"></aero-progress-spinner> -->
-            <div class="resizer-container" style="display: flex; justify-content: start;">
-                <aero-resize-box resize-bottom resize-right>
-                    <div id="user-semantic1" style="background-color: red; width: 10px; height: 10px;"></div>
-                    <div id="user-semantic2" style="background-color: burlywood; width: 10px; height: 10px;"></div>
-                </aero-resize-box>
-            </div>
-            <div class="resizer-container" style="display: flex; justify-content: end;">
-                <aero-resize-box resize-bottom resize-left>
-                    <div id="user-semantic3" style="background-color: red; width: 10px; height: 10px;"></div>
-                    <div id="user-semantic4" style="background-color: burlywood; width: 10px; height: 10px;"></div>
-                </aero-resize-box>
-            </div>
-            <div class="resizer-container" style="display: flex; justify-content: end; align-items: end;">
-                <aero-resize-box resize-left resize-top>
-                    <div id="user-semantic5" style="background-color: red; width: 10px; height: 10px;"></div>
-                    <div id="user-semantic6" style="background-color: burlywood; width: 10px; height: 10px;"></div>
-                </aero-resize-box>
-            </div>
-            <div class="resizer-container" style="display: flex; justify-content: start; align-items: end;">
-                <aero-resize-box resize-right resize-top resizer-color="#000" style="width: 400px; height: 60px;">
-                    <div id="user-semantic7" style="background-color: red; width: 10px; height: 10px;"></div>
-                    <div id="user-semantic8" style="background-color: burlywood; width: 10px; height: 10px;"></div>
-                </aero-resize-box>
-            </div>
-            <div class="resizer-container" style="display: flex; justify-content: center; align-items: center;">
-                <aero-resize-box resize-top resize-bottom resize-left resize-right>
-                    <div id="user-semantic7" style="background-color: red; width: 10px; height: 10px;"></div>
-                    <div id="user-semantic8" style="background-color: burlywood; width: 10px; height: 10px;"></div>
-                </aero-resize-box>
-            </div>
-        </div>
-
-
-        <div id="dynamic-container"></div>
-    </div>
 
     <script type="module" src="/demo/main.ts"></script>
 </body>

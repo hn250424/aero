@@ -45,8 +45,10 @@
     flex-direction: column;
     gap: 10px;
     overflow: hidden;
+    margin-bottom: 10px;
 }
 
 .cm-editor {
+    height: 150px;
     overflow: auto;
 }

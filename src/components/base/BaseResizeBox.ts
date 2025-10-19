@@ -27,12 +27,32 @@ export default abstract class BaseResizeBox extends BaseShadowComponent {
     constructor(htmlTemplate: string, resizeDirections?: { top?: boolean, bottom?: boolean, left?: boolean, right?: boolean }) {
         super(htmlTemplate)
 
-        const resizerColor = this.getAttribute('resizer-color') ?? '#ccc'
-        this.applyStyles(
-            `.resizer:hover {
-                background-color: ${resizerColor};
-            }`
-        )
+
+
+        const processMousedownEvent = (e: MouseEvent, resizer: 'top' | 'bottom' | 'left' | 'right') => {
+            e.preventDefault()
+            document.body.style.userSelect = 'none'
+            this.isDragging = true
+
+            switch (resizer) {
+                case 'top':
+                    this.isTopDragging = true
+                    document.body.style.cursor = 'ns-resize'
+                    break
+                case 'bottom':
+                    this.isBottomDragging = true
+                    document.body.style.cursor = 'ns-resize'
+                    break
+                case 'left':
+                    this.isLeftDragging = true
+                    document.body.style.cursor = 'ew-resize'
+                    break
+                case 'right':
+                    this.isRightDragging = true
+                    document.body.style.cursor = 'ew-resize'
+                    break
+            }
+        }
 
         // Treat falsy max values (e.g., 0) as Infinity.
         const computedStyle = getComputedStyle(this)
@@ -57,10 +77,10 @@ export default abstract class BaseResizeBox extends BaseShadowComponent {
         if (!this.left) this._leftResizer.style.display = 'none'
         if (!this.right) this._rightResizer.style.display = 'none'
 
-        if (this.top) this._topResizer.addEventListener('mousedown', (e) => this.processMousedownEvent(e, 'top'))
-        if (this.bottom) this._bottomResizer.addEventListener('mousedown', (e) => this.processMousedownEvent(e, 'bottom'))
-        if (this.left) this._leftResizer.addEventListener('mousedown', (e) => this.processMousedownEvent(e, 'left'))
-        if (this.right) this._rightResizer.addEventListener('mousedown', (e) => this.processMousedownEvent(e, 'right'))
+        if (this.top) this._topResizer.addEventListener('mousedown', (e) => processMousedownEvent(e, 'top'))
+        if (this.bottom) this._bottomResizer.addEventListener('mousedown', (e) => processMousedownEvent(e, 'bottom'))
+        if (this.left) this._leftResizer.addEventListener('mousedown', (e) => processMousedownEvent(e, 'left'))
+        if (this.right) this._rightResizer.addEventListener('mousedown', (e) => processMousedownEvent(e, 'right'))
 
         document.addEventListener('mousemove', (e) => {
             if (!this.isDragging) return
@@ -112,35 +132,10 @@ export default abstract class BaseResizeBox extends BaseShadowComponent {
         })
     }
 
-    private processMousedownEvent(e: MouseEvent, resizer: 'top' | 'bottom' | 'left' | 'right') {
-        e.preventDefault()
-        document.body.style.userSelect = 'none'
-        this.isDragging = true
-
-        switch (resizer) {
-            case 'top':
-                this.isTopDragging = true
-                document.body.style.cursor = 'ns-resize'
-                break
-            case 'bottom':
-                this.isBottomDragging = true
-                document.body.style.cursor = 'ns-resize'
-                break
-            case 'left':
-                this.isLeftDragging = true
-                document.body.style.cursor = 'ew-resize'
-                break
-            case 'right':
-                this.isRightDragging = true
-                document.body.style.cursor = 'ew-resize'
-                break
-        }
-    }
-
 
 
     static get observedAttributes() {
-        return ['min-width', 'max-width', 'min-height', 'max-height']
+        return ['min-width', 'max-width', 'min-height', 'max-height', 'resizer-color']
     }
 
     attributeChangedCallback(name: string, _oldValue: string | null, newValue: string | null) {
@@ -151,12 +146,20 @@ export default abstract class BaseResizeBox extends BaseShadowComponent {
             'max-width': () => { this._maxWidth = num },
             'min-height': () => { this._minHeight = num },
             'max-height': () => { this._maxHeight = num },
+            'resizer-color': () => {
+                const color = newValue ?? '#ccc'
+                this.applyStyles(`.resizer:hover { background-color: ${color}; }`)
+            }
         }
 
         handlers[name]?.()
     }
 
+    
 
+    public setResizerColor(color: string) {
+        this.setAttribute('resizer-color', color)
+    }
     
     get minWidth() { return this._minWidth }
     set minWidth(val: number) { this.setAttribute('min-width', val.toString()) }
@@ -169,4 +172,6 @@ export default abstract class BaseResizeBox extends BaseShadowComponent {
 
     get maxHeight() { return this._maxHeight }
     set maxHeight(val: number) { this.setAttribute('max-height', val.toString()) }
+
+
 }
