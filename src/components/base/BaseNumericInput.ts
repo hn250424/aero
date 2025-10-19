@@ -15,6 +15,9 @@ export default abstract class BaseNumericInput extends BaseShadowComponent {
         this._max = Number(this.getAttribute('max') ?? 100)
         this._step = Number(this.getAttribute('step') ?? 1)
         this._decimalPlaces = this._step.toString().split('.')[1]?.length || 0
+        
+        const value = Number(this.getAttribute('value') ?? 0)
+        this._input.value = value.toString()
     }
 
     protected abstract getInputSelector(): string
@@ -58,6 +61,9 @@ export default abstract class BaseNumericInput extends BaseShadowComponent {
 
 
     get input() { return this._input }
+
+    get value() { return Number(this._input.value) }
+    set value(val: number) { this._input.value = val.toString() }
 
     get min() { return this._min }
     set min(val: number) { this.setAttribute('min', val.toString()) }

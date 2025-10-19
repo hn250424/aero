@@ -23,9 +23,6 @@ dist-ssr
 *.sln
 *.sw?
 
-# 
-lib
-
 # temp
 test-typings.ts
 TODO.txt

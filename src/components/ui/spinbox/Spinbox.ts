@@ -16,8 +16,6 @@ export default class Spinbox extends BaseNumericInput {
 
 
 
-        const fontSize = this.getAttribute('font-size') || '1rem'
-        const fontColor = this.getAttribute('font-color') || 'black'
         const buttonBackgroundColor = this.getAttribute('button-backgroundColor') || '#ccc'
         const textMinus = this.getAttribute('text-minus') || '-'
         const textPlus = this.getAttribute('text-plus') || '+'
@@ -29,21 +27,40 @@ export default class Spinbox extends BaseNumericInput {
 
         this.minus.textContent = textMinus
         this.plus.textContent = textPlus
+        // this.applyStyles(
+        //     `#spinbox {
+        //         grid-template-columns: ${height}px 1fr ${height}px;
+        //     }`
+        // )
         this.applyStyles(
             `#spinbox {
                 grid-template-columns: ${height}px 1fr ${height}px;
             }
             
-            #spinbox > * {
-                font-size: ${fontSize};
-                color: ${fontColor};
-            }
-
             #spinbox > button { 
                 background-color: ${buttonBackgroundColor};
-            
             }`
         )
+
+        const resizeObserver = new ResizeObserver(entries => {
+            for (const entry of entries) {
+                const newHeight = entry.contentRect.height
+                this.applyStyles(
+                    `#spinbox {
+                        grid-template-columns: ${newHeight}px 1fr ${newHeight}px;
+                    }`
+                )
+            }
+        })
+        resizeObserver.observe(this)
+
+        const observer = new MutationObserver(() => {
+            const bg = this.getAttribute('button-backgroundColor') || '#ccc'
+            this.minus.style.backgroundColor = bg
+            this.plus.style.backgroundColor = bg
+        })
+
+        observer.observe(this, { attributes: true })
 
         
     }
@@ -54,21 +71,55 @@ export default class Spinbox extends BaseNumericInput {
 
 
 
+    static get observedAttributes() {
+        return [
+            ...super.observedAttributes,
+            'text-minus',
+            'text-plus',
+            'button-backgroundColor'
+        ]
+    }
+
+    attributeChangedCallback(name: string, _oldValue: string | null, newValue: string | null) {
+        super.attributeChangedCallback(name, _oldValue, newValue)
+
+        const handlers: Record<string, () => void> = {
+            'text-minus': () => { this.minus.textContent = newValue },
+            'text-plus': () => { this.plus.textContent = newValue },
+            // 'button-backgroundColor': () => {
+                // this.minus.style.backgroundColor = newValue!
+                // this.plus.style.backgroundColor = newValue!
+            //     this.applyStyles(
+            //         `#spinbox > button { 
+            //             background-color: ${newValue};
+            //         }`
+            //     )
+            // }
+        }
+
+        handlers[name]?.()
+    }
+
+    setButtonBackgroundColor(color: string) {
+        this.setAttribute('button-backgroundColor', color)
+    }
+
+    setMinusText(text: string) {
+        this.setAttribute('text-minus', text)
+    }
+
+    setPlusText(text: string) {
+        this.setAttribute('text-plus', text)
+    }
+
     decrement() {
         let newValue = Number(this.input.value) - this.step
-        newValue = Math.max(Number(this.min), parseFloat(newValue.toFixed(this.decimalPlaces)))
-        this.updateValue(newValue)
+        this.input.value = this.getValidateValue(newValue)
     }
 
     increment() {
         let newValue = Number(this.input.value) + this.step
-        newValue = Math.min(Number(this.max), parseFloat(newValue.toFixed(this.decimalPlaces)))
-        this.updateValue(newValue)
-    }
-
-    updateValue(value: number) {
-        const formattedValue = parseFloat(value.toFixed(this.decimalPlaces))
-        this.input.value = formattedValue.toString()
+        this.input.value = this.getValidateValue(newValue)
     }
 }
 

@@ -1,11 +1,17 @@
-import * as aero from '../src'
+// import * as aero from '../src'
+
 import { EditorView, basicSetup } from "codemirror"
+import { indentUnit } from "@codemirror/language"
 import { html } from "@codemirror/lang-html"
 import { css } from "@codemirror/lang-css"
 import { javascript } from "@codemirror/lang-javascript"
 
+import * as widgets from './widgets'
+
 document.addEventListener("DOMContentLoaded", () => {
     const updatePreview = () => {
+        const aeroImportPath = import.meta.env.DEV ? '/src/index.ts' : `${import.meta.env.BASE_URL}lib/aero.es.js`
+        
         const doc = `
             <html>
             <head>
@@ -27,7 +33,7 @@ document.addEventListener("DOMContentLoaded", () => {
             <body>
                 ${htmlInput.state.doc.toString()}
             <script type="module">
-                import * as aero from '../src'
+                import * as aero from '${aeroImportPath}'
                 ${javascriptInput.state.doc.toString()}
             </script>
             </body>
@@ -39,52 +45,59 @@ document.addEventListener("DOMContentLoaded", () => {
     const previewIframe = document.querySelector('.preview-iframe') as HTMLIFrameElement
     
     const htmlInput = new EditorView({
-        doc: "<p>Hello HTML</p>",
         extensions: [
             basicSetup,
             html(),
+            indentUnit.of("    "),
             EditorView.updateListener.of(updatePreview)
         ],
         parent: document.querySelector(".html-box")!
     })
 
     const cssInput = new EditorView({
-        doc: "body { color: red; }",
         extensions: [
             basicSetup,
             css(),
+            indentUnit.of("    "),
             EditorView.updateListener.of(updatePreview)
         ],
         parent: document.querySelector(".css-box")!
     })
 
     const javascriptInput = new EditorView({
-        doc: "console.log('Hello JS');",
         extensions: [
             basicSetup,
             javascript(),
+            indentUnit.of("    "),
             EditorView.updateListener.of(updatePreview)
         ],
         parent: document.querySelector(".javascript-box")!
     })
 
-    updatePreview()
+    const liElements = document.querySelectorAll("aside nav li") as NodeListOf<HTMLElement>
+    liElements.forEach(el => {
+        el.addEventListener('click', () => {
+            htmlInput.dispatch({
+                changes: { from: 0, to: htmlInput.state.doc.length, insert: widgets[el.dataset.key as keyof typeof widgets].html }
+            })
+
+            cssInput.dispatch({
+                changes: { from: 0, to: cssInput.state.doc.length, insert: widgets[el.dataset.key as keyof typeof widgets].css }
+            })
+
+            javascriptInput.dispatch({
+                changes: { from: 0, to: javascriptInput.state.doc.length, insert: widgets[el.dataset.key as keyof typeof widgets].js }
+            })
+        })
+    })
+
+    htmlInput.dispatch({
+        changes: { from: 0, to: htmlInput.state.doc.length, insert: widgets[liElements[0].dataset.key as keyof typeof widgets].html }
+    })
+    cssInput.dispatch({
+        changes: { from: 0, to: cssInput.state.doc.length, insert: widgets[liElements[0].dataset.key as keyof typeof widgets].css }
+    })
+    javascriptInput.dispatch({
+        changes: { from: 0, to: javascriptInput.state.doc.length, insert: widgets[liElements[0].dataset.key as keyof typeof widgets].js }
+    })
 })
-
-// const dynamicContainer = document.getElementById('dynamic-container')
-
-// const numericInput = new aero.NumericInput()
-// dynamicContainer?.appendChild(numericInput)
-
-// numericInput.style.height = '10px'
-// numericInput.step = 2
-// setTimeout(() => {
-//     numericInput.step = 0.2
-// }, 10000)
-
-// const resizeBox = new aero.ResizeBox()
-// dynamicContainer?.appendChild(resizeBox)
-
-// setTimeout(() => {
-//     resizeBox.minWidth = 40
-// }, 3000)
