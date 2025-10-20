@@ -1,5 +1,3 @@
-// import * as aero from '../src'
-
 import { EditorView, basicSetup } from "codemirror"
 import { indentUnit } from "@codemirror/language"
 import { html } from "@codemirror/lang-html"
@@ -10,7 +8,9 @@ import * as widgets from './widgets'
 
 document.addEventListener("DOMContentLoaded", () => {
     const updatePreview = () => {
-        const aeroImportPath = import.meta.env.DEV ? '/src/index.ts' : `${import.meta.env.BASE_URL}lib/aero.es.js`
+        const aeroImportPath = import.meta.env.DEV 
+            ? '/src/index.ts' 
+            : `${import.meta.env.BASE_URL}aero.es.js`
         
         const doc = `
             <html>

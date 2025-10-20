@@ -81,7 +81,7 @@ document.body.appendChild(resizeBox)`,ab={html:sb,css:ob,js:lb},Ut=Object.freeze
             <body>
                 ${t.state.doc.toString()}
             <script type="module">
-                import * as aero from '/aero/lib/aero.es.js'
+                import * as aero from '/aero/aero.es.js'
                 ${r.state.doc.toString()}
             <\/script>
             </body>
