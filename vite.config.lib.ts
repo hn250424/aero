@@ -19,6 +19,7 @@ export default defineConfig({
     },
     plugins: [
         dts({
+            entryRoot: 'src',
             insertTypesEntry: true,
             outDir: 'lib',
             copyDtsFiles: true,
