@@ -1,7 +1,7 @@
-export default class BaseShadowComponent extends HTMLElement {
+export default class BaseAeroShadowComponent extends HTMLElement {
     protected shadow: ShadowRoot
 
-    constructor(htmlTemplate: string) {
+    protected constructor(htmlTemplate: string) {
         super()
 
         const template = document.createElement('template')

@@ -1,12 +1,12 @@
-import spinboxHtmlTemplate from './spinbox.html?raw'
-import BaseNumericInput from '../../base/BaseNumericInput'
+import aeroSpinboxHtmlTemplate from './AeroSpinbox.html?raw'
+import BaseAeroNumericInput from '../../base/BaseAeroNumericInput'
 
-export default class Spinbox extends BaseNumericInput {
+export default class AeroSpinbox extends BaseAeroNumericInput {
     private minus: HTMLElement
     private plus: HTMLElement
 
     constructor() {
-        super(spinboxHtmlTemplate)
+        super(aeroSpinboxHtmlTemplate)
 
         this.minus = this.query('#minus')
         this.plus = this.query('#plus')
@@ -123,4 +123,4 @@ export default class Spinbox extends BaseNumericInput {
     }
 }
 
-customElements.define('aero-spinbox', Spinbox)
+customElements.define('aero-spinbox', AeroSpinbox)

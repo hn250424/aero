@@ -1,6 +1,6 @@
-import BaseShadowComponent from "./BaseShadowComponent"
+import BaseAeroShadowComponent from "./BaseAeroShadowComponent"
 
-export default abstract class BaseResizeBox extends BaseShadowComponent {
+export default abstract class BaseAeroResizeBox extends BaseAeroShadowComponent {
     private _topResizer!: HTMLElement
     private _bottomResizer!: HTMLElement
     private _leftResizer!: HTMLElement
@@ -24,7 +24,7 @@ export default abstract class BaseResizeBox extends BaseShadowComponent {
 
     private animationFrameId: number | null = null
 
-    constructor(htmlTemplate: string, resizeDirections?: { top?: boolean, bottom?: boolean, left?: boolean, right?: boolean }) {
+    protected constructor(htmlTemplate: string, resizeDirections?: { top?: boolean, bottom?: boolean, left?: boolean, right?: boolean }) {
         super(htmlTemplate)
 
 

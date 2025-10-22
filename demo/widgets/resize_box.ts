@@ -24,7 +24,7 @@ aero-resize-box {
 }`
 
 const js =
-`const resizeBox = new aero.ResizeBox({ bottom: true })
+`const resizeBox = new aero.AeroResizeBox({ bottom: true })
 resizeBox.setResizerColor('green')
 document.body.appendChild(resizeBox)`
 
