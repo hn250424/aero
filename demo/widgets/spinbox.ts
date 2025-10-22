@@ -9,7 +9,7 @@ const css =
 }`
 
 const js =
-`const spinbox = new aero.Spinbox()
+`const spinbox = new aero.AeroSpinbox()
 spinbox.setButtonBackgroundColor('#ccc')
 spinbox.value = 1
 spinbox.step = 0.46

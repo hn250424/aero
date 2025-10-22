@@ -10,7 +10,7 @@ const css =
 }`
 
 const js =
-`const numericInput = new aero.NumericInput()
+`const numericInput = document.createElement('aero-numeric-input')
 numericInput.value = 1
 numericInput.step = 0.46
 document.body.appendChild(numericInput)

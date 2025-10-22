@@ -1,13 +1,13 @@
-import BaseShadowComponent from "./BaseShadowComponent"
+import BaseAeroShadowComponent from "./BaseAeroShadowComponent"
 
-export default abstract class BaseNumericInput extends BaseShadowComponent {
+export default abstract class BaseAeroNumericInput extends BaseAeroShadowComponent {
     private _input!: HTMLInputElement
     private _min!: number
     private _max!: number
     private _step!: number
     private _decimalPlaces!: number
 
-    constructor(htmlTemplate: string) {
+    protected constructor(htmlTemplate: string) {
         super(htmlTemplate)
         this.initializeInput()
 

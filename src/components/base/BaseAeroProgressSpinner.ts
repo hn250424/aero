@@ -1,11 +1,11 @@
-import BaseShadowComponent from "./BaseShadowComponent"
+import BaseAeroShadowComponent from "./BaseAeroShadowComponent"
 
-export default class BaseProgressSpinner extends BaseShadowComponent {
+export default class BaseAeroProgressSpinner extends BaseAeroShadowComponent {
     private containerBackgroundColor
     private spinnerBackgroundColor
     private spinnerColor
 
-    constructor(htmlTemplate: string) {
+    protected constructor(htmlTemplate: string) {
         super(htmlTemplate)
 
         this.containerBackgroundColor = this.getAttribute('container-background') ?? 'rgba(0, 0, 0, 0.5)'
