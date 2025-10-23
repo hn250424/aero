@@ -13,10 +13,9 @@ export default abstract class BaseAeroNumericInput extends BaseAeroShadowCompone
         super(htmlTemplate)
         this.initializeInput()
 
-        this._min = this.getAttribute('min') ?? '0'
-        this._max = this.getAttribute('max') ?? '100'
-        this._step = this.getAttribute('step') ?? '1'
-        this._decimalPlaces = this._step.toString().split('.')[1]?.length.toString() || '0'
+        this.updateMinValue( this.getAttribute('min') )
+        this.updateMaxValue( this.getAttribute('max') )
+        this.updateStepValue( this.getAttribute('step') )
         
         const value = this.getAttribute('value') ?? '0'
         this._input.value = value
@@ -51,17 +50,26 @@ export default abstract class BaseAeroNumericInput extends BaseAeroShadowCompone
     }
 
     attributeChangedCallback(name: string, _oldValue: string | null, newValue: string | null) {
+        this.attributeHandlers[name]?.(newValue)
+    }
 
-        const handlers: Record<string, () => void> = {
-            min: () => { this._min = newValue ? newValue : '0' },
-            max: () => { this._max = newValue ? newValue : '100' },
-            step: () => {
-                this._step = newValue ? newValue : '1'
-                this._decimalPlaces = this._step.toString().split('.')[1]?.length.toString() || '0'
-            }
-        }
+    attributeHandlers: Record<string, (newValue: string | null) => void> = {
+        min: (newValue) => { this.updateMinValue(newValue) },
+        max: (newValue) => { this.updateMaxValue(newValue) },
+        step: (newValue) => { this.updateStepValue(newValue) },
+    }
 
-        handlers[name]?.()
+    private updateMinValue(val: string | null) {
+        this._min = val ? val : '0'
+    }
+
+    private updateMaxValue(val: string | null) {
+        this._max = val ? val : '100'
+    }
+
+    private updateStepValue(val: string | null) {
+        this._step = val ? val : '1'
+        this._decimalPlaces = this._step.toString().split('.')[1]?.length.toString() || '0'
     }
 
 

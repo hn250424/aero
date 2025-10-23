@@ -1,6 +1,6 @@
 const html = 
 `<aero-spinbox min="0.4" max="100" step="0.46" value="1"
-    text-minus="-" text-plus="+" button-backgroundColor="#ccc">
+    text-minus="-" text-plus="+" button-backgroundcolor="#ccc">
 </aero-spinbox>`
 
 const css =
@@ -10,7 +10,7 @@ const css =
 
 const js =
 `const spinbox = new aero.AeroSpinbox()
-spinbox.setButtonBackgroundColor('#ccc')
+spinbox.setButtonBackgroundcolor('#ccc')
 spinbox.value = 1
 spinbox.step = 0.46
 document.body.appendChild(spinbox)
