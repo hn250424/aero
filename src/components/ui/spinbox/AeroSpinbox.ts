@@ -113,13 +113,13 @@ export default class AeroSpinbox extends BaseAeroNumericInput {
     }
 
     decrement() {
-        let newValue = Number(this.input.value) - this.step
-        this.input.value = this.getValidateValue(newValue)
+        const num = Number(this.input.value) - Number(this.step)
+        this.input.value = this.getValidateValue(num.toString())
     }
 
     increment() {
-        let newValue = Number(this.input.value) + this.step
-        this.input.value = this.getValidateValue(newValue)
+        let num = Number(this.input.value) + Number(this.step)
+        this.input.value = this.getValidateValue(num.toString())
     }
 }
 
