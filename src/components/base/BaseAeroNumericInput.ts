@@ -2,22 +2,24 @@ import BaseAeroShadowComponent from "./BaseAeroShadowComponent"
 
 export default abstract class BaseAeroNumericInput extends BaseAeroShadowComponent {
     private _input!: HTMLInputElement
-    private _min!: number
-    private _max!: number
-    private _step!: number
-    private _decimalPlaces!: number
+
+    private _min!: string
+    private _max!: string
+    private _step!: string
+    
+    private _decimalPlaces!: string
 
     protected constructor(htmlTemplate: string) {
         super(htmlTemplate)
         this.initializeInput()
 
-        this._min = Number(this.getAttribute('min') ?? 0)
-        this._max = Number(this.getAttribute('max') ?? 100)
-        this._step = Number(this.getAttribute('step') ?? 1)
-        this._decimalPlaces = this._step.toString().split('.')[1]?.length || 0
+        this._min = this.getAttribute('min') ?? '0'
+        this._max = this.getAttribute('max') ?? '100'
+        this._step = this.getAttribute('step') ?? '1'
+        this._decimalPlaces = this._step.toString().split('.')[1]?.length.toString() || '0'
         
-        const value = Number(this.getAttribute('value') ?? 0)
-        this._input.value = value.toString()
+        const value = this.getAttribute('value') ?? '0'
+        this._input.value = value
     }
 
     protected abstract getInputSelector(): string
@@ -25,16 +27,21 @@ export default abstract class BaseAeroNumericInput extends BaseAeroShadowCompone
     private initializeInput() {
         this._input = this.query(this.getInputSelector())
         this._input.addEventListener('focusout', () => {
-            const validatedValue = this.getValidateValue(Number(this._input.value))
+            const validatedValue = this.getValidateValue(this._input.value)
             this._input.value = validatedValue
         })
     }
 
 
     
-    protected getValidateValue(value: number): string {
-        value = Math.min(this._max, Math.max(this._min, Math.round(value / this._step) * this._step))
-        return value.toFixed(this._decimalPlaces)
+    protected getValidateValue(value: string): string {
+        const newValue = Math.min(
+            Number(this._max), Math.max(
+                Number(this._min), 
+                Math.round(Number(value) / Number(this._step)) * Number(this._step)
+            )
+        )
+        return newValue.toFixed(Number(this._decimalPlaces))
     }
 
 
@@ -44,14 +51,13 @@ export default abstract class BaseAeroNumericInput extends BaseAeroShadowCompone
     }
 
     attributeChangedCallback(name: string, _oldValue: string | null, newValue: string | null) {
-        const num = Number(newValue)
 
         const handlers: Record<string, () => void> = {
-            min: () => { this._min = num },
-            max: () => { this._max = num },
+            min: () => { this._min = newValue ? newValue : '0' },
+            max: () => { this._max = newValue ? newValue : '100' },
             step: () => {
-                this._step = num
-                this._decimalPlaces = this._step.toString().split('.')[1]?.length || 0
+                this._step = newValue ? newValue : '1'
+                this._decimalPlaces = this._step.toString().split('.')[1]?.length.toString() || '0'
             }
         }
 
@@ -62,19 +68,19 @@ export default abstract class BaseAeroNumericInput extends BaseAeroShadowCompone
 
     get input() { return this._input }
 
-    get value() { return Number(this._input.value) }
-    set value(val: number) { this._input.value = val.toString() }
+    get value() { return this._input.value }
+    set value(val: string) { this._input.value = val }
 
     get min() { return this._min }
-    set min(val: number) { this.setAttribute('min', val.toString()) }
+    set min(val: string) { this.setAttribute('min', val) }
 
     get max() { return this._max }
-    set max(val: number) { this.setAttribute('max', val.toString()) }
+    set max(val: string) { this.setAttribute('max', val) }
 
     get step() { return this._step }
-    set step(val: number) { this.setAttribute('step', val.toString()) }
+    set step(val: string) { this.setAttribute('step', val) }
 
-    get decimalPlaces() { return this._decimalPlaces }
+    protected get decimalPlaces() { return this._decimalPlaces }
 
     
 }
