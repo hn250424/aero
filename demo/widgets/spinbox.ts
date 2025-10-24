@@ -10,7 +10,7 @@ const css =
 
 const js =
 `const spinbox = new aero.AeroSpinbox()
-spinbox.setButtonBackgroundcolor('#ccc')
+spinbox.setAttribute('button-backgroundcolor', '#ccc')
 spinbox.value = 1
 spinbox.step = 0.46
 document.body.appendChild(spinbox)
