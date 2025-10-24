@@ -15,32 +15,12 @@ export default class AeroSpinbox extends BaseAeroNumericInput {
         this.plus.addEventListener('click', this.increment.bind(this))
 
 
+        this.updateButtonBackgrondColor( this.getAttribute('button-backgroundcolor') )
+        this.updateMinuxText( this.getAttribute('text-minus') )
+        this.updatePlusText( this.getAttribute('text-plus') )
+        this.updateHeight( parseInt(getComputedStyle(this).height) )
 
-        const buttonBackgroundColor = this.getAttribute('button-backgroundColor') || '#ccc'
-        const textMinus = this.getAttribute('text-minus') || '-'
-        const textPlus = this.getAttribute('text-plus') || '+'
-
-        const computedStyle = getComputedStyle(this)
-        const height = parseInt(computedStyle.height) || 30
         
-
-
-        this.minus.textContent = textMinus
-        this.plus.textContent = textPlus
-        // this.applyStyles(
-        //     `#spinbox {
-        //         grid-template-columns: ${height}px 1fr ${height}px;
-        //     }`
-        // )
-        this.applyStyles(
-            `#spinbox {
-                grid-template-columns: ${height}px 1fr ${height}px;
-            }
-            
-            #spinbox > button { 
-                background-color: ${buttonBackgroundColor};
-            }`
-        )
 
         const resizeObserver = new ResizeObserver(entries => {
             for (const entry of entries) {
@@ -53,16 +33,6 @@ export default class AeroSpinbox extends BaseAeroNumericInput {
             }
         })
         resizeObserver.observe(this)
-
-        const observer = new MutationObserver(() => {
-            const bg = this.getAttribute('button-backgroundColor') || '#ccc'
-            this.minus.style.backgroundColor = bg
-            this.plus.style.backgroundColor = bg
-        })
-
-        observer.observe(this, { attributes: true })
-
-        
     }
 
     protected getInputSelector(): string {
@@ -76,41 +46,61 @@ export default class AeroSpinbox extends BaseAeroNumericInput {
             ...super.observedAttributes,
             'text-minus',
             'text-plus',
-            'button-backgroundColor'
+            'button-backgroundcolor'
         ]
     }
 
     attributeChangedCallback(name: string, _oldValue: string | null, newValue: string | null) {
         super.attributeChangedCallback(name, _oldValue, newValue)
-
-        const handlers: Record<string, () => void> = {
-            'text-minus': () => { this.minus.textContent = newValue },
-            'text-plus': () => { this.plus.textContent = newValue },
-            // 'button-backgroundColor': () => {
-                // this.minus.style.backgroundColor = newValue!
-                // this.plus.style.backgroundColor = newValue!
-            //     this.applyStyles(
-            //         `#spinbox > button { 
-            //             background-color: ${newValue};
-            //         }`
-            //     )
-            // }
-        }
-
-        handlers[name]?.()
+        this.attributetHandlers[name]?.(newValue)
     }
 
-    setButtonBackgroundColor(color: string) {
-        this.setAttribute('button-backgroundColor', color)
+    attributetHandlers: Record<string, (val: string | null) => void> = {
+        'text-minus': (val) => { this.updateMinuxText(val) },
+        'text-plus': (val) => { this.updatePlusText(val) },
+        'button-backgroundcolor': (val) => { this.updateButtonBackgrondColor(val) }
     }
 
-    setMinusText(text: string) {
+    private updateMinuxText(val: string | null) {
+        this.minus.textContent = val ? val : '-'
+    }
+
+    private updatePlusText(val: string | null) {
+        this.plus.textContent = val ? val : '+'
+    }
+
+    private updateButtonBackgrondColor(val: string | null) {
+        this.applyStyles(
+            `#spinbox > button { 
+                background-color: ${val ? val : '#ccc'};
+            }`
+        )
+    }
+
+    private updateHeight(val: number | null) {
+        val = val ? val : 30
+        this.applyStyles(
+            `#spinbox {
+                grid-template-columns: ${val}px 1fr ${val}px;
+            }`
+        )
+    }
+
+
+
+    set buttonBackgroundColor(color: string) {
+        this.setAttribute('button-backgroundcolor', color)
+    }
+
+    set minusText(text: string) {
         this.setAttribute('text-minus', text)
     }
 
-    setPlusText(text: string) {
+    set plusText(text: string) {
         this.setAttribute('text-plus', text)
     }
+
+
 
     decrement() {
         const num = Number(this.input.value) - Number(this.step)
