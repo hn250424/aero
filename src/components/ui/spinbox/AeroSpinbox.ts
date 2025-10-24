@@ -55,7 +55,7 @@ export default class AeroSpinbox extends BaseAeroNumericInput {
         this.attributetHandlers[name]?.(newValue)
     }
 
-    attributetHandlers: Record<string, (val: string | null) => void> = {
+    private attributetHandlers: Record<string, (val: string | null) => void> = {
         'text-minus': (val) => { this.updateMinuxText(val) },
         'text-plus': (val) => { this.updatePlusText(val) },
         'button-backgroundcolor': (val) => { this.updateButtonBackgrondColor(val) }

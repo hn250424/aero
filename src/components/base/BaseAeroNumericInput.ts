@@ -53,7 +53,7 @@ export default abstract class BaseAeroNumericInput extends BaseAeroShadowCompone
         this.attributeHandlers[name]?.(newValue)
     }
 
-    attributeHandlers: Record<string, (newValue: string | null) => void> = {
+    private attributeHandlers: Record<string, (newValue: string | null) => void> = {
         min: (newValue) => { this.updateMinValue(newValue) },
         max: (newValue) => { this.updateMaxValue(newValue) },
         step: (newValue) => { this.updateStepValue(newValue) },

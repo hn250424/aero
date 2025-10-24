@@ -6,15 +6,15 @@ export default abstract class BaseAeroResizeBox extends BaseAeroShadowComponent 
     private _leftResizer!: HTMLElement
     private _rightResizer!: HTMLElement
 
-    private top!: boolean
-    private bottom!: boolean
-    private left!: boolean
-    private right!: boolean
+    private _hasTopResizer!: boolean
+    private _hasBottomResizer!: boolean
+    private _hasLeftResizer!: boolean
+    private _hasRightResizer!: boolean
 
-    private _minWidth!: number
-    private _maxWidth!: number
-    private _minHeight!: number
-    private _maxHeight!: number
+    private _nMinWidth!: number
+    private _nMaxWidth!: number
+    private _nMinHeight!: number
+    private _nMaxHeight!: number
 
     private isTopDragging: boolean = false
     private isBottomDragging: boolean = false
@@ -24,63 +24,30 @@ export default abstract class BaseAeroResizeBox extends BaseAeroShadowComponent 
 
     private animationFrameId: number | null = null
 
-    protected constructor(htmlTemplate: string, resizeDirections?: { top?: boolean, bottom?: boolean, left?: boolean, right?: boolean }) {
+    private resizerHandlers = {
+        top: (e: MouseEvent) => this.processMousedownEvent(e, 'top'),
+        bottom: (e: MouseEvent) => this.processMousedownEvent(e, 'bottom'),
+        left: (e: MouseEvent) => this.processMousedownEvent(e, 'left'),
+        right: (e: MouseEvent) => this.processMousedownEvent(e, 'right'),
+    }
+
+    protected constructor(htmlTemplate: string) {
         super(htmlTemplate)
-
-
-
-        const processMousedownEvent = (e: MouseEvent, resizer: 'top' | 'bottom' | 'left' | 'right') => {
-            e.preventDefault()
-            document.body.style.userSelect = 'none'
-            this.isDragging = true
-
-            switch (resizer) {
-                case 'top':
-                    this.isTopDragging = true
-                    document.body.style.cursor = 'ns-resize'
-                    break
-                case 'bottom':
-                    this.isBottomDragging = true
-                    document.body.style.cursor = 'ns-resize'
-                    break
-                case 'left':
-                    this.isLeftDragging = true
-                    document.body.style.cursor = 'ew-resize'
-                    break
-                case 'right':
-                    this.isRightDragging = true
-                    document.body.style.cursor = 'ew-resize'
-                    break
-            }
-        }
-
-        // Treat falsy max values (e.g., 0) as Infinity.
-        const computedStyle = getComputedStyle(this)
-        this._minHeight = parseInt(computedStyle.minHeight) || 0
-        this._maxHeight = parseInt(computedStyle.maxHeight) || Infinity
-        this._minWidth = parseInt(computedStyle.minWidth) || 0
-        this._maxWidth = parseInt(computedStyle.maxWidth) || Infinity
 
         this._topResizer = this.query('#top')
         this._bottomResizer = this.query('#bottom')
         this._leftResizer = this.query('#left')
         this._rightResizer = this.query('#right')
 
-        this.top = resizeDirections?.top ?? this.hasAttribute('resize-top')
-        this.bottom = resizeDirections?.bottom ?? this.hasAttribute('resize-bottom')
-        this.left = resizeDirections?.left ?? this.hasAttribute('resize-left')
-        this.right = resizeDirections?.right ?? this.hasAttribute('resize-right')
-        if (!this.top && !this.bottom && !this.left && !this.right) this.right = true
+        this.updateMinWidthValue( this.getAttribute('min-width') )
+        this.updateMaxWidthValue( this.getAttribute('max-width') )
+        this.updateMinHeightValue( this.getAttribute('min-height') )
+        this.updateMaxHeightValue( this.getAttribute('max-height') )
 
-        if (!this.top) this._topResizer.style.display = 'none'
-        if (!this.bottom) this._bottomResizer.style.display = 'none'
-        if (!this.left) this._leftResizer.style.display = 'none'
-        if (!this.right) this._rightResizer.style.display = 'none'
-
-        if (this.top) this._topResizer.addEventListener('mousedown', (e) => processMousedownEvent(e, 'top'))
-        if (this.bottom) this._bottomResizer.addEventListener('mousedown', (e) => processMousedownEvent(e, 'bottom'))
-        if (this.left) this._leftResizer.addEventListener('mousedown', (e) => processMousedownEvent(e, 'left'))
-        if (this.right) this._rightResizer.addEventListener('mousedown', (e) => processMousedownEvent(e, 'right'))
+        this.updateTopResizerState( this.hasAttribute('resize-top') )
+        this.updateBottomResizerState( this.hasAttribute('resize-bottom') )
+        this.updateLeftResizerState( this.hasAttribute('resize-left') )
+        this.updateRightResizerState( this.hasAttribute('resize-right') )
 
         document.addEventListener('mousemove', (e) => {
             if (!this.isDragging) return
@@ -91,22 +58,22 @@ export default abstract class BaseAeroResizeBox extends BaseAeroShadowComponent 
 
                 if (this.isTopDragging) {
                     const offsetY = rect.bottom - e.clientY
-                    const newHeight = Math.min(Math.max(offsetY, this._minHeight), this._maxHeight)
+                    const newHeight = Math.min(Math.max(offsetY, this._nMinHeight), this._nMaxHeight)
                     this.style.height = `${newHeight}px`
 
                 } else if (this.isBottomDragging) {
                     const offsetY = e.clientY - rect.top
-                    const newHeight = Math.min(Math.max(offsetY, this._minHeight), this._maxHeight)
+                    const newHeight = Math.min(Math.max(offsetY, this._nMinHeight), this._nMaxHeight)
                     this.style.height = `${newHeight}px`
 
                 } else if (this.isLeftDragging) {
                     const offsetX = rect.right - e.clientX
-                    const newWidth = Math.min(Math.max(offsetX, this._minWidth), this._maxWidth)
+                    const newWidth = Math.min(Math.max(offsetX, this._nMinWidth), this._nMaxWidth)
                     this.style.width = `${newWidth}px`
 
                 } else if (this.isRightDragging) {
                     const offsetX = e.clientX - rect.left
-                    const newWidth = Math.min(Math.max(offsetX, this._minWidth), this._maxWidth)
+                    const newWidth = Math.min(Math.max(offsetX, this._nMinWidth), this._nMaxWidth)
                     this.style.width = `${newWidth}px`
 
                 }
@@ -134,44 +101,154 @@ export default abstract class BaseAeroResizeBox extends BaseAeroShadowComponent 
 
 
 
+    private processMousedownEvent = (e: MouseEvent, resizer: 'top' | 'bottom' | 'left' | 'right') => {
+        e.preventDefault()
+        document.body.style.userSelect = 'none'
+        this.isDragging = true
+
+        switch (resizer) {
+            case 'top':
+                this.isTopDragging = true
+                document.body.style.cursor = 'ns-resize'
+                break
+            case 'bottom':
+                this.isBottomDragging = true
+                document.body.style.cursor = 'ns-resize'
+                break
+            case 'left':
+                this.isLeftDragging = true
+                document.body.style.cursor = 'ew-resize'
+                break
+            case 'right':
+                this.isRightDragging = true
+                document.body.style.cursor = 'ew-resize'
+                break
+        }
+    }
+
+
+
     static get observedAttributes() {
-        return ['min-width', 'max-width', 'min-height', 'max-height', 'resizer-color']
+        return [
+            'min-width', 'max-width', 'min-height', 'max-height', 
+            'resize-top', 'resize-bottom', 'resize-left', 'resize-right',
+            'resizer-color'
+        ]
     }
 
     attributeChangedCallback(name: string, _oldValue: string | null, newValue: string | null) {
-        const num = Number(newValue)
+        this.attributeHandlers[name]?.(newValue)
+    }
 
-        const handlers: Record<string, () => void> = {
-            'min-width': () => { this._minWidth = num },
-            'max-width': () => { this._maxWidth = num },
-            'min-height': () => { this._minHeight = num },
-            'max-height': () => { this._maxHeight = num },
-            'resizer-color': () => {
-                const color = newValue ?? '#ccc'
-                this.applyStyles(`.resizer:hover { background-color: ${color}; }`)
-            }
+    private attributeHandlers: Record<string, (newValue: string | null) => void> = {
+        'min-width': (newValue) => { this.updateMinWidthValue(newValue) },
+        'max-width': (newValue) => { this.updateMaxWidthValue(newValue) },
+        'min-height': (newValue) => { this.updateMinHeightValue(newValue) },
+        'max-height': (newValue) => { this.updateMaxHeightValue(newValue) },
+        'resize-top': (newValue) => { this.updateTopResizerState(newValue !== null) },
+        'resize-bottom': (newValue) => { this.updateBottomResizerState(newValue !== null) },
+        'resize-left': (newValue) => { this.updateLeftResizerState(newValue !== null) },
+        'resize-right': (newValue) => { this.updateRightResizerState(newValue !== null) },
+        'resizer-color': (newValue) => {
+            const color = newValue ?? '#ccc'
+            this.applyStyles(`.resizer:hover { background-color: ${color}; }`)
         }
-
-        handlers[name]?.()
     }
 
-    
 
-    public setResizerColor(color: string) {
-        this.setAttribute('resizer-color', color)
+
+    // TODO: extract common logic ?
+    private updateTopResizerState(bool: boolean | null) { 
+        this._hasTopResizer = bool ? bool : false 
+
+        if (this._hasTopResizer) {
+            this._topResizer.style.display = 'block'
+            this._topResizer.addEventListener('mousedown', this.resizerHandlers.top)
+        } else {
+            this._topResizer.style.display = 'none'
+            this._topResizer.removeEventListener('mousedown', this.resizerHandlers.top)
+        }
+    }
+
+    private updateBottomResizerState(bool: boolean | null) { 
+        this._hasBottomResizer = bool ? bool : false 
+
+        if (this._hasBottomResizer) {
+            this._bottomResizer.style.display = 'block'
+            this._bottomResizer.addEventListener('mousedown', this.resizerHandlers.bottom)
+        } else {
+            this._bottomResizer.style.display = 'none'
+            this._bottomResizer.removeEventListener('mousedown', this.resizerHandlers.bottom)
+        }
+    }
+
+    private updateLeftResizerState(bool: boolean | null) { 
+        this._hasLeftResizer = bool ? bool : false 
+
+        if (this._hasLeftResizer) {
+            this._leftResizer.style.display = 'block'
+            this._leftResizer.addEventListener('mousedown', this.resizerHandlers.left)
+        } else {
+            this._leftResizer.style.display = 'none'
+            this._leftResizer.removeEventListener('mousedown', this.resizerHandlers.left)
+        }
+    }
+
+    private updateRightResizerState(bool: boolean | null) { 
+        this._hasRightResizer = bool ? bool : false 
+
+        if (this._hasRightResizer) {
+            this._rightResizer.style.display = 'block'
+            this._rightResizer.addEventListener('mousedown', this.resizerHandlers.right)
+        } else {
+            this._rightResizer.style.display = 'none'
+            this._rightResizer.removeEventListener('mousedown', this.resizerHandlers.right)
+        }
+    }
+
+    private updateMinWidthValue(val: string | null) {
+        this._nMinWidth = val ? Number(val) : 0
+    }
+
+    private updateMaxWidthValue(val: string | null) {
+        this._nMaxWidth = val ? Number(val) : 2000
+    }
+
+    private updateMinHeightValue(val: string | null) {
+        this._nMinHeight = val ? Number(val) : 0
+    }
+
+    private updateMaxHeightValue(val: string | null) {
+        this._nMaxHeight = val ? Number(val) : 2000
     }
     
-    get minWidth() { return this._minWidth }
-    set minWidth(val: number) { this.setAttribute('min-width', val.toString()) }
 
-    get maxWidth() { return this._maxWidth }
-    set maxWidth(val: number) { this.setAttribute('max-width', val.toString()) }
 
-    get minHeight() { return this._minHeight }
-    set minHeight(val: number) { this.setAttribute('min-height', val.toString()) }
+    set resizerColor(color: string) { this.setAttribute('resizer-color', color) }
+    
+    get minWidth() { return this._nMinWidth.toString() }
+    set minWidth(val: string) { this.setAttribute('min-width', val) }
 
-    get maxHeight() { return this._maxHeight }
-    set maxHeight(val: number) { this.setAttribute('max-height', val.toString()) }
+    get maxWidth() { return this._nMaxWidth.toString() }
+    set maxWidth(val: string) { this.setAttribute('max-width', val) }
+
+    get minHeight() { return this._nMinHeight.toString() }
+    set minHeight(val: string) { this.setAttribute('min-height', val) }
+
+    get maxHeight() { return this._nMaxHeight.toString() }
+    set maxHeight(val: string) { this.setAttribute('max-height', val) }
+
+    addTopResizer() { this.setAttribute('resize-top', '') }
+    removeTopResizer() { this.removeAttribute('resize-top') }
+
+    addBottomResizer() { this.setAttribute('resize-bottom', '') }
+    removeBottomResizer() { this.removeAttribute('resize-bottom') }
+
+    addLeftResizer() { this.setAttribute('resize-left', '') }
+    removeLeftResizer() { this.removeAttribute('resize-left') }
+
+    addRightResizer() { this.setAttribute('resize-right', '') }
+    removeRightResizer() { this.removeAttribute('resize-right') }
 
 
 }
