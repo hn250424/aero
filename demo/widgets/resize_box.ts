@@ -4,6 +4,8 @@ const html =
         <div style="background-color: red; width: 10px; height: 10px;"></div>
         <div style="background-color: burlywood; width: 10px; height: 10px;"></div>
     </aero-resize-box>
+</div>
+<div id="rc" class="resizer-container" style="display: flex; justify-content: start; align-items: start;">
 </div>`
 
 const css =
@@ -27,7 +29,21 @@ const js =
 `const resizeBox = document.createElement('aero-resize-box')
 resizeBox.addRightResizer()
 resizeBox.resizerColor = 'green'
-document.body.appendChild(resizeBox)`
+
+const red = document.createElement('div')
+red.style.backgroundColor = 'red'
+red.style.width = '10px'
+red.style.height = '10px'
+
+const brown = document.createElement('div')
+brown.style.backgroundColor = 'burlywood'
+brown.style.width = '10px'
+brown.style.height = '10px'
+
+resizeBox.append(red, brown)
+
+const rc = document.getElementById('rc')
+rc.appendChild(resizeBox)`
 
 export default {
     html: html,
