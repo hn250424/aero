@@ -1,6 +1,6 @@
-export default class BaseShadowComponent extends HTMLElement {
+export default class BaseAeroShadowComponent extends HTMLElement {
     protected shadow: ShadowRoot;
-    constructor(htmlTemplate: string);
+    protected constructor(htmlTemplate: string);
     protected query<T extends HTMLElement>(selector: string): T;
     protected applyStyles(style: string): void;
 }

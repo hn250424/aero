@@ -1,5 +1,5 @@
-import { default as BaseResizeBox } from '../../base/BaseResizeBox';
-export default class ResizeBox extends BaseResizeBox {
+import { default as BaseAeroResizeBox } from '../../base/BaseAeroResizeBox';
+export default class AeroResizeBox extends BaseAeroResizeBox {
     constructor(resizeDirections?: {
         top?: boolean;
         bottom?: boolean;
