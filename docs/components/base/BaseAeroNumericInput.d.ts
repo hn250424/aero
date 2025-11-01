@@ -11,7 +11,7 @@ export default abstract class BaseAeroNumericInput extends BaseAeroShadowCompone
     protected getValidateValue(value: string): string;
     static get observedAttributes(): string[];
     attributeChangedCallback(name: string, _oldValue: string | null, newValue: string | null): void;
-    private attributeHandlers;
+    private baseAeroNumericInputAttributeHandlers;
     private updateMinValue;
     private updateMaxValue;
     private updateStepValue;

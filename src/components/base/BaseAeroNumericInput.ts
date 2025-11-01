@@ -50,10 +50,10 @@ export default abstract class BaseAeroNumericInput extends BaseAeroShadowCompone
     }
 
     attributeChangedCallback(name: string, _oldValue: string | null, newValue: string | null) {
-        this.attributeHandlers[name]?.(newValue)
+        this.baseAeroNumericInputAttributeHandlers[name]?.(newValue)
     }
 
-    private attributeHandlers: Record<string, (newValue: string | null) => void> = {
+    private baseAeroNumericInputAttributeHandlers: Record<string, (newValue: string | null) => void> = {
         min: (newValue) => { this.updateMinValue(newValue) },
         max: (newValue) => { this.updateMaxValue(newValue) },
         step: (newValue) => { this.updateStepValue(newValue) },
