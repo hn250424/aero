@@ -23,7 +23,7 @@ export default abstract class BaseAeroResizeBox extends BaseAeroShadowComponent 
     private processMousedownEvent;
     static get observedAttributes(): string[];
     attributeChangedCallback(name: string, _oldValue: string | null, newValue: string | null): void;
-    private attributeHandlers;
+    private baseAeroResizeBoxAttributeHandlers;
     private updateTopResizerState;
     private updateBottomResizerState;
     private updateLeftResizerState;

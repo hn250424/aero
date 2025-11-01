@@ -6,7 +6,7 @@ export default class AeroSpinbox extends BaseAeroNumericInput {
     protected getInputSelector(): string;
     static get observedAttributes(): string[];
     attributeChangedCallback(name: string, _oldValue: string | null, newValue: string | null): void;
-    private attributetHandlers;
+    private aeroSpinboxAttributeHandlers;
     private updateMinuxText;
     private updatePlusText;
     private updateButtonBackgrondColor;

@@ -137,10 +137,10 @@ export default abstract class BaseAeroResizeBox extends BaseAeroShadowComponent 
     }
 
     attributeChangedCallback(name: string, _oldValue: string | null, newValue: string | null) {
-        this.attributeHandlers[name]?.(newValue)
+        this.baseAeroResizeBoxAttributeHandlers[name]?.(newValue)
     }
 
-    private attributeHandlers: Record<string, (newValue: string | null) => void> = {
+    private baseAeroResizeBoxAttributeHandlers: Record<string, (newValue: string | null) => void> = {
         'min-width': (newValue) => { this.updateMinWidthValue(newValue) },
         'max-width': (newValue) => { this.updateMaxWidthValue(newValue) },
         'min-height': (newValue) => { this.updateMinHeightValue(newValue) },
