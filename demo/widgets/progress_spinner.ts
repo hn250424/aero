@@ -1,14 +1,18 @@
 const html = 
-`<div class="wrapper">
-    <aero-progress-spinner container-background="#424242"
-        spinner-background="black" spinner-color="red"></aero-progress-spinner>
+`<div class="wrapper" style="background-color: #424242;">
+    <aero-progress-spinner width="60" height="60" 
+        cycle="2" background="black" color="red"></aero-progress-spinner>
 </div>`
 
 const css =
 `.wrapper {
-    position: relative;
     width: 300px;
     height: 200px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
     margin-bottom: 10px;
 }
 
@@ -19,11 +23,14 @@ aero-progress-spinner {
 const js =
 `const div = document.createElement('div')
 div.classList.add('wrapper')
+div.style.background = '#dce1f5'
 
 const spinner = document.createElement('aero-progress-spinner')
-spinner.containerBackground = '#dce1f5'
-spinner.spinnerBackground = 'white'
-spinner.spinnerColor = 'blue'
+spinner.width = '60'
+spinner.height = '60'
+spinner.background = 'white'
+spinner.color = 'blue'
+spinner.cycle = '2'
 div.appendChild(spinner)
 
 document.body.appendChild(div)`
