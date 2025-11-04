@@ -39,13 +39,17 @@ spinbox.setAttribute('button-backgroundcolor', '#ccc')
 spinbox.value = 1
 spinbox.step = 0.46
 document.body.appendChild(spinbox)
-`,rb={html:tb,css:ib,js:nb},sb=`<div class="wrapper">
-    <aero-progress-spinner container-background="#424242"
-        spinner-background="black" spinner-color="red"></aero-progress-spinner>
+`,rb={html:tb,css:ib,js:nb},sb=`<div class="wrapper" style="background-color: #424242;">
+    <aero-progress-spinner width="60" height="60" 
+        cycle="2" background="black" color="red"></aero-progress-spinner>
 </div>`,ob=`.wrapper {
-    position: relative;
     width: 300px;
     height: 200px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
     margin-bottom: 10px;
 }
 
@@ -53,11 +57,14 @@ aero-progress-spinner {
     
 }`,lb=`const div = document.createElement('div')
 div.classList.add('wrapper')
+div.style.background = '#dce1f5'
 
 const spinner = document.createElement('aero-progress-spinner')
-spinner.containerBackground = '#dce1f5'
-spinner.spinnerBackground = 'white'
-spinner.spinnerColor = 'blue'
+spinner.width = '60'
+spinner.height = '60'
+spinner.background = 'white'
+spinner.color = 'blue'
+spinner.cycle = '2'
 div.appendChild(spinner)
 
 document.body.appendChild(div)`,ab={html:sb,css:ob,js:lb},hb=`<div class="resizer-container" style="display: flex; justify-content: end; align-items: end;">
@@ -83,6 +90,7 @@ aero-resize-box {
     border: 1px solid #ccc;
 }`,fb=`const resizeBox = document.createElement('aero-resize-box')
 resizeBox.addRightResizer()
+resizeBox.addBottomResizer()
 resizeBox.resizerColor = 'green'
 
 const red = document.createElement('div')

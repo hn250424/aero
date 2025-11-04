@@ -130,7 +130,7 @@ class u extends a {
   }
 }
 customElements.define("aero-numeric-input", u);
-const d = `<style>
+const l = `<style>
     :host {
         border: 1px solid #ccc;
         display: block;
@@ -168,11 +168,11 @@ const d = `<style>
     <input id="input" type="number">
     <button id="plus">+</button>
 </div>`;
-class l extends a {
+class d extends a {
   minus;
   plus;
   constructor() {
-    super(d), this.minus = this.query("#minus"), this.plus = this.query("#plus"), this.minus.addEventListener("click", this.decrement.bind(this)), this.plus.addEventListener("click", this.increment.bind(this)), this.updateButtonBackgrondColor(this.getAttribute("button-backgroundcolor")), this.updateMinuxText(this.getAttribute("text-minus")), this.updatePlusText(this.getAttribute("text-plus")), this.updateHeight(parseInt(getComputedStyle(this).height)), new ResizeObserver((e) => {
+    super(l), this.minus = this.query("#minus"), this.plus = this.query("#plus"), this.minus.addEventListener("click", this.decrement.bind(this)), this.plus.addEventListener("click", this.increment.bind(this)), this.updateButtonBackgrondColor(this.getAttribute("button-backgroundcolor")), this.updateMinuxText(this.getAttribute("text-minus")), this.updatePlusText(this.getAttribute("text-plus")), this.updateHeight(parseInt(getComputedStyle(this).height)), new ResizeObserver((e) => {
       for (const i of e) {
         const s = i.contentRect.height;
         this.applyStyles(
@@ -246,59 +246,8 @@ class l extends a {
     this.input.value = this.getValidateValue(t.toString());
   }
 }
-customElements.define("aero-spinbox", l);
-class p extends o {
-  constructor(t) {
-    super(t), this.updateContainerBackground(this.getAttribute("container-background"));
-  }
-  static get observedAttributes() {
-    return [
-      "container-background"
-    ];
-  }
-  attributeChangedCallback(t, e, i) {
-    this.baseAeroProgressAttributeHandlers[t]?.(i);
-  }
-  baseAeroProgressAttributeHandlers = {
-    "container-background": (t) => {
-      this.updateContainerBackground(t);
-    }
-  };
-  updateContainerBackground(t) {
-    this.applyStyles(
-      `:host {
-                background: ${t || "rgba(0, 0, 0, 0.5)"};
-            }`
-    );
-  }
-  set containerBackground(t) {
-    this.setAttribute("container-background", t);
-  }
-}
-const g = `<style>\r
-    :host {\r
-        display: flex;\r
-        justify-content: center;\r
-        align-items: center;\r
-        position: absolute;\r
-        top: 0;\r
-        left: 0;\r
-        width: 100%;\r
-        height: 100%;\r
-        /* background-color: rgba(0, 0, 0, 0.5); */\r
-        background-color: transparent;\r
-        z-index: 99;\r
-    }\r
-\r
-    .spinner {\r
-        width: 50px;\r
-        height: 50px;\r
-        border: 5px solid white;\r
-        border-top: 5px solid black;\r
-        border-radius: 50%;\r
-        animation: spin 2s linear infinite;\r
-    }\r
-\r
+customElements.define("aero-spinbox", d);
+const p = `<style>\r
     @keyframes spin {\r
         0% {\r
             transform: rotate(0deg);\r
@@ -308,54 +257,63 @@ const g = `<style>\r
             transform: rotate(360deg);\r
         }\r
     }\r
-</style>\r
-\r
-<div class="spinner"></div>`;
-class c extends p {
-  spinner;
+</style>`;
+class g extends o {
   constructor() {
-    super(g), this.spinner = this.query(".spinner"), this.updateSpinnerBackground(this.getAttribute("spinner-background")), this.updateSpinnerColor(this.getAttribute("spinner-color"));
+    super(p), this.updateSpinnerStyles();
   }
   static get observedAttributes() {
     return [
-      ...super.observedAttributes,
-      "spinner-background",
-      "spinner-color"
+      "width",
+      "height",
+      "background",
+      "color",
+      "cycle"
     ];
   }
   attributeChangedCallback(t, e, i) {
-    super.attributeChangedCallback(t, e, i), this.aeroProgressSpinnerAttributeHandlers[t]?.(i);
+    this.updateSpinnerStyles();
   }
-  aeroProgressSpinnerAttributeHandlers = {
-    "spinner-background": (t) => {
-      this.updateSpinnerBackground(t);
-    },
-    "spinner-color": (t) => {
-      this.updateSpinnerColor(t);
-    }
-  };
-  updateSpinnerBackground(t) {
-    this.applyStyles(
-      `.spinner {
-                border: 5px solid ${t || "white"};
-            }`
-    );
+  /**
+   * Using :host instead of an inner element means styles are applied to the custom element itself.
+   * Re-appending styles multiple times can cause conflicts or unexpected behavior.
+   */
+  updateSpinnerStyles() {
+    const t = this.getAttribute("width") || "50", e = this.getAttribute("height") || "50", i = this.getAttribute("background") || "white", s = this.getAttribute("color") || "black", r = this.getAttribute("cycle") || "1";
+    this.applyStyles(`
+            :host {
+                width: ${t}px;
+                height: ${e}px;
+                border: 5px solid ${i};
+                border-top-color: ${s};
+                border-radius: 50%;
+                animation: spin ${r}s linear infinite;
+                box-sizing: border-box;
+            }
+
+            @keyframes spin {
+                0% { transform: rotate(0deg); }
+                100% { transform: rotate(360deg); }
+            }
+        `);
   }
-  updateSpinnerColor(t) {
-    this.applyStyles(
-      `.spinner {
-                border-top: 5px solid ${t || "black"};
-            }`
-    );
+  set width(t) {
+    this.setAttribute("width", t);
   }
-  set spinnerBackground(t) {
-    this.setAttribute("spinner-background", t);
+  set height(t) {
+    this.setAttribute("height", t);
   }
-  set spinnerColor(t) {
-    this.setAttribute("spinner-color", t);
+  set background(t) {
+    this.setAttribute("background", t);
+  }
+  set color(t) {
+    this.setAttribute("color", t);
+  }
+  set cycle(t) {
+    this.setAttribute("cycle", t);
   }
 }
-customElements.define("aero-progress-spinner", c);
+customElements.define("aero-progress-spinner", g);
 class m extends o {
   _topResizer;
   _bottomResizer;
@@ -386,17 +344,17 @@ class m extends o {
       this.isDragging && (this.animationFrameId && cancelAnimationFrame(this.animationFrameId), this.animationFrameId = requestAnimationFrame(() => {
         const i = this.getBoundingClientRect();
         if (this.isTopDragging) {
-          const s = i.bottom - e.clientY, n = Math.min(Math.max(s, this._nMinHeight), this._nMaxHeight);
-          this.style.height = `${n}px`;
+          const s = i.bottom - e.clientY, r = Math.min(Math.max(s, this._nMinHeight), this._nMaxHeight);
+          this.style.height = `${r}px`;
         } else if (this.isBottomDragging) {
-          const s = e.clientY - i.top, n = Math.min(Math.max(s, this._nMinHeight), this._nMaxHeight);
-          this.style.height = `${n}px`;
+          const s = e.clientY - i.top, r = Math.min(Math.max(s, this._nMinHeight), this._nMaxHeight);
+          this.style.height = `${r}px`;
         } else if (this.isLeftDragging) {
-          const s = i.right - e.clientX, n = Math.min(Math.max(s, this._nMinWidth), this._nMaxWidth);
-          this.style.width = `${n}px`;
+          const s = i.right - e.clientX, r = Math.min(Math.max(s, this._nMinWidth), this._nMaxWidth);
+          this.style.width = `${r}px`;
         } else if (this.isRightDragging) {
-          const s = e.clientX - i.left, n = Math.min(Math.max(s, this._nMinWidth), this._nMaxWidth);
-          this.style.width = `${n}px`;
+          const s = e.clientX - i.left, r = Math.min(Math.max(s, this._nMinWidth), this._nMaxWidth);
+          this.style.width = `${r}px`;
         }
       }));
     }), document.addEventListener("mouseup", () => {
@@ -542,7 +500,7 @@ class m extends o {
     this.removeAttribute("resize-right");
   }
 }
-const b = `<style>\r
+const c = `<style>\r
     :host {\r
         position: relative;\r
     }\r
@@ -591,15 +549,15 @@ const b = `<style>\r
 <div id="bottom" class="resizer vertical"></div>\r
 <div id="left" class="resizer horizontal"></div>\r
 <div id="right" class="resizer horizontal"></div>`;
-class x extends m {
+class b extends m {
   constructor() {
-    super(b);
+    super(c);
   }
 }
-customElements.define("aero-resize-box", x);
+customElements.define("aero-resize-box", b);
 export {
   u as AeroNumericInput,
-  c as AeroProgressSpinner,
-  x as AeroResizeBox,
-  l as AeroSpinbox
+  g as AeroProgressSpinner,
+  b as AeroResizeBox,
+  d as AeroSpinbox
 };
