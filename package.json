@@ -4,15 +4,10 @@
     "version": "0.0.0",
     "type": "module",
     "scripts": {
-        "dev": "vite",
-        "build": "tsc && vite build",
-        "preview": "vite preview",
-
         "build:lib": "node scripts/build/build-lib.js",
         "build:docs": "node scripts/build/build-docs.js",
-        "preview:docs": "vite preview --config vite.config.docs.ts",
-        
-        "package": "npm run build:lib && npm run build:docs"
+        "build:all": "npm run build:lib && npm run build:docs",
+        "preview:docs": "vite preview --config vite.config.docs.ts"        
     },
     "devDependencies": {
         "@types/node": "^24.5.0",

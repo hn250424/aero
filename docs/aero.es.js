@@ -1,4 +1,4 @@
-class o extends HTMLElement {
+class n extends HTMLElement {
   shadow;
   constructor(t) {
     super();
@@ -13,7 +13,7 @@ class o extends HTMLElement {
     e.textContent = t, this.shadow.appendChild(e);
   }
 }
-class a extends o {
+class o extends n {
   _input;
   _min;
   _max;
@@ -96,7 +96,7 @@ class a extends o {
     return this._decimalPlaces;
   }
 }
-const h = `<style>\r
+const a = `<style>\r
     :host {\r
         border: 1px solid #ccc;\r
         display: block;\r
@@ -121,9 +121,9 @@ const h = `<style>\r
 </style>\r
 \r
 <input id="input" type="number" />`;
-class u extends a {
+class u extends o {
   constructor() {
-    super(h);
+    super(a);
   }
   getInputSelector() {
     return "#input";
@@ -168,7 +168,7 @@ const l = `<style>
     <input id="input" type="number">
     <button id="plus">+</button>
 </div>`;
-class d extends a {
+class d extends o {
   minus;
   plus;
   constructor() {
@@ -258,7 +258,7 @@ const p = `<style>\r
         }\r
     }\r
 </style>`;
-class g extends o {
+class g extends n {
   constructor() {
     super(p), this.updateSpinnerStyles();
   }
@@ -279,7 +279,7 @@ class g extends o {
    * Re-appending styles multiple times can cause conflicts or unexpected behavior.
    */
   updateSpinnerStyles() {
-    const t = this.getAttribute("width") || "50", e = this.getAttribute("height") || "50", i = this.getAttribute("background") || "white", s = this.getAttribute("color") || "black", r = this.getAttribute("cycle") || "1";
+    const t = this.getAttribute("width") || "50", e = this.getAttribute("height") || "50", i = this.getAttribute("background") || "white", s = this.getAttribute("color") || "black", h = this.getAttribute("cycle") || "1";
     this.applyStyles(`
             :host {
                 width: ${t}px;
@@ -287,7 +287,7 @@ class g extends o {
                 border: 5px solid ${i};
                 border-top-color: ${s};
                 border-radius: 50%;
-                animation: spin ${r}s linear infinite;
+                animation: spin ${h}s linear infinite;
                 box-sizing: border-box;
             }
 
@@ -314,7 +314,56 @@ class g extends o {
   }
 }
 customElements.define("aero-progress-spinner", g);
-class m extends o {
+const m = `<style>\r
+    :host {\r
+        position: relative;\r
+    }\r
+\r
+    .resizer {\r
+        position: absolute;\r
+        background-color: transparent;\r
+        transition: background-color 0.3s ease;\r
+    }\r
+\r
+    .horizontal {\r
+        width: 3px;\r
+        height: 100%;\r
+        cursor: ew-resize;\r
+    }\r
+\r
+    .vertical {\r
+        width: 100%;\r
+        height: 3px;\r
+        cursor: ns-resize;\r
+    }\r
+\r
+    #top {\r
+        left: 0;\r
+        top: 0;\r
+    }\r
+\r
+    #bottom {\r
+        left: 0;\r
+        bottom: 0;\r
+    }\r
+\r
+    #left {\r
+        top: 0;\r
+        left: 0;\r
+    }\r
+\r
+    #right {\r
+        top: 0;\r
+        right: 0;\r
+    }\r
+</style>\r
+\r
+<slot></slot>\r
+<div id="top" class="resizer vertical"></div>\r
+<div id="bottom" class="resizer vertical"></div>\r
+<div id="left" class="resizer horizontal"></div>\r
+<div id="right" class="resizer horizontal"></div>`;
+class c extends n {
   _topResizer;
   _bottomResizer;
   _leftResizer;
@@ -339,22 +388,22 @@ class m extends o {
     left: (t) => this.processMousedownEvent(t, "left"),
     right: (t) => this.processMousedownEvent(t, "right")
   };
-  constructor(t) {
-    super(t), this._topResizer = this.query("#top"), this._bottomResizer = this.query("#bottom"), this._leftResizer = this.query("#left"), this._rightResizer = this.query("#right"), this.updateMinWidthValue(this.getAttribute("min-width")), this.updateMaxWidthValue(this.getAttribute("max-width")), this.updateMinHeightValue(this.getAttribute("min-height")), this.updateMaxHeightValue(this.getAttribute("max-height")), this.updateTopResizerState(this.hasAttribute("resize-top")), this.updateBottomResizerState(this.hasAttribute("resize-bottom")), this.updateLeftResizerState(this.hasAttribute("resize-left")), this.updateRightResizerState(this.hasAttribute("resize-right")), document.addEventListener("mousemove", (e) => {
+  constructor() {
+    super(m), this._topResizer = this.query("#top"), this._bottomResizer = this.query("#bottom"), this._leftResizer = this.query("#left"), this._rightResizer = this.query("#right"), this.updateMinWidthValue(this.getAttribute("min-width")), this.updateMaxWidthValue(this.getAttribute("max-width")), this.updateMinHeightValue(this.getAttribute("min-height")), this.updateMaxHeightValue(this.getAttribute("max-height")), this.updateTopResizerState(this.hasAttribute("resize-top")), this.updateBottomResizerState(this.hasAttribute("resize-bottom")), this.updateLeftResizerState(this.hasAttribute("resize-left")), this.updateRightResizerState(this.hasAttribute("resize-right")), document.addEventListener("mousemove", (t) => {
       this.isDragging && (this.animationFrameId && cancelAnimationFrame(this.animationFrameId), this.animationFrameId = requestAnimationFrame(() => {
-        const i = this.getBoundingClientRect();
+        const e = this.getBoundingClientRect();
         if (this.isTopDragging) {
-          const s = i.bottom - e.clientY, r = Math.min(Math.max(s, this._nMinHeight), this._nMaxHeight);
-          this.style.height = `${r}px`;
+          const i = e.bottom - t.clientY, s = Math.min(Math.max(i, this._nMinHeight), this._nMaxHeight);
+          this.style.height = `${s}px`;
         } else if (this.isBottomDragging) {
-          const s = e.clientY - i.top, r = Math.min(Math.max(s, this._nMinHeight), this._nMaxHeight);
-          this.style.height = `${r}px`;
+          const i = t.clientY - e.top, s = Math.min(Math.max(i, this._nMinHeight), this._nMaxHeight);
+          this.style.height = `${s}px`;
         } else if (this.isLeftDragging) {
-          const s = i.right - e.clientX, r = Math.min(Math.max(s, this._nMinWidth), this._nMaxWidth);
-          this.style.width = `${r}px`;
+          const i = e.right - t.clientX, s = Math.min(Math.max(i, this._nMinWidth), this._nMaxWidth);
+          this.style.width = `${s}px`;
         } else if (this.isRightDragging) {
-          const s = e.clientX - i.left, r = Math.min(Math.max(s, this._nMinWidth), this._nMaxWidth);
-          this.style.width = `${r}px`;
+          const i = t.clientX - e.left, s = Math.min(Math.max(i, this._nMinWidth), this._nMaxWidth);
+          this.style.width = `${s}px`;
         }
       }));
     }), document.addEventListener("mouseup", () => {
@@ -500,64 +549,10 @@ class m extends o {
     this.removeAttribute("resize-right");
   }
 }
-const c = `<style>\r
-    :host {\r
-        position: relative;\r
-    }\r
-\r
-    .resizer {\r
-        position: absolute;\r
-        background-color: transparent;\r
-        transition: background-color 0.3s ease;\r
-    }\r
-\r
-    .horizontal {\r
-        width: 3px;\r
-        height: 100%;\r
-        cursor: ew-resize;\r
-    }\r
-\r
-    .vertical {\r
-        width: 100%;\r
-        height: 3px;\r
-        cursor: ns-resize;\r
-    }\r
-\r
-    #top {\r
-        left: 0;\r
-        top: 0;\r
-    }\r
-\r
-    #bottom {\r
-        left: 0;\r
-        bottom: 0;\r
-    }\r
-\r
-    #left {\r
-        top: 0;\r
-        left: 0;\r
-    }\r
-\r
-    #right {\r
-        top: 0;\r
-        right: 0;\r
-    }\r
-</style>\r
-\r
-<slot></slot>\r
-<div id="top" class="resizer vertical"></div>\r
-<div id="bottom" class="resizer vertical"></div>\r
-<div id="left" class="resizer horizontal"></div>\r
-<div id="right" class="resizer horizontal"></div>`;
-class b extends m {
-  constructor() {
-    super(c);
-  }
-}
-customElements.define("aero-resize-box", b);
+customElements.define("aero-resize-box", c);
 export {
   u as AeroNumericInput,
   g as AeroProgressSpinner,
-  b as AeroResizeBox,
+  c as AeroResizeBox,
   d as AeroSpinbox
 };

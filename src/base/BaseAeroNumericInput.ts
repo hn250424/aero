@@ -1,6 +1,6 @@
-import BaseAeroShadowComponent from "./BaseAeroShadowComponent"
+import AeroShadowElement from "../core/AeroShadowElement"
 
-export default abstract class BaseAeroNumericInput extends BaseAeroShadowComponent {
+export default abstract class BaseAeroNumericInput extends AeroShadowElement {
     private _input!: HTMLInputElement
 
     private _min!: string

@@ -1,7 +1,7 @@
-import BaseAeroShadowComponent from '../../base/BaseAeroShadowComponent'
+import AeroShadowElement from '../../core/AeroShadowElement'
 import aeroProgressSpinnerHtmlTemplate from './AeroProgressSpinner.html?raw'
 
-export default class AeroProgressSpinner extends BaseAeroShadowComponent {
+export default class AeroProgressSpinner extends AeroShadowElement {
     
     constructor() {
         super(aeroProgressSpinnerHtmlTemplate)
