@@ -1,6 +1,7 @@
-import BaseAeroShadowComponent from "./BaseAeroShadowComponent"
+import AeroShadowElement from "../../core/AeroShadowElement"
+import aeroResizeBoxHtmlTemplate from './AeroResizeBox.html?raw'
 
-export default abstract class BaseAeroResizeBox extends BaseAeroShadowComponent {
+export default class AeroResizeBox extends AeroShadowElement {
     private _topResizer!: HTMLElement
     private _bottomResizer!: HTMLElement
     private _leftResizer!: HTMLElement
@@ -31,8 +32,8 @@ export default abstract class BaseAeroResizeBox extends BaseAeroShadowComponent 
         right: (e: MouseEvent) => this.processMousedownEvent(e, 'right'),
     }
 
-    protected constructor(htmlTemplate: string) {
-        super(htmlTemplate)
+    constructor() {
+        super(aeroResizeBoxHtmlTemplate)
 
         this._topResizer = this.query('#top')
         this._bottomResizer = this.query('#bottom')
@@ -100,7 +101,7 @@ export default abstract class BaseAeroResizeBox extends BaseAeroShadowComponent 
     }
 
 
-
+    
     private processMousedownEvent = (e: MouseEvent, resizer: 'top' | 'bottom' | 'left' | 'right') => {
         e.preventDefault()
         document.body.style.userSelect = 'none'
@@ -249,6 +250,8 @@ export default abstract class BaseAeroResizeBox extends BaseAeroShadowComponent 
 
     addRightResizer() { this.setAttribute('resize-right', '') }
     removeRightResizer() { this.removeAttribute('resize-right') }
-
-
 }
+
+
+
+customElements.define('aero-resize-box', AeroResizeBox)

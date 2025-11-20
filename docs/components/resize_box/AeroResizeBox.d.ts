@@ -1,5 +1,5 @@
-import { default as BaseAeroShadowComponent } from './BaseAeroShadowComponent';
-export default abstract class BaseAeroResizeBox extends BaseAeroShadowComponent {
+import { default as AeroShadowElement } from '../../core/AeroShadowElement';
+export default class AeroResizeBox extends AeroShadowElement {
     private _topResizer;
     private _bottomResizer;
     private _leftResizer;
@@ -19,7 +19,7 @@ export default abstract class BaseAeroResizeBox extends BaseAeroShadowComponent 
     private isDragging;
     private animationFrameId;
     private resizerHandlers;
-    protected constructor(htmlTemplate: string);
+    constructor();
     private processMousedownEvent;
     static get observedAttributes(): string[];
     attributeChangedCallback(name: string, _oldValue: string | null, newValue: string | null): void;

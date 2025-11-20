@@ -1,5 +1,5 @@
-import { default as BaseAeroShadowComponent } from './BaseAeroShadowComponent';
-export default abstract class BaseAeroNumericInput extends BaseAeroShadowComponent {
+import { default as AeroShadowElement } from '../core/AeroShadowElement';
+export default abstract class BaseAeroNumericInput extends AeroShadowElement {
     private _input;
     private _min;
     private _max;

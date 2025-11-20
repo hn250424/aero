@@ -1,5 +1,5 @@
-import { default as BaseAeroShadowComponent } from '../../base/BaseAeroShadowComponent';
-export default class AeroProgressSpinner extends BaseAeroShadowComponent {
+import { default as AeroShadowElement } from '../../core/AeroShadowElement';
+export default class AeroProgressSpinner extends AeroShadowElement {
     constructor();
     static get observedAttributes(): string[];
     attributeChangedCallback(_name: string, _oldValue: string | null, _newValue: string | null): void;
