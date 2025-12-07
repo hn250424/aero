@@ -7,44 +7,44 @@ import { javascript } from "@codemirror/lang-javascript";
 import * as widgets from "./widgets";
 
 document.addEventListener("DOMContentLoaded", () => {
-	const updatePreview = () => {
+	const updatePlayground = () => {
 		const aeroImportPath = import.meta.env.DEV
 			? "/src/index.ts"
 			: `${import.meta.env.BASE_URL}aero.es.js`;
 
 		const doc = `
 			<html>
-			<head>
-				<style>
-					* {
-						padding: 0;
-						margin: 0;
-						box-sizing: border-box;
-					}
+				<head>
+					<style>
+						* {
+							padding: 0;
+							margin: 0;
+							box-sizing: border-box;
+						}
 
-					html,
-					body {
-						width: 100%;
-						height: 100%;
-					}
-				</style>
-				<style>${cssInput.state.doc.toString()}</style>
-			</head>
-			<body>
-				${htmlInput.state.doc.toString()}
-			<script type="module">
-				import * as aero from '${aeroImportPath}'
-				${javascriptInput.state.doc.toString()}
-			</script>
-			</body>
+						html,
+						body {
+							width: 100%;
+							height: 100%;
+						}
+					</style>
+					<style>${cssInput.state.doc.toString()}</style>
+				</head>
+				<body>
+					${htmlInput.state.doc.toString()}
+					<script type="module">
+						import * as aero from '${aeroImportPath}'
+						${javascriptInput.state.doc.toString()}
+					</script>
+				</body>
 			</html>
 		`;
 
-		previewIframe.srcdoc = doc;
+		playgroundIframe.srcdoc = doc;
 	};
 
-	const previewIframe = document.querySelector(
-		".preview-iframe"
+	const playgroundIframe = document.querySelector(
+		".playground-iframe"
 	) as HTMLIFrameElement;
 
 	const htmlInput = new EditorView({
@@ -52,7 +52,7 @@ document.addEventListener("DOMContentLoaded", () => {
 			basicSetup,
 			html(),
 			indentUnit.of("    "),
-			EditorView.updateListener.of(updatePreview),
+			EditorView.updateListener.of(updatePlayground),
 		],
 		parent: document.querySelector(".html-box")!,
 	});
@@ -62,7 +62,7 @@ document.addEventListener("DOMContentLoaded", () => {
 			basicSetup,
 			css(),
 			indentUnit.of("    "),
-			EditorView.updateListener.of(updatePreview),
+			EditorView.updateListener.of(updatePlayground),
 		],
 		parent: document.querySelector(".css-box")!,
 	});
@@ -72,7 +72,7 @@ document.addEventListener("DOMContentLoaded", () => {
 			basicSetup,
 			javascript(),
 			indentUnit.of("    "),
-			EditorView.updateListener.of(updatePreview),
+			EditorView.updateListener.of(updatePlayground),
 		],
 		parent: document.querySelector(".javascript-box")!,
 	});

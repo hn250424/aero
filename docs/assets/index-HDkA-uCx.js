@@ -29,8 +29,7 @@
 }`,J1=`const numericInput = document.createElement('aero-numeric-input')
 numericInput.value = 1
 numericInput.step = 0.46
-document.body.appendChild(numericInput)
-`,eb={html:H1,css:K1,js:J1},tb=`<aero-spinbox min="0.4" max="100" step="0.46" value="1"
+document.body.appendChild(numericInput)`,eb={html:H1,css:K1,js:J1},tb=`<aero-spinbox min="0.4" max="100" step="0.46" value="1"
 	text-minus="-" text-plus="+" button-backgroundcolor="#ccc">
 </aero-spinbox>`,ib=`aero-spinbox {
 	margin-bottom: 5px;
@@ -38,8 +37,7 @@ document.body.appendChild(numericInput)
 spinbox.setAttribute('button-backgroundcolor', '#ccc')
 spinbox.value = 1
 spinbox.step = 0.46
-document.body.appendChild(spinbox)
-`,rb={html:tb,css:ib,js:nb},sb=`<div class="wrapper" style="background-color: #424242;">
+document.body.appendChild(spinbox)`,rb={html:tb,css:ib,js:nb},sb=`<div class="wrapper" style="background-color: #424242;">
 	<aero-progress-spinner width="60" height="60"
 		cycle="2" background="black" color="red"></aero-progress-spinner>
 </div>`,ob=`.wrapper {
@@ -108,28 +106,28 @@ resizeBox.append(red, brown)
 const rc = document.getElementById('rc')
 rc.appendChild(resizeBox)`,ub={html:hb,css:cb,js:fb},Ut=Object.freeze(Object.defineProperty({__proto__:null,AeroNumericInput:eb,AeroProgressSpinner:ab,AeroResizeBox:ub,AeroSpinbox:rb},Symbol.toStringTag,{value:"Module"}));document.addEventListener("DOMContentLoaded",()=>{const n=()=>{const l=`
 			<html>
-			<head>
-				<style>
-					* {
-						padding: 0;
-						margin: 0;
-						box-sizing: border-box;
-					}
+				<head>
+					<style>
+						* {
+							padding: 0;
+							margin: 0;
+							box-sizing: border-box;
+						}
 
-					html,
-					body {
-						width: 100%;
-						height: 100%;
-					}
-				</style>
-				<style>${i.state.doc.toString()}</style>
-			</head>
-			<body>
-				${t.state.doc.toString()}
-			<script type="module">
-				import * as aero from '/aero/aero.es.js'
-				${r.state.doc.toString()}
-			<\/script>
-			</body>
+						html,
+						body {
+							width: 100%;
+							height: 100%;
+						}
+					</style>
+					<style>${i.state.doc.toString()}</style>
+				</head>
+				<body>
+					${t.state.doc.toString()}
+					<script type="module">
+						import * as aero from '/aero/aero.es.js'
+						${r.state.doc.toString()}
+					<\/script>
+				</body>
 			</html>
-		`;e.srcdoc=l},e=document.querySelector(".preview-iframe"),t=new v({extensions:[gs,U1(),qt.of("  "),v.updateListener.of(n)],parent:document.querySelector(".html-box")}),i=new v({extensions:[gs,id(),qt.of("  "),v.updateListener.of(n)],parent:document.querySelector(".css-box")}),r=new v({extensions:[gs,Od(),qt.of("  "),v.updateListener.of(n)],parent:document.querySelector(".javascript-box")}),s=document.querySelectorAll("aside nav li");s.forEach(o=>{o.addEventListener("click",()=>{t.dispatch({changes:{from:0,to:t.state.doc.length,insert:Ut[o.dataset.key].html}}),i.dispatch({changes:{from:0,to:i.state.doc.length,insert:Ut[o.dataset.key].css}}),r.dispatch({changes:{from:0,to:r.state.doc.length,insert:Ut[o.dataset.key].js}})})}),t.dispatch({changes:{from:0,to:t.state.doc.length,insert:Ut[s[0].dataset.key].html}}),i.dispatch({changes:{from:0,to:i.state.doc.length,insert:Ut[s[0].dataset.key].css}}),r.dispatch({changes:{from:0,to:r.state.doc.length,insert:Ut[s[0].dataset.key].js}})});
+		`;e.srcdoc=l},e=document.querySelector(".playground-iframe"),t=new v({extensions:[gs,U1(),qt.of("    "),v.updateListener.of(n)],parent:document.querySelector(".html-box")}),i=new v({extensions:[gs,id(),qt.of("    "),v.updateListener.of(n)],parent:document.querySelector(".css-box")}),r=new v({extensions:[gs,Od(),qt.of("    "),v.updateListener.of(n)],parent:document.querySelector(".javascript-box")}),s=document.querySelectorAll("aside nav li");s.forEach(o=>{o.addEventListener("click",()=>{t.dispatch({changes:{from:0,to:t.state.doc.length,insert:Ut[o.dataset.key].html}}),i.dispatch({changes:{from:0,to:i.state.doc.length,insert:Ut[o.dataset.key].css}}),r.dispatch({changes:{from:0,to:r.state.doc.length,insert:Ut[o.dataset.key].js}})})}),t.dispatch({changes:{from:0,to:t.state.doc.length,insert:Ut[s[0].dataset.key].html}}),i.dispatch({changes:{from:0,to:i.state.doc.length,insert:Ut[s[0].dataset.key].css}}),r.dispatch({changes:{from:0,to:r.state.doc.length,insert:Ut[s[0].dataset.key].js}})});
