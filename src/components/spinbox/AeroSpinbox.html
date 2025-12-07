@@ -1,38 +1,44 @@
 <style>
-    :host {
-        border: 1px solid #ccc;
-        display: block;
+	:host {
+		border: 1px solid #ccc;
+		display: block;
 
-        width: 130px;
-        height: 30px;
-    }
+		width: 130px;
+		height: 30px;
+	}
 
-    #spinbox {
-        display: grid;
-    }
+	#spinbox {
+		display: grid;
+	}
 
-    #spinbox,
-    #spinbox > * {
-        width: 100%;
-        height: 100%;
-        border: none;
-        font-size: inherit;
-        color: inherit;
-    }
+	#spinbox,
+	#spinbox > * {
+		width: 100%;
+		height: 100%;
+		border: none;
+		font-size: inherit;
+		color: inherit;
+	}
 
-    #spinbox > button { cursor: pointer; }
+	#spinbox > button {
+		cursor: pointer;
+	}
 
-    #input {
-        padding: 0;
-        text-align: center;
-    }
+	#input {
+		padding: 0;
+		text-align: center;
+	}
 
-    #input:focus { outline: none; }
-    #input::-webkit-inner-spin-button { appearance: none; }
+	#input:focus {
+		outline: none;
+	}
+	#input::-webkit-inner-spin-button {
+		appearance: none;
+	}
 </style>
 
 <div id="spinbox">
-    <button id="minus">-</button>
-    <input id="input" type="number">
-    <button id="plus">+</button>
+	<button id="minus">-</button>
+	<input id="input" type="number" />
+	<button id="plus">+</button>
 </div>

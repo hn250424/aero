@@ -1,32 +1,29 @@
 export default class AeroShadowElement extends HTMLElement {
-    protected shadow: ShadowRoot
+	protected shadow: ShadowRoot;
 
-    protected constructor(htmlTemplate: string) {
-        super()
+	protected constructor(htmlTemplate: string) {
+		super();
 
-        const template = document.createElement('template')
-        template.innerHTML = htmlTemplate
+		const template = document.createElement("template");
+		template.innerHTML = htmlTemplate;
 
-        this.shadow = this.attachShadow({ mode: 'open' })
-        this.shadow.appendChild(template.content.cloneNode(true))
-    }
+		this.shadow = this.attachShadow({ mode: "open" });
+		this.shadow.appendChild(template.content.cloneNode(true));
+	}
 
-    protected query<T extends HTMLElement>(selector: string): T {
-        return this.shadow.querySelector(selector)! as T
-    }
+	protected query<T extends HTMLElement>(selector: string): T {
+		return this.shadow.querySelector(selector)! as T;
+	}
 
-    protected applyStyles(style: string) {
-        const tag = document.createElement('style')
-        tag.textContent = style
-        this.shadow.appendChild(tag)
-    }
+	protected applyStyles(style: string) {
+		const tag = document.createElement("style");
+		tag.textContent = style;
+		this.shadow.appendChild(tag);
+	}
 }
 
-
-
-
 // TODO - Which is better: enforcing strict usage or allowing default HTML inheritance?
-// Makes sense that enforcing constraints is better. 
+// Makes sense that enforcing constraints is better.
 // If we want users to use it freely, it's probably better to just cook with standard HTML ingredients.
 
 // private forwardEvents() {

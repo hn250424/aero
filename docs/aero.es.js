@@ -97,30 +97,35 @@ class o extends n {
   }
 }
 const a = `<style>\r
-    :host {\r
-        border: 1px solid #ccc;\r
-        display: block;\r
+	:host {\r
+		border: 1px solid #ccc;\r
+		display: block;\r
 \r
-        width: 100px;\r
-        height: 30px;\r
-    }\r
+		width: 100px;\r
+		height: 30px;\r
+	}\r
 \r
-    #input {\r
-        width: 100%;\r
-        height: 100%;\r
-        padding: 0;\r
-        border: none;\r
-        \r
-        text-align: inherit;\r
-        font-size: inherit;\r
-        color: inherit;\r
-    }\r
+	#input {\r
+		width: 100%;\r
+		height: 100%;\r
+		padding: 0;\r
+		border: none;\r
 \r
-    #input:focus { outline: none; }\r
-    #input::-webkit-inner-spin-button { appearance: none; }\r
+		text-align: inherit;\r
+		font-size: inherit;\r
+		color: inherit;\r
+	}\r
+\r
+	#input:focus {\r
+		outline: none;\r
+	}\r
+	#input::-webkit-inner-spin-button {\r
+		appearance: none;\r
+	}\r
 </style>\r
 \r
-<input id="input" type="number" />`;
+<input id="input" type="number" />\r
+`;
 class u extends o {
   constructor() {
     super(a);
@@ -130,55 +135,64 @@ class u extends o {
   }
 }
 customElements.define("aero-numeric-input", u);
-const l = `<style>
-    :host {
-        border: 1px solid #ccc;
-        display: block;
-
-        width: 130px;
-        height: 30px;
-    }
-
-    #spinbox {
-        display: grid;
-    }
-
-    #spinbox,
-    #spinbox > * {
-        width: 100%;
-        height: 100%;
-        border: none;
-        font-size: inherit;
-        color: inherit;
-    }
-
-    #spinbox > button { cursor: pointer; }
-
-    #input {
-        padding: 0;
-        text-align: center;
-    }
-
-    #input:focus { outline: none; }
-    #input::-webkit-inner-spin-button { appearance: none; }
-</style>
-
-<div id="spinbox">
-    <button id="minus">-</button>
-    <input id="input" type="number">
-    <button id="plus">+</button>
-</div>`;
+const l = `<style>\r
+	:host {\r
+		border: 1px solid #ccc;\r
+		display: block;\r
+\r
+		width: 130px;\r
+		height: 30px;\r
+	}\r
+\r
+	#spinbox {\r
+		display: grid;\r
+	}\r
+\r
+	#spinbox,\r
+	#spinbox > * {\r
+		width: 100%;\r
+		height: 100%;\r
+		border: none;\r
+		font-size: inherit;\r
+		color: inherit;\r
+	}\r
+\r
+	#spinbox > button {\r
+		cursor: pointer;\r
+	}\r
+\r
+	#input {\r
+		padding: 0;\r
+		text-align: center;\r
+	}\r
+\r
+	#input:focus {\r
+		outline: none;\r
+	}\r
+	#input::-webkit-inner-spin-button {\r
+		appearance: none;\r
+	}\r
+</style>\r
+\r
+<div id="spinbox">\r
+	<button id="minus">-</button>\r
+	<input id="input" type="number" />\r
+	<button id="plus">+</button>\r
+</div>\r
+`;
 class d extends o {
   minus;
   plus;
   constructor() {
-    super(l), this.minus = this.query("#minus"), this.plus = this.query("#plus"), this.minus.addEventListener("click", this.decrement.bind(this)), this.plus.addEventListener("click", this.increment.bind(this)), this.updateButtonBackgrondColor(this.getAttribute("button-backgroundcolor")), this.updateMinuxText(this.getAttribute("text-minus")), this.updatePlusText(this.getAttribute("text-plus")), this.updateHeight(parseInt(getComputedStyle(this).height)), new ResizeObserver((e) => {
+    super(l), this.minus = this.query("#minus"), this.plus = this.query("#plus"), this.minus.addEventListener("click", this.decrement.bind(this)), this.plus.addEventListener("click", this.increment.bind(this)), this.updateButtonBackgrondColor(
+      this.getAttribute("button-backgroundcolor")
+    ), this.updateMinuxText(this.getAttribute("text-minus")), this.updatePlusText(this.getAttribute("text-plus")), this.updateHeight(parseInt(getComputedStyle(this).height)), new ResizeObserver((e) => {
       for (const i of e) {
         const s = i.contentRect.height;
         this.applyStyles(
           `#spinbox {
-                        grid-template-columns: ${s}px 1fr ${s}px;
-                    }`
+						grid-template-columns: ${s}px 1fr ${s}px;
+					}`
         );
       }
     }).observe(this);
@@ -216,16 +230,16 @@ class d extends o {
   }
   updateButtonBackgrondColor(t) {
     this.applyStyles(
-      `#spinbox > button { 
-                background-color: ${t || "#ccc"};
-            }`
+      `#spinbox > button {
+				background-color: ${t || "#ccc"};
+			}`
     );
   }
   updateHeight(t) {
     t = t || 30, this.applyStyles(
       `#spinbox {
-                grid-template-columns: ${t}px 1fr ${t}px;
-            }`
+				grid-template-columns: ${t}px 1fr ${t}px;
+			}`
     );
   }
   set buttonBackgroundColor(t) {
@@ -248,28 +262,23 @@ class d extends o {
 }
 customElements.define("aero-spinbox", d);
 const p = `<style>\r
-    @keyframes spin {\r
-        0% {\r
-            transform: rotate(0deg);\r
-        }\r
+	@keyframes spin {\r
+		0% {\r
+			transform: rotate(0deg);\r
+		}\r
 \r
-        100% {\r
-            transform: rotate(360deg);\r
-        }\r
-    }\r
-</style>`;
+		100% {\r
+			transform: rotate(360deg);\r
+		}\r
+	}\r
+</style>\r
+`;
 class g extends n {
   constructor() {
     super(p), this.updateSpinnerStyles();
   }
   static get observedAttributes() {
-    return [
-      "width",
-      "height",
-      "background",
-      "color",
-      "cycle"
-    ];
+    return ["width", "height", "background", "color", "cycle"];
   }
   attributeChangedCallback(t, e, i) {
     this.updateSpinnerStyles();
@@ -281,21 +290,21 @@ class g extends n {
   updateSpinnerStyles() {
     const t = this.getAttribute("width") || "50", e = this.getAttribute("height") || "50", i = this.getAttribute("background") || "white", s = this.getAttribute("color") || "black", h = this.getAttribute("cycle") || "1";
     this.applyStyles(`
-            :host {
-                width: ${t}px;
-                height: ${e}px;
-                border: 5px solid ${i};
-                border-top-color: ${s};
-                border-radius: 50%;
-                animation: spin ${h}s linear infinite;
-                box-sizing: border-box;
-            }
+			:host {
+					width: ${t}px;
+					height: ${e}px;
+					border: 5px solid ${i};
+					border-top-color: ${s};
+					border-radius: 50%;
+					animation: spin ${h}s linear infinite;
+					box-sizing: border-box;
+			}
 
-            @keyframes spin {
-                0% { transform: rotate(0deg); }
-                100% { transform: rotate(360deg); }
-            }
-        `);
+			@keyframes spin {
+					0% { transform: rotate(0deg); }
+					100% { transform: rotate(360deg); }
+			}
+		`);
   }
   set width(t) {
     this.setAttribute("width", t);
@@ -315,54 +324,55 @@ class g extends n {
 }
 customElements.define("aero-progress-spinner", g);
 const m = `<style>\r
-    :host {\r
-        position: relative;\r
-    }\r
+	:host {\r
+		position: relative;\r
+	}\r
 \r
-    .resizer {\r
-        position: absolute;\r
-        background-color: transparent;\r
-        transition: background-color 0.3s ease;\r
-    }\r
+	.resizer {\r
+		position: absolute;\r
+		background-color: transparent;\r
+		transition: background-color 0.3s ease;\r
+	}\r
 \r
-    .horizontal {\r
-        width: 3px;\r
-        height: 100%;\r
-        cursor: ew-resize;\r
-    }\r
+	.horizontal {\r
+		width: 3px;\r
+		height: 100%;\r
+		cursor: ew-resize;\r
+	}\r
 \r
-    .vertical {\r
-        width: 100%;\r
-        height: 3px;\r
-        cursor: ns-resize;\r
-    }\r
+	.vertical {\r
+		width: 100%;\r
+		height: 3px;\r
+		cursor: ns-resize;\r
+	}\r
 \r
-    #top {\r
-        left: 0;\r
-        top: 0;\r
-    }\r
+	#top {\r
+		left: 0;\r
+		top: 0;\r
+	}\r
 \r
-    #bottom {\r
-        left: 0;\r
-        bottom: 0;\r
-    }\r
+	#bottom {\r
+		left: 0;\r
+		bottom: 0;\r
+	}\r
 \r
-    #left {\r
-        top: 0;\r
-        left: 0;\r
-    }\r
+	#left {\r
+		top: 0;\r
+		left: 0;\r
+	}\r
 \r
-    #right {\r
-        top: 0;\r
-        right: 0;\r
-    }\r
+	#right {\r
+		top: 0;\r
+		right: 0;\r
+	}\r
 </style>\r
 \r
 <slot></slot>\r
 <div id="top" class="resizer vertical"></div>\r
 <div id="bottom" class="resizer vertical"></div>\r
 <div id="left" class="resizer horizontal"></div>\r
-<div id="right" class="resizer horizontal"></div>`;
+<div id="right" class="resizer horizontal"></div>\r
+`;
 class c extends n {
   _topResizer;
   _bottomResizer;
@@ -393,16 +403,28 @@ class c extends n {
       this.isDragging && (this.animationFrameId && cancelAnimationFrame(this.animationFrameId), this.animationFrameId = requestAnimationFrame(() => {
         const e = this.getBoundingClientRect();
         if (this.isTopDragging) {
-          const i = e.bottom - t.clientY, s = Math.min(Math.max(i, this._nMinHeight), this._nMaxHeight);
+          const i = e.bottom - t.clientY, s = Math.min(
+            Math.max(i, this._nMinHeight),
+            this._nMaxHeight
+          );
           this.style.height = `${s}px`;
         } else if (this.isBottomDragging) {
-          const i = t.clientY - e.top, s = Math.min(Math.max(i, this._nMinHeight), this._nMaxHeight);
+          const i = t.clientY - e.top, s = Math.min(
+            Math.max(i, this._nMinHeight),
+            this._nMaxHeight
+          );
           this.style.height = `${s}px`;
         } else if (this.isLeftDragging) {
-          const i = e.right - t.clientX, s = Math.min(Math.max(i, this._nMinWidth), this._nMaxWidth);
+          const i = e.right - t.clientX, s = Math.min(
+            Math.max(i, this._nMinWidth),
+            this._nMaxWidth
+          );
           this.style.width = `${s}px`;
         } else if (this.isRightDragging) {
-          const i = t.clientX - e.left, s = Math.min(Math.max(i, this._nMinWidth), this._nMaxWidth);
+          const i = t.clientX - e.left, s = Math.min(
+            Math.max(i, this._nMinWidth),
+            this._nMaxWidth
+          );
           this.style.width = `${s}px`;
         }
       }));
@@ -474,16 +496,37 @@ class c extends n {
   };
   // TODO: extract common logic ?
   updateTopResizerState(t) {
-    this._hasTopResizer = t || !1, this._hasTopResizer ? (this._topResizer.style.display = "block", this._topResizer.addEventListener("mousedown", this.resizerHandlers.top)) : (this._topResizer.style.display = "none", this._topResizer.removeEventListener("mousedown", this.resizerHandlers.top));
+    this._hasTopResizer = t || !1, this._hasTopResizer ? (this._topResizer.style.display = "block", this._topResizer.addEventListener("mousedown", this.resizerHandlers.top)) : (this._topResizer.style.display = "none", this._topResizer.removeEventListener(
+      "mousedown",
+      this.resizerHandlers.top
+    ));
   }
   updateBottomResizerState(t) {
-    this._hasBottomResizer = t || !1, this._hasBottomResizer ? (this._bottomResizer.style.display = "block", this._bottomResizer.addEventListener("mousedown", this.resizerHandlers.bottom)) : (this._bottomResizer.style.display = "none", this._bottomResizer.removeEventListener("mousedown", this.resizerHandlers.bottom));
+    this._hasBottomResizer = t || !1, this._hasBottomResizer ? (this._bottomResizer.style.display = "block", this._bottomResizer.addEventListener(
+      "mousedown",
+      this.resizerHandlers.bottom
+    )) : (this._bottomResizer.style.display = "none", this._bottomResizer.removeEventListener(
+      "mousedown",
+      this.resizerHandlers.bottom
+    ));
   }
   updateLeftResizerState(t) {
-    this._hasLeftResizer = t || !1, this._hasLeftResizer ? (this._leftResizer.style.display = "block", this._leftResizer.addEventListener("mousedown", this.resizerHandlers.left)) : (this._leftResizer.style.display = "none", this._leftResizer.removeEventListener("mousedown", this.resizerHandlers.left));
+    this._hasLeftResizer = t || !1, this._hasLeftResizer ? (this._leftResizer.style.display = "block", this._leftResizer.addEventListener(
+      "mousedown",
+      this.resizerHandlers.left
+    )) : (this._leftResizer.style.display = "none", this._leftResizer.removeEventListener(
+      "mousedown",
+      this.resizerHandlers.left
+    ));
   }
   updateRightResizerState(t) {
-    this._hasRightResizer = t || !1, this._hasRightResizer ? (this._rightResizer.style.display = "block", this._rightResizer.addEventListener("mousedown", this.resizerHandlers.right)) : (this._rightResizer.style.display = "none", this._rightResizer.removeEventListener("mousedown", this.resizerHandlers.right));
+    this._hasRightResizer = t || !1, this._hasRightResizer ? (this._rightResizer.style.display = "block", this._rightResizer.addEventListener(
+      "mousedown",
+      this.resizerHandlers.right
+    )) : (this._rightResizer.style.display = "none", this._rightResizer.removeEventListener(
+      "mousedown",
+      this.resizerHandlers.right
+    ));
   }
   updateMinWidthValue(t) {
     this._nMinWidth = t ? Number(t) : 0;

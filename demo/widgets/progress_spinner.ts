@@ -1,27 +1,24 @@
-const html = 
-`<div class="wrapper" style="background-color: #424242;">
-    <aero-progress-spinner width="60" height="60" 
-        cycle="2" background="black" color="red"></aero-progress-spinner>
-</div>`
+const html = `<div class="wrapper" style="background-color: #424242;">
+	<aero-progress-spinner width="60" height="60"
+		cycle="2" background="black" color="red"></aero-progress-spinner>
+</div>`;
 
-const css =
-`.wrapper {
-    width: 300px;
-    height: 200px;
+const css = `.wrapper {
+	width: 300px;
+	height: 200px;
 
-    display: flex;
-    justify-content: center;
-    align-items: center;
+	display: flex;
+	justify-content: center;
+	align-items: center;
 
-    margin-bottom: 10px;
+	margin-bottom: 10px;
 }
 
 aero-progress-spinner {
-    
-}`
 
-const js =
-`const div = document.createElement('div')
+}`;
+
+const js = `const div = document.createElement('div')
 div.classList.add('wrapper')
 div.style.background = '#dce1f5'
 
@@ -33,10 +30,10 @@ spinner.color = 'blue'
 spinner.cycle = '2'
 div.appendChild(spinner)
 
-document.body.appendChild(div)`
+document.body.appendChild(div)`;
 
 export default {
-    html: html,
-    css: css,
-    js: js
-}
+	html: html,
+	css: css,
+	js: js,
+};
