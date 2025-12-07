@@ -1,66 +1,65 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<link rel="icon" href="./demo/assets/icons/logo/logo.png" type="image/png" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Aero</title>
+		<link href="./demo/styles/index.css" rel="stylesheet" />
+	</head>
 
-<head>
-    <meta charset="UTF-8" />
-    <link rel="icon" href="./demo/assets/icons/logo/logo.png" type="image/png" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Aero</title>
-    <link href="./demo/styles/index.css" rel="stylesheet" />
-</head>
+	<body>
+		<header>
+			<figure>
+				<a href="./index.html">
+					<img id="logo" src="./demo/assets/icons/logo/logo.png" />
+				</a>
+			</figure>
 
-<body>
-    <header>
-        <figure>
-            <a href="./index.html">
-                <img id="logo" src="./demo/assets/icons/logo/logo.png" />
-            </a>
-        </figure>
+			<nav>
+				<ul>
+					<a href="./index.html"><li>Docs</li></a>
+				</ul>
+			</nav>
+		</header>
 
-        <nav>
-            <ul>
-                <a href="./index.html"><li>Docs</li></a>
-            </ul>
-        </nav>
-    </header>
+		<div class="divider"></div>
 
-    <div class="divider"></div>
+		<main>
+			<aside>
+				<nav>
+					<ul>
+						<li data-key="AeroNumericInput">Numeric Input</li>
+						<li data-key="AeroSpinbox">Spinbox</li>
+						<li data-key="AeroProgressSpinner">Progress Spinner</li>
+						<li data-key="AeroResizeBox">Resize Box</li>
+					</ul>
+				</nav>
+			</aside>
 
-    <main>
-        <aside>
-            <nav>
-                <ul>
-                    <li data-key="AeroNumericInput">Numeric Input</li>
-                    <li data-key="AeroSpinbox">Spinbox</li>
-                    <li data-key="AeroProgressSpinner">Progress Spinner</li>
-                    <li data-key="AeroResizeBox">Resize Box</li>
-                </ul>
-            </nav>
-        </aside>
+			<section>
+				<div class="preview-container">
+					<div class="preview-input">
+						<div class="html-box">
+							<label class="html-label">HTML</label>
+						</div>
+						<div class="css-box">
+							<label class="css-label">CSS</label>
+						</div>
+						<div class="javascript-box">
+							<label class="javascript-label">JavaScript</label>
+						</div>
+					</div>
 
-        <section>
-            <div class="preview-container">
-                <div class="preview-input">
-                    <div class="html-box">
-                        <label class="html-label">HTML</label>
-                    </div>
-                    <div class="css-box">
-                        <label class="css-label">CSS</label>
-                    </div>
-                    <div class="javascript-box">
-                        <label class="javascript-label">JavaScript</label>
-                    </div>
-                </div>
+					<div class="preview-output">
+						<iframe class="preview-iframe"></iframe>
+					</div>
+				</div>
+			</section>
+		</main>
+		
+		<footer></footer>
 
-                <div class="preview-output">
-                    <iframe class="preview-iframe"></iframe>
-                </div>
-            </div>
-        </section>
-    </main>
-    <footer></footer>
-
-    <script type="module" src="/demo/index.ts"></script>
-</body>
-
+		<script type="module" src="/demo/index.ts"></script>
+	</body>
 </html>

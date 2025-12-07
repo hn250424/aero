@@ -1,54 +1,54 @@
 .preview-container {
-    width: 100%;
-    height: 100%;
+	width: 100%;
+	height: 100%;
 
-    display: flex;
-    gap: 20px;
+	display: flex;
+	gap: 20px;
 }
 
 .preview-container > * {
-    flex: 1;
-    border: 1px solid #ccc;
-    padding: 10px;
+	flex: 1;
+	border: 1px solid #ccc;
+	padding: 10px;
 }
 
 .preview-input,
 .preview-output {
-    overflow: hidden;
+	overflow: hidden;
 }
 
 .preview-input {
-    height: 100%;
+	height: 100%;
 
-    display: flex;
-    flex-direction: column;
+	display: flex;
+	flex-direction: column;
 }
 
 .preview-input > * {
-    flex: 1;
+	flex: 1;
 }
 
 .preview-output {
-    height: 100%;
+	height: 100%;
 }
 
 .preview-iframe {
-    width: 100%;
-    height: 100%;
-    border: none;
+	width: 100%;
+	height: 100%;
+	border: none;
 }
 
 .html-box,
 .css-box,
 .javascript-box {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    overflow: hidden;
-    margin-bottom: 10px;
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+	overflow: hidden;
+	margin-bottom: 10px;
 }
 
 .cm-editor {
-    height: 150px;
-    overflow: auto;
+	height: 150px;
+	overflow: auto;
 }
