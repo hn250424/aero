@@ -13,6 +13,10 @@ ul {
 	list-style: none;
 }
 
+li:hover {
+	cursor: pointer;
+}
+
 .divider {
 	width: 100%;
 	min-height: 0.5px;
