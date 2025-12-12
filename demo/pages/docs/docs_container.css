@@ -1,0 +1,26 @@
+#docs-container {
+	display: flex;
+	gap: 20px;
+}
+
+.docs-container-aside {
+	width: 150px;
+	height: 100%;
+}
+
+.docs-container-aside > nav > ul li {
+	margin-bottom: 5px;
+	padding-left: 5px;
+}
+
+.docs-container-aside > nav > ul li:hover {
+	background-color: #ecebeb;
+}
+
+.docs-container-section {
+	width: 1000px;
+	height: 100%;
+	overflow: hidden;
+	display: flex;
+	justify-content: center;
+}

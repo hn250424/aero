@@ -3,36 +3,31 @@ import { indentUnit } from "@codemirror/language";
 import { html } from "@codemirror/lang-html";
 import { css } from "@codemirror/lang-css";
 import { javascript } from "@codemirror/lang-javascript";
+import { AERO_IMPORT_PATH } from "@demo/constants/path";
 
-import {
-	htmlBox,
-	cssBox,
-	javascriptBox,
-	playgroundIframe
-} from "../elements";
-
-function createEditor(
-	parent: HTMLElement,
-	extensions: any[],
-	onChange: () => void,
-) {
+function createEditor(parent: HTMLElement, extensions: any[], onChange: () => void) {
 	return new EditorView({
 		extensions: [
 			basicSetup,
 			indentUnit.of("    "),
 			...extensions,
-			EditorView.updateListener.of(onChange)
+			EditorView.updateListener.of(onChange),
 		],
-		parent: parent
-	})
+		parent: parent,
+	});
 }
 
-export function createPlaygroundEditors() {
+/**
+ * Creates HTML/CSS/JS editors inside the provided box elements.
+ * Each editor is bound to the given iframe and re-renders it whenever its content changes.
+ */
+export function createPlaygroundEditors(
+	$htmlBox: HTMLElement,
+	$cssBox: HTMLElement,
+	$javascriptBox: HTMLElement,
+	$playgroundIframe: HTMLIFrameElement,
+) {
 	const updatePlayground = () => {
-		const aeroImportPath = import.meta.env.DEV
-			? "/src/index.ts"
-			: `${import.meta.env.BASE_URL}aero.es.js`;
-
 		const doc = `
 			<html>
 				<head>
@@ -54,40 +49,23 @@ export function createPlaygroundEditors() {
 				<body>
 					${htmlEditor.state.doc.toString()}
 					<script type="module">
-						import * as aero from '${aeroImportPath}'
+						import * as aero from '${AERO_IMPORT_PATH}'
 						${javascriptEditor.state.doc.toString()}
 					</script>
 				</body>
 			</html>
 		`;
 
-		playgroundIframe.srcdoc = doc;
+		$playgroundIframe.srcdoc = doc;
 	};
 
-	const htmlEditor = createEditor(
-		htmlBox,
-		[html()],
-		updatePlayground
-	)
-
-	const cssEditor = createEditor(
-		cssBox,
-		[css()],
-		updatePlayground
-	)
-
-	const javascriptEditor = createEditor(
-		javascriptBox,
-		[javascript()],
-		updatePlayground
-	)
+	const htmlEditor = createEditor($htmlBox, [html()], updatePlayground);
+	const cssEditor = createEditor($cssBox, [css()], updatePlayground);
+	const javascriptEditor = createEditor($javascriptBox, [javascript()], updatePlayground);
 
 	return {
 		htmlEditor,
 		cssEditor,
-		javascriptEditor
-	}
+		javascriptEditor,
+	};
 }
-
-
-

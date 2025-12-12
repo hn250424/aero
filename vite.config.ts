@@ -15,4 +15,10 @@ export default defineConfig({
 			},
 		},
 	},
+
+	resolve: {
+		alias: {
+			'@demo': path.resolve(__dirname, './demo'),
+		}
+	}
 });

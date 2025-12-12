@@ -1,4 +1,5 @@
 import { defineConfig } from "vite";
+import path from "path";
 
 export default defineConfig({
 	base: "/aero/",
@@ -6,5 +7,9 @@ export default defineConfig({
 		outDir: "docs",
 		emptyOutDir: true,
 	},
+	resolve: {
+		alias: {
+			"@demo": path.resolve(__dirname, "./demo"),
+		},
+	},
 });
-
