@@ -1,24 +1,32 @@
 {
-	"name": "aero",
-	"private": true,
-	"version": "0.0.0",
-	"type": "module",
-	"scripts": {
-		"build:lib": "node scripts/build/build-lib.js",
-		"build:docs": "node scripts/build/build-docs.js",
-		"build:all": "npm run build:lib && npm run build:docs",
-		"preview:docs": "vite preview --config vite.config.docs.ts"
-	},
-	"devDependencies": {
-		"@types/node": "^24.5.0",
-		"typescript": "~5.8.3",
-		"vite": "^7.1.2",
-		"vite-plugin-dts": "^4.5.4"
-	},
-	"dependencies": {
-		"@codemirror/lang-css": "^6.3.1",
-		"@codemirror/lang-html": "^6.4.11",
-		"@codemirror/lang-javascript": "^6.2.4",
-		"codemirror": "^6.0.2"
-	}
+  "name": "aero",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "build:lib": "node scripts/build/build-lib.js",
+    "build:docs": "node scripts/build/build-docs.js",
+    "build:all": "npm run build:lib && npm run build:docs",
+    "preview:docs": "vite preview --config vite.config.docs.ts",
+    "docs:api:analyze": "npx cem analyze",
+    "docs:api:build": "node scripts/docs/cem-to-md.mjs",
+    "docs:api": "npm run docs:api:analyze && npm run docs:api:build"
+  },
+  "devDependencies": {
+    "@custom-elements-manifest/analyzer": "^0.11.0",
+    "@custom-elements-manifest/to-markdown": "^0.1.0",
+    "@types/node": "^24.5.0",
+    "typescript": "~5.8.3",
+    "vite": "^7.1.2",
+    "vite-plugin-dts": "^4.5.4"
+  },
+  "dependencies": {
+    "@codemirror/lang-css": "^6.3.1",
+    "@codemirror/lang-html": "^6.4.11",
+    "@codemirror/lang-javascript": "^6.2.4",
+    "codemirror": "^6.0.2",
+    "github-markdown-css": "^5.8.1",
+    "marked": "^17.0.1"
+  },
+  "customElements": "site/custom-elements.json"
 }
