@@ -1,12 +1,13 @@
-import { EditorView } from "@codemirror/view";
+import "./docs_playground.css"
+
+import type { ComponentKeys } from "../domain/component";
+import type { PlaygroundEditors } from "./domain";
+
+import { subscribeComponentChange } from "../store/component";
 import { createPlaygroundEditors } from "./editors";
-import * as widgets from "./widgets";
+import { widgets } from "./widgets";
 
 export default function initDocsPlayground() {
-	const $liElements = document.querySelectorAll(
-		".docs-container-aside nav li"
-	) as NodeListOf<HTMLElement>;
-
 	const $htmlBox = document.querySelector(".html-box") as HTMLElement;
 	const $cssBox = document.querySelector(".css-box") as HTMLElement;
 	const $javascriptBox = document.querySelector(".javascript-box") as HTMLElement;
@@ -14,34 +15,14 @@ export default function initDocsPlayground() {
 
 	const editors = createPlaygroundEditors($htmlBox, $cssBox, $javascriptBox, $playgroundIframe);
 
-	bindLiEvents($liElements, editors);
-
-	const firstKey = $liElements[0].dataset.key as keyof typeof widgets;
-	applyWidgetToEditors(firstKey, editors);
+	subscribeComponentChange(key => {
+		applyWidget(key as ComponentKeys, editors);
+	})
 }
 
-function bindLiEvents(
-	$liElements: NodeListOf<HTMLElement>,
-	editors: {
-		htmlEditor: EditorView,
-		cssEditor: EditorView,
-		javascriptEditor: EditorView,
-	}
-) {
-	$liElements.forEach((el) => {
-		el.addEventListener("click", () => {
-			applyWidgetToEditors(el.dataset.key as keyof typeof widgets, editors);
-		});
-	});
-}
-
-function applyWidgetToEditors<T extends keyof typeof widgets>(
-	key: T,
-	editors: {
-		htmlEditor: EditorView,
-		cssEditor: EditorView,
-		javascriptEditor: EditorView,
-	}
+function applyWidget(
+	key: ComponentKeys,
+	editors: PlaygroundEditors
 ) {
 	const widget = widgets[key];
 

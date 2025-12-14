@@ -2,7 +2,7 @@
 	"compilerOptions": {
 		"baseUrl": ".",
     "paths": {
-      "@demo/*": ["demo/*"]
+      "@site/*": ["site/*"]
     },
 
 		"target": "ES2022",
@@ -30,5 +30,5 @@
 		"declaration": true // docs.
 	},
 
-	"include": ["src", "demo"]
+	"include": ["src", "site"]
 }

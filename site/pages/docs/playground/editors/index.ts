@@ -3,7 +3,7 @@ import { indentUnit } from "@codemirror/language";
 import { html } from "@codemirror/lang-html";
 import { css } from "@codemirror/lang-css";
 import { javascript } from "@codemirror/lang-javascript";
-import { AERO_IMPORT_PATH } from "@demo/constants/path";
+import { AERO_IMPORT_PATH } from "@site/constants/path";
 
 function createEditor(parent: HTMLElement, extensions: any[], onChange: () => void) {
 	return new EditorView({

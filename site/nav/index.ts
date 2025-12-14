@@ -1,7 +1,7 @@
-import docsContainerHtml from "@demo/pages/docs/docs_container.html?raw";
-import aboutContainerHtml from "@demo/pages/about/about_container.html?raw";
+import docsContainerHtml from "@site/pages/docs/docs_container.html?raw";
+import aboutContainerHtml from "@site/pages/about/about_container.html?raw";
 
-import initDocs from "@demo/pages/docs";
+import initDocs from "@site/pages/docs";
 
 export default function navigate() {
 	const $main = document.querySelector("main") as HTMLElement;
