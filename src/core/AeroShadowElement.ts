@@ -20,6 +20,34 @@ export default class AeroShadowElement extends HTMLElement {
 		tag.textContent = style;
 		this.shadow.appendChild(tag);
 	}
+
+	protected forwardNativeEvent(type: string) {
+		this.dispatchEvent(
+			new Event(type, {
+				bubbles: true,
+				composed: true
+			})
+		)
+	}
+
+	protected forwardCustomEvent(
+		type: string,
+		options?: {
+			detail?: unknown,
+			originalEvent?: Event,
+		}
+	) {
+		this.dispatchEvent(
+			new CustomEvent(
+				type,
+				{
+					detail: options?.detail,
+					bubbles: true,
+					composed: true,
+				}
+			)
+		)
+	}
 }
 
 // TODO - Which is better: enforcing strict usage or allowing default HTML inheritance?

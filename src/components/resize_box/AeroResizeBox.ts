@@ -64,6 +64,8 @@ export default class AeroResizeBox extends AeroShadowElement {
 						this._nMaxHeight
 					);
 					this.style.height = `${newHeight}px`;
+					this.emitResize(null, newHeight);
+
 				} else if (this.isBottomDragging) {
 					const offsetY = e.clientY - rect.top;
 					const newHeight = Math.min(
@@ -71,6 +73,8 @@ export default class AeroResizeBox extends AeroShadowElement {
 						this._nMaxHeight
 					);
 					this.style.height = `${newHeight}px`;
+					this.emitResize(null, newHeight);
+
 				} else if (this.isLeftDragging) {
 					const offsetX = rect.right - e.clientX;
 					const newWidth = Math.min(
@@ -78,6 +82,8 @@ export default class AeroResizeBox extends AeroShadowElement {
 						this._nMaxWidth
 					);
 					this.style.width = `${newWidth}px`;
+					this.emitResize(newWidth, null);
+
 				} else if (this.isRightDragging) {
 					const offsetX = e.clientX - rect.left;
 					const newWidth = Math.min(
@@ -85,12 +91,20 @@ export default class AeroResizeBox extends AeroShadowElement {
 						this._nMaxWidth
 					);
 					this.style.width = `${newWidth}px`;
+					this.emitResize(newWidth, null);
+
 				}
 			});
 		});
 
 		document.addEventListener("mouseup", () => {
 			if (!this.isDragging) return;
+			this.forwardCustomEvent("aero-resize-end", {
+				detail: {
+					width: this.offsetWidth,
+					height: this.offsetHeight,
+				}
+			})
 
 			if (this.animationFrameId) {
 				cancelAnimationFrame(this.animationFrameId);
@@ -115,6 +129,13 @@ export default class AeroResizeBox extends AeroShadowElement {
 		e.preventDefault();
 		document.body.style.userSelect = "none";
 		this.isDragging = true;
+		this.forwardCustomEvent("aero-resize-start", {
+			detail: {
+				width: this.offsetWidth,
+				height: this.offsetHeight,
+				edge: resizer
+			}
+		})
 
 		switch (resizer) {
 			case "top":
@@ -135,6 +156,15 @@ export default class AeroResizeBox extends AeroShadowElement {
 				break;
 		}
 	};
+
+	private emitResize(width: number | null, height: number | null) {
+		this.forwardCustomEvent("aero-resize", {
+			detail: {
+				width: width,
+				height: height
+			}
+		})
+	}
 
 	static get observedAttributes() {
 		return [
@@ -192,74 +222,51 @@ export default class AeroResizeBox extends AeroShadowElement {
 		},
 	};
 
-	// TODO: extract common logic ?
-	private updateTopResizerState(bool: boolean | null) {
-		this._hasTopResizer = bool ? bool : false;
-
-		if (this._hasTopResizer) {
-			this._topResizer.style.display = "block";
-			this._topResizer.addEventListener("mousedown", this.resizerHandlers.top);
-		} else {
-			this._topResizer.style.display = "none";
-			this._topResizer.removeEventListener(
-				"mousedown",
-				this.resizerHandlers.top
-			);
-		}
+	private updateTopResizerState(enabled: boolean) {
+		this._hasTopResizer = enabled;
+		this.updateResizeState(
+			this._topResizer,
+			this._hasTopResizer,
+			this.resizerHandlers.top
+		)
 	}
 
-	private updateBottomResizerState(bool: boolean | null) {
-		this._hasBottomResizer = bool ? bool : false;
-
-		if (this._hasBottomResizer) {
-			this._bottomResizer.style.display = "block";
-			this._bottomResizer.addEventListener(
-				"mousedown",
-				this.resizerHandlers.bottom
-			);
-		} else {
-			this._bottomResizer.style.display = "none";
-			this._bottomResizer.removeEventListener(
-				"mousedown",
-				this.resizerHandlers.bottom
-			);
-		}
+	private updateBottomResizerState(enabled: boolean) {
+		this._hasBottomResizer = enabled;
+		this.updateResizeState(
+			this._bottomResizer,
+			this._hasBottomResizer,
+			this.resizerHandlers.bottom
+		)
 	}
 
-	private updateLeftResizerState(bool: boolean | null) {
-		this._hasLeftResizer = bool ? bool : false;
-
-		if (this._hasLeftResizer) {
-			this._leftResizer.style.display = "block";
-			this._leftResizer.addEventListener(
-				"mousedown",
-				this.resizerHandlers.left
-			);
-		} else {
-			this._leftResizer.style.display = "none";
-			this._leftResizer.removeEventListener(
-				"mousedown",
-				this.resizerHandlers.left
-			);
-		}
+	private updateLeftResizerState(enabled: boolean) {
+		this._hasLeftResizer = enabled;
+		this.updateResizeState(
+			this._leftResizer,
+			this._hasLeftResizer,
+			this.resizerHandlers.left
+		)
 	}
 
-	private updateRightResizerState(bool: boolean | null) {
-		this._hasRightResizer = bool ? bool : false;
+	private updateRightResizerState(enabled: boolean) {
+		this._hasRightResizer = enabled;
+		this.updateResizeState(
+			this._rightResizer,
+			this._hasRightResizer,
+			this.resizerHandlers.right
+		)
+	}
 
-		if (this._hasRightResizer) {
-			this._rightResizer.style.display = "block";
-			this._rightResizer.addEventListener(
-				"mousedown",
-				this.resizerHandlers.right
-			);
-		} else {
-			this._rightResizer.style.display = "none";
-			this._rightResizer.removeEventListener(
-				"mousedown",
-				this.resizerHandlers.right
-			);
-		}
+	private updateResizeState(
+		resizer: HTMLElement,
+		enabled: boolean,
+		handler: (e: MouseEvent) => void,
+	) {
+		resizer.hidden = !enabled;
+
+		if (enabled) resizer.addEventListener("mousedown", handler);
+		else resizer.removeEventListener("mousedown", handler);
 	}
 
 	private updateMinWidthValue(val: string | null) {
