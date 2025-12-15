@@ -11,7 +11,10 @@ export default abstract class BaseAeroNumericInput extends AeroShadowElement {
 
 	protected constructor(htmlTemplate: string) {
 		super(htmlTemplate);
+
 		this.initializeInput();
+
+		this.dispatchInputEvents();
 
 		this.updateMinValue(this.getAttribute("min"));
 		this.updateMaxValue(this.getAttribute("max"));
@@ -25,10 +28,6 @@ export default abstract class BaseAeroNumericInput extends AeroShadowElement {
 
 	private initializeInput() {
 		this._input = this.query(this.getInputSelector());
-		this._input.addEventListener("focusout", () => {
-			const validatedValue = this.getValidateValue(this._input.value);
-			this._input.value = validatedValue;
-		});
 	}
 
 	protected getValidateValue(value: string): string {
@@ -40,6 +39,27 @@ export default abstract class BaseAeroNumericInput extends AeroShadowElement {
 			)
 		);
 		return newValue.toFixed(Number(this._decimalPlaces));
+	}
+
+	private dispatchInputEvents() {
+		this._input.addEventListener("input", () => {
+			this.forwardNativeEvent("input")
+		})
+
+		this._input.addEventListener("change", () => {
+			this.forwardNativeEvent("change")
+		})
+
+		this._input.addEventListener("focusin", () => {
+			this.forwardNativeEvent("focusin")
+		})
+
+		this._input.addEventListener("focusout", () => {
+			const validatedValue = this.getValidateValue(this._input.value);
+			this._input.value = validatedValue;
+
+			this.forwardNativeEvent("focusout")
+		})
 	}
 
 	static get observedAttributes() {
