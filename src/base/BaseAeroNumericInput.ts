@@ -1,4 +1,4 @@
-import AeroShadowElement from "../core/AeroShadowElement";
+import { AeroShadowElement } from "../core/AeroShadowElement";
 
 /**
  * @module base
@@ -16,7 +16,7 @@ import AeroShadowElement from "../core/AeroShadowElement";
  * @fires focusin - Fired when the element receives focus.
  * @fires focusout - Fired when the element loses focus.
  */
-export default abstract class BaseAeroNumericInput extends AeroShadowElement {
+export abstract class BaseAeroNumericInput extends AeroShadowElement {
 	/**
 	 * The underlying HTML input element.
 	 * @private
@@ -66,8 +66,6 @@ export default abstract class BaseAeroNumericInput extends AeroShadowElement {
 		this.updateMinValue(this.getAttribute("min"));
 		this.updateMaxValue(this.getAttribute("max"));
 		this.updateStepValue(this.getAttribute("step"));
-		// const value = this.getAttribute("value") ?? "0";
-		// this._input.value = value;
 	}
 
 	/**
@@ -179,7 +177,7 @@ export default abstract class BaseAeroNumericInput extends AeroShadowElement {
 	 * @private
 	 */
 	private updateInputValue(val: string | null) {
-		this._value = val ? val : "0";
+		this._value = val ? this.getValidateValue(val) : "0";
 		this._input.value = this._value;
 	}
 

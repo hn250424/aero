@@ -1,4 +1,4 @@
-import BaseAeroNumericInput from "../../base/BaseAeroNumericInput";
+import { BaseAeroNumericInput } from "../../base/BaseAeroNumericInput";
 import aeroNumericInputHtmlTemplate from "./AeroNumericInput.html?raw";
 
 /**
@@ -10,7 +10,7 @@ import aeroNumericInputHtmlTemplate from "./AeroNumericInput.html?raw";
  *
  * @extends BaseAeroNumericInput
  */
-export default class AeroNumericInput extends BaseAeroNumericInput {
+export class AeroNumericInput extends BaseAeroNumericInput {
 	constructor() {
 		super(aeroNumericInputHtmlTemplate);
 	}

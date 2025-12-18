@@ -1,4 +1,4 @@
-import AeroShadowElement from "../../core/AeroShadowElement";
+import { AeroShadowElement } from "../../core/AeroShadowElement";
 import aeroProgressSpinnerHtmlTemplate from "./AeroProgressSpinner.html?raw";
 
 /**
@@ -16,7 +16,7 @@ import aeroProgressSpinnerHtmlTemplate from "./AeroProgressSpinner.html?raw";
  * @property {string} color - The color of the spinner's moving part.
  * @property {string} cycle - The duration of one spin cycle in seconds.
  */
-export default class AeroProgressSpinner extends AeroShadowElement {
+export class AeroProgressSpinner extends AeroShadowElement {
 	constructor() {
 		super(aeroProgressSpinnerHtmlTemplate);
 		this.updateSpinnerStyles();

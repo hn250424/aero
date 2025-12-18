@@ -2,7 +2,10 @@
 	"compilerOptions": {
 		"baseUrl": ".",
     "paths": {
-      "@site/*": ["site/*"]
+      "@site/*": ["site/*"],
+      "@core/*": ["src/core/*"],
+      "@base/*": ["src/base/*"],
+      "@components/*": ["src/components/*"]
     },
 
 		"target": "ES2022",
@@ -30,5 +33,5 @@
 		"declaration": true // docs.
 	},
 
-	"include": ["src", "site"]
+	"include": ["src", "site", "tests"]
 }

@@ -1,4 +1,4 @@
-import { default as BaseAeroNumericInput } from '../../base/BaseAeroNumericInput';
+import { BaseAeroNumericInput } from '../../base/BaseAeroNumericInput';
 /**
  * @module components
  */
@@ -7,7 +7,7 @@ import { default as BaseAeroNumericInput } from '../../base/BaseAeroNumericInput
  *
  * @extends BaseAeroNumericInput
  */
-export default class AeroNumericInput extends BaseAeroNumericInput {
+export declare class AeroNumericInput extends BaseAeroNumericInput {
     constructor();
     /**
      * Returns the CSS selector for the internal input element.

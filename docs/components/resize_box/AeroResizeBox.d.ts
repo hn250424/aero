@@ -1,4 +1,4 @@
-import { default as AeroShadowElement } from '../../core/AeroShadowElement';
+import { AeroShadowElement } from '../../core/AeroShadowElement';
 /**
  * @module components
  */
@@ -13,7 +13,7 @@ import { default as AeroShadowElement } from '../../core/AeroShadowElement';
  *
  * @slot - The default slot for content to be placed inside the resizable box.
  */
-export default class AeroResizeBox extends AeroShadowElement {
+export declare class AeroResizeBox extends AeroShadowElement {
     private _topResizer;
     private _bottomResizer;
     private _leftResizer;
