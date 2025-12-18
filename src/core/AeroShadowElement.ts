@@ -8,7 +8,7 @@
  *
  * @abstract
  */
-export default class AeroShadowElement extends HTMLElement {
+export class AeroShadowElement extends HTMLElement {
 	/**
 	 * The shadow root for this element.
 	 * @protected

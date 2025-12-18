@@ -1,4 +1,4 @@
-import { default as BaseAeroNumericInput } from '../../base/BaseAeroNumericInput';
+import { BaseAeroNumericInput } from '../../base/BaseAeroNumericInput';
 /**
  * @module components
  */
@@ -8,7 +8,7 @@ import { default as BaseAeroNumericInput } from '../../base/BaseAeroNumericInput
  * @extends BaseAeroNumericInput
  *
  */
-export default class AeroSpinbox extends BaseAeroNumericInput {
+export declare class AeroSpinbox extends BaseAeroNumericInput {
     /**
      * The decrement button element.
      * @private

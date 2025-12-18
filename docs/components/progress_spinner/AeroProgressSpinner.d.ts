@@ -1,4 +1,4 @@
-import { default as AeroShadowElement } from '../../core/AeroShadowElement';
+import { AeroShadowElement } from '../../core/AeroShadowElement';
 /**
  * @module components
  */
@@ -13,7 +13,7 @@ import { default as AeroShadowElement } from '../../core/AeroShadowElement';
  * @property {string} color - The color of the spinner's moving part.
  * @property {string} cycle - The duration of one spin cycle in seconds.
  */
-export default class AeroProgressSpinner extends AeroShadowElement {
+export declare class AeroProgressSpinner extends AeroShadowElement {
     constructor();
     /**
      * Specifies the observed attributes for the custom element.

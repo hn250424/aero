@@ -10,7 +10,8 @@
     "preview:docs": "vite preview --config vite.config.docs.ts",
     "docs:api:analyze": "npx cem analyze",
     "docs:api:build": "node scripts/docs/generate-docs-from-cem.mjs",
-    "docs:api": "npm run docs:api:analyze && npm run docs:api:build"
+    "docs:api": "npm run docs:api:analyze && npm run docs:api:build",
+		"test": "npx vitest"
   },
   "devDependencies": {
     "@custom-elements-manifest/analyzer": "^0.11.0",
@@ -19,7 +20,8 @@
     "jsdom": "^27.3.0",
     "typescript": "~5.8.3",
     "vite": "^7.1.2",
-    "vite-plugin-dts": "^4.5.4"
+    "vite-plugin-dts": "^4.5.4",
+    "vitest": "^4.0.16"
   },
   "dependencies": {
     "@codemirror/lang-css": "^6.3.1",

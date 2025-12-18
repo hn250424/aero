@@ -1,5 +1,5 @@
 import aeroSpinboxHtmlTemplate from "./AeroSpinbox.html?raw";
-import BaseAeroNumericInput from "../../base/BaseAeroNumericInput";
+import { BaseAeroNumericInput } from "../../base/BaseAeroNumericInput";
 
 /**
  * @module components
@@ -11,7 +11,7 @@ import BaseAeroNumericInput from "../../base/BaseAeroNumericInput";
  * @extends BaseAeroNumericInput
  *
  */
-export default class AeroSpinbox extends BaseAeroNumericInput {
+export class AeroSpinbox extends BaseAeroNumericInput {
 	/**
 	 * The decrement button element.
 	 * @private
@@ -191,15 +191,15 @@ export default class AeroSpinbox extends BaseAeroNumericInput {
 	 */
 	decrement() {
 		const num = Number(this.input.value) - Number(this.step);
-		this.input.value = this.getValidateValue(num.toString());
+		this.value = this.getValidateValue(num.toString());
 	}
 
 	/**
 	 * Increments the input value by the step amount.
 	 */
 	increment() {
-		let num = Number(this.input.value) + Number(this.step);
-		this.input.value = this.getValidateValue(num.toString());
+		const num = Number(this.input.value) + Number(this.step);
+		this.value = this.getValidateValue(num.toString());
 	}
 }
 

@@ -1,4 +1,4 @@
-import AeroShadowElement from "../../core/AeroShadowElement";
+import { AeroShadowElement } from "../../core/AeroShadowElement";
 import aeroResizeBoxHtmlTemplate from "./AeroResizeBox.html?raw";
 
 /**
@@ -16,7 +16,7 @@ import aeroResizeBoxHtmlTemplate from "./AeroResizeBox.html?raw";
  *
  * @slot - The default slot for content to be placed inside the resizable box.
  */
-export default class AeroResizeBox extends AeroShadowElement {
+export class AeroResizeBox extends AeroShadowElement {
 	private _topResizer!: HTMLElement;
 	private _bottomResizer!: HTMLElement;
 	private _leftResizer!: HTMLElement;

@@ -181,7 +181,7 @@ class o extends n {
    * @private
    */
   updateInputValue(t) {
-    this._value = t || "0", this._input.value = this._value;
+    this._value = t ? this.getValidateValue(t) : "0", this._input.value = this._value;
   }
   /**
    * Updates the internal `_min` value.
@@ -506,14 +506,14 @@ class l extends o {
    */
   decrement() {
     const t = Number(this.input.value) - Number(this.step);
-    this.input.value = this.getValidateValue(t.toString());
+    this.value = this.getValidateValue(t.toString());
   }
   /**
    * Increments the input value by the step amount.
    */
   increment() {
-    let t = Number(this.input.value) + Number(this.step);
-    this.input.value = this.getValidateValue(t.toString());
+    const t = Number(this.input.value) + Number(this.step);
+    this.value = this.getValidateValue(t.toString());
   }
 }
 customElements.define("aero-spinbox", l);

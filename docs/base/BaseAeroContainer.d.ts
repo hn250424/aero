@@ -1,4 +1,4 @@
-import { default as AeroShadowElement } from '../core/AeroShadowElement';
+import { AeroShadowElement } from '../core/AeroShadowElement';
 /**
  * @module base
  */
@@ -9,7 +9,7 @@ import { default as AeroShadowElement } from '../core/AeroShadowElement';
  * @extends AeroShadowElement
  * @abstract
  */
-export default class BaseAeroContainer extends AeroShadowElement {
+export declare class BaseAeroContainer extends AeroShadowElement {
     /**
      * @param {string} htmlTemplate - The HTML string to be used as the template for the shadow DOM.
      * @protected

@@ -1,4 +1,4 @@
-import { default as AeroShadowElement } from '../core/AeroShadowElement';
+import { AeroShadowElement } from '../core/AeroShadowElement';
 /**
  * @module base
  */
@@ -14,7 +14,7 @@ import { default as AeroShadowElement } from '../core/AeroShadowElement';
  * @fires focusin - Fired when the element receives focus.
  * @fires focusout - Fired when the element loses focus.
  */
-export default abstract class BaseAeroNumericInput extends AeroShadowElement {
+export declare abstract class BaseAeroNumericInput extends AeroShadowElement {
     /**
      * The underlying HTML input element.
      * @private
