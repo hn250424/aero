@@ -9,13 +9,14 @@
     "build:all": "npm run build:lib && npm run build:docs",
     "preview:docs": "vite preview --config vite.config.docs.ts",
     "docs:api:analyze": "npx cem analyze",
-    "docs:api:build": "node scripts/docs/cem-to-md.mjs",
+    "docs:api:build": "node scripts/docs/generate-docs-from-cem.mjs",
     "docs:api": "npm run docs:api:analyze && npm run docs:api:build"
   },
   "devDependencies": {
     "@custom-elements-manifest/analyzer": "^0.11.0",
     "@custom-elements-manifest/to-markdown": "^0.1.0",
     "@types/node": "^24.5.0",
+    "jsdom": "^27.3.0",
     "typescript": "~5.8.3",
     "vite": "^7.1.2",
     "vite-plugin-dts": "^4.5.4"

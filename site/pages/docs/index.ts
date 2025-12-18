@@ -1,11 +1,11 @@
 import "./docs_container.css";
 
 import docsIntroductionHtml from "./introduction/docs_introduction.html?raw";
-import docsApiReferenceHtml from "./api_reference/docs_api_reference.html?raw";
+import docsApiHtml from "./api/docs_api.html?raw";
 import docsPlaygroundHtml from "./playground/docs_playground.html?raw";
 
 import initDocsIntroduction from "./introduction";
-import initDocsApiReference from "./api_reference";
+import initDocsApi from "./api";
 import initDocsPlayground from "./playground";
 
 import { selectComponent, getCurrentComponentKey } from "./store/component";
@@ -17,10 +17,10 @@ export default function initDocs() {
 	) as NodeListOf<HTMLElement>;
 
 	const $article = document.querySelector(".docs-container-article") as HTMLElement;
-	$article.innerHTML = docsIntroductionHtml + docsApiReferenceHtml + docsPlaygroundHtml;
+	$article.innerHTML = docsIntroductionHtml + docsApiHtml + docsPlaygroundHtml;
 
 	initDocsIntroduction();
-	initDocsApiReference();
+	initDocsApi();
 	initDocsPlayground();
 
 	$liElements.forEach(el => {

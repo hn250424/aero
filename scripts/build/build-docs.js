@@ -1,11 +1,11 @@
 import { execSync } from "child_process";
-import { rmSync, mkdirSync, cpSync, existsSync } from "fs";
+import { cpSync, existsSync } from "fs";
 import path from "path";
 
 const rootDir = path.resolve();
 
 const srcDir = path.resolve("src");
-const demoDir = path.resolve("demo");
+const siteDir = path.resolve("site");
 
 const libDir = path.resolve("lib");
 const docsDir = path.resolve("docs");
