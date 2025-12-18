@@ -6,40 +6,7 @@
       "kind": "javascript-module",
       "path": "src/index.ts",
       "declarations": [],
-      "exports": [
-        {
-          "kind": "js",
-          "name": "AeroNumericInput",
-          "declaration": {
-            "name": "default",
-            "module": "./components/numeric_input/AeroNumericInput"
-          }
-        },
-        {
-          "kind": "js",
-          "name": "AeroSpinbox",
-          "declaration": {
-            "name": "default",
-            "module": "./components/spinbox/AeroSpinbox"
-          }
-        },
-        {
-          "kind": "js",
-          "name": "AeroProgressSpinner",
-          "declaration": {
-            "name": "default",
-            "module": "./components/progress_spinner/AeroProgressSpinner"
-          }
-        },
-        {
-          "kind": "js",
-          "name": "AeroResizeBox",
-          "declaration": {
-            "name": "default",
-            "module": "./components/resize_box/AeroResizeBox"
-          }
-        }
-      ]
+      "exports": []
     },
     {
       "kind": "javascript-module",
@@ -47,116 +14,48 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "",
+          "description": "A base class for container-like elements, providing common functionality\nsuch as handling a background attribute.",
           "name": "BaseAeroContainer",
           "members": [
             {
               "kind": "field",
-              "name": "baseAeroContainerAttributeHandlers",
-              "type": {
-                "text": "Record<\r\n\t\tstring,\r\n\t\t(newValue: string | null) => void\r\n\t>"
-              },
-              "privacy": "private",
-              "default": "{ background: (newValue) => { this.updateBackground(newValue); }, }"
-            },
-            {
-              "kind": "method",
-              "name": "updateBackground",
+              "name": "containerBackground",
+              "description": "Sets the background of the container.",
               "parameters": [
                 {
+                  "description": "The new background value.",
                   "name": "val",
                   "type": {
-                    "text": "string | null"
-                  }
-                }
-              ]
-            },
-            {
-              "kind": "field",
-              "name": "containerBackground"
-            },
-            {
-              "kind": "field",
-              "name": "shadow",
-              "type": {
-                "text": "ShadowRoot"
-              },
-              "privacy": "protected",
-              "inheritedFrom": {
-                "name": "AeroShadowElement",
-                "module": "src/core/AeroShadowElement.ts"
-              }
-            },
-            {
-              "kind": "method",
-              "name": "query",
-              "privacy": "protected",
-              "return": {
-                "type": {
-                  "text": "T"
-                }
-              },
-              "parameters": [
-                {
-                  "name": "selector",
-                  "type": {
                     "text": "string"
                   }
                 }
               ],
-              "inheritedFrom": {
-                "name": "AeroShadowElement",
-                "module": "src/core/AeroShadowElement.ts"
-              }
-            },
-            {
-              "kind": "method",
-              "name": "applyStyles",
-              "privacy": "protected",
-              "parameters": [
-                {
-                  "name": "style",
-                  "type": {
-                    "text": "string"
-                  }
-                }
-              ],
-              "inheritedFrom": {
-                "name": "AeroShadowElement",
-                "module": "src/core/AeroShadowElement.ts"
-              }
-            },
-            {
-              "kind": "field",
-              "name": "innerHTML",
-              "default": "htmlTemplate",
-              "inheritedFrom": {
-                "name": "AeroShadowElement",
-                "module": "src/core/AeroShadowElement.ts"
-              }
+              "attribute": "containerBackground"
             }
           ],
           "attributes": [
             {
               "name": "background"
+            },
+            {
+              "name": "containerBackground",
+              "description": "Sets the background of the container.",
+              "parameters": [
+                {
+                  "description": "The new background value.",
+                  "name": "val",
+                  "type": {
+                    "text": "string"
+                  }
+                }
+              ],
+              "fieldName": "containerBackground"
             }
           ],
-          "superclass": {
-            "name": "AeroShadowElement",
-            "module": "/src/core/AeroShadowElement"
-          }
+          "events": []
         }
       ],
-      "exports": [
-        {
-          "kind": "js",
-          "name": "default",
-          "declaration": {
-            "name": "BaseAeroContainer",
-            "module": "src/base/BaseAeroContainer.ts"
-          }
-        }
-      ]
+      "exports": []
     },
     {
       "kind": "javascript-module",
@@ -164,246 +63,118 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "",
+          "description": "An abstract base class for numeric input elements. It provides core functionalities\r\nfor handling numeric values, including min, max, and step attributes.",
           "name": "BaseAeroNumericInput",
           "members": [
             {
               "kind": "field",
-              "name": "_input",
+              "name": "input",
+              "description": "The underlying HTML input element.",
               "type": {
                 "text": "HTMLInputElement"
               },
-              "privacy": "private"
-            },
-            {
-              "kind": "field",
-              "name": "_min",
-              "type": {
-                "text": "string"
-              },
-              "privacy": "private"
-            },
-            {
-              "kind": "field",
-              "name": "_max",
-              "type": {
-                "text": "string"
-              },
-              "privacy": "private"
-            },
-            {
-              "kind": "field",
-              "name": "_step",
-              "type": {
-                "text": "string"
-              },
-              "privacy": "private"
-            },
-            {
-              "kind": "field",
-              "name": "_decimalPlaces",
-              "type": {
-                "text": "string"
-              },
-              "privacy": "private"
-            },
-            {
-              "kind": "method",
-              "name": "getInputSelector",
-              "privacy": "protected",
-              "return": {
-                "type": {
-                  "text": "string"
-                }
-              }
-            },
-            {
-              "kind": "method",
-              "name": "initializeInput",
-              "privacy": "private"
-            },
-            {
-              "kind": "method",
-              "name": "getValidateValue",
-              "privacy": "protected",
-              "return": {
-                "type": {
-                  "text": "string"
-                }
-              },
-              "parameters": [
-                {
-                  "name": "value",
-                  "type": {
-                    "text": "string"
-                  }
-                }
-              ]
-            },
-            {
-              "kind": "field",
-              "name": "baseAeroNumericInputAttributeHandlers",
-              "type": {
-                "text": "Record<\r\n\t\tstring,\r\n\t\t(newValue: string | null) => void\r\n\t>"
-              },
-              "privacy": "private",
-              "default": "{ min: (newValue) => { this.updateMinValue(newValue); }, max: (newValue) => { this.updateMaxValue(newValue); }, step: (newValue) => { this.updateStepValue(newValue); }, }"
-            },
-            {
-              "kind": "method",
-              "name": "updateMinValue",
-              "privacy": "private",
-              "parameters": [
-                {
-                  "name": "val",
-                  "type": {
-                    "text": "string | null"
-                  }
-                }
-              ]
-            },
-            {
-              "kind": "method",
-              "name": "updateMaxValue",
-              "privacy": "private",
-              "parameters": [
-                {
-                  "name": "val",
-                  "type": {
-                    "text": "string | null"
-                  }
-                }
-              ]
-            },
-            {
-              "kind": "method",
-              "name": "updateStepValue",
-              "privacy": "private",
-              "parameters": [
-                {
-                  "name": "val",
-                  "type": {
-                    "text": "string | null"
-                  }
-                }
-              ]
-            },
-            {
-              "kind": "field",
-              "name": "input",
               "readonly": true
             },
             {
               "kind": "field",
               "name": "value",
-              "default": "value"
-            },
-            {
-              "kind": "field",
-              "name": "min"
-            },
-            {
-              "kind": "field",
-              "name": "max"
-            },
-            {
-              "kind": "field",
-              "name": "step"
-            },
-            {
-              "kind": "field",
-              "name": "decimalPlaces",
-              "privacy": "protected",
-              "readonly": true
-            },
-            {
-              "kind": "field",
-              "name": "shadow",
+              "description": "The current value of the numeric input.",
               "type": {
-                "text": "ShadowRoot"
+                "text": "string"
               },
-              "privacy": "protected",
-              "inheritedFrom": {
-                "name": "AeroShadowElement",
-                "module": "src/core/AeroShadowElement.ts"
-              }
-            },
-            {
-              "kind": "method",
-              "name": "query",
-              "privacy": "protected",
-              "return": {
-                "type": {
-                  "text": "T"
-                }
-              },
-              "parameters": [
-                {
-                  "name": "selector",
-                  "type": {
-                    "text": "string"
-                  }
-                }
-              ],
-              "inheritedFrom": {
-                "name": "AeroShadowElement",
-                "module": "src/core/AeroShadowElement.ts"
-              }
-            },
-            {
-              "kind": "method",
-              "name": "applyStyles",
-              "privacy": "protected",
-              "parameters": [
-                {
-                  "name": "style",
-                  "type": {
-                    "text": "string"
-                  }
-                }
-              ],
-              "inheritedFrom": {
-                "name": "AeroShadowElement",
-                "module": "src/core/AeroShadowElement.ts"
-              }
+              "default": "\"0\"",
+              "attribute": "value"
             },
             {
               "kind": "field",
-              "name": "innerHTML",
-              "default": "htmlTemplate",
-              "inheritedFrom": {
-                "name": "AeroShadowElement",
-                "module": "src/core/AeroShadowElement.ts"
-              }
+              "name": "min",
+              "description": "The minimum allowed value.",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"0\"",
+              "attribute": "min"
+            },
+            {
+              "kind": "field",
+              "name": "max",
+              "description": "The maximum allowed value.",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"100\"",
+              "attribute": "max"
+            },
+            {
+              "kind": "field",
+              "name": "step",
+              "description": "The stepping interval for the numeric input.",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"1\"",
+              "attribute": "step"
+            }
+          ],
+          "events": [
+            {
+              "description": "Fired when the value of the element has changed.",
+              "name": "input"
+            },
+            {
+              "description": "Fired when the value of the element has been committed by the user.",
+              "name": "change"
+            },
+            {
+              "description": "Fired when the element receives focus.",
+              "name": "focusin"
+            },
+            {
+              "description": "Fired when the element loses focus.",
+              "name": "focusout"
             }
           ],
           "attributes": [
             {
-              "name": "min"
+              "name": "value",
+              "description": "The current value of the numeric input.",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"0\"",
+              "fieldName": "value"
             },
             {
-              "name": "max"
+              "name": "min",
+              "description": "The minimum allowed value.",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"0\"",
+              "fieldName": "min"
             },
             {
-              "name": "step"
+              "name": "max",
+              "description": "The maximum allowed value.",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"100\"",
+              "fieldName": "max"
+            },
+            {
+              "name": "step",
+              "description": "The stepping interval for the numeric input.",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"1\"",
+              "fieldName": "step"
             }
-          ],
-          "superclass": {
-            "name": "AeroShadowElement",
-            "module": "/src/core/AeroShadowElement"
-          }
+          ]
         }
       ],
-      "exports": [
-        {
-          "kind": "js",
-          "name": "default",
-          "declaration": {
-            "name": "BaseAeroNumericInput",
-            "module": "src/base/BaseAeroNumericInput.ts"
-          }
-        }
-      ]
+      "exports": []
     },
     {
       "kind": "javascript-module",
@@ -411,70 +182,14 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "",
+          "description": "`AeroShadowElement` is an abstract base class that simplifies the creation of custom elements\r\nwith a shadow DOM. It handles the boilerplate of creating a shadow root and cloning a template.",
           "name": "AeroShadowElement",
-          "members": [
-            {
-              "kind": "field",
-              "name": "shadow",
-              "type": {
-                "text": "ShadowRoot"
-              },
-              "privacy": "protected"
-            },
-            {
-              "kind": "method",
-              "name": "query",
-              "privacy": "protected",
-              "return": {
-                "type": {
-                  "text": "T"
-                }
-              },
-              "parameters": [
-                {
-                  "name": "selector",
-                  "type": {
-                    "text": "string"
-                  }
-                }
-              ]
-            },
-            {
-              "kind": "method",
-              "name": "applyStyles",
-              "privacy": "protected",
-              "parameters": [
-                {
-                  "name": "style",
-                  "type": {
-                    "text": "string"
-                  }
-                }
-              ]
-            },
-            {
-              "kind": "field",
-              "name": "innerHTML",
-              "default": "htmlTemplate"
-            }
-          ],
-          "superclass": {
-            "name": "HTMLElement"
-          },
+          "members": [],
+          "events": [],
           "customElement": true
         }
       ],
-      "exports": [
-        {
-          "kind": "js",
-          "name": "default",
-          "declaration": {
-            "name": "AeroShadowElement",
-            "module": "src/core/AeroShadowElement.ts"
-          }
-        }
-      ]
+      "exports": []
     },
     {
       "kind": "javascript-module",
@@ -482,181 +197,16 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "",
+          "description": "A numeric input web component.",
           "name": "AeroNumericInput",
           "members": [
             {
-              "kind": "method",
-              "name": "getInputSelector",
-              "privacy": "protected",
-              "return": {
-                "type": {
-                  "text": "string"
-                }
-              },
-              "inheritedFrom": {
-                "name": "BaseAeroNumericInput",
-                "module": "src/base/BaseAeroNumericInput.ts"
-              }
-            },
-            {
               "kind": "field",
-              "name": "_input",
+              "name": "input",
+              "description": "The underlying HTML input element.",
               "type": {
                 "text": "HTMLInputElement"
               },
-              "privacy": "private",
-              "inheritedFrom": {
-                "name": "BaseAeroNumericInput",
-                "module": "src/base/BaseAeroNumericInput.ts"
-              }
-            },
-            {
-              "kind": "field",
-              "name": "_min",
-              "type": {
-                "text": "string"
-              },
-              "privacy": "private",
-              "inheritedFrom": {
-                "name": "BaseAeroNumericInput",
-                "module": "src/base/BaseAeroNumericInput.ts"
-              }
-            },
-            {
-              "kind": "field",
-              "name": "_max",
-              "type": {
-                "text": "string"
-              },
-              "privacy": "private",
-              "inheritedFrom": {
-                "name": "BaseAeroNumericInput",
-                "module": "src/base/BaseAeroNumericInput.ts"
-              }
-            },
-            {
-              "kind": "field",
-              "name": "_step",
-              "type": {
-                "text": "string"
-              },
-              "privacy": "private",
-              "inheritedFrom": {
-                "name": "BaseAeroNumericInput",
-                "module": "src/base/BaseAeroNumericInput.ts"
-              }
-            },
-            {
-              "kind": "field",
-              "name": "_decimalPlaces",
-              "type": {
-                "text": "string"
-              },
-              "privacy": "private",
-              "inheritedFrom": {
-                "name": "BaseAeroNumericInput",
-                "module": "src/base/BaseAeroNumericInput.ts"
-              }
-            },
-            {
-              "kind": "method",
-              "name": "initializeInput",
-              "privacy": "private",
-              "inheritedFrom": {
-                "name": "BaseAeroNumericInput",
-                "module": "src/base/BaseAeroNumericInput.ts"
-              }
-            },
-            {
-              "kind": "method",
-              "name": "getValidateValue",
-              "privacy": "protected",
-              "return": {
-                "type": {
-                  "text": "string"
-                }
-              },
-              "parameters": [
-                {
-                  "name": "value",
-                  "type": {
-                    "text": "string"
-                  }
-                }
-              ],
-              "inheritedFrom": {
-                "name": "BaseAeroNumericInput",
-                "module": "src/base/BaseAeroNumericInput.ts"
-              }
-            },
-            {
-              "kind": "field",
-              "name": "baseAeroNumericInputAttributeHandlers",
-              "type": {
-                "text": "Record<\r\n\t\tstring,\r\n\t\t(newValue: string | null) => void\r\n\t>"
-              },
-              "privacy": "private",
-              "default": "{ min: (newValue) => { this.updateMinValue(newValue); }, max: (newValue) => { this.updateMaxValue(newValue); }, step: (newValue) => { this.updateStepValue(newValue); }, }",
-              "inheritedFrom": {
-                "name": "BaseAeroNumericInput",
-                "module": "src/base/BaseAeroNumericInput.ts"
-              }
-            },
-            {
-              "kind": "method",
-              "name": "updateMinValue",
-              "privacy": "private",
-              "parameters": [
-                {
-                  "name": "val",
-                  "type": {
-                    "text": "string | null"
-                  }
-                }
-              ],
-              "inheritedFrom": {
-                "name": "BaseAeroNumericInput",
-                "module": "src/base/BaseAeroNumericInput.ts"
-              }
-            },
-            {
-              "kind": "method",
-              "name": "updateMaxValue",
-              "privacy": "private",
-              "parameters": [
-                {
-                  "name": "val",
-                  "type": {
-                    "text": "string | null"
-                  }
-                }
-              ],
-              "inheritedFrom": {
-                "name": "BaseAeroNumericInput",
-                "module": "src/base/BaseAeroNumericInput.ts"
-              }
-            },
-            {
-              "kind": "method",
-              "name": "updateStepValue",
-              "privacy": "private",
-              "parameters": [
-                {
-                  "name": "val",
-                  "type": {
-                    "text": "string | null"
-                  }
-                }
-              ],
-              "inheritedFrom": {
-                "name": "BaseAeroNumericInput",
-                "module": "src/base/BaseAeroNumericInput.ts"
-              }
-            },
-            {
-              "kind": "field",
-              "name": "input",
               "readonly": true,
               "inheritedFrom": {
                 "name": "BaseAeroNumericInput",
@@ -666,7 +216,12 @@
             {
               "kind": "field",
               "name": "value",
-              "default": "value",
+              "description": "The current value of the numeric input.",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"0\"",
+              "attribute": "value",
               "inheritedFrom": {
                 "name": "BaseAeroNumericInput",
                 "module": "src/base/BaseAeroNumericInput.ts"
@@ -675,6 +230,12 @@
             {
               "kind": "field",
               "name": "min",
+              "description": "The minimum allowed value.",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"0\"",
+              "attribute": "min",
               "inheritedFrom": {
                 "name": "BaseAeroNumericInput",
                 "module": "src/base/BaseAeroNumericInput.ts"
@@ -683,6 +244,12 @@
             {
               "kind": "field",
               "name": "max",
+              "description": "The maximum allowed value.",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"100\"",
+              "attribute": "max",
               "inheritedFrom": {
                 "name": "BaseAeroNumericInput",
                 "module": "src/base/BaseAeroNumericInput.ts"
@@ -691,91 +258,42 @@
             {
               "kind": "field",
               "name": "step",
-              "inheritedFrom": {
-                "name": "BaseAeroNumericInput",
-                "module": "src/base/BaseAeroNumericInput.ts"
-              }
-            },
-            {
-              "kind": "field",
-              "name": "decimalPlaces",
-              "privacy": "protected",
-              "readonly": true,
-              "inheritedFrom": {
-                "name": "BaseAeroNumericInput",
-                "module": "src/base/BaseAeroNumericInput.ts"
-              }
-            },
-            {
-              "kind": "field",
-              "name": "shadow",
+              "description": "The stepping interval for the numeric input.",
               "type": {
-                "text": "ShadowRoot"
+                "text": "string"
               },
-              "privacy": "protected",
+              "default": "\"1\"",
+              "attribute": "step",
               "inheritedFrom": {
-                "name": "AeroShadowElement",
-                "module": "src/core/AeroShadowElement.ts"
-              }
-            },
-            {
-              "kind": "method",
-              "name": "query",
-              "privacy": "protected",
-              "return": {
-                "type": {
-                  "text": "T"
-                }
-              },
-              "parameters": [
-                {
-                  "name": "selector",
-                  "type": {
-                    "text": "string"
-                  }
-                }
-              ],
-              "inheritedFrom": {
-                "name": "AeroShadowElement",
-                "module": "src/core/AeroShadowElement.ts"
-              }
-            },
-            {
-              "kind": "method",
-              "name": "applyStyles",
-              "privacy": "protected",
-              "parameters": [
-                {
-                  "name": "style",
-                  "type": {
-                    "text": "string"
-                  }
-                }
-              ],
-              "inheritedFrom": {
-                "name": "AeroShadowElement",
-                "module": "src/core/AeroShadowElement.ts"
-              }
-            },
-            {
-              "kind": "field",
-              "name": "innerHTML",
-              "default": "htmlTemplate",
-              "inheritedFrom": {
-                "name": "AeroShadowElement",
-                "module": "src/core/AeroShadowElement.ts"
+                "name": "BaseAeroNumericInput",
+                "module": "src/base/BaseAeroNumericInput.ts"
               }
             }
           ],
-          "superclass": {
-            "name": "BaseAeroNumericInput",
-            "module": "/src/base/BaseAeroNumericInput"
-          },
           "tagName": "aero-numeric-input",
           "customElement": true,
           "attributes": [
             {
+              "name": "value",
+              "description": "The current value of the numeric input.",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"0\"",
+              "fieldName": "value",
+              "inheritedFrom": {
+                "name": "BaseAeroNumericInput",
+                "module": "src/base/BaseAeroNumericInput.ts"
+              }
+            },
+            {
               "name": "min",
+              "description": "The minimum allowed value.",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"0\"",
+              "fieldName": "min",
               "inheritedFrom": {
                 "name": "BaseAeroNumericInput",
                 "module": "src/base/BaseAeroNumericInput.ts"
@@ -783,6 +301,12 @@
             },
             {
               "name": "max",
+              "description": "The maximum allowed value.",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"100\"",
+              "fieldName": "max",
               "inheritedFrom": {
                 "name": "BaseAeroNumericInput",
                 "module": "src/base/BaseAeroNumericInput.ts"
@@ -790,6 +314,46 @@
             },
             {
               "name": "step",
+              "description": "The stepping interval for the numeric input.",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"1\"",
+              "fieldName": "step",
+              "inheritedFrom": {
+                "name": "BaseAeroNumericInput",
+                "module": "src/base/BaseAeroNumericInput.ts"
+              }
+            }
+          ],
+          "events": [
+            {
+              "description": "Fired when the value of the element has changed.",
+              "name": "input",
+              "inheritedFrom": {
+                "name": "BaseAeroNumericInput",
+                "module": "src/base/BaseAeroNumericInput.ts"
+              }
+            },
+            {
+              "description": "Fired when the value of the element has been committed by the user.",
+              "name": "change",
+              "inheritedFrom": {
+                "name": "BaseAeroNumericInput",
+                "module": "src/base/BaseAeroNumericInput.ts"
+              }
+            },
+            {
+              "description": "Fired when the element receives focus.",
+              "name": "focusin",
+              "inheritedFrom": {
+                "name": "BaseAeroNumericInput",
+                "module": "src/base/BaseAeroNumericInput.ts"
+              }
+            },
+            {
+              "description": "Fired when the element loses focus.",
+              "name": "focusout",
               "inheritedFrom": {
                 "name": "BaseAeroNumericInput",
                 "module": "src/base/BaseAeroNumericInput.ts"
@@ -798,24 +362,7 @@
           ]
         }
       ],
-      "exports": [
-        {
-          "kind": "js",
-          "name": "default",
-          "declaration": {
-            "name": "AeroNumericInput",
-            "module": "src/components/numeric_input/AeroNumericInput.ts"
-          }
-        },
-        {
-          "kind": "custom-element-definition",
-          "name": "aero-numeric-input",
-          "declaration": {
-            "name": "AeroNumericInput",
-            "module": "src/components/numeric_input/AeroNumericInput.ts"
-          }
-        }
-      ]
+      "exports": []
     },
     {
       "kind": "javascript-module",
@@ -823,139 +370,482 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "",
+          "description": "A circular progress spinner component.",
           "name": "AeroProgressSpinner",
           "members": [
             {
-              "kind": "method",
-              "name": "updateSpinnerStyles",
-              "privacy": "private",
-              "description": "Using :host instead of an inner element means styles are applied to the custom element itself.\r\nRe-appending styles multiple times can cause conflicts or unexpected behavior."
-            },
-            {
               "kind": "field",
-              "name": "width"
-            },
-            {
-              "kind": "field",
-              "name": "height"
-            },
-            {
-              "kind": "field",
-              "name": "background"
-            },
-            {
-              "kind": "field",
-              "name": "color"
-            },
-            {
-              "kind": "field",
-              "name": "cycle"
-            },
-            {
-              "kind": "field",
-              "name": "shadow",
+              "name": "width",
+              "description": "The width of the spinner in pixels.",
+              "parameters": [
+                {
+                  "description": "The width value.",
+                  "name": "val",
+                  "type": {
+                    "text": "string"
+                  }
+                }
+              ],
+              "default": "\"50\"",
+              "attribute": "width",
               "type": {
-                "text": "ShadowRoot"
-              },
-              "privacy": "protected",
-              "inheritedFrom": {
-                "name": "AeroShadowElement",
-                "module": "src/core/AeroShadowElement.ts"
-              }
-            },
-            {
-              "kind": "method",
-              "name": "query",
-              "privacy": "protected",
-              "return": {
-                "type": {
-                  "text": "T"
-                }
-              },
-              "parameters": [
-                {
-                  "name": "selector",
-                  "type": {
-                    "text": "string"
-                  }
-                }
-              ],
-              "inheritedFrom": {
-                "name": "AeroShadowElement",
-                "module": "src/core/AeroShadowElement.ts"
-              }
-            },
-            {
-              "kind": "method",
-              "name": "applyStyles",
-              "privacy": "protected",
-              "parameters": [
-                {
-                  "name": "style",
-                  "type": {
-                    "text": "string"
-                  }
-                }
-              ],
-              "inheritedFrom": {
-                "name": "AeroShadowElement",
-                "module": "src/core/AeroShadowElement.ts"
+                "text": "string"
               }
             },
             {
               "kind": "field",
-              "name": "innerHTML",
-              "default": "htmlTemplate",
-              "inheritedFrom": {
-                "name": "AeroShadowElement",
-                "module": "src/core/AeroShadowElement.ts"
+              "name": "height",
+              "description": "The height of the spinner in pixels.",
+              "parameters": [
+                {
+                  "description": "The height value.",
+                  "name": "val",
+                  "type": {
+                    "text": "string"
+                  }
+                }
+              ],
+              "default": "\"50\"",
+              "attribute": "height",
+              "type": {
+                "text": "string"
+              }
+            },
+            {
+              "kind": "field",
+              "name": "background",
+              "description": "The color of the spinner's track.",
+              "parameters": [
+                {
+                  "description": "The background color value.",
+                  "name": "val",
+                  "type": {
+                    "text": "string"
+                  }
+                }
+              ],
+              "default": "\"white\"",
+              "attribute": "background",
+              "type": {
+                "text": "string"
+              }
+            },
+            {
+              "kind": "field",
+              "name": "color",
+              "description": "The color of the spinner's moving part.",
+              "parameters": [
+                {
+                  "description": "The color value.",
+                  "name": "val",
+                  "type": {
+                    "text": "string"
+                  }
+                }
+              ],
+              "default": "\"black\"",
+              "attribute": "color",
+              "type": {
+                "text": "string"
+              }
+            },
+            {
+              "kind": "field",
+              "name": "cycle",
+              "description": "The duration of one spin cycle in seconds.",
+              "parameters": [
+                {
+                  "description": "The cycle duration.",
+                  "name": "val",
+                  "type": {
+                    "text": "string"
+                  }
+                }
+              ],
+              "default": "\"1\"",
+              "attribute": "cycle",
+              "type": {
+                "text": "string"
               }
             }
           ],
           "attributes": [
             {
-              "name": "width"
+              "name": "width",
+              "description": "The width of the spinner in pixels.",
+              "parameters": [
+                {
+                  "description": "The width value.",
+                  "name": "val",
+                  "type": {
+                    "text": "string"
+                  }
+                }
+              ],
+              "default": "\"50\"",
+              "fieldName": "width"
             },
             {
-              "name": "height"
+              "name": "height",
+              "description": "The height of the spinner in pixels.",
+              "parameters": [
+                {
+                  "description": "The height value.",
+                  "name": "val",
+                  "type": {
+                    "text": "string"
+                  }
+                }
+              ],
+              "default": "\"50\"",
+              "fieldName": "height"
             },
             {
-              "name": "background"
+              "name": "background",
+              "description": "The color of the spinner's track.",
+              "parameters": [
+                {
+                  "description": "The background color value.",
+                  "name": "val",
+                  "type": {
+                    "text": "string"
+                  }
+                }
+              ],
+              "default": "\"white\"",
+              "fieldName": "background"
             },
             {
-              "name": "color"
+              "name": "color",
+              "description": "The color of the spinner's moving part.",
+              "parameters": [
+                {
+                  "description": "The color value.",
+                  "name": "val",
+                  "type": {
+                    "text": "string"
+                  }
+                }
+              ],
+              "default": "\"black\"",
+              "fieldName": "color"
             },
             {
-              "name": "cycle"
+              "name": "cycle",
+              "description": "The duration of one spin cycle in seconds.",
+              "parameters": [
+                {
+                  "description": "The cycle duration.",
+                  "name": "val",
+                  "type": {
+                    "text": "string"
+                  }
+                }
+              ],
+              "default": "\"1\"",
+              "fieldName": "cycle"
             }
           ],
-          "superclass": {
-            "name": "AeroShadowElement",
-            "module": "/src/core/AeroShadowElement"
-          },
           "tagName": "aero-progress-spinner",
-          "customElement": true
+          "customElement": true,
+          "events": []
         }
       ],
-      "exports": [
+      "exports": []
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/components/spinbox/AeroSpinbox.ts",
+      "declarations": [
         {
-          "kind": "js",
-          "name": "default",
-          "declaration": {
-            "name": "AeroProgressSpinner",
-            "module": "src/components/progress_spinner/AeroProgressSpinner.ts"
-          }
-        },
-        {
-          "kind": "custom-element-definition",
-          "name": "aero-progress-spinner",
-          "declaration": {
-            "name": "AeroProgressSpinner",
-            "module": "src/components/progress_spinner/AeroProgressSpinner.ts"
-          }
+          "kind": "class",
+          "description": "A numeric input component with increment and decrement buttons.",
+          "name": "AeroSpinbox",
+          "members": [
+            {
+              "kind": "field",
+              "name": "buttonBackgroundColor",
+              "description": "The background color of the increment and decrement buttons.",
+              "parameters": [
+                {
+                  "description": "The color value.",
+                  "name": "color",
+                  "type": {
+                    "text": "string"
+                  }
+                }
+              ],
+              "type": {
+                "text": "string"
+              },
+              "default": "\"#ccc\"",
+              "attribute": "button-backgroundcolor"
+            },
+            {
+              "kind": "field",
+              "name": "minusText",
+              "description": "The text content for the decrement button.",
+              "parameters": [
+                {
+                  "description": "The text to display.",
+                  "name": "text",
+                  "type": {
+                    "text": "string"
+                  }
+                }
+              ],
+              "type": {
+                "text": "string"
+              },
+              "default": "\"-\"",
+              "attribute": "minus-text"
+            },
+            {
+              "kind": "field",
+              "name": "plusText",
+              "description": "The text content for the increment button.",
+              "parameters": [
+                {
+                  "description": "The text to display.",
+                  "name": "text",
+                  "type": {
+                    "text": "string"
+                  }
+                }
+              ],
+              "type": {
+                "text": "string"
+              },
+              "default": "\"+\"",
+              "attribute": "plus-text"
+            },
+            {
+              "kind": "method",
+              "name": "decrement",
+              "description": "Decrements the input value by the step amount."
+            },
+            {
+              "kind": "method",
+              "name": "increment",
+              "description": "Increments the input value by the step amount."
+            },
+            {
+              "kind": "field",
+              "name": "input",
+              "description": "The underlying HTML input element.",
+              "type": {
+                "text": "HTMLInputElement"
+              },
+              "readonly": true,
+              "inheritedFrom": {
+                "name": "BaseAeroNumericInput",
+                "module": "src/base/BaseAeroNumericInput.ts"
+              }
+            },
+            {
+              "kind": "field",
+              "name": "value",
+              "description": "The current value of the numeric input.",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"0\"",
+              "attribute": "value",
+              "inheritedFrom": {
+                "name": "BaseAeroNumericInput",
+                "module": "src/base/BaseAeroNumericInput.ts"
+              }
+            },
+            {
+              "kind": "field",
+              "name": "min",
+              "description": "The minimum allowed value.",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"0\"",
+              "attribute": "min",
+              "inheritedFrom": {
+                "name": "BaseAeroNumericInput",
+                "module": "src/base/BaseAeroNumericInput.ts"
+              }
+            },
+            {
+              "kind": "field",
+              "name": "max",
+              "description": "The maximum allowed value.",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"100\"",
+              "attribute": "max",
+              "inheritedFrom": {
+                "name": "BaseAeroNumericInput",
+                "module": "src/base/BaseAeroNumericInput.ts"
+              }
+            },
+            {
+              "kind": "field",
+              "name": "step",
+              "description": "The stepping interval for the numeric input.",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"1\"",
+              "attribute": "step",
+              "inheritedFrom": {
+                "name": "BaseAeroNumericInput",
+                "module": "src/base/BaseAeroNumericInput.ts"
+              }
+            }
+          ],
+          "attributes": [
+            {
+              "name": "minus-text",
+              "description": "The text content for the decrement button.",
+              "parameters": [
+                {
+                  "description": "The text to display.",
+                  "name": "text",
+                  "type": {
+                    "text": "string"
+                  }
+                }
+              ],
+              "type": {
+                "text": "string"
+              },
+              "default": "\"-\"",
+              "fieldName": "minusText"
+            },
+            {
+              "name": "plus-text",
+              "description": "The text content for the increment button.",
+              "parameters": [
+                {
+                  "description": "The text to display.",
+                  "name": "text",
+                  "type": {
+                    "text": "string"
+                  }
+                }
+              ],
+              "type": {
+                "text": "string"
+              },
+              "default": "\"+\"",
+              "fieldName": "plusText"
+            },
+            {
+              "name": "button-backgroundcolor",
+              "description": "The background color of the increment and decrement buttons.",
+              "parameters": [
+                {
+                  "description": "The color value.",
+                  "name": "color",
+                  "type": {
+                    "text": "string"
+                  }
+                }
+              ],
+              "type": {
+                "text": "string"
+              },
+              "default": "\"#ccc\"",
+              "fieldName": "buttonBackgroundColor"
+            },
+            {
+              "name": "value",
+              "description": "The current value of the numeric input.",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"0\"",
+              "fieldName": "value",
+              "inheritedFrom": {
+                "name": "BaseAeroNumericInput",
+                "module": "src/base/BaseAeroNumericInput.ts"
+              }
+            },
+            {
+              "name": "min",
+              "description": "The minimum allowed value.",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"0\"",
+              "fieldName": "min",
+              "inheritedFrom": {
+                "name": "BaseAeroNumericInput",
+                "module": "src/base/BaseAeroNumericInput.ts"
+              }
+            },
+            {
+              "name": "max",
+              "description": "The maximum allowed value.",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"100\"",
+              "fieldName": "max",
+              "inheritedFrom": {
+                "name": "BaseAeroNumericInput",
+                "module": "src/base/BaseAeroNumericInput.ts"
+              }
+            },
+            {
+              "name": "step",
+              "description": "The stepping interval for the numeric input.",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"1\"",
+              "fieldName": "step",
+              "inheritedFrom": {
+                "name": "BaseAeroNumericInput",
+                "module": "src/base/BaseAeroNumericInput.ts"
+              }
+            }
+          ],
+          "tagName": "aero-spinbox",
+          "customElement": true,
+          "events": [
+            {
+              "description": "Fired when the value of the element has changed.",
+              "name": "input",
+              "inheritedFrom": {
+                "name": "BaseAeroNumericInput",
+                "module": "src/base/BaseAeroNumericInput.ts"
+              }
+            },
+            {
+              "description": "Fired when the value of the element has been committed by the user.",
+              "name": "change",
+              "inheritedFrom": {
+                "name": "BaseAeroNumericInput",
+                "module": "src/base/BaseAeroNumericInput.ts"
+              }
+            },
+            {
+              "description": "Fired when the element receives focus.",
+              "name": "focusin",
+              "inheritedFrom": {
+                "name": "BaseAeroNumericInput",
+                "module": "src/base/BaseAeroNumericInput.ts"
+              }
+            },
+            {
+              "description": "Fired when the element loses focus.",
+              "name": "focusout",
+              "inheritedFrom": {
+                "name": "BaseAeroNumericInput",
+                "module": "src/base/BaseAeroNumericInput.ts"
+              }
+            }
+          ]
         }
-      ]
+      ],
+      "exports": []
     },
     {
       "kind": "javascript-module",
@@ -963,411 +853,165 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "",
+          "description": "A container element that can be resized by dragging its edges.",
           "name": "AeroResizeBox",
+          "slots": [
+            {
+              "description": "The default slot for content to be placed inside the resizable box.",
+              "name": ""
+            }
+          ],
           "members": [
             {
               "kind": "field",
-              "name": "_topResizer",
-              "type": {
-                "text": "HTMLElement"
-              },
-              "privacy": "private"
-            },
-            {
-              "kind": "field",
-              "name": "_bottomResizer",
-              "type": {
-                "text": "HTMLElement"
-              },
-              "privacy": "private"
-            },
-            {
-              "kind": "field",
-              "name": "_leftResizer",
-              "type": {
-                "text": "HTMLElement"
-              },
-              "privacy": "private"
-            },
-            {
-              "kind": "field",
-              "name": "_rightResizer",
-              "type": {
-                "text": "HTMLElement"
-              },
-              "privacy": "private"
-            },
-            {
-              "kind": "field",
-              "name": "_hasTopResizer",
-              "type": {
-                "text": "boolean"
-              },
-              "privacy": "private"
-            },
-            {
-              "kind": "field",
-              "name": "_hasBottomResizer",
-              "type": {
-                "text": "boolean"
-              },
-              "privacy": "private"
-            },
-            {
-              "kind": "field",
-              "name": "_hasLeftResizer",
-              "type": {
-                "text": "boolean"
-              },
-              "privacy": "private"
-            },
-            {
-              "kind": "field",
-              "name": "_hasRightResizer",
-              "type": {
-                "text": "boolean"
-              },
-              "privacy": "private"
-            },
-            {
-              "kind": "field",
-              "name": "_nMinWidth",
-              "type": {
-                "text": "number"
-              },
-              "privacy": "private"
-            },
-            {
-              "kind": "field",
-              "name": "_nMaxWidth",
-              "type": {
-                "text": "number"
-              },
-              "privacy": "private"
-            },
-            {
-              "kind": "field",
-              "name": "_nMinHeight",
-              "type": {
-                "text": "number"
-              },
-              "privacy": "private"
-            },
-            {
-              "kind": "field",
-              "name": "_nMaxHeight",
-              "type": {
-                "text": "number"
-              },
-              "privacy": "private"
-            },
-            {
-              "kind": "field",
-              "name": "isTopDragging",
-              "type": {
-                "text": "boolean"
-              },
-              "privacy": "private",
-              "default": "false"
-            },
-            {
-              "kind": "field",
-              "name": "isBottomDragging",
-              "type": {
-                "text": "boolean"
-              },
-              "privacy": "private",
-              "default": "false"
-            },
-            {
-              "kind": "field",
-              "name": "isLeftDragging",
-              "type": {
-                "text": "boolean"
-              },
-              "privacy": "private",
-              "default": "false"
-            },
-            {
-              "kind": "field",
-              "name": "isRightDragging",
-              "type": {
-                "text": "boolean"
-              },
-              "privacy": "private",
-              "default": "false"
-            },
-            {
-              "kind": "field",
-              "name": "isDragging",
-              "type": {
-                "text": "boolean"
-              },
-              "privacy": "private",
-              "default": "false"
-            },
-            {
-              "kind": "field",
-              "name": "animationFrameId",
-              "type": {
-                "text": "number | null"
-              },
-              "privacy": "private",
-              "default": "null"
-            },
-            {
-              "kind": "field",
-              "name": "resizerHandlers",
-              "type": {
-                "text": "object"
-              },
-              "privacy": "private",
-              "default": "{ top: (e: MouseEvent) => this.processMousedownEvent(e, \"top\"), bottom: (e: MouseEvent) => this.processMousedownEvent(e, \"bottom\"), left: (e: MouseEvent) => this.processMousedownEvent(e, \"left\"), right: (e: MouseEvent) => this.processMousedownEvent(e, \"right\"), }"
-            },
-            {
-              "kind": "field",
-              "name": "processMousedownEvent",
-              "privacy": "private"
-            },
-            {
-              "kind": "field",
-              "name": "baseAeroResizeBoxAttributeHandlers",
-              "type": {
-                "text": "Record<\r\n\t\tstring,\r\n\t\t(newValue: string | null) => void\r\n\t>"
-              },
-              "privacy": "private",
-              "default": "{ \"min-width\": (newValue) => { this.updateMinWidthValue(newValue); }, \"max-width\": (newValue) => { this.updateMaxWidthValue(newValue); }, \"min-height\": (newValue) => { this.updateMinHeightValue(newValue); }, \"max-height\": (newValue) => { this.updateMaxHeightValue(newValue); }, \"resize-top\": (newValue) => { this.updateTopResizerState(newValue !== null); }, \"resize-bottom\": (newValue) => { this.updateBottomResizerState(newValue !== null); }, \"resize-left\": (newValue) => { this.updateLeftResizerState(newValue !== null); }, \"resize-right\": (newValue) => { this.updateRightResizerState(newValue !== null); }, \"resizer-color\": (newValue) => { const color = newValue ?? \"#ccc\"; this.applyStyles(`.resizer:hover { background-color: ${color}; }`); }, }"
-            },
-            {
-              "kind": "method",
-              "name": "updateTopResizerState",
-              "privacy": "private",
+              "name": "resizerColor",
+              "description": "The color of the resizer handles on hover.",
               "parameters": [
                 {
-                  "name": "bool",
-                  "type": {
-                    "text": "boolean | null"
-                  }
-                }
-              ]
-            },
-            {
-              "kind": "method",
-              "name": "updateBottomResizerState",
-              "privacy": "private",
-              "parameters": [
-                {
-                  "name": "bool",
-                  "type": {
-                    "text": "boolean | null"
-                  }
-                }
-              ]
-            },
-            {
-              "kind": "method",
-              "name": "updateLeftResizerState",
-              "privacy": "private",
-              "parameters": [
-                {
-                  "name": "bool",
-                  "type": {
-                    "text": "boolean | null"
-                  }
-                }
-              ]
-            },
-            {
-              "kind": "method",
-              "name": "updateRightResizerState",
-              "privacy": "private",
-              "parameters": [
-                {
-                  "name": "bool",
-                  "type": {
-                    "text": "boolean | null"
-                  }
-                }
-              ]
-            },
-            {
-              "kind": "method",
-              "name": "updateMinWidthValue",
-              "privacy": "private",
-              "parameters": [
-                {
-                  "name": "val",
-                  "type": {
-                    "text": "string | null"
-                  }
-                }
-              ]
-            },
-            {
-              "kind": "method",
-              "name": "updateMaxWidthValue",
-              "privacy": "private",
-              "parameters": [
-                {
-                  "name": "val",
-                  "type": {
-                    "text": "string | null"
-                  }
-                }
-              ]
-            },
-            {
-              "kind": "method",
-              "name": "updateMinHeightValue",
-              "privacy": "private",
-              "parameters": [
-                {
-                  "name": "val",
-                  "type": {
-                    "text": "string | null"
-                  }
-                }
-              ]
-            },
-            {
-              "kind": "method",
-              "name": "updateMaxHeightValue",
-              "privacy": "private",
-              "parameters": [
-                {
-                  "name": "val",
-                  "type": {
-                    "text": "string | null"
-                  }
-                }
-              ]
-            },
-            {
-              "kind": "field",
-              "name": "resizerColor"
-            },
-            {
-              "kind": "field",
-              "name": "minWidth"
-            },
-            {
-              "kind": "field",
-              "name": "maxWidth"
-            },
-            {
-              "kind": "field",
-              "name": "minHeight"
-            },
-            {
-              "kind": "field",
-              "name": "maxHeight"
-            },
-            {
-              "kind": "method",
-              "name": "addTopResizer"
-            },
-            {
-              "kind": "method",
-              "name": "removeTopResizer"
-            },
-            {
-              "kind": "method",
-              "name": "addBottomResizer"
-            },
-            {
-              "kind": "method",
-              "name": "removeBottomResizer"
-            },
-            {
-              "kind": "method",
-              "name": "addLeftResizer"
-            },
-            {
-              "kind": "method",
-              "name": "removeLeftResizer"
-            },
-            {
-              "kind": "method",
-              "name": "addRightResizer"
-            },
-            {
-              "kind": "method",
-              "name": "removeRightResizer"
-            },
-            {
-              "kind": "field",
-              "name": "shadow",
-              "type": {
-                "text": "ShadowRoot"
-              },
-              "privacy": "protected",
-              "inheritedFrom": {
-                "name": "AeroShadowElement",
-                "module": "src/core/AeroShadowElement.ts"
-              }
-            },
-            {
-              "kind": "method",
-              "name": "query",
-              "privacy": "protected",
-              "return": {
-                "type": {
-                  "text": "T"
-                }
-              },
-              "parameters": [
-                {
-                  "name": "selector",
+                  "description": "The color value.",
+                  "name": "color",
                   "type": {
                     "text": "string"
                   }
                 }
               ],
-              "inheritedFrom": {
-                "name": "AeroShadowElement",
-                "module": "src/core/AeroShadowElement.ts"
-              }
-            },
-            {
-              "kind": "method",
-              "name": "applyStyles",
-              "privacy": "protected",
-              "parameters": [
-                {
-                  "name": "style",
-                  "type": {
-                    "text": "string"
-                  }
-                }
-              ],
-              "inheritedFrom": {
-                "name": "AeroShadowElement",
-                "module": "src/core/AeroShadowElement.ts"
-              }
+              "type": {
+                "text": "string"
+              },
+              "default": "\"#ccc\"",
+              "attribute": "resizerColor"
             },
             {
               "kind": "field",
-              "name": "innerHTML",
-              "default": "htmlTemplate",
-              "inheritedFrom": {
-                "name": "AeroShadowElement",
-                "module": "src/core/AeroShadowElement.ts"
-              }
+              "name": "minWidth",
+              "description": "The minimum width of the box.",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"0\"",
+              "attribute": "min-width"
+            },
+            {
+              "kind": "field",
+              "name": "maxWidth",
+              "description": "The maximum width of the box.",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"2000\"",
+              "attribute": "max-width"
+            },
+            {
+              "kind": "field",
+              "name": "minHeight",
+              "description": "The minimum height of the box.",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"0\"",
+              "attribute": "min-height"
+            },
+            {
+              "kind": "field",
+              "name": "maxHeight",
+              "description": "The maximum height of the box.",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"2000\"",
+              "attribute": "max-height"
+            },
+            {
+              "kind": "method",
+              "name": "addTopResizer",
+              "description": "Enables the top resizer."
+            },
+            {
+              "kind": "method",
+              "name": "removeTopResizer",
+              "description": "Disables the top resizer."
+            },
+            {
+              "kind": "method",
+              "name": "addBottomResizer",
+              "description": "Enables the bottom resizer."
+            },
+            {
+              "kind": "method",
+              "name": "removeBottomResizer",
+              "description": "Disables the bottom resizer."
+            },
+            {
+              "kind": "method",
+              "name": "addLeftResizer",
+              "description": "Enables the left resizer."
+            },
+            {
+              "kind": "method",
+              "name": "removeLeftResizer",
+              "description": "Disables the left resizer."
+            },
+            {
+              "kind": "method",
+              "name": "addRightResizer",
+              "description": "Enables the right resizer."
+            },
+            {
+              "kind": "method",
+              "name": "removeRightResizer",
+              "description": "Disables the right resizer."
+            }
+          ],
+          "events": [
+            {
+              "description": "Fired when a resize operation begins. The detail object contains `width`, `height`, and `edge`.",
+              "name": "aero-resize-start"
+            },
+            {
+              "description": "Fired continuously during a resize operation. The detail object contains `width` and `height`.",
+              "name": "aero-resize"
+            },
+            {
+              "description": "Fired when a resize operation ends. The detail object contains the final `width` and `height`.",
+              "name": "aero-resize-end"
             }
           ],
           "attributes": [
             {
-              "name": "min-width"
+              "name": "min-width",
+              "description": "The minimum width of the box.",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"0\"",
+              "fieldName": "minWidth"
             },
             {
-              "name": "max-width"
+              "name": "max-width",
+              "description": "The maximum width of the box.",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"2000\"",
+              "fieldName": "maxWidth"
             },
             {
-              "name": "min-height"
+              "name": "min-height",
+              "description": "The minimum height of the box.",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"0\"",
+              "fieldName": "minHeight"
             },
             {
-              "name": "max-height"
+              "name": "max-height",
+              "description": "The maximum height of the box.",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"2000\"",
+              "fieldName": "maxHeight"
             },
             {
               "name": "resize-top"
@@ -1383,481 +1027,31 @@
             },
             {
               "name": "resizer-color"
+            },
+            {
+              "name": "resizerColor",
+              "description": "The color of the resizer handles on hover.",
+              "parameters": [
+                {
+                  "description": "The color value.",
+                  "name": "color",
+                  "type": {
+                    "text": "string"
+                  }
+                }
+              ],
+              "type": {
+                "text": "string"
+              },
+              "default": "\"#ccc\"",
+              "fieldName": "resizerColor"
             }
           ],
-          "superclass": {
-            "name": "AeroShadowElement",
-            "module": "/src/core/AeroShadowElement"
-          },
           "tagName": "aero-resize-box",
           "customElement": true
         }
       ],
-      "exports": [
-        {
-          "kind": "js",
-          "name": "default",
-          "declaration": {
-            "name": "AeroResizeBox",
-            "module": "src/components/resize_box/AeroResizeBox.ts"
-          }
-        },
-        {
-          "kind": "custom-element-definition",
-          "name": "aero-resize-box",
-          "declaration": {
-            "name": "AeroResizeBox",
-            "module": "src/components/resize_box/AeroResizeBox.ts"
-          }
-        }
-      ]
-    },
-    {
-      "kind": "javascript-module",
-      "path": "src/components/spinbox/AeroSpinbox.ts",
-      "declarations": [
-        {
-          "kind": "class",
-          "description": "",
-          "name": "AeroSpinbox",
-          "members": [
-            {
-              "kind": "field",
-              "name": "minus",
-              "type": {
-                "text": "HTMLElement"
-              },
-              "privacy": "private"
-            },
-            {
-              "kind": "field",
-              "name": "plus",
-              "type": {
-                "text": "HTMLElement"
-              },
-              "privacy": "private"
-            },
-            {
-              "kind": "method",
-              "name": "getInputSelector",
-              "privacy": "protected",
-              "return": {
-                "type": {
-                  "text": "string"
-                }
-              },
-              "inheritedFrom": {
-                "name": "BaseAeroNumericInput",
-                "module": "src/base/BaseAeroNumericInput.ts"
-              }
-            },
-            {
-              "kind": "field",
-              "name": "aeroSpinboxAttributeHandlers",
-              "type": {
-                "text": "Record<\r\n\t\tstring,\r\n\t\t(val: string | null) => void\r\n\t>"
-              },
-              "privacy": "private",
-              "default": "{ \"text-minus\": (val) => { this.updateMinuxText(val); }, \"text-plus\": (val) => { this.updatePlusText(val); }, \"button-backgroundcolor\": (val) => { this.updateButtonBackgrondColor(val); }, }"
-            },
-            {
-              "kind": "method",
-              "name": "updateMinuxText",
-              "privacy": "private",
-              "parameters": [
-                {
-                  "name": "val",
-                  "type": {
-                    "text": "string | null"
-                  }
-                }
-              ]
-            },
-            {
-              "kind": "method",
-              "name": "updatePlusText",
-              "privacy": "private",
-              "parameters": [
-                {
-                  "name": "val",
-                  "type": {
-                    "text": "string | null"
-                  }
-                }
-              ]
-            },
-            {
-              "kind": "method",
-              "name": "updateButtonBackgrondColor",
-              "privacy": "private",
-              "parameters": [
-                {
-                  "name": "val",
-                  "type": {
-                    "text": "string | null"
-                  }
-                }
-              ]
-            },
-            {
-              "kind": "method",
-              "name": "updateHeight",
-              "privacy": "private",
-              "parameters": [
-                {
-                  "name": "val",
-                  "type": {
-                    "text": "number | null"
-                  }
-                }
-              ]
-            },
-            {
-              "kind": "field",
-              "name": "buttonBackgroundColor"
-            },
-            {
-              "kind": "field",
-              "name": "minusText"
-            },
-            {
-              "kind": "field",
-              "name": "plusText"
-            },
-            {
-              "kind": "method",
-              "name": "decrement"
-            },
-            {
-              "kind": "method",
-              "name": "increment"
-            },
-            {
-              "kind": "field",
-              "name": "_input",
-              "type": {
-                "text": "HTMLInputElement"
-              },
-              "privacy": "private",
-              "inheritedFrom": {
-                "name": "BaseAeroNumericInput",
-                "module": "src/base/BaseAeroNumericInput.ts"
-              }
-            },
-            {
-              "kind": "field",
-              "name": "_min",
-              "type": {
-                "text": "string"
-              },
-              "privacy": "private",
-              "inheritedFrom": {
-                "name": "BaseAeroNumericInput",
-                "module": "src/base/BaseAeroNumericInput.ts"
-              }
-            },
-            {
-              "kind": "field",
-              "name": "_max",
-              "type": {
-                "text": "string"
-              },
-              "privacy": "private",
-              "inheritedFrom": {
-                "name": "BaseAeroNumericInput",
-                "module": "src/base/BaseAeroNumericInput.ts"
-              }
-            },
-            {
-              "kind": "field",
-              "name": "_step",
-              "type": {
-                "text": "string"
-              },
-              "privacy": "private",
-              "inheritedFrom": {
-                "name": "BaseAeroNumericInput",
-                "module": "src/base/BaseAeroNumericInput.ts"
-              }
-            },
-            {
-              "kind": "field",
-              "name": "_decimalPlaces",
-              "type": {
-                "text": "string"
-              },
-              "privacy": "private",
-              "inheritedFrom": {
-                "name": "BaseAeroNumericInput",
-                "module": "src/base/BaseAeroNumericInput.ts"
-              }
-            },
-            {
-              "kind": "method",
-              "name": "initializeInput",
-              "privacy": "private",
-              "inheritedFrom": {
-                "name": "BaseAeroNumericInput",
-                "module": "src/base/BaseAeroNumericInput.ts"
-              }
-            },
-            {
-              "kind": "method",
-              "name": "getValidateValue",
-              "privacy": "protected",
-              "return": {
-                "type": {
-                  "text": "string"
-                }
-              },
-              "parameters": [
-                {
-                  "name": "value",
-                  "type": {
-                    "text": "string"
-                  }
-                }
-              ],
-              "inheritedFrom": {
-                "name": "BaseAeroNumericInput",
-                "module": "src/base/BaseAeroNumericInput.ts"
-              }
-            },
-            {
-              "kind": "field",
-              "name": "baseAeroNumericInputAttributeHandlers",
-              "type": {
-                "text": "Record<\r\n\t\tstring,\r\n\t\t(newValue: string | null) => void\r\n\t>"
-              },
-              "privacy": "private",
-              "default": "{ min: (newValue) => { this.updateMinValue(newValue); }, max: (newValue) => { this.updateMaxValue(newValue); }, step: (newValue) => { this.updateStepValue(newValue); }, }",
-              "inheritedFrom": {
-                "name": "BaseAeroNumericInput",
-                "module": "src/base/BaseAeroNumericInput.ts"
-              }
-            },
-            {
-              "kind": "method",
-              "name": "updateMinValue",
-              "privacy": "private",
-              "parameters": [
-                {
-                  "name": "val",
-                  "type": {
-                    "text": "string | null"
-                  }
-                }
-              ],
-              "inheritedFrom": {
-                "name": "BaseAeroNumericInput",
-                "module": "src/base/BaseAeroNumericInput.ts"
-              }
-            },
-            {
-              "kind": "method",
-              "name": "updateMaxValue",
-              "privacy": "private",
-              "parameters": [
-                {
-                  "name": "val",
-                  "type": {
-                    "text": "string | null"
-                  }
-                }
-              ],
-              "inheritedFrom": {
-                "name": "BaseAeroNumericInput",
-                "module": "src/base/BaseAeroNumericInput.ts"
-              }
-            },
-            {
-              "kind": "method",
-              "name": "updateStepValue",
-              "privacy": "private",
-              "parameters": [
-                {
-                  "name": "val",
-                  "type": {
-                    "text": "string | null"
-                  }
-                }
-              ],
-              "inheritedFrom": {
-                "name": "BaseAeroNumericInput",
-                "module": "src/base/BaseAeroNumericInput.ts"
-              }
-            },
-            {
-              "kind": "field",
-              "name": "input",
-              "readonly": true,
-              "inheritedFrom": {
-                "name": "BaseAeroNumericInput",
-                "module": "src/base/BaseAeroNumericInput.ts"
-              }
-            },
-            {
-              "kind": "field",
-              "name": "value",
-              "default": "value",
-              "inheritedFrom": {
-                "name": "BaseAeroNumericInput",
-                "module": "src/base/BaseAeroNumericInput.ts"
-              }
-            },
-            {
-              "kind": "field",
-              "name": "min",
-              "inheritedFrom": {
-                "name": "BaseAeroNumericInput",
-                "module": "src/base/BaseAeroNumericInput.ts"
-              }
-            },
-            {
-              "kind": "field",
-              "name": "max",
-              "inheritedFrom": {
-                "name": "BaseAeroNumericInput",
-                "module": "src/base/BaseAeroNumericInput.ts"
-              }
-            },
-            {
-              "kind": "field",
-              "name": "step",
-              "inheritedFrom": {
-                "name": "BaseAeroNumericInput",
-                "module": "src/base/BaseAeroNumericInput.ts"
-              }
-            },
-            {
-              "kind": "field",
-              "name": "decimalPlaces",
-              "privacy": "protected",
-              "readonly": true,
-              "inheritedFrom": {
-                "name": "BaseAeroNumericInput",
-                "module": "src/base/BaseAeroNumericInput.ts"
-              }
-            },
-            {
-              "kind": "field",
-              "name": "shadow",
-              "type": {
-                "text": "ShadowRoot"
-              },
-              "privacy": "protected",
-              "inheritedFrom": {
-                "name": "AeroShadowElement",
-                "module": "src/core/AeroShadowElement.ts"
-              }
-            },
-            {
-              "kind": "method",
-              "name": "query",
-              "privacy": "protected",
-              "return": {
-                "type": {
-                  "text": "T"
-                }
-              },
-              "parameters": [
-                {
-                  "name": "selector",
-                  "type": {
-                    "text": "string"
-                  }
-                }
-              ],
-              "inheritedFrom": {
-                "name": "AeroShadowElement",
-                "module": "src/core/AeroShadowElement.ts"
-              }
-            },
-            {
-              "kind": "method",
-              "name": "applyStyles",
-              "privacy": "protected",
-              "parameters": [
-                {
-                  "name": "style",
-                  "type": {
-                    "text": "string"
-                  }
-                }
-              ],
-              "inheritedFrom": {
-                "name": "AeroShadowElement",
-                "module": "src/core/AeroShadowElement.ts"
-              }
-            },
-            {
-              "kind": "field",
-              "name": "innerHTML",
-              "default": "htmlTemplate",
-              "inheritedFrom": {
-                "name": "AeroShadowElement",
-                "module": "src/core/AeroShadowElement.ts"
-              }
-            }
-          ],
-          "attributes": [
-            {
-              "name": "text-minus"
-            },
-            {
-              "name": "text-plus"
-            },
-            {
-              "name": "button-backgroundcolor"
-            },
-            {
-              "name": "min",
-              "inheritedFrom": {
-                "name": "BaseAeroNumericInput",
-                "module": "src/base/BaseAeroNumericInput.ts"
-              }
-            },
-            {
-              "name": "max",
-              "inheritedFrom": {
-                "name": "BaseAeroNumericInput",
-                "module": "src/base/BaseAeroNumericInput.ts"
-              }
-            },
-            {
-              "name": "step",
-              "inheritedFrom": {
-                "name": "BaseAeroNumericInput",
-                "module": "src/base/BaseAeroNumericInput.ts"
-              }
-            }
-          ],
-          "superclass": {
-            "name": "BaseAeroNumericInput",
-            "module": "/src/base/BaseAeroNumericInput"
-          },
-          "tagName": "aero-spinbox",
-          "customElement": true
-        }
-      ],
-      "exports": [
-        {
-          "kind": "js",
-          "name": "default",
-          "declaration": {
-            "name": "AeroSpinbox",
-            "module": "src/components/spinbox/AeroSpinbox.ts"
-          }
-        },
-        {
-          "kind": "custom-element-definition",
-          "name": "aero-spinbox",
-          "declaration": {
-            "name": "AeroSpinbox",
-            "module": "src/components/spinbox/AeroSpinbox.ts"
-          }
-        }
-      ]
+      "exports": []
     }
   ]
 }

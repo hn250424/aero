@@ -1,5 +1,5 @@
 const html = `<aero-spinbox min="0.4" max="100" step="0.46" value="1"
-	text-minus="-" text-plus="+" button-backgroundcolor="#ccc">
+	minus-text="-" plus-text="+" button-backgroundcolor="#ccc">
 </aero-spinbox>`;
 
 const css = `aero-spinbox {

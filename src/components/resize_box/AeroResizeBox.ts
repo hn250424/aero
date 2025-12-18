@@ -1,6 +1,21 @@
 import AeroShadowElement from "../../core/AeroShadowElement";
 import aeroResizeBoxHtmlTemplate from "./AeroResizeBox.html?raw";
 
+/**
+ * @module components
+ */
+
+/**
+ * A container element that can be resized by dragging its edges.
+ *
+ * @extends AeroShadowElement
+ *
+ * @fires aero-resize-start - Fired when a resize operation begins. The detail object contains `width`, `height`, and `edge`.
+ * @fires aero-resize - Fired continuously during a resize operation. The detail object contains `width` and `height`.
+ * @fires aero-resize-end - Fired when a resize operation ends. The detail object contains the final `width` and `height`.
+ *
+ * @slot - The default slot for content to be placed inside the resizable box.
+ */
 export default class AeroResizeBox extends AeroShadowElement {
 	private _topResizer!: HTMLElement;
 	private _bottomResizer!: HTMLElement;
@@ -122,6 +137,12 @@ export default class AeroResizeBox extends AeroShadowElement {
 		});
 	}
 
+	/**
+	 * Handles the mousedown event on a resizer element.
+	 * @param {MouseEvent} e - The mouse event.
+	 * @param {"top" | "bottom" | "left" | "right"} resizer - The resizer that was clicked.
+	 * @private
+	 */
 	private processMousedownEvent = (
 		e: MouseEvent,
 		resizer: "top" | "bottom" | "left" | "right"
@@ -157,6 +178,12 @@ export default class AeroResizeBox extends AeroShadowElement {
 		}
 	};
 
+	/**
+	 * Emits the 'aero-resize' custom event.
+	 * @param {number | null} width - The new width, or null if not changed.
+	 * @param {number | null} height - The new height, or null if not changed.
+	 * @private
+	 */
 	private emitResize(width: number | null, height: number | null) {
 		this.forwardCustomEvent("aero-resize", {
 			detail: {
@@ -166,6 +193,10 @@ export default class AeroResizeBox extends AeroShadowElement {
 		})
 	}
 
+	/**
+	 * Specifies the observed attributes for the custom element.
+	 * @returns {string[]} An array of attribute names to observe.
+	 */
 	static get observedAttributes() {
 		return [
 			"min-width",
@@ -180,6 +211,12 @@ export default class AeroResizeBox extends AeroShadowElement {
 		];
 	}
 
+	/**
+	 * Called when an observed attribute has been added, removed, or changed.
+	 * @param {string} name - The name of the attribute that changed.
+	 * @param {string | null} _oldValue - The old value of the attribute.
+	 * @param {string | null} newValue - The new value of the attribute.
+	 */
 	attributeChangedCallback(
 		name: string,
 		_oldValue: string | null,
@@ -188,6 +225,10 @@ export default class AeroResizeBox extends AeroShadowElement {
 		this.baseAeroResizeBoxAttributeHandlers[name]?.(newValue);
 	}
 
+	/**
+	 * A map of attribute names to their respective handler functions.
+	 * @private
+	 */
 	private baseAeroResizeBoxAttributeHandlers: Record<
 		string,
 		(newValue: string | null) => void
@@ -222,6 +263,11 @@ export default class AeroResizeBox extends AeroShadowElement {
 		},
 	};
 
+	/**
+	 * Enables or disables the top resizer.
+	 * @param {boolean} enabled - Whether the resizer should be enabled.
+	 * @private
+	 */
 	private updateTopResizerState(enabled: boolean) {
 		this._hasTopResizer = enabled;
 		this.updateResizeState(
@@ -231,6 +277,11 @@ export default class AeroResizeBox extends AeroShadowElement {
 		)
 	}
 
+	/**
+	 * Enables or disables the bottom resizer.
+	 * @param {boolean} enabled - Whether the resizer should be enabled.
+	 * @private
+	 */
 	private updateBottomResizerState(enabled: boolean) {
 		this._hasBottomResizer = enabled;
 		this.updateResizeState(
@@ -240,6 +291,11 @@ export default class AeroResizeBox extends AeroShadowElement {
 		)
 	}
 
+	/**
+	 * Enables or disables the left resizer.
+	 * @param {boolean} enabled - Whether the resizer should be enabled.
+	 * @private
+	 */
 	private updateLeftResizerState(enabled: boolean) {
 		this._hasLeftResizer = enabled;
 		this.updateResizeState(
@@ -249,6 +305,11 @@ export default class AeroResizeBox extends AeroShadowElement {
 		)
 	}
 
+	/**
+	 * Enables or disables the right resizer.
+	 * @param {boolean} enabled - Whether the resizer should be enabled.
+	 * @private
+	 */
 	private updateRightResizerState(enabled: boolean) {
 		this._hasRightResizer = enabled;
 		this.updateResizeState(
@@ -258,6 +319,13 @@ export default class AeroResizeBox extends AeroShadowElement {
 		)
 	}
 
+	/**
+	 * A helper function to add or remove the mousedown event listener for a resizer.
+	 * @param {HTMLElement} resizer - The resizer element.
+	 * @param {boolean} enabled - Whether the resizer is enabled.
+	 * @param {(e: MouseEvent) => void} handler - The event handler.
+	 * @private
+	 */
 	private updateResizeState(
 		resizer: HTMLElement,
 		enabled: boolean,
@@ -269,26 +337,59 @@ export default class AeroResizeBox extends AeroShadowElement {
 		else resizer.removeEventListener("mousedown", handler);
 	}
 
+	/**
+	 * Updates the internal minimum width value.
+	 * @param {string | null} val - The new value.
+	 * @private
+	 */
 	private updateMinWidthValue(val: string | null) {
 		this._nMinWidth = val ? Number(val) : 0;
 	}
 
+	/**
+	 * Updates the internal maximum width value.
+	 * @param {string | null} val - The new value.
+	 * @private
+	 */
 	private updateMaxWidthValue(val: string | null) {
 		this._nMaxWidth = val ? Number(val) : 2000;
 	}
 
+	/**
+	 * Updates the internal minimum height value.
+	 * @param {string | null} val - The new value.
+	 * @private
+	 */
 	private updateMinHeightValue(val: string | null) {
 		this._nMinHeight = val ? Number(val) : 0;
 	}
 
+	/**
+	 * Updates the internal maximum height value.
+	 * @param {string | null} val - The new value.
+	 * @private
+	 */
 	private updateMaxHeightValue(val: string | null) {
 		this._nMaxHeight = val ? Number(val) : 2000;
 	}
 
+	/**
+	 * The color of the resizer handles on hover.
+	 * @param {string} color - The color value.
+	 * @type {string}
+	 * @attr
+	 * @default "#ccc"
+	 */
 	set resizerColor(color: string) {
 		this.setAttribute("resizer-color", color);
 	}
 
+	/**
+	 * The minimum width of the box.
+	 * @type {string}
+	 * @attr min-width
+	 * @default "0"
+	 */
 	get minWidth() {
 		return this._nMinWidth.toString();
 	}
@@ -296,6 +397,12 @@ export default class AeroResizeBox extends AeroShadowElement {
 		this.setAttribute("min-width", val);
 	}
 
+	/**
+	 * The maximum width of the box.
+	 * @type {string}
+	 * @attr max-width
+	 * @default "2000"
+	 */
 	get maxWidth() {
 		return this._nMaxWidth.toString();
 	}
@@ -303,6 +410,12 @@ export default class AeroResizeBox extends AeroShadowElement {
 		this.setAttribute("max-width", val);
 	}
 
+	/**
+	 * The minimum height of the box.
+	 * @type {string}
+	 * @attr min-height
+	 * @default "0"
+	 */
 	get minHeight() {
 		return this._nMinHeight.toString();
 	}
@@ -310,6 +423,12 @@ export default class AeroResizeBox extends AeroShadowElement {
 		this.setAttribute("min-height", val);
 	}
 
+	/**
+	 * The maximum height of the box.
+	 * @type {string}
+	 * @attr max-height
+	 * @default "2000"
+	 */
 	get maxHeight() {
 		return this._nMaxHeight.toString();
 	}
@@ -317,30 +436,54 @@ export default class AeroResizeBox extends AeroShadowElement {
 		this.setAttribute("max-height", val);
 	}
 
+	/**
+	 * Enables the top resizer.
+	 */
 	addTopResizer() {
 		this.setAttribute("resize-top", "");
 	}
+	/**
+	 * Disables the top resizer.
+	 */
 	removeTopResizer() {
 		this.removeAttribute("resize-top");
 	}
 
+	/**
+	 * Enables the bottom resizer.
+	 */
 	addBottomResizer() {
 		this.setAttribute("resize-bottom", "");
 	}
+	/**
+	 * Disables the bottom resizer.
+	 */
 	removeBottomResizer() {
 		this.removeAttribute("resize-bottom");
 	}
 
+	/**
+	 * Enables the left resizer.
+	 */
 	addLeftResizer() {
 		this.setAttribute("resize-left", "");
 	}
+	/**
+	 * Disables the left resizer.
+	 */
 	removeLeftResizer() {
 		this.removeAttribute("resize-left");
 	}
 
+	/**
+	 * Enables the right resizer.
+	 */
 	addRightResizer() {
 		this.setAttribute("resize-right", "");
 	}
+	/**
+	 * Disables the right resizer.
+	 */
 	removeRightResizer() {
 		this.removeAttribute("resize-right");
 	}
