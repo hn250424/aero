@@ -1,2 +1,2 @@
 export type { PlaygroundEditors } from "./editors"
-export type { PlaygroundWidget } from "./widgets"
+export type { PlaygroundWidgets } from "./widgets"

@@ -1,12 +1,5 @@
-import "./index.css";
-import "./styles/common.css";
-import "./styles/home.css";
+import "./index.css"
+import { init } from "./app";
 
-import navigate from "./nav";
-
-document.addEventListener("DOMContentLoaded", () => {
-	navigate();
-
-
-});
+document.addEventListener("DOMContentLoaded", init);
 

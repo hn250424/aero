@@ -12,7 +12,7 @@ numericInput.value = 1
 numericInput.step = 0.46
 document.body.appendChild(numericInput)`;
 
-export default {
+export const aeroNumericInput = {
 	html: html,
 	css: css,
 	js: js,

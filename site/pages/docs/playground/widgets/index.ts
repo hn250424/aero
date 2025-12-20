@@ -1,14 +1,14 @@
-import type { ComponentKeys } from "../../domain";
-import type { PlaygroundWidget } from "../domain";
+import type { ComponentKeys } from "@site/domain";
+import type { PlaygroundWidgets } from "../domain";
 
-import AeroNumericInput from "./numeric_input";
-import AeroSpinbox from "./spinbox";
-import AeroProgressSpinner from "./progress_spinner";
-import AeroResizeBox from "./resize_box";
+import { aeroNumericInput } from "./numeric_input";
+import { aeroSpinbox } from "./spinbox";
+import { aeroProgressSpinner } from "./progress_spinner";
+import { aeroResizeBox } from "./resize_box";
 
-export const widgets: Record<ComponentKeys, PlaygroundWidget> = {
-  "aero-numeric-input": AeroNumericInput,
-  "aero-spinbox": AeroSpinbox,
-  "aero-progress-spinner": AeroProgressSpinner,
-  "aero-resize-box": AeroResizeBox,
+export const widgets: Record<ComponentKeys, PlaygroundWidgets> = {
+  "aero-numeric-input": aeroNumericInput,
+  "aero-spinbox": aeroSpinbox,
+  "aero-progress-spinner": aeroProgressSpinner,
+  "aero-resize-box": aeroResizeBox,
 } as const;

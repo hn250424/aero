@@ -12,7 +12,7 @@ spinbox.value = 1
 spinbox.step = 0.46
 document.body.appendChild(spinbox)`;
 
-export default {
+export const aeroSpinbox = {
 	html: html,
 	css: css,
 	js: js,
