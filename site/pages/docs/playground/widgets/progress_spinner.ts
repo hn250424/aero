@@ -32,7 +32,7 @@ div.appendChild(spinner)
 
 document.body.appendChild(div)`;
 
-export default {
+export const aeroProgressSpinner = {
 	html: html,
 	css: css,
 	js: js,

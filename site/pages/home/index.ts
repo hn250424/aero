@@ -1,0 +1,1 @@
+export { setupHomeNavigation } from "./setupHomeNavigation";

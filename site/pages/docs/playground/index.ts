@@ -1,23 +1,16 @@
-import "./docs_playground.css"
+import "./docs_playground.css";
 
-import type { ComponentKeys } from "../domain/component";
+import type { ComponentKeys } from "@site/domain/component";
 import type { PlaygroundEditors } from "./domain";
 
-import { subscribeComponentChange } from "../store/component";
-import { createPlaygroundEditors } from "./editors";
 import { widgets } from "./widgets";
 
-export default function initDocsPlayground() {
-	const $htmlBox = document.querySelector(".html-box") as HTMLElement;
-	const $cssBox = document.querySelector(".css-box") as HTMLElement;
-	const $javascriptBox = document.querySelector(".javascript-box") as HTMLElement;
-	const $playgroundIframe = document.querySelector(".playground-iframe") as HTMLIFrameElement;
+export type { PlaygroundEditors, PlaygroundWidgets } from "./domain";
 
-	const editors = createPlaygroundEditors($htmlBox, $cssBox, $javascriptBox, $playgroundIframe);
+export { createPlaygroundEditors } from "./editors";
 
-	subscribeComponentChange(key => {
-		applyWidget(key as ComponentKeys, editors);
-	})
+export function applyWidgetToPlayground(editors: PlaygroundEditors, key: ComponentKeys) {
+	applyWidget(key, editors);
 }
 
 function applyWidget(

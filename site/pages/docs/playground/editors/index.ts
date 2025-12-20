@@ -1,4 +1,5 @@
 import type { Extension } from "@codemirror/state";
+import type { PlaygroundEditors } from "../domain";
 
 import { EditorView, basicSetup } from "codemirror";
 import { indentUnit } from "@codemirror/language";
@@ -6,18 +7,6 @@ import { html } from "@codemirror/lang-html";
 import { css } from "@codemirror/lang-css";
 import { javascript } from "@codemirror/lang-javascript";
 import { AERO_IMPORT_PATH } from "@site/constants/path";
-
-function createEditor(parent: HTMLElement, extensions: Extension[], onChange: () => void) {
-	return new EditorView({
-		extensions: [
-			basicSetup,
-			indentUnit.of("    "),
-			...extensions,
-			EditorView.updateListener.of(onChange),
-		],
-		parent: parent,
-	});
-}
 
 /**
  * Creates HTML/CSS/JS editors inside the provided box elements.
@@ -27,8 +16,8 @@ export function createPlaygroundEditors(
 	$htmlBox: HTMLElement,
 	$cssBox: HTMLElement,
 	$javascriptBox: HTMLElement,
-	$playgroundIframe: HTMLIFrameElement,
-) {
+	$playgroundIframe: HTMLIFrameElement
+): PlaygroundEditors {
 	const updatePlayground = () => {
 		const doc = `
 			<html>
@@ -63,11 +52,36 @@ export function createPlaygroundEditors(
 
 	const htmlEditor = createEditor($htmlBox, [html()], updatePlayground);
 	const cssEditor = createEditor($cssBox, [css()], updatePlayground);
-	const javascriptEditor = createEditor($javascriptBox, [javascript()], updatePlayground);
+	const javascriptEditor = createEditor(
+		$javascriptBox,
+		[javascript()],
+		updatePlayground
+	);
 
 	return {
 		htmlEditor,
 		cssEditor,
 		javascriptEditor,
+		dispose() {
+			htmlEditor.destroy();
+			cssEditor.destroy();
+			javascriptEditor.destroy();
+		}
 	};
+}
+
+function createEditor(
+	parent: HTMLElement,
+	extensions: Extension[],
+	onChange: () => void
+) {
+	return new EditorView({
+		extensions: [
+			basicSetup,
+			indentUnit.of("    "),
+			...extensions,
+			EditorView.updateListener.of(onChange),
+		],
+		parent: parent,
+	});
 }

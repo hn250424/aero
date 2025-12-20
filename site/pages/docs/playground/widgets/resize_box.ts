@@ -43,7 +43,7 @@ resizeBox.append(red, brown)
 const rc = document.getElementById('rc')
 rc.appendChild(resizeBox)`;
 
-export default {
+export const aeroResizeBox = {
 	html: html,
 	css: css,
 	js: js,

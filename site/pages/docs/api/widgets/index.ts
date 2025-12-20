@@ -1,4 +1,4 @@
-import type { ComponentKeys } from "../../domain";
+import type { ComponentKeys } from "@site/domain";
 
 import AeroNumericInput from "./aero-numeric-input.html?raw";
 import AeroSpinbox from "./aero-spinbox.html?raw";
