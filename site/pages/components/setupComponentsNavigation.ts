@@ -10,7 +10,7 @@ import { applyWidgetToPlayground } from "./playground";
 export function setupComponentsNavigation(appContext: AppContext) {
 	appContext.$navComponents?.addEventListener("click", (e) => {
 		const $target = (e.target as HTMLElement).closest(
-			"li[data-key"
+			"li[data-key]"
 		) as HTMLElement;
 		if (!$target) return;
 

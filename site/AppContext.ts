@@ -5,7 +5,8 @@ export class AppContext {
 	$main: HTMLElement;
 	$logoImg: HTMLElement;
 
-	$navComponents = document.querySelector(".nav-components");
+	$navComponents: HTMLElement;
+	$navLinks: HTMLElement;
 
 	private _currentCategory: NavCategory | null = null;
 	private _activeContext: Context | null = null;
@@ -14,7 +15,8 @@ export class AppContext {
 		this.$main = document.querySelector("main") as HTMLElement;
 		this.$logoImg = document.querySelector("#logo") as HTMLElement;
 
-		this.$navComponents = document.querySelector(".nav-components");
+		this.$navComponents = document.querySelector(".nav-components") as HTMLElement;
+		this.$navLinks = document.querySelector(".nav-links") as HTMLElement;
 	}
 
 	switchCategory<T extends Context>(
@@ -32,7 +34,7 @@ export class AppContext {
 
 		return this._activeContext as T;
 	}
-	
+
 	getActiveContext<T extends Context>(): T {
 		return this._activeContext as T;
 	}
