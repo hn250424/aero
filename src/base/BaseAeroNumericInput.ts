@@ -107,19 +107,28 @@ export abstract class BaseAeroNumericInput extends AeroShadowElement {
 	 * @private
 	 */
 	private dispatchInputEvents() {
-		this._input.addEventListener("input", () => {
+		this._input.addEventListener("input", (event: Event) => {
+			event.stopImmediatePropagation();
 			this.forwardNativeEvent("input")
 		})
 
-		this._input.addEventListener("change", () => {
+		this._input.addEventListener("change", (event: Event) => {
+			event.stopImmediatePropagation();
+			
+			const validatedValue = this.getValidateValue(this._input.value);
+			this.value = validatedValue;
+
 			this.forwardNativeEvent("change")
 		})
 
-		this._input.addEventListener("focusin", () => {
+		this._input.addEventListener("focusin", (event: Event) => {
+			event.stopImmediatePropagation();
 			this.forwardNativeEvent("focusin")
 		})
 
-		this._input.addEventListener("focusout", () => {
+		this._input.addEventListener("focusout", (event: Event) => {
+			event.stopImmediatePropagation();
+
 			const validatedValue = this.getValidateValue(this._input.value);
 			this.value = validatedValue;
 
