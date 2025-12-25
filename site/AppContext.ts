@@ -32,6 +32,7 @@ export class AppContext {
 
 		return this._activeContext as T;
 	}
+	
 	getActiveContext<T extends Context>(): T {
 		return this._activeContext as T;
 	}

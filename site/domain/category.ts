@@ -1,4 +1,5 @@
 export type NavCategory =
 	| "home"
-	| "docs"
-	| "about"
+	| "getting_started"
+	| "components"
+	| "links"

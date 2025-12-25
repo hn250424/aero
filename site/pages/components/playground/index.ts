@@ -1,4 +1,4 @@
-import "./docs_playground.css";
+import "./components_playground.css";
 
 import type { ComponentKeys } from "@site/domain/component";
 import type { PlaygroundEditors } from "./domain";

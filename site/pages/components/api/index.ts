@@ -1,5 +1,5 @@
 import "github-markdown-css/github-markdown.css";
-import "./docs_api.css";
+import "./components_api.css";
 
 import type { ComponentKeys } from "@site/domain/component";
 

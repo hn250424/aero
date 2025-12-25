@@ -1,4 +1,19 @@
+@import url("./styles/color.css");
 @import url("./styles/common.css");
-@import url("./styles/home.css");
 @import url("./styles/main.css");
 @import url("./styles/nav.css");
+
+html,
+body {
+	width: 100%;
+	height: 100%;
+}
+
+body {
+	display: grid;
+	grid-template-columns: 180px 1fr;
+}
+
+body > * {
+	overflow: auto;
+}

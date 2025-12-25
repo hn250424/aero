@@ -1,4 +1,4 @@
-import "./docs_introduction.css";
+import "./components_introduction.css";
 
 import type { ComponentKeys } from "@site/domain/component";
 
