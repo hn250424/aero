@@ -1,13 +1,15 @@
+import "./components.css";
+
 import type { Context } from "../Context";
 import type { PlaygroundEditors } from "./playground";
 
 import { createPlaygroundEditors } from "./playground";
 
-import docsIntroductionHtml from "./introduction/docs_introduction.html?raw";
-import docsApiHtml from "./api/docs_api.html?raw";
-import docsPlaygroundHtml from "./playground/docs_playground.html?raw";
+import componentsIntroductionHtml from "./introduction/components_introduction.html?raw";
+import componentsApiHtml from "./api/components_api.html?raw";
+import componentsPlaygroundHtml from "./playground/components_playground.html?raw";
 
-export class DocsContext implements Context {
+export class ComponentsContext implements Context {
 	readonly $introductionContent: HTMLElement;
 	readonly $apiContent: HTMLElement;
 	readonly $htmlBox: HTMLElement;
@@ -17,7 +19,8 @@ export class DocsContext implements Context {
 	readonly editors: PlaygroundEditors;
 
 	constructor($main: HTMLElement) {
-		$main.innerHTML = docsIntroductionHtml + docsApiHtml + docsPlaygroundHtml;
+		$main.innerHTML =
+			`<div class="components_container">${componentsIntroductionHtml + componentsApiHtml + componentsPlaygroundHtml}</div>`;
 
 		this.$introductionContent = document.querySelector(".introduction-content")!;
 		this.$apiContent = document.querySelector(".api-content")!;
