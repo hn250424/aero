@@ -1,6 +1,7 @@
-const html = `<div class="wrapper" style="background-color: #424242;">
+const html = `<div class="wrapper" style="background-color: #C5D89D;">
 	<aero-progress-spinner width="60" height="60"
-		cycle="2" background="black" color="red"></aero-progress-spinner>
+		cycle="2" background="white" color="#9CAB84">
+	</aero-progress-spinner>
 </div>`;
 
 const css = `.wrapper {
@@ -18,19 +19,7 @@ aero-progress-spinner {
 
 }`;
 
-const js = `const div = document.createElement('div')
-div.classList.add('wrapper')
-div.style.background = '#dce1f5'
-
-const spinner = document.createElement('aero-progress-spinner')
-spinner.width = '60'
-spinner.height = '60'
-spinner.background = 'white'
-spinner.color = 'blue'
-spinner.cycle = '2'
-div.appendChild(spinner)
-
-document.body.appendChild(div)`;
+const js = ``;
 
 export const aeroProgressSpinner = {
 	html: html,
