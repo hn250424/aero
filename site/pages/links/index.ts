@@ -1,0 +1,1 @@
+export { setupLinksNavigation } from "./setupLinksNavigation";
