@@ -1,4 +1,5 @@
-import "@hn250424/aero";
+// import "@hn250424/aero";
+import { AERO_IMPORT_PATH } from "@site/constants/path";
 
 import type { Extension } from "@codemirror/state";
 import type { PlaygroundEditors } from "../domain";
@@ -19,7 +20,7 @@ export function createPlaygroundEditors(
 	$javascriptBox: HTMLElement,
 	$playgroundIframe: HTMLIFrameElement
 ): PlaygroundEditors {
-	const updatePlayground = () => {
+		const updatePlayground = () => {
 		const doc = `
 			<html>
 				<head>
@@ -27,14 +28,32 @@ export function createPlaygroundEditors(
 				</head>
 				<body>
 					${htmlEditor.state.doc.toString()}
-					<script src="https://unpkg.com/@hn250424/aero/umd"></script>
-					<script type="module">${javascriptEditor.state.doc.toString()}</script>
+					<script type="module">
+						import '${AERO_IMPORT_PATH}'
+						${javascriptEditor.state.doc.toString()}
+					</script>
 				</body>
 			</html>
 		`;
 
 		$playgroundIframe.srcdoc = doc;
 	};
+	// const updatePlayground = () => {
+	// 	const doc = `
+	// 		<html>
+	// 			<head>
+	// 				<style>${cssEditor.state.doc.toString()}</style>
+	// 			</head>
+	// 			<body>
+	// 				${htmlEditor.state.doc.toString()}
+	// 				<script src="https://unpkg.com/@hn250424/aero/umd"></script>
+	// 				<script type="module">${javascriptEditor.state.doc.toString()}</script>
+	// 			</body>
+	// 		</html>
+	// 	`;
+
+	// 	$playgroundIframe.srcdoc = doc;
+	// };
 
 	const htmlEditor = createEditor($htmlBox, [html()], updatePlayground);
 	const cssEditor = createEditor($cssBox, [css()], updatePlayground);
