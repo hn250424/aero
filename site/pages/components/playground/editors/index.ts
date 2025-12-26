@@ -1,3 +1,5 @@
+import "@hn250424/aero";
+
 import type { Extension } from "@codemirror/state";
 import type { PlaygroundEditors } from "../domain";
 
@@ -6,7 +8,6 @@ import { indentUnit } from "@codemirror/language";
 import { html } from "@codemirror/lang-html";
 import { css } from "@codemirror/lang-css";
 import { javascript } from "@codemirror/lang-javascript";
-import { AERO_IMPORT_PATH } from "@site/constants/path";
 
 /**
  * Creates HTML/CSS/JS editors inside the provided box elements.
@@ -26,10 +27,8 @@ export function createPlaygroundEditors(
 				</head>
 				<body>
 					${htmlEditor.state.doc.toString()}
-					<script type="module">
-						import * as aero from '${AERO_IMPORT_PATH}'
-						${javascriptEditor.state.doc.toString()}
-					</script>
+					<script src="https://unpkg.com/@hn250424/aero/umd"></script>
+					<script type="module">${javascriptEditor.state.doc.toString()}</script>
 				</body>
 			</html>
 		`;
