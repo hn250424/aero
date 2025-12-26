@@ -1,17 +1,31 @@
 {
-  "name": "aero",
-  "private": true,
-  "version": "0.0.0",
+  "name": "@hn250424/aero",
+  "version": "0.1.1",
+  "description": "Web component library with built-in convenience features",
+  "license": "MIT",
   "type": "module",
+  "main": "lib/aero.es.js",
+  "module": "lib/aero.es.js",
+  "types": "lib/aero.es.d.ts",
+  "files": [
+    "lib"
+  ],
+  "exports": {
+    ".": {
+      "types": "./lib/aero.es.d.ts",
+      "import": "./lib/aero.es.js"
+    },
+    "./umd": "./lib/aero.umd.js"
+  },
   "scripts": {
     "build:lib": "node scripts/build/build-lib.js",
     "build:docs": "node scripts/build/build-docs.js",
     "build:all": "npm run build:lib && npm run build:docs",
     "preview:docs": "vite preview --config vite.config.docs.ts",
-    "docs:api:analyze": "npx cem analyze",
-    "docs:api:build": "node scripts/docs/generate-docs-from-cem.mjs",
-    "docs:api": "npm run docs:api:analyze && npm run docs:api:build",
-		"test": "npx vitest"
+    "docs:analyze": "npx cem analyze",
+    "docs:build": "node scripts/docs/generate-docs-from-cem.mjs",
+    "docs:all": "npm run docs:analyze && npm run docs:build",
+    "test": "npx vitest"
   },
   "devDependencies": {
     "@custom-elements-manifest/analyzer": "^0.11.0",
@@ -27,6 +41,7 @@
     "@codemirror/lang-css": "^6.3.1",
     "@codemirror/lang-html": "^6.4.11",
     "@codemirror/lang-javascript": "^6.2.4",
+    "@hn250424/aero": "^0.1.1",
     "codemirror": "^6.0.2",
     "github-markdown-css": "^5.8.1",
     "marked": "^17.0.1"
