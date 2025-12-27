@@ -2,7 +2,7 @@
 
 **Aero** is a Web Component–based UI library focused on **behavior and convenience**.
 
-👉 You control the CSS.
+👉 You control the CSS.  
 👉 Aero handles the behavior.
 
 ## Installation
