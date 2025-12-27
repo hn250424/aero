@@ -1,0 +1,46 @@
+<section class="getting-started-usage getting-started-section">
+	<h1>Usage</h1>
+
+	<p>
+		If you're using a bundler (Vite, Webpack, etc.), import Aero once at your application entry point:
+	</p>
+
+	<pre><code class="language-ts">
+		import "@hn250424/aero";
+	</code></pre>
+
+	<p>
+		You can then use the components in your HTML:
+	</p>
+
+	<pre><code class="language-html">
+		&lt;aero-numeric-input&gt;&lt;/aero-numeric-input&gt;
+	</code></pre>
+
+	<p>
+		If you import the component type explicitly,
+		you can benefit from type checking and IDE auto-completion when creating elements dynamically.
+	</p>
+
+	<pre><code class="language-ts">
+		import type { AeroNumericInput } from "@hn250424/aero";
+		const input = document.createElement("aero-numeric-input") as AeroNumericInput;
+	</code></pre>
+
+	<p>
+		For simple usage without a bundler, you can include Aero directly via CDN:
+	</p>
+
+	<pre><code class="language-html">
+		&lt;script src="https://unpkg.com/@hn250424/aero/umd"&gt;&lt;/script&gt;
+	</code></pre>
+
+	<p>
+		You can then use the components in your HTML:
+	</p>
+
+	<pre><code class="language-html">
+		&lt;aero-numeric-input&gt;&lt;/aero-numeric-input&gt;
+	</code></pre>
+
+</section>

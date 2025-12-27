@@ -20,7 +20,7 @@ export class ComponentsContext implements Context {
 
 	constructor($main: HTMLElement) {
 		$main.innerHTML =
-			`<div class="components_container">${componentsIntroductionHtml + componentsApiHtml + componentsPlaygroundHtml}</div>`;
+			`<div class="components-container">${componentsIntroductionHtml + componentsApiHtml + componentsPlaygroundHtml}</div>`;
 
 		this.$introductionContent = document.querySelector(".introduction-content")!;
 		this.$apiContent = document.querySelector(".api-content")!;

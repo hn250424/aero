@@ -1,9 +1,9 @@
-.components_container {
+.components-container {
 	display: flex;
 	flex-direction: column;
 
 	gap: 30px;
-	padding: 30px;
+	padding: var(--container-padding);
 }
 
 .components-title {
