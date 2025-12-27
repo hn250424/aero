@@ -1,0 +1,13 @@
+/* @import url("./installation/getting_started_installation.css");
+@import url("./usage/getting_started_usage.css"); */
+
+.getting-started-container {
+	width: 1000px;
+	padding: var(--container-padding);
+}
+
+.getting-started-section {
+	display: flex;
+	flex-direction: column;
+	gap: 20px;
+}

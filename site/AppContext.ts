@@ -5,6 +5,7 @@ export class AppContext {
 	$main: HTMLElement;
 	$logoImg: HTMLElement;
 
+	$navGettingStarted: HTMLElement;
 	$navComponents: HTMLElement;
 	$navLinks: HTMLElement;
 
@@ -15,6 +16,7 @@ export class AppContext {
 		this.$main = document.querySelector("main") as HTMLElement;
 		this.$logoImg = document.querySelector("#logo") as HTMLElement;
 
+		this.$navGettingStarted = document.querySelector(".nav-getting-started") as HTMLElement;
 		this.$navComponents = document.querySelector(".nav-components") as HTMLElement;
 		this.$navLinks = document.querySelector(".nav-links") as HTMLElement;
 	}

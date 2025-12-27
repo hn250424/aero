@@ -2,7 +2,7 @@
 
 **Aero** is a Web Component–based UI library focused on **behavior and convenience**.
 
-👉 You control the CSS.  
+👉 You control the CSS.
 👉 Aero handles the behavior.
 
 ## Installation
@@ -16,9 +16,7 @@ npm install @hn250424/aero
 
 ## Usage
 
-### With a bundler (Vite, Webpack, etc.)
-
-Import Aero once at your application entry point.
+If you're using a bundler (Vite, Webpack, etc.), import Aero once at your application entry point:
 
 ```ts
 import "@hn250424/aero";
@@ -38,9 +36,7 @@ import type { AeroNumericInput } from "@hn250424/aero";
 const input = document.createElement("aero-numeric-input") as AeroNumericInput;
 ```
 
-### CDN
-
-Include the UMD build directly in your HTML.
+For simple usage without a bundler, you can include Aero directly via CDN:
 
 ```html
 <script src="https://unpkg.com/@hn250424/aero/umd"></script>

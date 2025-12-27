@@ -1,0 +1,1 @@
+export { setupGettingStartedNavigation } from "./setupGettingStartedNavigation";
