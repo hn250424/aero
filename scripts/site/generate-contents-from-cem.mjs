@@ -7,7 +7,7 @@ import { JSDOM } from "jsdom";
 const ROOT = process.cwd();
 
 const cemRaw = fs.readFileSync(
-	path.resolve(ROOT, "site/custom-elements.json"),
+	path.resolve(ROOT, "artifacts/cem/custom-elements.json"),
 	"utf-8"
 );
 

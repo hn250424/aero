@@ -8,7 +8,7 @@ const libDir = path.resolve("lib");
 try {
 	console.log("🚀 Building library...");
 
-	execSync("npx vite build --config vite.config.lib.ts", {
+	execSync("npx vite build --config vite.config.src.ts", {
 		cwd: rootDir,
 		stdio: "inherit",
 	});
