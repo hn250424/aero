@@ -32,6 +32,7 @@
     "@custom-elements-manifest/to-markdown": "^0.1.0",
     "@types/node": "^24.5.0",
     "@types/prismjs": "^1.26.5",
+    "gh-pages": "^6.3.0",
     "jsdom": "^27.3.0",
     "typescript": "~5.8.3",
     "vite": "^7.1.2",
