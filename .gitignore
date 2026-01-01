@@ -24,8 +24,8 @@ lib
 *.sln
 *.sw?
 
-# cem.
-custom-elements.json
+artifacts
+docs
 
 # temp
 test-typings.ts

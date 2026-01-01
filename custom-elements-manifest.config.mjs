@@ -1,6 +1,6 @@
 export default {
   globs: ["src/**/*.ts"],
-  outdir: "site",
+  outdir: "artifacts/cem",
   plugins: [
     createFilterPlugin()
   ]

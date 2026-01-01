@@ -18,14 +18,13 @@
     "./umd": "./lib/aero.umd.js"
   },
   "scripts": {
-    "build:lib": "node scripts/build/build-lib.js",
-    "build:docs": "node scripts/build/build-docs.js",
-    "build:all": "npm run build:lib && npm run build:docs",
-    "preview:docs": "vite preview --config vite.config.docs.ts",
-    "docs:analyze": "npx cem analyze",
-    "docs:build": "node scripts/docs/generate-docs-from-cem.mjs",
-    "docs:all": "npm run docs:analyze && npm run docs:build",
-    "test": "npx vitest"
+    "src:analyze": "cem analyze",
+    "src:test": "vitest",
+    "src:build": "node scripts/build/build-src.js",
+    "site:prebuild": "npm run src:analyze && node scripts/site/generate-contents-from-cem.mjs",
+    "site:build": "node scripts/build/build-site.js",
+    "site:preview": "vite preview --config vite.config.site.ts",
+    "site:deploy": "gh-pages -d docs"
   },
   "devDependencies": {
     "@custom-elements-manifest/analyzer": "^0.11.0",
@@ -49,5 +48,5 @@
     "marked": "^17.0.1",
     "prismjs": "^1.30.0"
   },
-  "customElements": "site/custom-elements.json"
+  "customElements": "artifacts/cem/custom-elements.json"
 }

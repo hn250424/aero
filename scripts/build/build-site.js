@@ -13,8 +13,8 @@ try {
 
 	if (!existsSync(libDir)) {
 		console.log("📦 Library not built. Building src...");
-		
-		execSync("node scripts/build/build-lib.js", {
+
+		execSync("node scripts/build/build-src.js", {
 			cwd: rootDir,
 			stdio: "inherit",
 		});
@@ -22,7 +22,7 @@ try {
 		console.log("✅ Library already built.");
 	}
 
-	execSync("npx vite build --config vite.config.docs.ts", {
+	execSync("npx vite build --config vite.config.site.ts", {
 		cwd: rootDir,
 		stdio: "inherit",
 	});
