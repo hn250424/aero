@@ -19,11 +19,13 @@
   },
   "scripts": {
     "src:analyze": "cem analyze",
-    "src:test": "vitest",
+    "src:test": "vitest --config vite.config.src-test.ts",
+		"src:dev": "vite --config vite.config.src-dev.ts",
     "src:build": "node scripts/build/build-src.js",
+		"site:dev": "vite --config vite.config.site-dev.ts",
     "site:prebuild": "npm run src:analyze && node scripts/site/generate-contents-from-cem.mjs",
     "site:build": "node scripts/build/build-site.js",
-    "site:preview": "vite preview --config vite.config.site.ts",
+    "site:preview": "vite preview --config vite.config.site-build.ts",
     "site:deploy": "gh-pages -d docs"
   },
   "devDependencies": {

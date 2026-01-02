@@ -1,8 +1,9 @@
+import config from "./vite.config";
 import { defineConfig } from "vite";
 import path from "path";
-import dts from "vite-plugin-dts";
 
 export default defineConfig({
+	...config,
 	build: {
 		outDir: "lib",
 		lib: {
@@ -10,19 +11,5 @@ export default defineConfig({
 			name: "Aero",
 			fileName: (format) => `aero.${format}.js`,
 		},
-		rollupOptions: {
-			external: [],
-			output: {
-				globals: {},
-			},
-		},
 	},
-	plugins: [
-		dts({
-			entryRoot: "src",
-			insertTypesEntry: true,
-			outDir: "lib",
-			copyDtsFiles: true,
-		}),
-	],
 });
