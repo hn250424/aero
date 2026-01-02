@@ -1,0 +1,88 @@
+<style>
+	:host {
+		--aero-select-height: 24px;
+		--aero-select-border: 1px solid #3e3e3e;
+		--aero-select-dropdown-border: 1px solid #3e3e3e;
+		--aero-select-dropdown-item-border: 1px solid #3e3e3e;
+
+		display: block;
+
+		width: 150px;
+		height: var(--aero-select-height);
+	}
+
+	::slotted(*) {
+    display: grid;
+    grid-template-columns: 1fr auto;
+
+    text-align: center;
+		line-height: var(--aero-select-height);
+
+		border-bottom: var(--aero-select-dropdown-item-border);
+	}
+
+	::slotted(*:last-child) {
+		border-bottom: none;
+	}
+
+	::slotted(*)::after {
+		content: '';
+		aspect-ratio: 1 / 1;
+	}
+
+	#overlay {
+		position: relative;
+
+		width: 100%;
+    height: 100%;
+	}
+
+	#container {
+		width: 100%;
+		height: 100%;
+
+		display: grid;
+		grid-template-columns: 1fr auto;
+
+		border: var(--aero-select-border);
+		box-sizing: border-box; /* fix */
+	}
+
+	#current,
+	#button {
+		padding: 0;
+		margin: 0;
+	}
+
+	#current {
+		text-align: center;
+		align-self: center;
+	}
+
+	#button {
+    aspect-ratio: 1 / 1;
+	}
+
+	#dropdown {
+		position: absolute;
+
+		/* props top is set dynamic */
+		/* left: 0;
+		top: inherit; */
+
+		width: 100%;
+
+		border: var(--aero-select-dropdown-border);
+		box-sizing: border-box; /* fix */
+	}
+</style>
+
+<div id="overlay">
+	<div id="container">
+		<span id="current">option-1</span>
+		<button id="button">▽</button>
+	</div>
+	<div id="dropdown">
+		<slot></slot>
+	</div>
+</div>
