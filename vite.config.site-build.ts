@@ -1,10 +1,10 @@
-import config from "./vite.config";
 import { defineConfig } from "vite";
 import path from "path";
+import siteConfig from "./vite.config.site";
 
 export default defineConfig({
-	...config,
-	// base: "/aero/",
+	...siteConfig,
+	base: "/aero/",
 	build: {
 		outDir: "docs",
 		emptyOutDir: true,
@@ -14,7 +14,4 @@ export default defineConfig({
       },
     },
 	},
-  server: {
-    open: "./site-index.html",
-  },
 });

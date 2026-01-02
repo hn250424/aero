@@ -22,7 +22,7 @@ try {
 		console.log("✅ Library already built.");
 	}
 
-	execSync("npx vite build --config vite.config.site.ts", {
+	execSync("npx vite build --config vite.config.site-build.ts", {
 		cwd: rootDir,
 		stdio: "inherit",
 	});
