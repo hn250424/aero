@@ -26,7 +26,6 @@ lib
 
 artifacts
 docs
-
-# temp
-test-typings.ts
+src-dev-index.html
+src-dev-index.ts
 TODO.txt
