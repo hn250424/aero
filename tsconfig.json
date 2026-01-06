@@ -3,9 +3,7 @@
 		"baseUrl": ".",
     "paths": {
       "@site/*": ["site/*"],
-      "@core/*": ["src/core/*"],
-      "@base/*": ["src/base/*"],
-      "@components/*": ["src/components/*"]
+      "@src/*": ["src/*"],
     },
 
 		"target": "ES2022",
