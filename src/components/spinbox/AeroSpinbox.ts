@@ -12,6 +12,11 @@ import { BaseAeroNumericInput } from "../../base/BaseAeroNumericInput";
  *
  */
 export class AeroSpinbox extends BaseAeroNumericInput {
+	/** @private */
+	private _boundDecrement = this.decrement.bind(this);
+	/** @private */
+  private _boundIncrement = this.increment.bind(this);
+
 	/**
 	 * The decrement button element.
 	 * @private
@@ -23,14 +28,17 @@ export class AeroSpinbox extends BaseAeroNumericInput {
 	 */
 	private plus: HTMLElement;
 
+	/**
+   * Observer to handle component resizing for layout adjustments.
+   * @private
+   */
+	private resizeObserver: ResizeObserver;
+
 	constructor() {
 		super(aeroSpinboxHtmlTemplate);
 
 		this.minus = this.query("#minus");
 		this.plus = this.query("#plus");
-
-		this.minus.addEventListener("click", this.decrement.bind(this));
-		this.plus.addEventListener("click", this.increment.bind(this));
 
 		this.updateButtonBackgrondColor(
 			this.getAttribute("button-backgroundcolor")
@@ -39,7 +47,11 @@ export class AeroSpinbox extends BaseAeroNumericInput {
 		this.updatePlusText(this.getAttribute("plus-text"));
 		this.updateHeight(parseInt(getComputedStyle(this).height));
 
-		const resizeObserver = new ResizeObserver((entries) => {
+		/**
+     * Initialize ResizeObserver to dynamically update the grid layout
+     * based on the component's height.
+     */
+		this.resizeObserver = new ResizeObserver((entries) => {
 			for (const entry of entries) {
 				const newHeight = entry.contentRect.height;
 				this.applyStyles(
@@ -49,7 +61,6 @@ export class AeroSpinbox extends BaseAeroNumericInput {
 				);
 			}
 		});
-		resizeObserver.observe(this);
 	}
 
 	/**
@@ -60,6 +71,30 @@ export class AeroSpinbox extends BaseAeroNumericInput {
 	protected getInputSelector(): string {
 		return "#input";
 	}
+
+	/**
+   * Lifecycle callback: Invoked when the component is added to the DOM.
+   * Sets up event listeners and observers.
+   * @returns {void}
+   */
+	connectedCallback() {
+		this.minus.addEventListener("click", this._boundDecrement);
+		this.plus.addEventListener("click", this._boundIncrement);
+
+		this.resizeObserver.observe(this);
+  }
+
+	/**
+   * Lifecycle callback: Invoked when the component is removed from the DOM.
+   * Cleans up event listeners and observers to prevent memory leaks.
+   * @returns {void}
+   */
+  disconnectedCallback() {
+		this.minus.removeEventListener("click", this._boundDecrement);
+		this.plus.removeEventListener("click", this._boundIncrement);
+
+		this.resizeObserver.disconnect();
+  }
 
 	/**
 	 * Specifies the observed attributes for the custom element.

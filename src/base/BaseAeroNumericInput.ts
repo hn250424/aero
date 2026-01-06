@@ -17,6 +17,15 @@ import { AeroShadowElement } from "../core/AeroShadowElement";
  * @fires focusout - Fired when the element loses focus.
  */
 export abstract class BaseAeroNumericInput extends AeroShadowElement {
+	/** @private */
+	private _boundDispatchInputEvent = this._dispatchInputEvent.bind(this);
+	/** @private */
+	private _boundDispatchChangeEvent = this._dispatchChangeEvent.bind(this);
+	/** @private */
+	private _boundDispatchFocusinEvent = this._dispatchFocusinEvent.bind(this);
+	/** @private */
+	private _boundDispatchFocusoutEvent = this._dispatchFocusoutEvent.bind(this);
+
 	/**
 	 * The underlying HTML input element.
 	 * @private
@@ -60,8 +69,6 @@ export abstract class BaseAeroNumericInput extends AeroShadowElement {
 
 		this.initializeInput();
 
-		this.dispatchInputEvents();
-
 		this.updateInputValue(this.getAttribute("value"));
 		this.updateMinValue(this.getAttribute("min"));
 		this.updateMaxValue(this.getAttribute("max"));
@@ -103,37 +110,73 @@ export abstract class BaseAeroNumericInput extends AeroShadowElement {
 	}
 
 	/**
-	 * Sets up event listeners on the input element to forward native events.
-	 * @private
-	 */
-	private dispatchInputEvents() {
-		this._input.addEventListener("input", (event: Event) => {
-			event.stopImmediatePropagation();
-			this.forwardNativeEvent("input")
-		})
+   * Lifecycle callback: Invoked when the component is added to the DOM.
+   * Registers input-related event listeners.
+   */
+	connectedCallback() {
+		this._input.addEventListener("input", this._boundDispatchInputEvent);
+		this._input.addEventListener("change", this._boundDispatchChangeEvent);
+		this._input.addEventListener("focusin", this._boundDispatchFocusinEvent);
+		this._input.addEventListener("focusout", this._boundDispatchFocusoutEvent);
+  }
 
-		this._input.addEventListener("change", (event: Event) => {
-			event.stopImmediatePropagation();
-			
-			const validatedValue = this.getValidateValue(this._input.value);
-			this.value = validatedValue;
+	/**
+   * Lifecycle callback: Invoked when the component is removed from the DOM.
+   * Cleans up event listeners to prevent memory leaks.
+   */
+  disconnectedCallback() {
+		this._input.removeEventListener("input", this._boundDispatchInputEvent);
+		this._input.removeEventListener("change", this._boundDispatchChangeEvent);
+		this._input.removeEventListener("focusin", this._boundDispatchFocusinEvent);
+		this._input.removeEventListener("focusout", this._boundDispatchFocusoutEvent);
+  }
 
-			this.forwardNativeEvent("change")
-		})
+	/**
+   * Handles the native 'input' event, stopping propagation and forwarding it.
+   * @param {Event} event - The native event object.
+   * @private
+   */
+	private _dispatchInputEvent(event: Event) {
+		event.stopImmediatePropagation();
+		this.forwardNativeEvent("input")
+	}
 
-		this._input.addEventListener("focusin", (event: Event) => {
-			event.stopImmediatePropagation();
-			this.forwardNativeEvent("focusin")
-		})
+	/**
+   * Handles the native 'change' event, validates the current value, and forwards it.
+   * @param {Event} event - The native event object.
+   * @private
+   */
+	private _dispatchChangeEvent(event: Event) {
+		event.stopImmediatePropagation();
 
-		this._input.addEventListener("focusout", (event: Event) => {
-			event.stopImmediatePropagation();
+		const validatedValue = this.getValidateValue(this._input.value);
+		this.value = validatedValue;
 
-			const validatedValue = this.getValidateValue(this._input.value);
-			this.value = validatedValue;
+		this.forwardNativeEvent("change")
+	}
 
-			this.forwardNativeEvent("focusout")
-		})
+	/**
+   * Handles the native 'focusin' event.
+   * @param {Event} event - The native event object.
+   * @private
+   */
+	private _dispatchFocusinEvent(event: Event) {
+		event.stopImmediatePropagation();
+		this.forwardNativeEvent("focusin")
+	}
+
+	/**
+   * Handles the native 'focusout' event, validates the current value, and forwards it.
+   * @param {Event} event - The native event object.
+   * @private
+   */
+	private _dispatchFocusoutEvent(event: Event) {
+		event.stopImmediatePropagation();
+
+		const validatedValue = this.getValidateValue(this._input.value);
+		this.value = validatedValue;
+
+		this.forwardNativeEvent("focusout")
 	}
 
 	/**
