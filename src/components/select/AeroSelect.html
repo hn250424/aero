@@ -1,14 +1,43 @@
 <style>
 	:host {
-		--aero-select-height: 24px;
-		--aero-select-border: 1px solid #3e3e3e;
-		--aero-select-dropdown-border: 1px solid #3e3e3e;
-		--aero-select-dropdown-item-border: 1px solid #3e3e3e;
+		--aero-select-width: 150px;
+		--aero-select-height: 36px;
+
+		--aero-select-font-size: 16px;
+		--aero-select-font-family: san-serif;
+
+		--aero-select-border: 1px solid #000;
+
+		--aero-select-dropdown-border: 1px solid #000;
+		--aero-select-dropdown-z-index: 100;
+		--aero-select-dropdown-item-border: 1px solid grey;
+		--aero-select-dropdown-item-background: #fff;
+		--aero-select-dropdown-item-color: #000;
+
+		--aero-select-dropdown-hover-item-border: 1px solid grey;
+		--aero-select-dropdown-hover-item-background: #000;
+		--aero-select-dropdown-hover-item-color: white;
+		--aero-select-dropdown-hover-item-cursor: pointer;
+
+		--aero-select-span-background: transparent;
+		--aero-select-span-border: 1px solid transparent;
+
+		--aero-select-button-border: 1px solid #000;
+		--aero-select-button-background: lightgrey;
+		--aero-select-button-color: #000;
+
+		--aero-select-button-hover-border: 1px solid #000;
+		--aero-select-button-hover-background: grey;
+		--aero-select-button-hover-color: lightgrey;
+		--aero-select-button-hover-cursor: pointer;
 
 		display: block;
 
-		width: 150px;
+		width: var(--aero-select-width);
 		height: var(--aero-select-height);
+
+		font-size: var(--aero-select-font-size);
+		font-family: var(--aero-select-font-family);
 	}
 
 	::slotted(*) {
@@ -19,6 +48,16 @@
 		line-height: var(--aero-select-height);
 
 		border-bottom: var(--aero-select-dropdown-item-border);
+		background-color: var(--aero-select-dropdown-item-background);
+		color: var(--aero-select-dropdown-item-color);
+	}
+
+	::slotted(*.highlight),
+	::slotted(*:hover) {
+		border-bottom: var(--aero-select-dropdown-hover-item-border);
+		background-color: var(--aero-select-dropdown-hover-item-background);
+		color: var(--aero-select-dropdown-hover-item-color);
+		cursor: var(--aero-select-dropdown-hover-item-cursor);
 	}
 
 	::slotted(*:last-child) {
@@ -45,42 +84,63 @@
 		grid-template-columns: 1fr auto;
 
 		border: var(--aero-select-border);
-		box-sizing: border-box; /* fix */
+		box-sizing: border-box;
 	}
 
-	#current,
+	#span,
 	#button {
 		padding: 0;
 		margin: 0;
 	}
 
-	#current {
-		text-align: center;
-		align-self: center;
+	#span {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+
+		background-color: var(--aero-select-span-background);
+
+		border: var(--aero-select-span-border);
+		box-sizing: border-box;
+	}
+
+	#span:hover {
+		cursor: default;
 	}
 
 	#button {
     aspect-ratio: 1 / 1;
+
+		border: var(--aero-select-button-border);
+		background-color: var(--aero-select-button-background);
+		color: var(--aero-select-button-color);
+	}
+
+	#button:hover {
+		border: var(--aero-select-button-hover-border);
+		background-color: var(--aero-select-button-hover-background);
+		color: var(--aero-select-button-hover-color);
+		cursor: var(--aero-select-button-hover-cursor);
 	}
 
 	#dropdown {
 		position: absolute;
-
-		/* props top is set dynamic */
-		/* left: 0;
-		top: inherit; */
-
 		width: 100%;
-
+		display: none;
 		border: var(--aero-select-dropdown-border);
-		box-sizing: border-box; /* fix */
+		box-sizing: border-box;
+		z-index: var(--aero-select-dropdown-z-index);
+	}
+
+	#dropdown.open {
+		display: block;
 	}
 </style>
 
 <div id="overlay">
 	<div id="container">
-		<span id="current">option-1</span>
-		<button id="button">▽</button>
+		<span id="span"></span>
+		<button id="button"></button>
 	</div>
 	<div id="dropdown">
 		<slot></slot>
