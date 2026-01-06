@@ -22,11 +22,6 @@ export class AeroResizeBox extends AeroShadowElement {
 	private _leftResizer!: HTMLElement;
 	private _rightResizer!: HTMLElement;
 
-	private _hasTopResizer!: boolean;
-	private _hasBottomResizer!: boolean;
-	private _hasLeftResizer!: boolean;
-	private _hasRightResizer!: boolean;
-
 	private _nMinWidth!: number;
 	private _nMaxWidth!: number;
 	private _nMinHeight!: number;
@@ -59,82 +54,103 @@ export class AeroResizeBox extends AeroShadowElement {
 		this.updateMaxWidthValue(this.getAttribute("max-width"));
 		this.updateMinHeightValue(this.getAttribute("min-height"));
 		this.updateMaxHeightValue(this.getAttribute("max-height"));
+	}
 
-		this.updateTopResizerState(this.hasAttribute("resize-top"));
-		this.updateBottomResizerState(this.hasAttribute("resize-bottom"));
-		this.updateLeftResizerState(this.hasAttribute("resize-left"));
-		this.updateRightResizerState(this.hasAttribute("resize-right"));
+	connectedCallback() {
+		this.updateResizeState("top", this.hasAttribute("resize-top"));
+		this.updateResizeState("bottom", this.hasAttribute("resize-bottom"));
+		this.updateResizeState("left", this.hasAttribute("resize-left"));
+		this.updateResizeState("right", this.hasAttribute("resize-right"));
 
-		document.addEventListener("mousemove", (e) => {
-			if (!this.isDragging) return;
-			if (this.animationFrameId) cancelAnimationFrame(this.animationFrameId);
+		window.addEventListener("mousemove", this._handleMousemove);
+		window.addEventListener("mouseup", this._handleMouseup);
+	}
 
-			this.animationFrameId = requestAnimationFrame(() => {
-				const rect = this.getBoundingClientRect();
+	disconnectedCallback() {
+		this.updateResizeState("top", false);
+		this.updateResizeState("bottom", false);
+		this.updateResizeState("left", false);
+		this.updateResizeState("right", false);
 
-				if (this.isTopDragging) {
-					const offsetY = rect.bottom - e.clientY;
-					const newHeight = Math.min(
-						Math.max(offsetY, this._nMinHeight),
-						this._nMaxHeight
-					);
-					this.style.height = `${newHeight}px`;
-					this.emitResize(null, newHeight);
+		window.removeEventListener("mousemove", this._handleMousemove);
+		window.removeEventListener("mouseup", this._handleMouseup);
+	}
 
-				} else if (this.isBottomDragging) {
-					const offsetY = e.clientY - rect.top;
-					const newHeight = Math.min(
-						Math.max(offsetY, this._nMinHeight),
-						this._nMaxHeight
-					);
-					this.style.height = `${newHeight}px`;
-					this.emitResize(null, newHeight);
+	/**
+	 * Handles mouse move events to perform resizing.
+	 * @param {MouseEvent} e - The mouse event.
+	 * @private
+	 */
+	private _handleMousemove = (e: MouseEvent) => {
+		if (!this.isDragging) return;
+		if (this.animationFrameId) cancelAnimationFrame(this.animationFrameId);
 
-				} else if (this.isLeftDragging) {
-					const offsetX = rect.right - e.clientX;
-					const newWidth = Math.min(
-						Math.max(offsetX, this._nMinWidth),
-						this._nMaxWidth
-					);
-					this.style.width = `${newWidth}px`;
-					this.emitResize(newWidth, null);
+		this.animationFrameId = requestAnimationFrame(() => {
+			const rect = this.getBoundingClientRect();
 
-				} else if (this.isRightDragging) {
-					const offsetX = e.clientX - rect.left;
-					const newWidth = Math.min(
-						Math.max(offsetX, this._nMinWidth),
-						this._nMaxWidth
-					);
-					this.style.width = `${newWidth}px`;
-					this.emitResize(newWidth, null);
-
-				}
-			});
-		});
-
-		document.addEventListener("mouseup", () => {
-			if (!this.isDragging) return;
-			this.forwardCustomEvent("aero-resize-end", {
-				detail: {
-					width: this.offsetWidth,
-					height: this.offsetHeight,
-				}
-			})
-
-			if (this.animationFrameId) {
-				cancelAnimationFrame(this.animationFrameId);
-				this.animationFrameId = null;
+			if (this.isTopDragging) {
+				const offsetY = rect.bottom - e.clientY;
+				const newHeight = Math.min(
+					Math.max(offsetY, this._nMinHeight),
+					this._nMaxHeight
+				);
+				this.style.height = `${newHeight}px`;
+				this.emitResize(null, newHeight);
+			} else if (this.isBottomDragging) {
+				const offsetY = e.clientY - rect.top;
+				const newHeight = Math.min(
+					Math.max(offsetY, this._nMinHeight),
+					this._nMaxHeight
+				);
+				this.style.height = `${newHeight}px`;
+				this.emitResize(null, newHeight);
+			} else if (this.isLeftDragging) {
+				const offsetX = rect.right - e.clientX;
+				const newWidth = Math.min(
+					Math.max(offsetX, this._nMinWidth),
+					this._nMaxWidth
+				);
+				this.style.width = `${newWidth}px`;
+				this.emitResize(newWidth, null);
+			} else if (this.isRightDragging) {
+				const offsetX = e.clientX - rect.left;
+				const newWidth = Math.min(
+					Math.max(offsetX, this._nMinWidth),
+					this._nMaxWidth
+				);
+				this.style.width = `${newWidth}px`;
+				this.emitResize(newWidth, null);
 			}
-
-			document.body.style.cursor = "default";
-			document.body.style.userSelect = "auto";
-
-			this.isDragging = false;
-			this.isTopDragging = false;
-			this.isBottomDragging = false;
-			this.isLeftDragging = false;
-			this.isRightDragging = false;
 		});
+	};
+
+	/**
+	 * Handles the mouseup event to finalize the resize operation.
+	 * @param {MouseEvent} e - The mouse event.
+	 * @private
+	 */
+	private _handleMouseup = (e: MouseEvent) => {
+		if (!this.isDragging) return;
+		this.forwardCustomEvent("aero-resize-end", {
+			detail: {
+				width: this.offsetWidth,
+				height: this.offsetHeight,
+			},
+		});
+
+		if (this.animationFrameId) {
+			cancelAnimationFrame(this.animationFrameId);
+			this.animationFrameId = null;
+		}
+
+		document.body.style.cursor = "";
+		document.body.style.userSelect = "";
+
+		this.isDragging = false;
+		this.isTopDragging = false;
+		this.isBottomDragging = false;
+		this.isLeftDragging = false;
+		this.isRightDragging = false;
 	}
 
 	/**
@@ -154,9 +170,9 @@ export class AeroResizeBox extends AeroShadowElement {
 			detail: {
 				width: this.offsetWidth,
 				height: this.offsetHeight,
-				edge: resizer
-			}
-		})
+				edge: resizer,
+			},
+		});
 
 		switch (resizer) {
 			case "top":
@@ -188,9 +204,9 @@ export class AeroResizeBox extends AeroShadowElement {
 		this.forwardCustomEvent("aero-resize", {
 			detail: {
 				width: width,
-				height: height
-			}
-		})
+				height: height,
+			},
+		});
 	}
 
 	/**
@@ -246,16 +262,16 @@ export class AeroResizeBox extends AeroShadowElement {
 			this.updateMaxHeightValue(newValue);
 		},
 		"resize-top": (newValue) => {
-			this.updateTopResizerState(newValue !== null);
+			this.updateResizeState("top", newValue !== null);
 		},
 		"resize-bottom": (newValue) => {
-			this.updateBottomResizerState(newValue !== null);
+			this.updateResizeState("bottom", newValue !== null);
 		},
 		"resize-left": (newValue) => {
-			this.updateLeftResizerState(newValue !== null);
+			this.updateResizeState("left", newValue !== null);
 		},
 		"resize-right": (newValue) => {
-			this.updateRightResizerState(newValue !== null);
+			this.updateResizeState("right", newValue !== null);
 		},
 		"resizer-color": (newValue) => {
 			const color = newValue ?? "#ccc";
@@ -264,73 +280,34 @@ export class AeroResizeBox extends AeroShadowElement {
 	};
 
 	/**
-	 * Enables or disables the top resizer.
-	 * @param {boolean} enabled - Whether the resizer should be enabled.
+	 * Enables or disables a resizer.
+	 * @param {"top" | "bottom" | "left" | "right"} direction - The resizer to update.
+	 * @param {boolean} enabled - Whether to enable or disable the resizer.
 	 * @private
 	 */
-	private updateTopResizerState(enabled: boolean) {
-		this._hasTopResizer = enabled;
-		this.updateResizeState(
-			this._topResizer,
-			this._hasTopResizer,
-			this.resizerHandlers.top
-		)
-	}
+	private updateResizeState(direction: "top" | "bottom" | "left" | "right", enabled: boolean) {
+		let resizer;
+		let handler;
 
-	/**
-	 * Enables or disables the bottom resizer.
-	 * @param {boolean} enabled - Whether the resizer should be enabled.
-	 * @private
-	 */
-	private updateBottomResizerState(enabled: boolean) {
-		this._hasBottomResizer = enabled;
-		this.updateResizeState(
-			this._bottomResizer,
-			this._hasBottomResizer,
-			this.resizerHandlers.bottom
-		)
-	}
+		switch (direction) {
+			case "top":
+				resizer = this._topResizer;
+				handler = this.resizerHandlers.top;
+				break;
+			case "bottom":
+				resizer = this._bottomResizer;
+				handler = this.resizerHandlers.bottom;
+				break;
+			case "left":
+				resizer = this._leftResizer;
+				handler = this.resizerHandlers.left;
+				break;
+			case "right":
+				resizer = this._rightResizer;
+				handler = this.resizerHandlers.right;
+				break;
+		}
 
-	/**
-	 * Enables or disables the left resizer.
-	 * @param {boolean} enabled - Whether the resizer should be enabled.
-	 * @private
-	 */
-	private updateLeftResizerState(enabled: boolean) {
-		this._hasLeftResizer = enabled;
-		this.updateResizeState(
-			this._leftResizer,
-			this._hasLeftResizer,
-			this.resizerHandlers.left
-		)
-	}
-
-	/**
-	 * Enables or disables the right resizer.
-	 * @param {boolean} enabled - Whether the resizer should be enabled.
-	 * @private
-	 */
-	private updateRightResizerState(enabled: boolean) {
-		this._hasRightResizer = enabled;
-		this.updateResizeState(
-			this._rightResizer,
-			this._hasRightResizer,
-			this.resizerHandlers.right
-		)
-	}
-
-	/**
-	 * A helper function to add or remove the mousedown event listener for a resizer.
-	 * @param {HTMLElement} resizer - The resizer element.
-	 * @param {boolean} enabled - Whether the resizer is enabled.
-	 * @param {(e: MouseEvent) => void} handler - The event handler.
-	 * @private
-	 */
-	private updateResizeState(
-		resizer: HTMLElement,
-		enabled: boolean,
-		handler: (e: MouseEvent) => void,
-	) {
 		resizer.hidden = !enabled;
 
 		if (enabled) resizer.addEventListener("mousedown", handler);
