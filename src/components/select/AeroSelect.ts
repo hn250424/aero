@@ -141,10 +141,10 @@ export class AeroSelect extends AeroShadowElement {
 		_oldValue: string | null,
 		newValue: string | null
 	) {
-		this.aeroSelectAttributeHandlers[name]?.(newValue);
+		this._aeroSelectAttributeHandlers[name]?.(newValue);
 	}
 
-	private aeroSelectAttributeHandlers: Record<
+	private _aeroSelectAttributeHandlers: Record<
 		string,
 		(newValue: string | null) => void
 	> = {
