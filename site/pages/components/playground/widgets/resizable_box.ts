@@ -1,10 +1,10 @@
-const html = `<aero-resize-box id="rb" resize-bottom resize-right resizer-color="#C5D89D">
+const html = `<aero-resizable-box id="rb" resize-bottom resize-right resizer-color="#C5D89D">
 	<div style="background-color: #F6F0D7; width: 10px; height: 10px;"></div>
 	<div style="background-color: #C5D89D; width: 10px; height: 10px;"></div>
 	<div style="background-color: #9CAB84; width: 10px; height: 10px;"></div>
-</aero-resize-box>`;
+</aero-resizable-box>`;
 
-const css = `aero-resize-box {
+const css = `aero-resizable-box {
 	display: flex;
 	justify-content: center;
 
@@ -25,7 +25,7 @@ rb.addEventListener("aero-resize-end", (e) => {
 })
 `;
 
-export const aeroResizeBox = {
+export const aeroResizableBox = {
 	html: html,
 	css: css,
 	js: js,

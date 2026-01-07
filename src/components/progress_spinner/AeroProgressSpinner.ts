@@ -56,18 +56,18 @@ export class AeroProgressSpinner extends AeroShadowElement {
 
 		this.applyStyles(`
 			:host {
-					width: ${width}px;
-					height: ${height}px;
-					border: 5px solid ${bg};
-					border-top-color: ${color};
-					border-radius: 50%;
-					animation: spin ${cycle}s linear infinite;
-					box-sizing: border-box;
+				width: ${width}px;
+				height: ${height}px;
+				border: 5px solid ${bg};
+				border-top-color: ${color};
+				border-radius: 50%;
+				animation: spin ${cycle}s linear infinite;
+				box-sizing: border-box;
 			}
 
 			@keyframes spin {
-					0% { transform: rotate(0deg); }
-					100% { transform: rotate(360deg); }
+				0% { transform: rotate(0deg); }
+				100% { transform: rotate(360deg); }
 			}
 		`);
 	}
