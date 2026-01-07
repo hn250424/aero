@@ -7,11 +7,10 @@ const css = `aero-spinbox {
 }`;
 
 const js = `const sb = document.getElementById("sb");
-	sb.addEventListener("input", () => {
-		console.log(sb.input.value);
-		console.log(sb.value);
-	})
-`;
+sb.addEventListener("input", () => {
+	console.log(sb.input.value);
+	console.log(sb.value);
+})`;
 
 export const aeroSpinbox = {
 	html: html,

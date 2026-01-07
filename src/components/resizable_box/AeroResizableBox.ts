@@ -1,5 +1,5 @@
 import { AeroShadowElement } from "../../core/AeroShadowElement";
-import aeroResizeBoxHtmlTemplate from "./AeroResizeBox.html?raw";
+import aeroResizableBoxHtmlTemplate from "./AeroResizableBox.html?raw";
 
 /**
  * @module components
@@ -16,7 +16,7 @@ import aeroResizeBoxHtmlTemplate from "./AeroResizeBox.html?raw";
  *
  * @slot - The default slot for content to be placed inside the resizable box.
  */
-export class AeroResizeBox extends AeroShadowElement {
+export class AeroResizableBox extends AeroShadowElement {
 	private _topResizer!: HTMLElement;
 	private _bottomResizer!: HTMLElement;
 	private _leftResizer!: HTMLElement;
@@ -43,7 +43,7 @@ export class AeroResizeBox extends AeroShadowElement {
 	};
 
 	constructor() {
-		super(aeroResizeBoxHtmlTemplate);
+		super(aeroResizableBoxHtmlTemplate);
 
 		this._topResizer = this.query("#top");
 		this._bottomResizer = this.query("#bottom");
@@ -466,4 +466,4 @@ export class AeroResizeBox extends AeroShadowElement {
 	}
 }
 
-customElements.define("aero-resize-box", AeroResizeBox);
+customElements.define("aero-resizable-box", AeroResizableBox);
