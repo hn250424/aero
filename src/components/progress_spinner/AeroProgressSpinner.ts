@@ -19,7 +19,7 @@ import aeroProgressSpinnerHtmlTemplate from "./AeroProgressSpinner.html?raw";
 export class AeroProgressSpinner extends AeroShadowElement {
 	constructor() {
 		super(aeroProgressSpinnerHtmlTemplate);
-		this.updateSpinnerStyles();
+		this._updateSpinnerStyles();
 	}
 
 	/**
@@ -38,7 +38,7 @@ export class AeroProgressSpinner extends AeroShadowElement {
 		_oldValue: string | null,
 		_newValue: string | null
 	) {
-		this.updateSpinnerStyles();
+		this._updateSpinnerStyles();
 	}
 
 	/**
@@ -47,7 +47,7 @@ export class AeroProgressSpinner extends AeroShadowElement {
 	 * Re-appending styles multiple times can cause conflicts or unexpected behavior.
 	 * @private
 	 */
-	private updateSpinnerStyles() {
+	private _updateSpinnerStyles() {
 		const width = this.getAttribute("width") || "50";
 		const height = this.getAttribute("height") || "50";
 		const bg = this.getAttribute("background") || "white";

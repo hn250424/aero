@@ -17,60 +17,60 @@ import aeroResizableBoxHtmlTemplate from "./AeroResizableBox.html?raw";
  * @slot - The default slot for content to be placed inside the resizable box.
  */
 export class AeroResizableBox extends AeroShadowElement {
-	private _topResizer!: HTMLElement;
-	private _bottomResizer!: HTMLElement;
-	private _leftResizer!: HTMLElement;
-	private _rightResizer!: HTMLElement;
+	private _$topResizer!: HTMLElement;
+	private _$bottomResizer!: HTMLElement;
+	private _$leftResizer!: HTMLElement;
+	private _$rightResizer!: HTMLElement;
 
 	private _nMinWidth!: number;
 	private _nMaxWidth!: number;
 	private _nMinHeight!: number;
 	private _nMaxHeight!: number;
 
-	private isTopDragging: boolean = false;
-	private isBottomDragging: boolean = false;
-	private isLeftDragging: boolean = false;
-	private isRightDragging: boolean = false;
-	private isDragging: boolean = false;
+	private _isTopDragging: boolean = false;
+	private _isBottomDragging: boolean = false;
+	private _isLeftDragging: boolean = false;
+	private _isRightDragging: boolean = false;
+	private _isDragging: boolean = false;
 
-	private animationFrameId: number | null = null;
+	private _animationFrameId: number | null = null;
 
-	private resizerHandlers = {
-		top: (e: MouseEvent) => this.processMousedownEvent(e, "top"),
-		bottom: (e: MouseEvent) => this.processMousedownEvent(e, "bottom"),
-		left: (e: MouseEvent) => this.processMousedownEvent(e, "left"),
-		right: (e: MouseEvent) => this.processMousedownEvent(e, "right"),
+	private _resizerHandlers = {
+		top: (e: MouseEvent) => this._processMousedownEvent(e, "top"),
+		bottom: (e: MouseEvent) => this._processMousedownEvent(e, "bottom"),
+		left: (e: MouseEvent) => this._processMousedownEvent(e, "left"),
+		right: (e: MouseEvent) => this._processMousedownEvent(e, "right"),
 	};
 
 	constructor() {
 		super(aeroResizableBoxHtmlTemplate);
 
-		this._topResizer = this.query("#top");
-		this._bottomResizer = this.query("#bottom");
-		this._leftResizer = this.query("#left");
-		this._rightResizer = this.query("#right");
+		this._$topResizer = this.query("#top");
+		this._$bottomResizer = this.query("#bottom");
+		this._$leftResizer = this.query("#left");
+		this._$rightResizer = this.query("#right");
 
-		this.updateMinWidthValue(this.getAttribute("min-width"));
-		this.updateMaxWidthValue(this.getAttribute("max-width"));
-		this.updateMinHeightValue(this.getAttribute("min-height"));
-		this.updateMaxHeightValue(this.getAttribute("max-height"));
+		this._updateMinWidthValue(this.getAttribute("min-width"));
+		this._updateMaxWidthValue(this.getAttribute("max-width"));
+		this._updateMinHeightValue(this.getAttribute("min-height"));
+		this._updateMaxHeightValue(this.getAttribute("max-height"));
 	}
 
 	connectedCallback() {
-		this.updateResizeState("top", this.hasAttribute("resize-top"));
-		this.updateResizeState("bottom", this.hasAttribute("resize-bottom"));
-		this.updateResizeState("left", this.hasAttribute("resize-left"));
-		this.updateResizeState("right", this.hasAttribute("resize-right"));
+		this._updateResizeState("top", this.hasAttribute("resize-top"));
+		this._updateResizeState("bottom", this.hasAttribute("resize-bottom"));
+		this._updateResizeState("left", this.hasAttribute("resize-left"));
+		this._updateResizeState("right", this.hasAttribute("resize-right"));
 
 		window.addEventListener("mousemove", this._handleMousemove);
 		window.addEventListener("mouseup", this._handleMouseup);
 	}
 
 	disconnectedCallback() {
-		this.updateResizeState("top", false);
-		this.updateResizeState("bottom", false);
-		this.updateResizeState("left", false);
-		this.updateResizeState("right", false);
+		this._updateResizeState("top", false);
+		this._updateResizeState("bottom", false);
+		this._updateResizeState("left", false);
+		this._updateResizeState("right", false);
 
 		window.removeEventListener("mousemove", this._handleMousemove);
 		window.removeEventListener("mouseup", this._handleMouseup);
@@ -82,44 +82,44 @@ export class AeroResizableBox extends AeroShadowElement {
 	 * @private
 	 */
 	private _handleMousemove = (e: MouseEvent) => {
-		if (!this.isDragging) return;
-		if (this.animationFrameId) cancelAnimationFrame(this.animationFrameId);
+		if (!this._isDragging) return;
+		if (this._animationFrameId) cancelAnimationFrame(this._animationFrameId);
 
-		this.animationFrameId = requestAnimationFrame(() => {
+		this._animationFrameId = requestAnimationFrame(() => {
 			const rect = this.getBoundingClientRect();
 
-			if (this.isTopDragging) {
+			if (this._isTopDragging) {
 				const offsetY = rect.bottom - e.clientY;
 				const newHeight = Math.min(
 					Math.max(offsetY, this._nMinHeight),
 					this._nMaxHeight
 				);
 				this.style.height = `${newHeight}px`;
-				this.emitResize(null, newHeight);
-			} else if (this.isBottomDragging) {
+				this._emitResize(null, newHeight);
+			} else if (this._isBottomDragging) {
 				const offsetY = e.clientY - rect.top;
 				const newHeight = Math.min(
 					Math.max(offsetY, this._nMinHeight),
 					this._nMaxHeight
 				);
 				this.style.height = `${newHeight}px`;
-				this.emitResize(null, newHeight);
-			} else if (this.isLeftDragging) {
+				this._emitResize(null, newHeight);
+			} else if (this._isLeftDragging) {
 				const offsetX = rect.right - e.clientX;
 				const newWidth = Math.min(
 					Math.max(offsetX, this._nMinWidth),
 					this._nMaxWidth
 				);
 				this.style.width = `${newWidth}px`;
-				this.emitResize(newWidth, null);
-			} else if (this.isRightDragging) {
+				this._emitResize(newWidth, null);
+			} else if (this._isRightDragging) {
 				const offsetX = e.clientX - rect.left;
 				const newWidth = Math.min(
 					Math.max(offsetX, this._nMinWidth),
 					this._nMaxWidth
 				);
 				this.style.width = `${newWidth}px`;
-				this.emitResize(newWidth, null);
+				this._emitResize(newWidth, null);
 			}
 		});
 	};
@@ -130,7 +130,7 @@ export class AeroResizableBox extends AeroShadowElement {
 	 * @private
 	 */
 	private _handleMouseup = (e: MouseEvent) => {
-		if (!this.isDragging) return;
+		if (!this._isDragging) return;
 		this.forwardCustomEvent("aero-resize-end", {
 			detail: {
 				width: this.offsetWidth,
@@ -138,19 +138,19 @@ export class AeroResizableBox extends AeroShadowElement {
 			},
 		});
 
-		if (this.animationFrameId) {
-			cancelAnimationFrame(this.animationFrameId);
-			this.animationFrameId = null;
+		if (this._animationFrameId) {
+			cancelAnimationFrame(this._animationFrameId);
+			this._animationFrameId = null;
 		}
 
 		document.body.style.cursor = "";
 		document.body.style.userSelect = "";
 
-		this.isDragging = false;
-		this.isTopDragging = false;
-		this.isBottomDragging = false;
-		this.isLeftDragging = false;
-		this.isRightDragging = false;
+		this._isDragging = false;
+		this._isTopDragging = false;
+		this._isBottomDragging = false;
+		this._isLeftDragging = false;
+		this._isRightDragging = false;
 	}
 
 	/**
@@ -159,13 +159,13 @@ export class AeroResizableBox extends AeroShadowElement {
 	 * @param {"top" | "bottom" | "left" | "right"} resizer - The resizer that was clicked.
 	 * @private
 	 */
-	private processMousedownEvent = (
+	private _processMousedownEvent = (
 		e: MouseEvent,
 		resizer: "top" | "bottom" | "left" | "right"
 	) => {
 		e.preventDefault();
 		document.body.style.userSelect = "none";
-		this.isDragging = true;
+		this._isDragging = true;
 		this.forwardCustomEvent("aero-resize-start", {
 			detail: {
 				width: this.offsetWidth,
@@ -176,19 +176,19 @@ export class AeroResizableBox extends AeroShadowElement {
 
 		switch (resizer) {
 			case "top":
-				this.isTopDragging = true;
+				this._isTopDragging = true;
 				document.body.style.cursor = "ns-resize";
 				break;
 			case "bottom":
-				this.isBottomDragging = true;
+				this._isBottomDragging = true;
 				document.body.style.cursor = "ns-resize";
 				break;
 			case "left":
-				this.isLeftDragging = true;
+				this._isLeftDragging = true;
 				document.body.style.cursor = "ew-resize";
 				break;
 			case "right":
-				this.isRightDragging = true;
+				this._isRightDragging = true;
 				document.body.style.cursor = "ew-resize";
 				break;
 		}
@@ -200,7 +200,7 @@ export class AeroResizableBox extends AeroShadowElement {
 	 * @param {number | null} height - The new height, or null if not changed.
 	 * @private
 	 */
-	private emitResize(width: number | null, height: number | null) {
+	private _emitResize(width: number | null, height: number | null) {
 		this.forwardCustomEvent("aero-resize", {
 			detail: {
 				width: width,
@@ -238,40 +238,40 @@ export class AeroResizableBox extends AeroShadowElement {
 		_oldValue: string | null,
 		newValue: string | null
 	) {
-		this.baseAeroResizeBoxAttributeHandlers[name]?.(newValue);
+		this._baseAeroResizeBoxAttributeHandlers[name]?.(newValue);
 	}
 
 	/**
 	 * A map of attribute names to their respective handler functions.
 	 * @private
 	 */
-	private baseAeroResizeBoxAttributeHandlers: Record<
+	private _baseAeroResizeBoxAttributeHandlers: Record<
 		string,
 		(newValue: string | null) => void
 	> = {
 		"min-width": (newValue) => {
-			this.updateMinWidthValue(newValue);
+			this._updateMinWidthValue(newValue);
 		},
 		"max-width": (newValue) => {
-			this.updateMaxWidthValue(newValue);
+			this._updateMaxWidthValue(newValue);
 		},
 		"min-height": (newValue) => {
-			this.updateMinHeightValue(newValue);
+			this._updateMinHeightValue(newValue);
 		},
 		"max-height": (newValue) => {
-			this.updateMaxHeightValue(newValue);
+			this._updateMaxHeightValue(newValue);
 		},
 		"resize-top": (newValue) => {
-			this.updateResizeState("top", newValue !== null);
+			this._updateResizeState("top", newValue !== null);
 		},
 		"resize-bottom": (newValue) => {
-			this.updateResizeState("bottom", newValue !== null);
+			this._updateResizeState("bottom", newValue !== null);
 		},
 		"resize-left": (newValue) => {
-			this.updateResizeState("left", newValue !== null);
+			this._updateResizeState("left", newValue !== null);
 		},
 		"resize-right": (newValue) => {
-			this.updateResizeState("right", newValue !== null);
+			this._updateResizeState("right", newValue !== null);
 		},
 		"resizer-color": (newValue) => {
 			const color = newValue ?? "#ccc";
@@ -285,26 +285,26 @@ export class AeroResizableBox extends AeroShadowElement {
 	 * @param {boolean} enabled - Whether to enable or disable the resizer.
 	 * @private
 	 */
-	private updateResizeState(direction: "top" | "bottom" | "left" | "right", enabled: boolean) {
+	private _updateResizeState(direction: "top" | "bottom" | "left" | "right", enabled: boolean) {
 		let resizer;
 		let handler;
 
 		switch (direction) {
 			case "top":
-				resizer = this._topResizer;
-				handler = this.resizerHandlers.top;
+				resizer = this._$topResizer;
+				handler = this._resizerHandlers.top;
 				break;
 			case "bottom":
-				resizer = this._bottomResizer;
-				handler = this.resizerHandlers.bottom;
+				resizer = this._$bottomResizer;
+				handler = this._resizerHandlers.bottom;
 				break;
 			case "left":
-				resizer = this._leftResizer;
-				handler = this.resizerHandlers.left;
+				resizer = this._$leftResizer;
+				handler = this._resizerHandlers.left;
 				break;
 			case "right":
-				resizer = this._rightResizer;
-				handler = this.resizerHandlers.right;
+				resizer = this._$rightResizer;
+				handler = this._resizerHandlers.right;
 				break;
 		}
 
@@ -319,7 +319,7 @@ export class AeroResizableBox extends AeroShadowElement {
 	 * @param {string | null} val - The new value.
 	 * @private
 	 */
-	private updateMinWidthValue(val: string | null) {
+	private _updateMinWidthValue(val: string | null) {
 		this._nMinWidth = val ? Number(val) : 0;
 	}
 
@@ -328,7 +328,7 @@ export class AeroResizableBox extends AeroShadowElement {
 	 * @param {string | null} val - The new value.
 	 * @private
 	 */
-	private updateMaxWidthValue(val: string | null) {
+	private _updateMaxWidthValue(val: string | null) {
 		this._nMaxWidth = val ? Number(val) : 2000;
 	}
 
@@ -337,7 +337,7 @@ export class AeroResizableBox extends AeroShadowElement {
 	 * @param {string | null} val - The new value.
 	 * @private
 	 */
-	private updateMinHeightValue(val: string | null) {
+	private _updateMinHeightValue(val: string | null) {
 		this._nMinHeight = val ? Number(val) : 0;
 	}
 
@@ -346,7 +346,7 @@ export class AeroResizableBox extends AeroShadowElement {
 	 * @param {string | null} val - The new value.
 	 * @private
 	 */
-	private updateMaxHeightValue(val: string | null) {
+	private _updateMaxHeightValue(val: string | null) {
 		this._nMaxHeight = val ? Number(val) : 2000;
 	}
 

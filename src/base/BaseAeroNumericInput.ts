@@ -30,7 +30,7 @@ export abstract class BaseAeroNumericInput extends AeroShadowElement {
 	 * The underlying HTML input element.
 	 * @private
 	 */
-	private _input!: HTMLInputElement;
+	private _$input!: HTMLInputElement;
 
 	/**
 	 * The HTML input element's value.
@@ -67,12 +67,12 @@ export abstract class BaseAeroNumericInput extends AeroShadowElement {
 	protected constructor(htmlTemplate: string) {
 		super(htmlTemplate);
 
-		this.initializeInput();
+		this._initializeInput();
 
-		this.updateInputValue(this.getAttribute("value"));
-		this.updateMinValue(this.getAttribute("min"));
-		this.updateMaxValue(this.getAttribute("max"));
-		this.updateStepValue(this.getAttribute("step"));
+		this._updateInputValue(this.getAttribute("value"));
+		this._updateMinValue(this.getAttribute("min"));
+		this._updateMaxValue(this.getAttribute("max"));
+		this._updateStepValue(this.getAttribute("step"));
 	}
 
 	/**
@@ -88,8 +88,8 @@ export abstract class BaseAeroNumericInput extends AeroShadowElement {
 	 * Initializes the `_input` property by querying the shadow DOM.
 	 * @private
 	 */
-	private initializeInput() {
-		this._input = this.query(this.getInputSelector());
+	private _initializeInput() {
+		this._$input = this.query(this.getInputSelector());
 	}
 
 	/**
@@ -114,10 +114,10 @@ export abstract class BaseAeroNumericInput extends AeroShadowElement {
    * Registers input-related event listeners.
    */
 	connectedCallback() {
-		this._input.addEventListener("input", this._boundDispatchInputEvent);
-		this._input.addEventListener("change", this._boundDispatchChangeEvent);
-		this._input.addEventListener("focusin", this._boundDispatchFocusinEvent);
-		this._input.addEventListener("focusout", this._boundDispatchFocusoutEvent);
+		this._$input.addEventListener("input", this._boundDispatchInputEvent);
+		this._$input.addEventListener("change", this._boundDispatchChangeEvent);
+		this._$input.addEventListener("focusin", this._boundDispatchFocusinEvent);
+		this._$input.addEventListener("focusout", this._boundDispatchFocusoutEvent);
   }
 
 	/**
@@ -125,10 +125,10 @@ export abstract class BaseAeroNumericInput extends AeroShadowElement {
    * Cleans up event listeners to prevent memory leaks.
    */
   disconnectedCallback() {
-		this._input.removeEventListener("input", this._boundDispatchInputEvent);
-		this._input.removeEventListener("change", this._boundDispatchChangeEvent);
-		this._input.removeEventListener("focusin", this._boundDispatchFocusinEvent);
-		this._input.removeEventListener("focusout", this._boundDispatchFocusoutEvent);
+		this._$input.removeEventListener("input", this._boundDispatchInputEvent);
+		this._$input.removeEventListener("change", this._boundDispatchChangeEvent);
+		this._$input.removeEventListener("focusin", this._boundDispatchFocusinEvent);
+		this._$input.removeEventListener("focusout", this._boundDispatchFocusoutEvent);
   }
 
 	/**
@@ -149,7 +149,7 @@ export abstract class BaseAeroNumericInput extends AeroShadowElement {
 	private _dispatchChangeEvent(event: Event) {
 		event.stopImmediatePropagation();
 
-		const validatedValue = this.getValidateValue(this._input.value);
+		const validatedValue = this.getValidateValue(this._$input.value);
 		this.value = validatedValue;
 
 		this.forwardNativeEvent("change")
@@ -173,7 +173,7 @@ export abstract class BaseAeroNumericInput extends AeroShadowElement {
 	private _dispatchFocusoutEvent(event: Event) {
 		event.stopImmediatePropagation();
 
-		const validatedValue = this.getValidateValue(this._input.value);
+		const validatedValue = this.getValidateValue(this._$input.value);
 		this.value = validatedValue;
 
 		this.forwardNativeEvent("focusout")
@@ -198,28 +198,28 @@ export abstract class BaseAeroNumericInput extends AeroShadowElement {
 		_oldValue: string | null,
 		newValue: string | null
 	) {
-		this.baseAeroNumericInputAttributeHandlers[name]?.(newValue);
+		this._baseAeroNumericInputAttributeHandlers[name]?.(newValue);
 	}
 
 	/**
 	 * A map of attribute names to their respective handler functions.
 	 * @private
 	 */
-	private baseAeroNumericInputAttributeHandlers: Record<
+	private _baseAeroNumericInputAttributeHandlers: Record<
 		string,
 		(newValue: string | null) => void
 	> = {
 		value: (newValue) => {
-			this.updateInputValue(newValue);
+			this._updateInputValue(newValue);
 		},
 		min: (newValue) => {
-			this.updateMinValue(newValue);
+			this._updateMinValue(newValue);
 		},
 		max: (newValue) => {
-			this.updateMaxValue(newValue);
+			this._updateMaxValue(newValue);
 		},
 		step: (newValue) => {
-			this.updateStepValue(newValue);
+			this._updateStepValue(newValue);
 		},
 	};
 
@@ -228,9 +228,9 @@ export abstract class BaseAeroNumericInput extends AeroShadowElement {
 	 * @param {string | null} val - The new input value.
 	 * @private
 	 */
-	private updateInputValue(val: string | null) {
+	private _updateInputValue(val: string | null) {
 		this._value = val ? this.getValidateValue(val) : "0";
-		this._input.value = this._value;
+		this._$input.value = this._value;
 	}
 
 	/**
@@ -238,7 +238,7 @@ export abstract class BaseAeroNumericInput extends AeroShadowElement {
 	 * @param {string | null} val - The new minimum value.
 	 * @private
 	 */
-	private updateMinValue(val: string | null) {
+	private _updateMinValue(val: string | null) {
 		this._min = val ? val : "0";
 	}
 
@@ -247,7 +247,7 @@ export abstract class BaseAeroNumericInput extends AeroShadowElement {
 	 * @param {string | null} val - The new maximum value.
 	 * @private
 	 */
-	private updateMaxValue(val: string | null) {
+	private _updateMaxValue(val: string | null) {
 		this._max = val ? val : "100";
 	}
 
@@ -256,7 +256,7 @@ export abstract class BaseAeroNumericInput extends AeroShadowElement {
 	 * @param {string | null} val - The new step value.
 	 * @private
 	 */
-	private updateStepValue(val: string | null) {
+	private _updateStepValue(val: string | null) {
 		this._step = val ? val : "1";
 		this._decimalPlaces =
 			this._step.toString().split(".")[1]?.length.toString() || "0";
@@ -268,7 +268,7 @@ export abstract class BaseAeroNumericInput extends AeroShadowElement {
 	 * @readonly
 	 */
 	get input() {
-		return this._input;
+		return this._$input;
 	}
 
 	/**

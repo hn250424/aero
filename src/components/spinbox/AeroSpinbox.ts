@@ -21,37 +21,37 @@ export class AeroSpinbox extends BaseAeroNumericInput {
 	 * The decrement button element.
 	 * @private
 	 */
-	private minus: HTMLElement;
+	private _$minus: HTMLElement;
 	/**
 	 * The increment button element.
 	 * @private
 	 */
-	private plus: HTMLElement;
+	private _$plus: HTMLElement;
 
 	/**
    * Observer to handle component resizing for layout adjustments.
    * @private
    */
-	private resizeObserver: ResizeObserver;
+	private _resizeObserver: ResizeObserver;
 
 	constructor() {
 		super(aeroSpinboxHtmlTemplate);
 
-		this.minus = this.query("#minus");
-		this.plus = this.query("#plus");
+		this._$minus = this.query("#minus");
+		this._$plus = this.query("#plus");
 
-		this.updateButtonBackgrondColor(
+		this._updateButtonBackgrondColor(
 			this.getAttribute("button-backgroundcolor")
 		);
-		this.updateMinuxText(this.getAttribute("minus-text"));
-		this.updatePlusText(this.getAttribute("plus-text"));
-		this.updateHeight(parseInt(getComputedStyle(this).height));
+		this._updateMinuxText(this.getAttribute("minus-text"));
+		this._updatePlusText(this.getAttribute("plus-text"));
+		this._updateHeight(parseInt(getComputedStyle(this).height));
 
 		/**
      * Initialize ResizeObserver to dynamically update the grid layout
      * based on the component's height.
      */
-		this.resizeObserver = new ResizeObserver((entries) => {
+		this._resizeObserver = new ResizeObserver((entries) => {
 			for (const entry of entries) {
 				const newHeight = entry.contentRect.height;
 				this.applyStyles(
@@ -78,10 +78,10 @@ export class AeroSpinbox extends BaseAeroNumericInput {
    * @returns {void}
    */
 	connectedCallback() {
-		this.minus.addEventListener("click", this._boundDecrement);
-		this.plus.addEventListener("click", this._boundIncrement);
+		this._$minus.addEventListener("click", this._boundDecrement);
+		this._$plus.addEventListener("click", this._boundIncrement);
 
-		this.resizeObserver.observe(this);
+		this._resizeObserver.observe(this);
   }
 
 	/**
@@ -90,10 +90,10 @@ export class AeroSpinbox extends BaseAeroNumericInput {
    * @returns {void}
    */
   disconnectedCallback() {
-		this.minus.removeEventListener("click", this._boundDecrement);
-		this.plus.removeEventListener("click", this._boundIncrement);
+		this._$minus.removeEventListener("click", this._boundDecrement);
+		this._$plus.removeEventListener("click", this._boundIncrement);
 
-		this.resizeObserver.disconnect();
+		this._resizeObserver.disconnect();
   }
 
 	/**
@@ -121,25 +121,25 @@ export class AeroSpinbox extends BaseAeroNumericInput {
 		newValue: string | null
 	) {
 		super.attributeChangedCallback(name, _oldValue, newValue);
-		this.aeroSpinboxAttributeHandlers[name]?.(newValue);
+		this._aeroSpinboxAttributeHandlers[name]?.(newValue);
 	}
 
 	/**
 	 * A map of attribute names to their respective handler functions for this component.
 	 * @private
 	 */
-	private aeroSpinboxAttributeHandlers: Record<
+	private _aeroSpinboxAttributeHandlers: Record<
 		string,
 		(val: string | null) => void
 	> = {
 		"minus-text": (val) => {
-			this.updateMinuxText(val);
+			this._updateMinuxText(val);
 		},
 		"plus-text": (val) => {
-			this.updatePlusText(val);
+			this._updatePlusText(val);
 		},
 		"button-backgroundcolor": (val) => {
-			this.updateButtonBackgrondColor(val);
+			this._updateButtonBackgrondColor(val);
 		},
 	};
 
@@ -148,8 +148,8 @@ export class AeroSpinbox extends BaseAeroNumericInput {
 	 * @param {string | null} val - The new text.
 	 * @private
 	 */
-	private updateMinuxText(val: string | null) {
-		this.minus.textContent = val ? val : "-";
+	private _updateMinuxText(val: string | null) {
+		this._$minus.textContent = val ? val : "-";
 	}
 
 	/**
@@ -157,8 +157,8 @@ export class AeroSpinbox extends BaseAeroNumericInput {
 	 * @param {string | null} val - The new text.
 	 * @private
 	 */
-	private updatePlusText(val: string | null) {
-		this.plus.textContent = val ? val : "+";
+	private _updatePlusText(val: string | null) {
+		this._$plus.textContent = val ? val : "+";
 	}
 
 	/**
@@ -166,7 +166,7 @@ export class AeroSpinbox extends BaseAeroNumericInput {
 	 * @param {string | null} val - The new color.
 	 * @private
 	 */
-	private updateButtonBackgrondColor(val: string | null) {
+	private _updateButtonBackgrondColor(val: string | null) {
 		this.applyStyles(
 			`#spinbox > button {
 				background-color: ${val ? val : "#ccc"};
@@ -179,7 +179,7 @@ export class AeroSpinbox extends BaseAeroNumericInput {
 	 * @param {number | null} val - The new height.
 	 * @private
 	 */
-	private updateHeight(val: number | null) {
+	private _updateHeight(val: number | null) {
 		val = val ? val : 30;
 		this.applyStyles(
 			`#spinbox {

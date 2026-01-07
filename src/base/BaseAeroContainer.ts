@@ -19,7 +19,7 @@ export class BaseAeroContainer extends AeroShadowElement {
 	protected constructor(htmlTemplate: string) {
 		super(htmlTemplate);
 
-		this.updateBackground(this.getAttribute("background"));
+		this._updateBackground(this.getAttribute("background"));
 	}
 
 	/**
@@ -41,19 +41,19 @@ export class BaseAeroContainer extends AeroShadowElement {
 		_oldValue: string | null,
 		newValue: string | null
 	) {
-		this.baseAeroContainerAttributeHandlers[name]?.(newValue);
+		this._baseAeroContainerAttributeHandlers[name]?.(newValue);
 	}
 
 	/**
 	 * A map of attribute names to their respective handler functions.
 	 * @private
 	 */
-	private baseAeroContainerAttributeHandlers: Record<
+	private _baseAeroContainerAttributeHandlers: Record<
 		string,
 		(newValue: string | null) => void
 	> = {
 		background: (newValue) => {
-			this.updateBackground(newValue);
+			this._updateBackground(newValue);
 		},
 	};
 
@@ -62,7 +62,7 @@ export class BaseAeroContainer extends AeroShadowElement {
 	 * @param {string | null} val - The new background value.
 	 * @private
 	 */
-	private updateBackground(val: string | null) {
+	private _updateBackground(val: string | null) {
 		this.applyStyles(
 			`:host {
 					background: ${val ? val : "rgba(0, 0, 0, 0.5)"};
