@@ -1,5 +1,5 @@
-import { beforeEach, describe, expect, test, vi } from "vitest";
-import { AeroSpinbox } from "@components/spinbox/AeroSpinbox";
+import { beforeEach, afterEach, describe, expect, test, vi } from "vitest";
+import { AeroSpinbox } from "@src/components/spinbox/AeroSpinbox";
 import { MockResizeObserver } from "../../mocks/MockResizeObserver";
 
 describe("AeroSpinbox", () => {
@@ -12,6 +12,10 @@ describe("AeroSpinbox", () => {
 	beforeEach(() => {
 		dom = document.createElement("aero-spinbox") as AeroSpinbox;
 		document.body.appendChild(dom);
+	});
+
+	afterEach(() => {
+		dom.remove();
 	});
 
 	describe("Interaction with step property", () => {
