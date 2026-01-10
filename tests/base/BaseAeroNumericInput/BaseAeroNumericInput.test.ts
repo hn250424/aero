@@ -1,4 +1,4 @@
-import { beforeEach, describe, expect, test, vi } from "vitest";
+import { beforeEach, afterEach, describe, expect, test, vi } from "vitest";
 import { TestableBaseAeroNumericInput } from "./TestableBaseAeroNumericInput";
 
 describe("BaseAeroNumericInput", () => {
@@ -70,4 +70,42 @@ describe("BaseAeroNumericInput", () => {
 			expect(base.value).toBe("49.2");
 		});
 	});
+
+	describe("Events", () => {
+		beforeEach(() => {
+			document.body.appendChild(base)
+		});
+
+		afterEach(() => {
+			base.remove();
+		});
+
+		test("forwards input event", () => {
+			const spy = vi.fn();
+			base.addEventListener("input", spy);
+			base.input.dispatchEvent(new Event("input", { bubbles: true }));
+			expect(spy).toHaveBeenCalled();
+		})
+
+		test("forwards change event", () => {
+			const spy = vi.fn();
+			base.addEventListener("change", spy);
+			base.input.dispatchEvent(new Event("change", { bubbles: true }));
+			expect(spy).toHaveBeenCalled();
+		})
+
+		test("forwards focusin event", () => {
+			const spy = vi.fn();
+			base.addEventListener("focusin", spy);
+			base.input.dispatchEvent(new Event("focusin", { bubbles: true }));
+			expect(spy).toHaveBeenCalled();
+		})
+
+		test("forwards focusout event", () => {
+			const spy = vi.fn();
+			base.addEventListener("focusout", spy);
+			base.input.dispatchEvent(new Event("focusout", { bubbles: true }));
+			expect(spy).toHaveBeenCalled();
+		})
+	})
 });
