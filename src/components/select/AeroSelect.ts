@@ -90,6 +90,11 @@ export class AeroSelect extends AeroShadowElement {
 	 * @private
 	 */
 	private _highlightIndex = -1;
+	/**
+	 * A temporary store for the option index if it's set before the options are ready.
+	 * @private
+	 */
+	private _pendingOptionIndex?: number;
 
 	constructor() {
 		super(aeroSelectHtmlTemplate);
@@ -196,7 +201,13 @@ export class AeroSelect extends AeroShadowElement {
 			.assignedElements()
 			.filter((el): el is HTMLElement => el instanceof HTMLElement);
 
-		this.optionIndex = this._$options.findIndex((o) => o === $preOption);
+		if (this._pendingOptionIndex !== undefined) { // If an index was set before options were ready, try to apply it now.
+			const indexToTry = this._pendingOptionIndex;
+			this._pendingOptionIndex = undefined; // Prevent recursive call.
+			this.optionIndex = indexToTry;
+		} else {
+			this.optionIndex = this._$options.findIndex((o) => o === $preOption);
+		}
 	}
 
 	/**
@@ -284,7 +295,7 @@ export class AeroSelect extends AeroShadowElement {
 	 * Setting this property will update the displayed value and fire the `aero-select-changed` event.
 	 * @type {number}
 	 * @attr option-index
-	 * @default -1 (no option selected)
+	 * @default -1
 	 */
 	get optionIndex(): number {
 		return this._optionIndex;
@@ -309,7 +320,8 @@ export class AeroSelect extends AeroShadowElement {
 
 		const option = this._$options[index];
 		if (!option) {
-			this._unsetOption();
+			// If the option isn't ready, store the index to try again after slotchange.
+			this._pendingOptionIndex = index;
 			return;
 		}
 
@@ -327,6 +339,9 @@ export class AeroSelect extends AeroShadowElement {
 				index: index,
 			},
 		});
+
+		// Clear the pending index since we successfully updated.
+		this._pendingOptionIndex = undefined;
 	}
 
 	/**
