@@ -15,17 +15,27 @@
 <tbody><tr>
 <td><code>optionIndex</code></td>
 
-<td></td>
-<td></td>
-<td></td>
+<td><code>number</code></td>
+<td><code>-1</code></td>
+<td>The zero-based index of the currently selected option.
+Setting this property will update the displayed value and fire the `aero-select-changed` event.</td>
 
 </tr>
+</tbody></table>
+<h3>Events</h3>
+<table>
+<thead>
 <tr>
-<td><code>textContent</code></td>
+<th>Name</th>
 
-<td></td>
-<td></td>
-<td></td>
+<th>Description</th>
+
+</tr>
+</thead>
+<tbody><tr>
+<td><code>aero-select-changed</code></td>
+
+<td>Fired when the selected option changes.</td>
 
 </tr>
 </tbody></table>
@@ -40,8 +50,146 @@
 </thead>
 <tbody><tr>
 <td><code>option-index</code></td>
-<td></td>
+<td>optionIndex</td>
 
+</tr>
+</tbody></table>
+<h3>CSS Properties</h3>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>--aero-select-width</code></td>
+<td></td>
+<td>Width of the select component.</td>
+</tr>
+<tr>
+<td><code>--aero-select-height</code></td>
+<td></td>
+<td>Height of the select component.</td>
+</tr>
+<tr>
+<td><code>--aero-select-font-size</code></td>
+<td></td>
+<td>Font size for the select text.</td>
+</tr>
+<tr>
+<td><code>--aero-select-font-family</code></td>
+<td></td>
+<td>Font family for the select text.</td>
+</tr>
+<tr>
+<td><code>--aero-select-border</code></td>
+<td></td>
+<td>Border style for the select component.</td>
+</tr>
+<tr>
+<td><code>--aero-select-dropdown-border</code></td>
+<td></td>
+<td>Border style for the dropdown container.</td>
+</tr>
+<tr>
+<td><code>--aero-select-dropdown-z-index</code></td>
+<td></td>
+<td>Z-index for the dropdown container.</td>
+</tr>
+<tr>
+<td><code>--aero-select-dropdown-item-border</code></td>
+<td></td>
+<td>Border style for individual dropdown items.</td>
+</tr>
+<tr>
+<td><code>--aero-select-dropdown-item-background</code></td>
+<td></td>
+<td>Background color for individual dropdown items.</td>
+</tr>
+<tr>
+<td><code>--aero-select-dropdown-item-color</code></td>
+<td></td>
+<td>Text color for individual dropdown items.</td>
+</tr>
+<tr>
+<td><code>--aero-select-dropdown-hover-item-border</code></td>
+<td></td>
+<td>Border style for dropdown items on hover.</td>
+</tr>
+<tr>
+<td><code>--aero-select-dropdown-hover-item-background</code></td>
+<td></td>
+<td>Background color for dropdown items on hover.</td>
+</tr>
+<tr>
+<td><code>--aero-select-dropdown-hover-item-color</code></td>
+<td></td>
+<td>Text color for dropdown items on hover.</td>
+</tr>
+<tr>
+<td><code>--aero-select-dropdown-hover-item-cursor</code></td>
+<td></td>
+<td>Cursor style for dropdown items on hover.</td>
+</tr>
+<tr>
+<td><code>--aero-select-span-background</code></td>
+<td></td>
+<td>Background color for the displayed selected option text.</td>
+</tr>
+<tr>
+<td><code>--aero-select-span-border</code></td>
+<td></td>
+<td>Border style for the displayed selected option text.</td>
+</tr>
+<tr>
+<td><code>--aero-select-button-border</code></td>
+<td></td>
+<td>Border style for the dropdown toggle button.</td>
+</tr>
+<tr>
+<td><code>--aero-select-button-background</code></td>
+<td></td>
+<td>Background color for the dropdown toggle button.</td>
+</tr>
+<tr>
+<td><code>--aero-select-button-color</code></td>
+<td></td>
+<td>Text color for the dropdown toggle button.</td>
+</tr>
+<tr>
+<td><code>--aero-select-button-hover-border</code></td>
+<td></td>
+<td>Border style for the dropdown toggle button on hover.</td>
+</tr>
+<tr>
+<td><code>--aero-select-button-hover-background</code></td>
+<td></td>
+<td>Background color for the dropdown toggle button on hover.</td>
+</tr>
+<tr>
+<td><code>--aero-select-button-hover-color</code></td>
+<td></td>
+<td>Text color for the dropdown toggle button on hover.</td>
+</tr>
+<tr>
+<td><code>--aero-select-button-hover-cursor</code></td>
+<td></td>
+<td>Cursor style for the dropdown toggle button on hover.</td>
+</tr>
+</tbody></table>
+<h3>Slots</h3>
+<table>
+<thead>
+<tr>
+
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+
+<td>Default slot for `&lt;aero-option&gt;` elements.</td>
 </tr>
 </tbody></table>
 

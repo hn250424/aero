@@ -42,6 +42,7 @@ function createFilterPlugin() {
 
 							if (hasHiddenTag) return false;
 							if (m.name === "innerHTML") return false;
+							if (m.name === "textContent") return false;
 
 							return true;
 						});

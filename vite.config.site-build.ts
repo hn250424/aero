@@ -10,7 +10,7 @@ export default defineConfig({
 		emptyOutDir: true,
 		rollupOptions: {
       input: {
-        site: path.resolve(__dirname, "site-index.html"),
+        site: path.resolve(__dirname, "index.html"),
       },
     },
 	},

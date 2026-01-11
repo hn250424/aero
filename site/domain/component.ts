@@ -3,3 +3,5 @@ export type ComponentKeys =
 	| "aero-spinbox"
 	| "aero-progress-spinner"
 	| "aero-resizable-box"
+	| "aero-select"
+	| "aero-option"

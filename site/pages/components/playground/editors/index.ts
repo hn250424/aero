@@ -38,22 +38,6 @@ export function createPlaygroundEditors(
 
 		$playgroundIframe.srcdoc = doc;
 	};
-	// const updatePlayground = () => {
-	// 	const doc = `
-	// 		<html>
-	// 			<head>
-	// 				<style>${cssEditor.state.doc.toString()}</style>
-	// 			</head>
-	// 			<body>
-	// 				${htmlEditor.state.doc.toString()}
-	// 				<script src="https://unpkg.com/@hn250424/aero/umd"></script>
-	// 				<script type="module">${javascriptEditor.state.doc.toString()}</script>
-	// 			</body>
-	// 		</html>
-	// 	`;
-
-	// 	$playgroundIframe.srcdoc = doc;
-	// };
 
 	const htmlEditor = createEditor($htmlBox, [html()], updatePlayground);
 	const cssEditor = createEditor($cssBox, [css()], updatePlayground);
