@@ -65,7 +65,7 @@ class n extends HTMLElement {
     );
   }
 }
-class a extends n {
+class o extends n {
   /**
    * The underlying HTML input element.
    * @private
@@ -306,7 +306,7 @@ const h = `<style>\r
 \r
 <input id="input" type="number" />\r
 `;
-class u extends a {
+class u extends o {
   constructor() {
     super(h);
   }
@@ -365,7 +365,7 @@ const d = `<style>\r
 	<button id="plus">+</button>\r
 </div>\r
 `;
-class l extends a {
+class l extends o {
   /**
    * The decrement button element.
    * @private
@@ -556,7 +556,7 @@ class g extends n {
    * @private
    */
   updateSpinnerStyles() {
-    const t = this.getAttribute("width") || "50", e = this.getAttribute("height") || "50", i = this.getAttribute("background") || "white", s = this.getAttribute("color") || "black", o = this.getAttribute("cycle") || "1";
+    const t = this.getAttribute("width") || "50", e = this.getAttribute("height") || "50", i = this.getAttribute("background") || "white", s = this.getAttribute("color") || "black", a = this.getAttribute("cycle") || "1";
     this.applyStyles(`
 			:host {
 					width: ${t}px;
@@ -564,7 +564,7 @@ class g extends n {
 					border: 5px solid ${i};
 					border-top-color: ${s};
 					border-radius: 50%;
-					animation: spin ${o}s linear infinite;
+					animation: spin ${a}s linear infinite;
 					box-sizing: border-box;
 			}
 
@@ -621,7 +621,7 @@ class g extends n {
   }
 }
 customElements.define("aero-progress-spinner", g);
-const m = `<style>\r
+const c = `<style>\r
 	:host {\r
 		position: relative;\r
 	}\r
@@ -671,7 +671,7 @@ const m = `<style>\r
 <div id="left" class="resizer horizontal"></div>\r
 <div id="right" class="resizer horizontal"></div>\r
 `;
-class c extends n {
+class m extends n {
   _topResizer;
   _bottomResizer;
   _leftResizer;
@@ -697,7 +697,7 @@ class c extends n {
     right: (t) => this.processMousedownEvent(t, "right")
   };
   constructor() {
-    super(m), this._topResizer = this.query("#top"), this._bottomResizer = this.query("#bottom"), this._leftResizer = this.query("#left"), this._rightResizer = this.query("#right"), this.updateMinWidthValue(this.getAttribute("min-width")), this.updateMaxWidthValue(this.getAttribute("max-width")), this.updateMinHeightValue(this.getAttribute("min-height")), this.updateMaxHeightValue(this.getAttribute("max-height")), this.updateTopResizerState(this.hasAttribute("resize-top")), this.updateBottomResizerState(this.hasAttribute("resize-bottom")), this.updateLeftResizerState(this.hasAttribute("resize-left")), this.updateRightResizerState(this.hasAttribute("resize-right")), document.addEventListener("mousemove", (t) => {
+    super(c), this._topResizer = this.query("#top"), this._bottomResizer = this.query("#bottom"), this._leftResizer = this.query("#left"), this._rightResizer = this.query("#right"), this.updateMinWidthValue(this.getAttribute("min-width")), this.updateMaxWidthValue(this.getAttribute("max-width")), this.updateMinHeightValue(this.getAttribute("min-height")), this.updateMaxHeightValue(this.getAttribute("max-height")), this.updateTopResizerState(this.hasAttribute("resize-top")), this.updateBottomResizerState(this.hasAttribute("resize-bottom")), this.updateLeftResizerState(this.hasAttribute("resize-left")), this.updateRightResizerState(this.hasAttribute("resize-right")), document.addEventListener("mousemove", (t) => {
       this.isDragging && (this.animationFrameId && cancelAnimationFrame(this.animationFrameId), this.animationFrameId = requestAnimationFrame(() => {
         const e = this.getBoundingClientRect();
         if (this.isTopDragging) {
@@ -1034,10 +1034,42 @@ class c extends n {
     this.removeAttribute("resize-right");
   }
 }
-customElements.define("aero-resize-box", c);
+customElements.define("aero-resize-box", m);
+const b = `<style>\r
+	#container {\r
+		position: relative;\r
+\r
+		width: 100%;\r
+		height: 100%;\r
+\r
+		display: grid;\r
+		grid-template-columns: 1fr auto;\r
+	}\r
+\r
+	#button {\r
+		width: 24px;\r
+		height: 24px;\r
+	}\r
+</style>\r
+\r
+<div id="container">\r
+	<span id="current"></span>\r
+	<button id="button"></button>\r
+	<div id="dropdwon">\r
+		<slot></slot>\r
+	</div>\r
+</div>\r
+`;
+class x extends n {
+  constructor() {
+    super(b);
+  }
+}
+customElements.define("aero-select", x);
 export {
   u as AeroNumericInput,
   g as AeroProgressSpinner,
-  c as AeroResizeBox,
+  m as AeroResizeBox,
+  x as AeroSelect,
   l as AeroSpinbox
 };
