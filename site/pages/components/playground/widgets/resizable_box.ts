@@ -1,15 +1,48 @@
-const html = `<aero-resizable-box id="rb" resize-bottom resize-right resizer-color="#C5D89D">
-	<div style="background-color: #F6F0D7; width: 10px; height: 10px;"></div>
-	<div style="background-color: #C5D89D; width: 10px; height: 10px;"></div>
-	<div style="background-color: #9CAB84; width: 10px; height: 10px;"></div>
+const html = `<aero-resizable-box id="rb" resize-right resizer-color="#C5D89D">
+	<div>
+		<span style="background-color: #F6F0D7;"></span>
+		<p>Moby-Dick — Herman Melville</p>
+	</div>
+	<div>
+		<span style="background-color: #C5D89D;"></span>
+		<p>Jane Eyre — Charlotte Brontë</p>
+	</div>
+	<div>
+		<span style="background-color: #9CAB84;"></span>
+		<p>The Brothers Karamazov — Fyodor Dostoevsky</p>
+	</div>
 </aero-resizable-box>`;
 
-const css = `aero-resizable-box {
-	display: flex;
-	justify-content: center;
+const css = `html, body {
+	height: 100%;
+}
 
+div {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	margin: 0 10px;
+}
+
+span {
+	flex-shrink: 0;
+	width: 7px;
+	height: 7px;
+	border-radius: 50%;
+}
+
+p {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	margin: 0;
+	font-size; 0.9rem;
+}
+
+aero-resizable-box {
+	display: block;
 	width: 300px;
-	height: 50px;
+	height: 90%;
 	border: 1px solid #ccc;
 }`;
 
