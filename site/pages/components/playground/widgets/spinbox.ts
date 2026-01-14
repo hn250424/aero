@@ -3,6 +3,7 @@ const html = `<aero-spinbox id="sb" min="0.4" max="100" step="0.46" value="1"
 </aero-spinbox>`;
 
 const css = `aero-spinbox {
+	border: 1px solid #9CAB84;
 	margin-bottom: 5px;
 }`;
 
