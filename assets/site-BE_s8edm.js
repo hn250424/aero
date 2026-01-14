@@ -85,6 +85,7 @@ ni.addEventListener("input", () => {
 })`,Fd={html:jd,css:Nd,js:Gd},Ud=`<aero-spinbox id="sb" min="0.4" max="100" step="0.46" value="1"
 	minus-text="-" plus-text="+" button-backgroundcolor="#C5D89D">
 </aero-spinbox>`,Hd=`aero-spinbox {
+	border: 1px solid #9CAB84;
 	margin-bottom: 5px;
 }`,Kd=`const sb = document.getElementById("sb");
 sb.addEventListener("input", () => {
@@ -107,16 +108,49 @@ sb.addEventListener("input", () => {
 
 aero-progress-spinner {
 
-}`,iO="",nO={html:eO,css:tO,js:iO},rO=`<aero-resizable-box id="rb" resize-bottom resize-right resizer-color="#C5D89D">
-	<div style="background-color: #F6F0D7; width: 10px; height: 10px;"></div>
-	<div style="background-color: #C5D89D; width: 10px; height: 10px;"></div>
-	<div style="background-color: #9CAB84; width: 10px; height: 10px;"></div>
-</aero-resizable-box>`,sO=`aero-resizable-box {
-	display: flex;
-	justify-content: center;
+}`,iO="",nO={html:eO,css:tO,js:iO},rO=`<aero-resizable-box id="rb" resize-right resizer-color="#C5D89D">
+	<div>
+		<span style="background-color: #F6F0D7;"></span>
+		<p>Moby-Dick — Herman Melville</p>
+	</div>
+	<div>
+		<span style="background-color: #C5D89D;"></span>
+		<p>Jane Eyre — Charlotte Brontë</p>
+	</div>
+	<div>
+		<span style="background-color: #9CAB84;"></span>
+		<p>The Brothers Karamazov — Fyodor Dostoevsky</p>
+	</div>
+</aero-resizable-box>`,sO=`html, body {
+	height: 100%;
+}
 
+div {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	margin: 0 10px;
+}
+
+span {
+	flex-shrink: 0;
+	width: 7px;
+	height: 7px;
+	border-radius: 50%;
+}
+
+p {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	margin: 0;
+	font-size; 0.9rem;
+}
+
+aero-resizable-box {
+	display: block;
 	width: 300px;
-	height: 50px;
+	height: 90%;
 	border: 1px solid #ccc;
 }`,oO=`const rb = document.getElementById('rb')
 rb.addEventListener("aero-resize-start", (e) => {

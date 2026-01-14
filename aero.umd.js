@@ -1,4 +1,4 @@
-(function(r,s){typeof exports=="object"&&typeof module<"u"?s(exports):typeof define=="function"&&define.amd?define(["exports"],s):(r=typeof globalThis<"u"?globalThis:r||self,s(r.Aero={}))})(this,(function(r){"use strict";class s extends HTMLElement{shadow;constructor(t){super();const e=document.createElement("template");e.innerHTML=t,this.shadow=this.attachShadow({mode:"open"}),this.shadow.appendChild(e.content.cloneNode(!0))}query(t){return this.shadow.querySelector(t)}applyStyles(t){const e=document.createElement("style");e.textContent=t,this.shadow.appendChild(e)}forwardNativeEvent(t){this.dispatchEvent(new Event(t,{bubbles:!0,composed:!0}))}forwardCustomEvent(t,e){this.dispatchEvent(new CustomEvent(t,{detail:e?.detail,bubbles:!0,composed:!0}))}}class a extends s{_boundDispatchInputEvent=this._dispatchInputEvent.bind(this);_boundDispatchChangeEvent=this._dispatchChangeEvent.bind(this);_boundDispatchFocusinEvent=this._dispatchFocusinEvent.bind(this);_boundDispatchFocusoutEvent=this._dispatchFocusoutEvent.bind(this);_$input;_value;_min;_max;_step;_decimalPlaces;constructor(t){super(t),this._initializeInput(),this._updateInputValue(this.getAttribute("value")),this._updateMinValue(this.getAttribute("min")),this._updateMaxValue(this.getAttribute("max")),this._updateStepValue(this.getAttribute("step"))}_initializeInput(){this._$input=this.query(this.getInputSelector())}getValidateValue(t){return Math.min(Number(this._max),Math.max(Number(this._min),Math.round(Number(t)/Number(this._step))*Number(this._step))).toFixed(Number(this._decimalPlaces))}connectedCallback(){this._$input.addEventListener("input",this._boundDispatchInputEvent),this._$input.addEventListener("change",this._boundDispatchChangeEvent),this._$input.addEventListener("focusin",this._boundDispatchFocusinEvent),this._$input.addEventListener("focusout",this._boundDispatchFocusoutEvent)}disconnectedCallback(){this._$input.removeEventListener("input",this._boundDispatchInputEvent),this._$input.removeEventListener("change",this._boundDispatchChangeEvent),this._$input.removeEventListener("focusin",this._boundDispatchFocusinEvent),this._$input.removeEventListener("focusout",this._boundDispatchFocusoutEvent)}_dispatchInputEvent(t){t.stopImmediatePropagation(),this.forwardNativeEvent("input")}_dispatchChangeEvent(t){t.stopImmediatePropagation();const e=this.getValidateValue(this._$input.value);this.value=e,this.forwardNativeEvent("change")}_dispatchFocusinEvent(t){t.stopImmediatePropagation(),this.forwardNativeEvent("focusin")}_dispatchFocusoutEvent(t){t.stopImmediatePropagation();const e=this.getValidateValue(this._$input.value);this.value=e,this.forwardNativeEvent("focusout")}static get observedAttributes(){return["value","min","max","step"]}attributeChangedCallback(t,e,i){this._baseAeroNumericInputAttributeHandlers[t]?.(i)}_baseAeroNumericInputAttributeHandlers={value:t=>{this._updateInputValue(t)},min:t=>{this._updateMinValue(t)},max:t=>{this._updateMaxValue(t)},step:t=>{this._updateStepValue(t)}};_updateInputValue(t){this._value=t?this.getValidateValue(t):"0",this._$input.value=this._value}_updateMinValue(t){this._min=t||"0"}_updateMaxValue(t){this._max=t||"100"}_updateStepValue(t){this._step=t||"1",this._decimalPlaces=this._step.toString().split(".")[1]?.length.toString()||"0"}get input(){return this._$input}get value(){return this._value}set value(t){this.setAttribute("value",t)}get min(){return this._min}set min(t){this.setAttribute("min",t)}get max(){return this._max}set max(t){this.setAttribute("max",t)}get step(){return this._step}set step(t){this.setAttribute("step",t)}get decimalPlaces(){return this._decimalPlaces}}const g=`<style>\r
+(function(r,n){typeof exports=="object"&&typeof module<"u"?n(exports):typeof define=="function"&&define.amd?define(["exports"],n):(r=typeof globalThis<"u"?globalThis:r||self,n(r.Aero={}))})(this,(function(r){"use strict";class n extends HTMLElement{shadow;constructor(t){super();const e=document.createElement("template");e.innerHTML=t,this.shadow=this.attachShadow({mode:"open"}),this.shadow.appendChild(e.content.cloneNode(!0))}query(t){return this.shadow.querySelector(t)}applyStyles(t){const e=document.createElement("style");e.textContent=t,this.shadow.appendChild(e)}forwardNativeEvent(t){this.dispatchEvent(new Event(t,{bubbles:!0,composed:!0}))}forwardCustomEvent(t,e){this.dispatchEvent(new CustomEvent(t,{detail:e?.detail,bubbles:!0,composed:!0}))}}class a extends n{_input;_value;_min;_max;_step;_decimalPlaces;constructor(t){super(t),this.initializeInput(),this.dispatchInputEvents(),this.updateInputValue(this.getAttribute("value")),this.updateMinValue(this.getAttribute("min")),this.updateMaxValue(this.getAttribute("max")),this.updateStepValue(this.getAttribute("step"))}initializeInput(){this._input=this.query(this.getInputSelector())}getValidateValue(t){return Math.min(Number(this._max),Math.max(Number(this._min),Math.round(Number(t)/Number(this._step))*Number(this._step))).toFixed(Number(this._decimalPlaces))}dispatchInputEvents(){this._input.addEventListener("input",t=>{t.stopImmediatePropagation(),this.forwardNativeEvent("input")}),this._input.addEventListener("change",t=>{t.stopImmediatePropagation();const e=this.getValidateValue(this._input.value);this.value=e,this.forwardNativeEvent("change")}),this._input.addEventListener("focusin",t=>{t.stopImmediatePropagation(),this.forwardNativeEvent("focusin")}),this._input.addEventListener("focusout",t=>{t.stopImmediatePropagation();const e=this.getValidateValue(this._input.value);this.value=e,this.forwardNativeEvent("focusout")})}static get observedAttributes(){return["value","min","max","step"]}attributeChangedCallback(t,e,i){this.baseAeroNumericInputAttributeHandlers[t]?.(i)}baseAeroNumericInputAttributeHandlers={value:t=>{this.updateInputValue(t)},min:t=>{this.updateMinValue(t)},max:t=>{this.updateMaxValue(t)},step:t=>{this.updateStepValue(t)}};updateInputValue(t){this._value=t?this.getValidateValue(t):"0",this._input.value=this._value}updateMinValue(t){this._min=t||"0"}updateMaxValue(t){this._max=t||"100"}updateStepValue(t){this._step=t||"1",this._decimalPlaces=this._step.toString().split(".")[1]?.length.toString()||"0"}get input(){return this._input}get value(){return this._value}set value(t){this.setAttribute("value",t)}get min(){return this._min}set min(t){this.setAttribute("min",t)}get max(){return this._max}set max(t){this.setAttribute("max",t)}get step(){return this._step}set step(t){this.setAttribute("step",t)}get decimalPlaces(){return this._decimalPlaces}}const g=`<style>\r
 	:host {\r
 		border: 1px solid #ccc;\r
 		display: block;\r
@@ -27,7 +27,7 @@
 </style>\r
 \r
 <input id="input" type="number" />\r
-`;class h extends a{constructor(){super(g)}getInputSelector(){return"#input"}}customElements.define("aero-numeric-input",h);const b=`<style>\r
+`;class h extends a{constructor(){super(g)}getInputSelector(){return"#input"}}customElements.define("aero-numeric-input",h);const c=`<style>\r
 	:host {\r
 		border: 1px solid #ccc;\r
 		display: block;\r
@@ -71,13 +71,13 @@
 	<input id="input" type="number" />\r
 	<button id="plus">+</button>\r
 </div>\r
-`;class d extends a{_boundDecrement=this.decrement.bind(this);_boundIncrement=this.increment.bind(this);_$minus;_$plus;_resizeObserver;constructor(){super(b),this._$minus=this.query("#minus"),this._$plus=this.query("#plus"),this._updateButtonBackgrondColor(this.getAttribute("button-backgroundcolor")),this._updateMinuxText(this.getAttribute("minus-text")),this._updatePlusText(this.getAttribute("plus-text")),this._updateHeight(parseInt(getComputedStyle(this).height)),this._resizeObserver=new ResizeObserver(t=>{for(const e of t){const i=e.contentRect.height;this.applyStyles(`#spinbox {
-						grid-template-columns: ${i}px 1fr ${i}px;
-					}`)}})}getInputSelector(){return"#input"}connectedCallback(){this._$minus.addEventListener("click",this._boundDecrement),this._$plus.addEventListener("click",this._boundIncrement),this._resizeObserver.observe(this)}disconnectedCallback(){this._$minus.removeEventListener("click",this._boundDecrement),this._$plus.removeEventListener("click",this._boundIncrement),this._resizeObserver.disconnect()}static get observedAttributes(){return[...super.observedAttributes,"minus-text","plus-text","button-backgroundcolor"]}attributeChangedCallback(t,e,i){super.attributeChangedCallback(t,e,i),this._aeroSpinboxAttributeHandlers[t]?.(i)}_aeroSpinboxAttributeHandlers={"minus-text":t=>{this._updateMinuxText(t)},"plus-text":t=>{this._updatePlusText(t)},"button-backgroundcolor":t=>{this._updateButtonBackgrondColor(t)}};_updateMinuxText(t){this._$minus.textContent=t||"-"}_updatePlusText(t){this._$plus.textContent=t||"+"}_updateButtonBackgrondColor(t){this.applyStyles(`#spinbox > button {
+`;class u extends a{minus;plus;constructor(){super(c),this.minus=this.query("#minus"),this.plus=this.query("#plus"),this.minus.addEventListener("click",this.decrement.bind(this)),this.plus.addEventListener("click",this.increment.bind(this)),this.updateButtonBackgrondColor(this.getAttribute("button-backgroundcolor")),this.updateMinuxText(this.getAttribute("minus-text")),this.updatePlusText(this.getAttribute("plus-text")),this.updateHeight(parseInt(getComputedStyle(this).height)),new ResizeObserver(e=>{for(const i of e){const s=i.contentRect.height;this.applyStyles(`#spinbox {
+						grid-template-columns: ${s}px 1fr ${s}px;
+					}`)}}).observe(this)}getInputSelector(){return"#input"}static get observedAttributes(){return[...super.observedAttributes,"minus-text","plus-text","button-backgroundcolor"]}attributeChangedCallback(t,e,i){super.attributeChangedCallback(t,e,i),this.aeroSpinboxAttributeHandlers[t]?.(i)}aeroSpinboxAttributeHandlers={"minus-text":t=>{this.updateMinuxText(t)},"plus-text":t=>{this.updatePlusText(t)},"button-backgroundcolor":t=>{this.updateButtonBackgrondColor(t)}};updateMinuxText(t){this.minus.textContent=t||"-"}updatePlusText(t){this.plus.textContent=t||"+"}updateButtonBackgrondColor(t){this.applyStyles(`#spinbox > button {
 				background-color: ${t||"#ccc"};
-			}`)}_updateHeight(t){t=t||30,this.applyStyles(`#spinbox {
+			}`)}updateHeight(t){t=t||30,this.applyStyles(`#spinbox {
 				grid-template-columns: ${t}px 1fr ${t}px;
-			}`)}set buttonBackgroundColor(t){this.setAttribute("button-backgroundcolor",t)}set minusText(t){this.setAttribute("minus-text",t)}set plusText(t){this.setAttribute("plus-text",t)}decrement(){const t=Number(this.input.value)-Number(this.step);this.value=this.getValidateValue(t.toString())}increment(){const t=Number(this.input.value)+Number(this.step);this.value=this.getValidateValue(t.toString())}}customElements.define("aero-spinbox",d);const _=`<style>\r
+			}`)}set buttonBackgroundColor(t){this.setAttribute("button-backgroundcolor",t)}set minusText(t){this.setAttribute("minus-text",t)}set plusText(t){this.setAttribute("plus-text",t)}decrement(){const t=Number(this.input.value)-Number(this.step);this.value=this.getValidateValue(t.toString())}increment(){const t=Number(this.input.value)+Number(this.step);this.value=this.getValidateValue(t.toString())}}customElements.define("aero-spinbox",u);const m=`<style>\r
 	@keyframes spin {\r
 		0% {\r
 			transform: rotate(0deg);\r
@@ -88,22 +88,22 @@
 		}\r
 	}\r
 </style>\r
-`;class u extends s{constructor(){super(_),this._updateSpinnerStyles()}static get observedAttributes(){return["width","height","background","color","cycle"]}attributeChangedCallback(t,e,i){this._updateSpinnerStyles()}_updateSpinnerStyles(){const t=this.getAttribute("width")||"50",e=this.getAttribute("height")||"50",i=this.getAttribute("background")||"white",n=this.getAttribute("color")||"black",x=this.getAttribute("cycle")||"1";this.applyStyles(`
+`;class d extends n{constructor(){super(m),this.updateSpinnerStyles()}static get observedAttributes(){return["width","height","background","color","cycle"]}attributeChangedCallback(t,e,i){this.updateSpinnerStyles()}updateSpinnerStyles(){const t=this.getAttribute("width")||"50",e=this.getAttribute("height")||"50",i=this.getAttribute("background")||"white",s=this.getAttribute("color")||"black",f=this.getAttribute("cycle")||"1";this.applyStyles(`
 			:host {
-				width: ${t}px;
-				height: ${e}px;
-				border: 5px solid ${i};
-				border-top-color: ${n};
-				border-radius: 50%;
-				animation: spin ${x}s linear infinite;
-				box-sizing: border-box;
+					width: ${t}px;
+					height: ${e}px;
+					border: 5px solid ${i};
+					border-top-color: ${s};
+					border-radius: 50%;
+					animation: spin ${f}s linear infinite;
+					box-sizing: border-box;
 			}
 
 			@keyframes spin {
-				0% { transform: rotate(0deg); }
-				100% { transform: rotate(360deg); }
+					0% { transform: rotate(0deg); }
+					100% { transform: rotate(360deg); }
 			}
-		`)}set width(t){this.setAttribute("width",t)}set height(t){this.setAttribute("height",t)}set background(t){this.setAttribute("background",t)}set color(t){this.setAttribute("color",t)}set cycle(t){this.setAttribute("cycle",t)}}customElements.define("aero-progress-spinner",u);const m=`<style>\r
+		`)}set width(t){this.setAttribute("width",t)}set height(t){this.setAttribute("height",t)}set background(t){this.setAttribute("background",t)}set color(t){this.setAttribute("color",t)}set cycle(t){this.setAttribute("cycle",t)}}customElements.define("aero-progress-spinner",d);const b=`<style>\r
 	:host {\r
 		position: relative;\r
 	}\r
@@ -152,152 +152,28 @@
 <div id="bottom" class="resizer vertical"></div>\r
 <div id="left" class="resizer horizontal"></div>\r
 <div id="right" class="resizer horizontal"></div>\r
-`;class l extends s{_$topResizer;_$bottomResizer;_$leftResizer;_$rightResizer;_nMinWidth;_nMaxWidth;_nMinHeight;_nMaxHeight;_isTopDragging=!1;_isBottomDragging=!1;_isLeftDragging=!1;_isRightDragging=!1;_isDragging=!1;_animationFrameId=null;_resizerHandlers={top:t=>this._processMousedownEvent(t,"top"),bottom:t=>this._processMousedownEvent(t,"bottom"),left:t=>this._processMousedownEvent(t,"left"),right:t=>this._processMousedownEvent(t,"right")};constructor(){super(m),this._$topResizer=this.query("#top"),this._$bottomResizer=this.query("#bottom"),this._$leftResizer=this.query("#left"),this._$rightResizer=this.query("#right"),this._updateMinWidthValue(this.getAttribute("min-width")),this._updateMaxWidthValue(this.getAttribute("max-width")),this._updateMinHeightValue(this.getAttribute("min-height")),this._updateMaxHeightValue(this.getAttribute("max-height"))}connectedCallback(){this._updateResizeState("top",this.hasAttribute("resize-top")),this._updateResizeState("bottom",this.hasAttribute("resize-bottom")),this._updateResizeState("left",this.hasAttribute("resize-left")),this._updateResizeState("right",this.hasAttribute("resize-right")),window.addEventListener("mousemove",this._handleMousemove),window.addEventListener("mouseup",this._handleMouseup)}disconnectedCallback(){this._updateResizeState("top",!1),this._updateResizeState("bottom",!1),this._updateResizeState("left",!1),this._updateResizeState("right",!1),window.removeEventListener("mousemove",this._handleMousemove),window.removeEventListener("mouseup",this._handleMouseup)}_handleMousemove=t=>{this._isDragging&&(this._animationFrameId&&cancelAnimationFrame(this._animationFrameId),this._animationFrameId=requestAnimationFrame(()=>{const e=this.getBoundingClientRect();if(this._isTopDragging){const i=e.bottom-t.clientY,n=Math.min(Math.max(i,this._nMinHeight),this._nMaxHeight);this.style.height=`${n}px`,this._emitResize(null,n)}else if(this._isBottomDragging){const i=t.clientY-e.top,n=Math.min(Math.max(i,this._nMinHeight),this._nMaxHeight);this.style.height=`${n}px`,this._emitResize(null,n)}else if(this._isLeftDragging){const i=e.right-t.clientX,n=Math.min(Math.max(i,this._nMinWidth),this._nMaxWidth);this.style.width=`${n}px`,this._emitResize(n,null)}else if(this._isRightDragging){const i=t.clientX-e.left,n=Math.min(Math.max(i,this._nMinWidth),this._nMaxWidth);this.style.width=`${n}px`,this._emitResize(n,null)}}))};_handleMouseup=t=>{this._isDragging&&(this.forwardCustomEvent("aero-resize-end",{detail:{width:this.offsetWidth,height:this.offsetHeight}}),this._animationFrameId&&(cancelAnimationFrame(this._animationFrameId),this._animationFrameId=null),document.body.style.cursor="",document.body.style.userSelect="",this._isDragging=!1,this._isTopDragging=!1,this._isBottomDragging=!1,this._isLeftDragging=!1,this._isRightDragging=!1)};_processMousedownEvent=(t,e)=>{switch(t.preventDefault(),document.body.style.userSelect="none",this._isDragging=!0,this.forwardCustomEvent("aero-resize-start",{detail:{width:this.offsetWidth,height:this.offsetHeight,edge:e}}),e){case"top":this._isTopDragging=!0,document.body.style.cursor="ns-resize";break;case"bottom":this._isBottomDragging=!0,document.body.style.cursor="ns-resize";break;case"left":this._isLeftDragging=!0,document.body.style.cursor="ew-resize";break;case"right":this._isRightDragging=!0,document.body.style.cursor="ew-resize";break}};_emitResize(t,e){this.forwardCustomEvent("aero-resize",{detail:{width:t,height:e}})}static get observedAttributes(){return["min-width","max-width","min-height","max-height","resize-top","resize-bottom","resize-left","resize-right","resizer-color"]}attributeChangedCallback(t,e,i){this._baseAeroResizeBoxAttributeHandlers[t]?.(i)}_baseAeroResizeBoxAttributeHandlers={"min-width":t=>{this._updateMinWidthValue(t)},"max-width":t=>{this._updateMaxWidthValue(t)},"min-height":t=>{this._updateMinHeightValue(t)},"max-height":t=>{this._updateMaxHeightValue(t)},"resize-top":t=>{this._updateResizeState("top",t!==null)},"resize-bottom":t=>{this._updateResizeState("bottom",t!==null)},"resize-left":t=>{this._updateResizeState("left",t!==null)},"resize-right":t=>{this._updateResizeState("right",t!==null)},"resizer-color":t=>{const e=t??"#ccc";this.applyStyles(`.resizer:hover { background-color: ${e}; }`)}};_updateResizeState(t,e){let i,n;switch(t){case"top":i=this._$topResizer,n=this._resizerHandlers.top;break;case"bottom":i=this._$bottomResizer,n=this._resizerHandlers.bottom;break;case"left":i=this._$leftResizer,n=this._resizerHandlers.left;break;case"right":i=this._$rightResizer,n=this._resizerHandlers.right;break}i.hidden=!e,e?i.addEventListener("mousedown",n):i.removeEventListener("mousedown",n)}_updateMinWidthValue(t){this._nMinWidth=t?Number(t):0}_updateMaxWidthValue(t){this._nMaxWidth=t?Number(t):2e3}_updateMinHeightValue(t){this._nMinHeight=t?Number(t):0}_updateMaxHeightValue(t){this._nMaxHeight=t?Number(t):2e3}set resizerColor(t){this.setAttribute("resizer-color",t)}get minWidth(){return this._nMinWidth.toString()}set minWidth(t){this.setAttribute("min-width",t)}get maxWidth(){return this._nMaxWidth.toString()}set maxWidth(t){this.setAttribute("max-width",t)}get minHeight(){return this._nMinHeight.toString()}set minHeight(t){this.setAttribute("min-height",t)}get maxHeight(){return this._nMaxHeight.toString()}set maxHeight(t){this.setAttribute("max-height",t)}addTopResizer(){this.setAttribute("resize-top","")}removeTopResizer(){this.removeAttribute("resize-top")}addBottomResizer(){this.setAttribute("resize-bottom","")}removeBottomResizer(){this.removeAttribute("resize-bottom")}addLeftResizer(){this.setAttribute("resize-left","")}removeLeftResizer(){this.removeAttribute("resize-left")}addRightResizer(){this.setAttribute("resize-right","")}removeRightResizer(){this.removeAttribute("resize-right")}}customElements.define("aero-resizable-box",l);const v=`<style>\r
-	:host {\r
-		--aero-select-width: 150px;\r
-		--aero-select-height: 36px;\r
-\r
-		--aero-select-font-size: 16px;\r
-		--aero-select-font-family: san-serif;\r
-\r
-		--aero-select-border: 1px solid #000;\r
-\r
-		--aero-select-dropdown-border: 1px solid #000;\r
-		--aero-select-dropdown-z-index: 100;\r
-		--aero-select-dropdown-item-border: 1px solid grey;\r
-		--aero-select-dropdown-item-background: #fff;\r
-		--aero-select-dropdown-item-color: #000;\r
-\r
-		--aero-select-dropdown-hover-item-border: 1px solid grey;\r
-		--aero-select-dropdown-hover-item-background: #000;\r
-		--aero-select-dropdown-hover-item-color: white;\r
-		--aero-select-dropdown-hover-item-cursor: pointer;\r
-\r
-		--aero-select-span-background: transparent;\r
-		--aero-select-span-border: 1px solid transparent;\r
-\r
-		--aero-select-button-border: 1px solid #000;\r
-		--aero-select-button-background: lightgrey;\r
-		--aero-select-button-color: #000;\r
-\r
-		--aero-select-button-hover-border: 1px solid #000;\r
-		--aero-select-button-hover-background: grey;\r
-		--aero-select-button-hover-color: #000;\r
-		--aero-select-button-hover-cursor: pointer;\r
-\r
-		display: block;\r
-\r
-		width: var(--aero-select-width);\r
-		height: var(--aero-select-height);\r
-\r
-		font-size: var(--aero-select-font-size);\r
-		font-family: var(--aero-select-font-family);\r
-	}\r
-\r
-	::slotted(*) {\r
-    display: grid;\r
-    grid-template-columns: 1fr auto;\r
-\r
-    text-align: center;\r
-		line-height: var(--aero-select-height);\r
-\r
-		border-bottom: var(--aero-select-dropdown-item-border);\r
-		background-color: var(--aero-select-dropdown-item-background);\r
-		color: var(--aero-select-dropdown-item-color);\r
-	}\r
-\r
-	::slotted(*.highlight),\r
-	::slotted(*:hover) {\r
-		border-bottom: var(--aero-select-dropdown-hover-item-border);\r
-		background-color: var(--aero-select-dropdown-hover-item-background);\r
-		color: var(--aero-select-dropdown-hover-item-color);\r
-		cursor: var(--aero-select-dropdown-hover-item-cursor);\r
-	}\r
-\r
-	::slotted(*:last-child) {\r
-		border-bottom: none;\r
-	}\r
-\r
-	::slotted(*)::after {\r
-		content: '';\r
-		aspect-ratio: 1 / 1;\r
-	}\r
-\r
-	#overlay {\r
+`;class l extends n{_topResizer;_bottomResizer;_leftResizer;_rightResizer;_hasTopResizer;_hasBottomResizer;_hasLeftResizer;_hasRightResizer;_nMinWidth;_nMaxWidth;_nMinHeight;_nMaxHeight;isTopDragging=!1;isBottomDragging=!1;isLeftDragging=!1;isRightDragging=!1;isDragging=!1;animationFrameId=null;resizerHandlers={top:t=>this.processMousedownEvent(t,"top"),bottom:t=>this.processMousedownEvent(t,"bottom"),left:t=>this.processMousedownEvent(t,"left"),right:t=>this.processMousedownEvent(t,"right")};constructor(){super(b),this._topResizer=this.query("#top"),this._bottomResizer=this.query("#bottom"),this._leftResizer=this.query("#left"),this._rightResizer=this.query("#right"),this.updateMinWidthValue(this.getAttribute("min-width")),this.updateMaxWidthValue(this.getAttribute("max-width")),this.updateMinHeightValue(this.getAttribute("min-height")),this.updateMaxHeightValue(this.getAttribute("max-height")),this.updateTopResizerState(this.hasAttribute("resize-top")),this.updateBottomResizerState(this.hasAttribute("resize-bottom")),this.updateLeftResizerState(this.hasAttribute("resize-left")),this.updateRightResizerState(this.hasAttribute("resize-right")),document.addEventListener("mousemove",t=>{this.isDragging&&(this.animationFrameId&&cancelAnimationFrame(this.animationFrameId),this.animationFrameId=requestAnimationFrame(()=>{const e=this.getBoundingClientRect();if(this.isTopDragging){const i=e.bottom-t.clientY,s=Math.min(Math.max(i,this._nMinHeight),this._nMaxHeight);this.style.height=`${s}px`,this.emitResize(null,s)}else if(this.isBottomDragging){const i=t.clientY-e.top,s=Math.min(Math.max(i,this._nMinHeight),this._nMaxHeight);this.style.height=`${s}px`,this.emitResize(null,s)}else if(this.isLeftDragging){const i=e.right-t.clientX,s=Math.min(Math.max(i,this._nMinWidth),this._nMaxWidth);this.style.width=`${s}px`,this.emitResize(s,null)}else if(this.isRightDragging){const i=t.clientX-e.left,s=Math.min(Math.max(i,this._nMinWidth),this._nMaxWidth);this.style.width=`${s}px`,this.emitResize(s,null)}}))}),document.addEventListener("mouseup",()=>{this.isDragging&&(this.forwardCustomEvent("aero-resize-end",{detail:{width:this.offsetWidth,height:this.offsetHeight}}),this.animationFrameId&&(cancelAnimationFrame(this.animationFrameId),this.animationFrameId=null),document.body.style.cursor="default",document.body.style.userSelect="auto",this.isDragging=!1,this.isTopDragging=!1,this.isBottomDragging=!1,this.isLeftDragging=!1,this.isRightDragging=!1)})}processMousedownEvent=(t,e)=>{switch(t.preventDefault(),document.body.style.userSelect="none",this.isDragging=!0,this.forwardCustomEvent("aero-resize-start",{detail:{width:this.offsetWidth,height:this.offsetHeight,edge:e}}),e){case"top":this.isTopDragging=!0,document.body.style.cursor="ns-resize";break;case"bottom":this.isBottomDragging=!0,document.body.style.cursor="ns-resize";break;case"left":this.isLeftDragging=!0,document.body.style.cursor="ew-resize";break;case"right":this.isRightDragging=!0,document.body.style.cursor="ew-resize";break}};emitResize(t,e){this.forwardCustomEvent("aero-resize",{detail:{width:t,height:e}})}static get observedAttributes(){return["min-width","max-width","min-height","max-height","resize-top","resize-bottom","resize-left","resize-right","resizer-color"]}attributeChangedCallback(t,e,i){this.baseAeroResizeBoxAttributeHandlers[t]?.(i)}baseAeroResizeBoxAttributeHandlers={"min-width":t=>{this.updateMinWidthValue(t)},"max-width":t=>{this.updateMaxWidthValue(t)},"min-height":t=>{this.updateMinHeightValue(t)},"max-height":t=>{this.updateMaxHeightValue(t)},"resize-top":t=>{this.updateTopResizerState(t!==null)},"resize-bottom":t=>{this.updateBottomResizerState(t!==null)},"resize-left":t=>{this.updateLeftResizerState(t!==null)},"resize-right":t=>{this.updateRightResizerState(t!==null)},"resizer-color":t=>{const e=t??"#ccc";this.applyStyles(`.resizer:hover { background-color: ${e}; }`)}};updateTopResizerState(t){this._hasTopResizer=t,this.updateResizeState(this._topResizer,this._hasTopResizer,this.resizerHandlers.top)}updateBottomResizerState(t){this._hasBottomResizer=t,this.updateResizeState(this._bottomResizer,this._hasBottomResizer,this.resizerHandlers.bottom)}updateLeftResizerState(t){this._hasLeftResizer=t,this.updateResizeState(this._leftResizer,this._hasLeftResizer,this.resizerHandlers.left)}updateRightResizerState(t){this._hasRightResizer=t,this.updateResizeState(this._rightResizer,this._hasRightResizer,this.resizerHandlers.right)}updateResizeState(t,e,i){t.hidden=!e,e?t.addEventListener("mousedown",i):t.removeEventListener("mousedown",i)}updateMinWidthValue(t){this._nMinWidth=t?Number(t):0}updateMaxWidthValue(t){this._nMaxWidth=t?Number(t):2e3}updateMinHeightValue(t){this._nMinHeight=t?Number(t):0}updateMaxHeightValue(t){this._nMaxHeight=t?Number(t):2e3}set resizerColor(t){this.setAttribute("resizer-color",t)}get minWidth(){return this._nMinWidth.toString()}set minWidth(t){this.setAttribute("min-width",t)}get maxWidth(){return this._nMaxWidth.toString()}set maxWidth(t){this.setAttribute("max-width",t)}get minHeight(){return this._nMinHeight.toString()}set minHeight(t){this.setAttribute("min-height",t)}get maxHeight(){return this._nMaxHeight.toString()}set maxHeight(t){this.setAttribute("max-height",t)}addTopResizer(){this.setAttribute("resize-top","")}removeTopResizer(){this.removeAttribute("resize-top")}addBottomResizer(){this.setAttribute("resize-bottom","")}removeBottomResizer(){this.removeAttribute("resize-bottom")}addLeftResizer(){this.setAttribute("resize-left","")}removeLeftResizer(){this.removeAttribute("resize-left")}addRightResizer(){this.setAttribute("resize-right","")}removeRightResizer(){this.removeAttribute("resize-right")}}customElements.define("aero-resize-box",l);const x=`<style>\r
+	#container {\r
 		position: relative;\r
 \r
-		width: 100%;\r
-    height: 100%;\r
-	}\r
-\r
-	#container {\r
 		width: 100%;\r
 		height: 100%;\r
 \r
 		display: grid;\r
 		grid-template-columns: 1fr auto;\r
-\r
-		border: var(--aero-select-border);\r
-		box-sizing: border-box;\r
-	}\r
-\r
-	#span,\r
-	#button {\r
-		padding: 0;\r
-		margin: 0;\r
-	}\r
-\r
-	#span {\r
-		display: flex;\r
-		justify-content: center;\r
-		align-items: center;\r
-\r
-		background-color: var(--aero-select-span-background);\r
-\r
-		border: var(--aero-select-span-border);\r
-		box-sizing: border-box;\r
-	}\r
-\r
-	#span:hover {\r
-		cursor: default;\r
 	}\r
 \r
 	#button {\r
-    aspect-ratio: 1 / 1;\r
-\r
-		border: var(--aero-select-button-border);\r
-		background-color: var(--aero-select-button-background);\r
-		color: var(--aero-select-button-color);\r
-	}\r
-\r
-	#button:hover {\r
-		border: var(--aero-select-button-hover-border);\r
-		background-color: var(--aero-select-button-hover-background);\r
-		color: var(--aero-select-button-hover-color);\r
-		cursor: var(--aero-select-button-hover-cursor);\r
-	}\r
-\r
-	#dropdown {\r
-		position: absolute;\r
-		width: 100%;\r
-		display: none;\r
-		border: var(--aero-select-dropdown-border);\r
-		box-sizing: border-box;\r
-		z-index: var(--aero-select-dropdown-z-index);\r
-	}\r
-\r
-	#dropdown.open {\r
-		display: block;\r
+		width: 24px;\r
+		height: 24px;\r
 	}\r
 </style>\r
 \r
-<div id="overlay">\r
-	<div id="container">\r
-		<span id="span"></span>\r
-		<button id="button"></button>\r
-	</div>\r
-	<div id="dropdown">\r
+<div id="container">\r
+	<span id="current"></span>\r
+	<button id="button"></button>\r
+	<div id="dropdwon">\r
 		<slot></slot>\r
 	</div>\r
 </div>\r
-`;class c extends s{_handlers={documentClick:this._handleDocumentClick.bind(this),buttonClick:this._handleButtonClick.bind(this),dropdownClick:this._handleDropdownClick.bind(this),slotChange:this._handleSlotChange.bind(this),keydown:this._handleKeydown.bind(this)};_$span;_$button;_$dropdown;_$options=[];_optionIndex=-1;_dropdown_open=!1;_$slot;_highlightIndex=-1;_pendingOptionIndex;constructor(){super(v),this._$span=this.query("#span"),this._$button=this.query("#button"),this._$dropdown=this.query("#dropdown"),this._$slot=this.query("slot"),this._$options=(this._$slot?.assignedElements()??[]).filter(t=>t instanceof HTMLElement),this._$button.textContent=this.getAttribute("button-text")??"▽",this._updateOptionIndex(this._getValidateOptionIndexByStr(this.getAttribute("option-index")??"0"))}connectedCallback(){document.addEventListener("click",this._handlers.documentClick),this._$button.addEventListener("click",this._handlers.buttonClick),this._$dropdown.addEventListener("click",this._handlers.dropdownClick),this._$slot?.addEventListener("slotchange",this._handlers.slotChange),this.addEventListener("keydown",this._handlers.keydown)}disconnectedCallback(){document.removeEventListener("click",this._handlers.documentClick),this._$button.removeEventListener("click",this._handlers.buttonClick),this._$dropdown.removeEventListener("click",this._handlers.dropdownClick),this._$slot?.removeEventListener("slotchange",this._handlers.slotChange),this.removeEventListener("keydown",this._handlers.keydown)}_handleDocumentClick(t){this._dropdown_open&&t?.target!==this&&(this._$dropdown.classList.remove("open"),this._dropdown_open=!1)}_handleButtonClick(t){t.stopPropagation(),this._$dropdown.classList.toggle("open"),this._dropdown_open=!this._dropdown_open}_handleDropdownClick(t){const e=t.composedPath().find(n=>n instanceof HTMLElement&&this._$options.includes(n));if(!e)return;const i=this._$options.indexOf(e);this.optionIndex=i,this._$dropdown.classList.remove("open"),this._dropdown_open=!1}_handleSlotChange(){const t=this._$options[this._optionIndex];if(this._$options=this._$slot.assignedElements().filter(e=>e instanceof HTMLElement),this._pendingOptionIndex!==void 0){const e=this._pendingOptionIndex;this._pendingOptionIndex=void 0,this.optionIndex=e}else this.optionIndex=this._$options.findIndex(e=>e===t)}_handleKeydown(t){if(t.key==="Enter"||t.key===" ")if(t.preventDefault(),!this._dropdown_open)this._$button.click();else{const e=this._$options[this._highlightIndex];e&&(e.classList.remove("highlight"),this.optionIndex=this._highlightIndex),this._highlightIndex=-1,this._$button.click()}if(t.key==="ArrowDown"||t.key==="ArrowUp"){if(t.preventDefault(),!this._dropdown_open||t.key==="ArrowDown"&&this._highlightIndex+1===this._$options.length||t.key==="ArrowUp"&&this._highlightIndex===-1)return;this._$options[this._highlightIndex]?.classList.remove("highlight"),this._highlightIndex=t.key==="ArrowDown"?this._highlightIndex+1:this._highlightIndex-1,this._$options[this._highlightIndex]?.classList.add("highlight"),this._$options[this._highlightIndex]?.scrollIntoView({block:"nearest"})}t.key==="Escape"&&this._dropdown_open&&(this._$button.click(),this._highlightIndex=-1)}static get observedAttributes(){return["option-index"]}attributeChangedCallback(t,e,i){this._aeroSelectAttributeHandlers[t]?.(i)}_aeroSelectAttributeHandlers={"option-index":t=>{this._updateOptionIndex(this._getValidateOptionIndexByStr(t??""))}};get optionIndex(){return this._optionIndex}set optionIndex(t){this.setAttribute("option-index",t.toString())}_updateOptionIndex(t){if(this._optionIndex===t)return;if(t<0){this._unsetOption();return}const e=this._$options[t];if(!e){this._pendingOptionIndex=t;return}this._optionIndex=t,this._$span.textContent=e.textContent,this.forwardCustomEvent("aero-select-changed",{detail:{option:e,index:t}}),this._pendingOptionIndex=void 0}_getValidateOptionIndexByStr(t){if(t==="")return-1;const e=Number(t);return Number.isNaN(e)?-1:e}_unsetOption(){this._optionIndex=-1,this._$span.textContent=""}}customElements.define("aero-select",c);class p extends HTMLElement{constructor(){super()}get value(){return this.getAttribute("value")??""}set value(t){this.setAttribute("value",t)}get label(){return this.textContent??""}}customElements.define("aero-option",p),r.AeroNumericInput=h,r.AeroOption=p,r.AeroProgressSpinner=u,r.AeroResizableBox=l,r.AeroSelect=c,r.AeroSpinbox=d,Object.defineProperty(r,Symbol.toStringTag,{value:"Module"})}));
+`;class p extends n{constructor(){super(x)}}customElements.define("aero-select",p),r.AeroNumericInput=h,r.AeroProgressSpinner=d,r.AeroResizeBox=l,r.AeroSelect=p,r.AeroSpinbox=u,Object.defineProperty(r,Symbol.toStringTag,{value:"Module"})}));
