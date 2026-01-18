@@ -20,46 +20,46 @@ describe("AeroSpinbox", () => {
 
 	describe("Interaction with step property", () => {
 		beforeEach(() => {
-			dom.value = "50";
-			dom.min = "0";
-			dom.max = "100";
-			dom.step = "1";
+			dom.value = 50;
+			dom.min = 0;
+			dom.max = 100;
+			dom.step = 1;
 		});
 
 		test("should increment and decrement value based on min", () => {
-			dom.min = "50";
+			dom.min = 50;
 
 			dom.decrement();
-			expect(dom.value).toBe("50");
-			dom.min = "49";
+			expect(dom.value).toBe(50);
+			dom.min = 49;
 			dom.decrement();
-			expect(dom.value).toBe("49");
+			expect(dom.value).toBe(49);
 		});
 
 		test("should increment and decrement value based on max", () => {
-			dom.max = "50";
+			dom.max = 50;
 
 			dom.increment();
-			expect(dom.value).toBe("50");
-			dom.max = "51";
+			expect(dom.value).toBe(50);
+			dom.max = 51;
 			dom.increment();
-			expect(dom.value).toBe("51");
+			expect(dom.value).toBe(51);
 		});
 
 		test("should increment and decrement value based on step", () => {
-			dom.step = "1";
+			dom.step = 1;
 
 			dom.decrement();
-			expect(dom.value).toBe("49");
+			expect(dom.value).toBe(49);
 			dom.increment();
-			expect(dom.value).toBe("50");
+			expect(dom.value).toBe(50);
 
-			dom.step = "0.4";
+			dom.step = 0.4;
 
 			dom.decrement();
-			expect(dom.value).toBe("49.6");
+			expect(dom.value).toBe(49.6);
 			dom.increment();
-			expect(dom.value).toBe("50.0");
+			expect(dom.value).toBe(50.0);
 		});
 	});
 });
