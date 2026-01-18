@@ -1,4 +1,4 @@
-const html = `<aero-select id="as">
+const html = `<aero-select id="as" option-index="0">
 	<aero-option value="value-1">option-1</aero-option>
 	<aero-option value="value-2">option-2</aero-option>
 </aero-select>`;

@@ -65,7 +65,7 @@ export class BaseAeroContainer extends AeroShadowElement {
 	private _updateBackground(val: string | null) {
 		this.applyStyles(
 			`:host {
-					background: ${val ? val : "rgba(0, 0, 0, 0.5)"};
+				background: ${val ? val : "rgba(0, 0, 0, 0.5)"};
 			}`
 		);
 	}

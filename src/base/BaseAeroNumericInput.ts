@@ -33,34 +33,6 @@ export abstract class BaseAeroNumericInput extends AeroShadowElement {
 	private _$input!: HTMLInputElement;
 
 	/**
-	 * The HTML input element's value.
-	 * @private
-	 */
-	private _value!: string;
-
-	/**
-	 * The minimum allowed value.
-	 * @private
-	 */
-	private _min!: string;
-	/**
-	 * The maximum allowed value.
-	 * @private
-	 */
-	private _max!: string;
-	/**
-	 * The stepping interval.
-	 * @private
-	 */
-	private _step!: string;
-
-	/**
-	 * The number of decimal places to round to, inferred from the `step` value.
-	 * @private
-	 */
-	private _decimalPlaces!: string;
-
-	/**
 	 * @param {string} htmlTemplate - The HTML string to be used as the template for the shadow DOM.
 	 * @protected
 	 */
@@ -69,10 +41,7 @@ export abstract class BaseAeroNumericInput extends AeroShadowElement {
 
 		this._initializeInput();
 
-		this._updateInputValue(this.getAttribute("value"));
-		this._updateMinValue(this.getAttribute("min"));
-		this._updateMaxValue(this.getAttribute("max"));
-		this._updateStepValue(this.getAttribute("step"));
+		this._syncUI(this.getAttribute("value"));
 	}
 
 	/**
@@ -93,90 +62,114 @@ export abstract class BaseAeroNumericInput extends AeroShadowElement {
 	}
 
 	/**
-	 * Validates and sanitizes a given value according to the `min`, `max`, and `step` properties.
-	 * @param {string} value - The value to validate.
-	 * @returns {string} The validated and sanitized value.
+	 * Validates and sanitizes the numeric value.
+	 * @param {number} value - The value to validate.
+	 * @returns {number} The validated and sanitized value.
 	 * @protected
 	 */
-	protected getValidateValue(value: string): string {
-		const newValue = Math.min(
-			Number(this._max),
-			Math.max(
-				Number(this._min),
-				Math.round(Number(value) / Number(this._step)) * Number(this._step)
-			)
-		);
-		return newValue.toFixed(Number(this._decimalPlaces));
+	protected getValidateValue(value: number): number {
+		const numValue = isNaN(value) ? this.min : value;
+
+		// Clamp
+		const clampedValue = Math.max(this.min, Math.min(this.max, numValue));
+
+		// Calculate the offset from the minimum value.
+		// Stepping logic should be relative to 'min', not zero.
+		const offset = clampedValue - this.min;
+
+		// Round the offset to the nearest multiple of 'step'.
+		const steppedOffset = Math.round(offset / this.step) * this.step;
+
+		// Apply the stepped offset back to 'min'.
+		let newValue = this.min + steppedOffset;
+
+		// Final safety check: if rounding pushed the value above 'max',
+		// move back by one step.
+		if (newValue > this.max) {
+			newValue = newValue - this.step;
+		}
+
+		/**
+		 * Use toFixed() followed by Number() to eliminate floating-point arithmetic errors
+		 * (e.g., 0.30000000000000004 -> 0.3) and return a clean numeric value.
+		 */
+		return Number(newValue.toFixed(this.decimalPlaces));
 	}
 
 	/**
-   * Lifecycle callback: Invoked when the component is added to the DOM.
-   * Registers input-related event listeners.
-   */
+	 * Lifecycle callback: Invoked when the component is added to the DOM.
+	 * Registers input-related event listeners.
+	 */
 	connectedCallback() {
 		this._$input.addEventListener("input", this._boundDispatchInputEvent);
 		this._$input.addEventListener("change", this._boundDispatchChangeEvent);
 		this._$input.addEventListener("focusin", this._boundDispatchFocusinEvent);
 		this._$input.addEventListener("focusout", this._boundDispatchFocusoutEvent);
-  }
-
-	/**
-   * Lifecycle callback: Invoked when the component is removed from the DOM.
-   * Cleans up event listeners to prevent memory leaks.
-   */
-  disconnectedCallback() {
-		this._$input.removeEventListener("input", this._boundDispatchInputEvent);
-		this._$input.removeEventListener("change", this._boundDispatchChangeEvent);
-		this._$input.removeEventListener("focusin", this._boundDispatchFocusinEvent);
-		this._$input.removeEventListener("focusout", this._boundDispatchFocusoutEvent);
-  }
-
-	/**
-   * Handles the native 'input' event, stopping propagation and forwarding it.
-   * @param {Event} event - The native event object.
-   * @private
-   */
-	private _dispatchInputEvent(event: Event) {
-		event.stopImmediatePropagation();
-		this.forwardNativeEvent("input")
 	}
 
 	/**
-   * Handles the native 'change' event, validates the current value, and forwards it.
-   * @param {Event} event - The native event object.
-   * @private
-   */
+	 * Lifecycle callback: Invoked when the component is removed from the DOM.
+	 * Cleans up event listeners to prevent memory leaks.
+	 */
+	disconnectedCallback() {
+		this._$input.removeEventListener("input", this._boundDispatchInputEvent);
+		this._$input.removeEventListener("change", this._boundDispatchChangeEvent);
+		this._$input.removeEventListener(
+			"focusin",
+			this._boundDispatchFocusinEvent
+		);
+		this._$input.removeEventListener(
+			"focusout",
+			this._boundDispatchFocusoutEvent
+		);
+	}
+
+	/**
+	 * Handles the native 'input' event, stopping propagation and forwarding it.
+	 * @param {Event} event - The native event object.
+	 * @private
+	 */
+	private _dispatchInputEvent(event: Event) {
+		event.stopImmediatePropagation();
+		this.forwardNativeEvent("input");
+	}
+
+	/**
+	 * Handles the native 'change' event, validates the current value, and forwards it.
+	 * @param {Event} event - The native event object.
+	 * @private
+	 */
 	private _dispatchChangeEvent(event: Event) {
 		event.stopImmediatePropagation();
 
-		const validatedValue = this.getValidateValue(this._$input.value);
+		const validatedValue = this.getValidateValue(this._$input.valueAsNumber);
 		this.value = validatedValue;
 
-		this.forwardNativeEvent("change")
+		this.forwardNativeEvent("change");
 	}
 
 	/**
-   * Handles the native 'focusin' event.
-   * @param {Event} event - The native event object.
-   * @private
-   */
+	 * Handles the native 'focusin' event.
+	 * @param {Event} event - The native event object.
+	 * @private
+	 */
 	private _dispatchFocusinEvent(event: Event) {
 		event.stopImmediatePropagation();
-		this.forwardNativeEvent("focusin")
+		this.forwardNativeEvent("focusin");
 	}
 
 	/**
-   * Handles the native 'focusout' event, validates the current value, and forwards it.
-   * @param {Event} event - The native event object.
-   * @private
-   */
+	 * Handles the native 'focusout' event, validates the current value, and forwards it.
+	 * @param {Event} event - The native event object.
+	 * @private
+	 */
 	private _dispatchFocusoutEvent(event: Event) {
 		event.stopImmediatePropagation();
 
-		const validatedValue = this.getValidateValue(this._$input.value);
+		const validatedValue = this.getValidateValue(this._$input.valueAsNumber);
 		this.value = validatedValue;
 
-		this.forwardNativeEvent("focusout")
+		this.forwardNativeEvent("focusout");
 	}
 
 	/**
@@ -210,56 +203,26 @@ export abstract class BaseAeroNumericInput extends AeroShadowElement {
 		(newValue: string | null) => void
 	> = {
 		value: (newValue) => {
-			this._updateInputValue(newValue);
+			this._syncUI(newValue);
 		},
-		min: (newValue) => {
-			this._updateMinValue(newValue);
+		min: () => {
+			this.value = this.value;
 		},
-		max: (newValue) => {
-			this._updateMaxValue(newValue);
+		max: () => {
+			this.value = this.value;
 		},
-		step: (newValue) => {
-			this._updateStepValue(newValue);
+		step: () => {
+			this.value = this.value;
 		},
 	};
 
 	/**
-	 * Updates the internal `_value` value.
 	 * @param {string | null} val - The new input value.
 	 * @private
 	 */
-	private _updateInputValue(val: string | null) {
-		this._value = val ? this.getValidateValue(val) : "0";
-		this._$input.value = this._value;
-	}
-
-	/**
-	 * Updates the internal `_min` value.
-	 * @param {string | null} val - The new minimum value.
-	 * @private
-	 */
-	private _updateMinValue(val: string | null) {
-		this._min = val ? val : "0";
-	}
-
-	/**
-	 * Updates the internal `_max` value.
-	 * @param {string | null} val - The new maximum value.
-	 * @private
-	 */
-	private _updateMaxValue(val: string | null) {
-		this._max = val ? val : "100";
-	}
-
-	/**
-	 * Updates the internal `_step` value and calculates the number of decimal places.
-	 * @param {string | null} val - The new step value.
-	 * @private
-	 */
-	private _updateStepValue(val: string | null) {
-		this._step = val ? val : "1";
-		this._decimalPlaces =
-			this._step.toString().split(".")[1]?.length.toString() || "0";
+	private _syncUI(val: string | null) {
+		if (!val) return;
+		this._$input.value = val;
 	}
 
 	/**
@@ -273,63 +236,75 @@ export abstract class BaseAeroNumericInput extends AeroShadowElement {
 
 	/**
 	 * The current value of the numeric input.
-	 * @type {string}
+	 * @type {number}
 	 * @attr
-	 * @default "0"
+	 * @default 0
 	 */
 	get value() {
-		return this._value;
+		const v = this.getAttribute("value");
+		return v === null ? this.min : Number(v);
 	}
-	set value(val: string) {
-		this.setAttribute("value", val);
+	set value(val: number) {
+		const validValue = this.getValidateValue(val);
+		this.setAttribute("value", String(validValue));
 	}
 
 	/**
 	 * The minimum allowed value.
-	 * @type {string}
+	 * @type {number}
 	 * @attr
-	 * @default "0"
+	 * @default 0
 	 */
 	get min() {
-		return this._min;
+		const v = this.getAttribute("min");
+		return v === null || isNaN(Number(v)) ? 0 : Number(v);
 	}
-	set min(val: string) {
-		this.setAttribute("min", val);
+	set min(val: number) {
+		this.setAttribute("min", String(val));
 	}
 
 	/**
 	 * The maximum allowed value.
-	 * @type {string}
+	 * @type {number}
 	 * @attr
-	 * @default "100"
+	 * @default 100
 	 */
 	get max() {
-		return this._max;
+		const v = this.getAttribute("max");
+		return v === null || isNaN(Number(v)) ? 100 : Number(v);
 	}
-	set max(val: string) {
-		this.setAttribute("max", val);
+	set max(val: number) {
+		this.setAttribute("max", String(val));
 	}
 
 	/**
 	 * The stepping interval for the numeric input.
-	 * @type {string}
+	 * @type {number}
 	 * @attr
-	 * @default "1"
+	 * @default 1
 	 */
 	get step() {
-		return this._step;
+		const v = this.getAttribute("step");
+		const n = Number(v);
+		return v === null || isNaN(n) || n <= 0 ? 1 : n;
 	}
-	set step(val: string) {
-		this.setAttribute("step", val);
+	set step(val: number) {
+		this.setAttribute("step", String(val));
 	}
 
 	/**
 	 * The number of decimal places, derived from the `step` attribute.
-	 * @type {string}
+	 * Used to handle precision in getValidateValue.
+	 * @type {number}
 	 * @readonly
 	 * @protected
 	 */
 	protected get decimalPlaces() {
-		return this._decimalPlaces;
+		const stepAttr = this.getAttribute("step");
+
+		if (!stepAttr || isNaN(Number(stepAttr))) return 0;
+
+		const parts = stepAttr?.split(".");
+		return parts?.length > 1 ? parts[1].length : 0;
 	}
 }

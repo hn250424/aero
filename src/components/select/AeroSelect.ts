@@ -111,7 +111,7 @@ export class AeroSelect extends AeroShadowElement {
 
 		this._updateOptionIndex(
 			this._getValidateOptionIndexByStr(
-				this.getAttribute("option-index") ?? "0"
+				this.getAttribute("option-index") ?? "-1"
 			)
 		);
 	}
