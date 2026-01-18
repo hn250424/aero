@@ -1,4 +1,4 @@
-class s extends HTMLElement {
+class o extends HTMLElement {
   /**
    * The shadow root for this element.
    * @protected
@@ -65,7 +65,7 @@ class s extends HTMLElement {
     );
   }
 }
-class o extends s {
+class h extends o {
   /** @private */
   _boundDispatchInputEvent = this._dispatchInputEvent.bind(this);
   /** @private */
@@ -80,36 +80,11 @@ class o extends s {
    */
   _$input;
   /**
-   * The HTML input element's value.
-   * @private
-   */
-  _value;
-  /**
-   * The minimum allowed value.
-   * @private
-   */
-  _min;
-  /**
-   * The maximum allowed value.
-   * @private
-   */
-  _max;
-  /**
-   * The stepping interval.
-   * @private
-   */
-  _step;
-  /**
-   * The number of decimal places to round to, inferred from the `step` value.
-   * @private
-   */
-  _decimalPlaces;
-  /**
    * @param {string} htmlTemplate - The HTML string to be used as the template for the shadow DOM.
    * @protected
    */
   constructor(t) {
-    super(t), this._initializeInput(), this._updateInputValue(this.getAttribute("value")), this._updateMinValue(this.getAttribute("min")), this._updateMaxValue(this.getAttribute("max")), this._updateStepValue(this.getAttribute("step"));
+    super(t), this._initializeInput(), this._syncUI(this.getAttribute("value"));
   }
   /**
    * Initializes the `_input` property by querying the shadow DOM.
@@ -119,68 +94,70 @@ class o extends s {
     this._$input = this.query(this.getInputSelector());
   }
   /**
-   * Validates and sanitizes a given value according to the `min`, `max`, and `step` properties.
-   * @param {string} value - The value to validate.
-   * @returns {string} The validated and sanitized value.
+   * Validates and sanitizes the numeric value.
+   * @param {number} value - The value to validate.
+   * @returns {number} The validated and sanitized value.
    * @protected
    */
   getValidateValue(t) {
-    return Math.min(
-      Number(this._max),
-      Math.max(
-        Number(this._min),
-        Math.round(Number(t) / Number(this._step)) * Number(this._step)
-      )
-    ).toFixed(Number(this._decimalPlaces));
+    const e = isNaN(t) ? this.min : t, n = Math.max(this.min, Math.min(this.max, e)) - this.min, a = Math.round(n / this.step) * this.step;
+    let s = this.min + a;
+    return s > this.max && (s = s - this.step), Number(s.toFixed(this.decimalPlaces));
   }
   /**
-    * Lifecycle callback: Invoked when the component is added to the DOM.
-    * Registers input-related event listeners.
-    */
+   * Lifecycle callback: Invoked when the component is added to the DOM.
+   * Registers input-related event listeners.
+   */
   connectedCallback() {
     this._$input.addEventListener("input", this._boundDispatchInputEvent), this._$input.addEventListener("change", this._boundDispatchChangeEvent), this._$input.addEventListener("focusin", this._boundDispatchFocusinEvent), this._$input.addEventListener("focusout", this._boundDispatchFocusoutEvent);
   }
   /**
-    * Lifecycle callback: Invoked when the component is removed from the DOM.
-    * Cleans up event listeners to prevent memory leaks.
-    */
+   * Lifecycle callback: Invoked when the component is removed from the DOM.
+   * Cleans up event listeners to prevent memory leaks.
+   */
   disconnectedCallback() {
-    this._$input.removeEventListener("input", this._boundDispatchInputEvent), this._$input.removeEventListener("change", this._boundDispatchChangeEvent), this._$input.removeEventListener("focusin", this._boundDispatchFocusinEvent), this._$input.removeEventListener("focusout", this._boundDispatchFocusoutEvent);
+    this._$input.removeEventListener("input", this._boundDispatchInputEvent), this._$input.removeEventListener("change", this._boundDispatchChangeEvent), this._$input.removeEventListener(
+      "focusin",
+      this._boundDispatchFocusinEvent
+    ), this._$input.removeEventListener(
+      "focusout",
+      this._boundDispatchFocusoutEvent
+    );
   }
   /**
-    * Handles the native 'input' event, stopping propagation and forwarding it.
-    * @param {Event} event - The native event object.
-    * @private
-    */
+   * Handles the native 'input' event, stopping propagation and forwarding it.
+   * @param {Event} event - The native event object.
+   * @private
+   */
   _dispatchInputEvent(t) {
     t.stopImmediatePropagation(), this.forwardNativeEvent("input");
   }
   /**
-    * Handles the native 'change' event, validates the current value, and forwards it.
-    * @param {Event} event - The native event object.
-    * @private
-    */
+   * Handles the native 'change' event, validates the current value, and forwards it.
+   * @param {Event} event - The native event object.
+   * @private
+   */
   _dispatchChangeEvent(t) {
     t.stopImmediatePropagation();
-    const e = this.getValidateValue(this._$input.value);
+    const e = this.getValidateValue(this._$input.valueAsNumber);
     this.value = e, this.forwardNativeEvent("change");
   }
   /**
-    * Handles the native 'focusin' event.
-    * @param {Event} event - The native event object.
-    * @private
-    */
+   * Handles the native 'focusin' event.
+   * @param {Event} event - The native event object.
+   * @private
+   */
   _dispatchFocusinEvent(t) {
     t.stopImmediatePropagation(), this.forwardNativeEvent("focusin");
   }
   /**
-    * Handles the native 'focusout' event, validates the current value, and forwards it.
-    * @param {Event} event - The native event object.
-    * @private
-    */
+   * Handles the native 'focusout' event, validates the current value, and forwards it.
+   * @param {Event} event - The native event object.
+   * @private
+   */
   _dispatchFocusoutEvent(t) {
     t.stopImmediatePropagation();
-    const e = this.getValidateValue(this._$input.value);
+    const e = this.getValidateValue(this._$input.valueAsNumber);
     this.value = e, this.forwardNativeEvent("focusout");
   }
   /**
@@ -205,49 +182,24 @@ class o extends s {
    */
   _baseAeroNumericInputAttributeHandlers = {
     value: (t) => {
-      this._updateInputValue(t);
+      this._syncUI(t);
     },
-    min: (t) => {
-      this._updateMinValue(t);
+    min: () => {
+      this.value = this.value;
     },
-    max: (t) => {
-      this._updateMaxValue(t);
+    max: () => {
+      this.value = this.value;
     },
-    step: (t) => {
-      this._updateStepValue(t);
+    step: () => {
+      this.value = this.value;
     }
   };
   /**
-   * Updates the internal `_value` value.
    * @param {string | null} val - The new input value.
    * @private
    */
-  _updateInputValue(t) {
-    this._value = t ? this.getValidateValue(t) : "0", this._$input.value = this._value;
-  }
-  /**
-   * Updates the internal `_min` value.
-   * @param {string | null} val - The new minimum value.
-   * @private
-   */
-  _updateMinValue(t) {
-    this._min = t || "0";
-  }
-  /**
-   * Updates the internal `_max` value.
-   * @param {string | null} val - The new maximum value.
-   * @private
-   */
-  _updateMaxValue(t) {
-    this._max = t || "100";
-  }
-  /**
-   * Updates the internal `_step` value and calculates the number of decimal places.
-   * @param {string | null} val - The new step value.
-   * @private
-   */
-  _updateStepValue(t) {
-    this._step = t || "1", this._decimalPlaces = this._step.toString().split(".")[1]?.length.toString() || "0";
+  _syncUI(t) {
+    t && (this._$input.value = t);
   }
   /**
    * The underlying HTML input element.
@@ -259,63 +211,72 @@ class o extends s {
   }
   /**
    * The current value of the numeric input.
-   * @type {string}
+   * @type {number}
    * @attr
-   * @default "0"
+   * @default 0
    */
   get value() {
-    return this._value;
+    const t = this.getAttribute("value");
+    return t === null ? this.min : Number(t);
   }
   set value(t) {
-    this.setAttribute("value", t);
+    const e = this.getValidateValue(t);
+    this.setAttribute("value", String(e));
   }
   /**
    * The minimum allowed value.
-   * @type {string}
+   * @type {number}
    * @attr
-   * @default "0"
+   * @default 0
    */
   get min() {
-    return this._min;
+    const t = this.getAttribute("min");
+    return t === null || isNaN(Number(t)) ? 0 : Number(t);
   }
   set min(t) {
-    this.setAttribute("min", t);
+    this.setAttribute("min", String(t));
   }
   /**
    * The maximum allowed value.
-   * @type {string}
+   * @type {number}
    * @attr
-   * @default "100"
+   * @default 100
    */
   get max() {
-    return this._max;
+    const t = this.getAttribute("max");
+    return t === null || isNaN(Number(t)) ? 100 : Number(t);
   }
   set max(t) {
-    this.setAttribute("max", t);
+    this.setAttribute("max", String(t));
   }
   /**
    * The stepping interval for the numeric input.
-   * @type {string}
+   * @type {number}
    * @attr
-   * @default "1"
+   * @default 1
    */
   get step() {
-    return this._step;
+    const t = this.getAttribute("step"), e = Number(t);
+    return t === null || isNaN(e) || e <= 0 ? 1 : e;
   }
   set step(t) {
-    this.setAttribute("step", t);
+    this.setAttribute("step", String(t));
   }
   /**
    * The number of decimal places, derived from the `step` attribute.
-   * @type {string}
+   * Used to handle precision in getValidateValue.
+   * @type {number}
    * @readonly
    * @protected
    */
   get decimalPlaces() {
-    return this._decimalPlaces;
+    const t = this.getAttribute("step");
+    if (!t || isNaN(Number(t))) return 0;
+    const e = t?.split(".");
+    return e?.length > 1 ? e[1].length : 0;
   }
 }
-const h = `<style>\r
+const d = `<style>\r
 	:host {\r
 		border: 1px solid #ccc;\r
 		display: block;\r
@@ -345,9 +306,9 @@ const h = `<style>\r
 \r
 <input id="input" type="number" />\r
 `;
-class d extends o {
+class l extends h {
   constructor() {
-    super(h);
+    super(d);
   }
   /**
    * Returns the CSS selector for the internal input element.
@@ -358,7 +319,7 @@ class d extends o {
     return "#input";
   }
 }
-customElements.define("aero-numeric-input", d);
+customElements.define("aero-numeric-input", l);
 const u = `<style>\r
 	:host {\r
 		border: 1px solid #ccc;\r
@@ -404,7 +365,7 @@ const u = `<style>\r
 	<button id="plus">+</button>\r
 </div>\r
 `;
-class l extends o {
+class c extends h {
   /** @private */
   _boundDecrement = this.decrement.bind(this);
   /** @private */
@@ -572,40 +533,56 @@ class l extends o {
    * Decrements the input value by the step amount.
    */
   decrement() {
-    const t = Number(this.input.value) - Number(this.step);
-    this.value = this.getValidateValue(t.toString());
+    const t = this.value - this.step;
+    this.value = this.getValidateValue(t);
   }
   /**
    * Increments the input value by the step amount.
    */
   increment() {
-    const t = Number(this.input.value) + Number(this.step);
-    this.value = this.getValidateValue(t.toString());
+    const t = this.value + this.step;
+    this.value = this.getValidateValue(t);
   }
 }
-customElements.define("aero-spinbox", l);
-const c = `<style>\r
+customElements.define("aero-spinbox", c);
+const p = `<style>\r
+#spinner {\r
+    border-radius: 50%;\r
+    transform: rotate(-45deg);\r
+\r
+    animation-name: spin;\r
+    animation-timing-function: linear;\r
+    animation-iteration-count: infinite;\r
+    animation-play-state: paused;\r
+  }\r
+\r
+	#spinner.spin {\r
+		animation-play-state: running;\r
+	}\r
+\r
 	@keyframes spin {\r
 		0% {\r
-			transform: rotate(0deg);\r
+			transform: rotate(-45deg);\r
 		}\r
-\r
 		100% {\r
-			transform: rotate(360deg);\r
+			transform: rotate(315deg);\r
 		}\r
 	}\r
 </style>\r
+\r
+<div id="spinner"></div>\r
 `;
-class p extends s {
+class g extends o {
+  _$spinner;
   constructor() {
-    super(c), this._updateSpinnerStyles();
+    super(p), this._$spinner = this.query("#spinner"), this._updateSpinnerStyles();
   }
   /**
    * Specifies the observed attributes for the custom element.
    * @returns {string[]} An array of attribute names to observe.
    */
   static get observedAttributes() {
-    return ["width", "height", "background", "color", "cycle"];
+    return ["width", "height", "thickness", "background", "color", "cycle"];
   }
   /**
    * Called when an observed attribute has been added, removed, or changed.
@@ -615,46 +592,46 @@ class p extends s {
   }
   /**
    * Updates the spinner's styles based on its current attributes.
-   * Using :host instead of an inner element means styles are applied to the custom element itself.
-   * Re-appending styles multiple times can cause conflicts or unexpected behavior.
    * @private
    */
   _updateSpinnerStyles() {
-    const t = this.getAttribute("width") || "50", e = this.getAttribute("height") || "50", i = this.getAttribute("background") || "white", n = this.getAttribute("color") || "black", a = this.getAttribute("cycle") || "1";
+    const t = this.getAttribute("width") || "50", e = this.getAttribute("height") || "50", i = this.getAttribute("thickness") || "2", n = this.getAttribute("background") || "white", a = this.getAttribute("color") || "black", s = this.getAttribute("cycle") || "1";
     this.applyStyles(`
-			:host {
+			#spinner {
 				width: ${t}px;
-				height: ${e}px;
-				border: 5px solid ${i};
-				border-top-color: ${n};
-				border-radius: 50%;
-				animation: spin ${a}s linear infinite;
-				box-sizing: border-box;
-			}
-
-			@keyframes spin {
-				0% { transform: rotate(0deg); }
-				100% { transform: rotate(360deg); }
+        height: ${e}px;
+        border: ${i}px solid ${a};
+        border-right-color: ${n};
+        animation-duration: ${s}s;
 			}
 		`);
   }
   /**
    * The width of the spinner in pixels.
-   * @param {string} val - The width value.
+   * @param {number} val - The width value.
    * @attr
-   * @default "50"
+   * @default 50
    */
   set width(t) {
-    this.setAttribute("width", t);
+    this.setAttribute("width", String(t));
   }
   /**
    * The height of the spinner in pixels.
-   * @param {string} val - The height value.
+   * @param {number} val - The height value.
    * @attr
-   * @default "50"
+   * @default 50
    */
   set height(t) {
-    this.setAttribute("height", t);
+    this.setAttribute("height", String(t));
+  }
+  /**
+   * The thickness of the spinner in pixels.
+   * @param {number} val - The thickness value.
+   * @attr
+   * @default 2
+   */
+  set thickness(t) {
+    this.setAttribute("thickness", String(t));
   }
   /**
    * The color of the spinner's track.
@@ -676,16 +653,28 @@ class p extends s {
   }
   /**
    * The duration of one spin cycle in seconds.
-   * @param {string} val - The cycle duration.
+   * @param {number} val - The cycle duration.
    * @attr
-   * @default "1"
+   * @default 1
    */
   set cycle(t) {
-    this.setAttribute("cycle", t);
+    this.setAttribute("cycle", String(t));
+  }
+  /**
+   * Starts the spinner animation.
+   */
+  spin() {
+    this._$spinner.classList.add("spin");
+  }
+  /**
+   * Stops the spinner animation and pauses at the current position.
+   */
+  stop() {
+    this._$spinner.classList.remove("spin");
   }
 }
-customElements.define("aero-progress-spinner", p);
-const g = `<style>\r
+customElements.define("aero-progress-spinner", g);
+const b = `<style>\r
 	:host {\r
 		position: relative;\r
 	}\r
@@ -735,7 +724,7 @@ const g = `<style>\r
 <div id="left" class="resizer horizontal"></div>\r
 <div id="right" class="resizer horizontal"></div>\r
 `;
-class b extends s {
+class m extends o {
   _$topResizer;
   _$bottomResizer;
   _$leftResizer;
@@ -757,7 +746,7 @@ class b extends s {
     right: (t) => this._processMousedownEvent(t, "right")
   };
   constructor() {
-    super(g), this._$topResizer = this.query("#top"), this._$bottomResizer = this.query("#bottom"), this._$leftResizer = this.query("#left"), this._$rightResizer = this.query("#right"), this._updateMinWidthValue(this.getAttribute("min-width")), this._updateMaxWidthValue(this.getAttribute("max-width")), this._updateMinHeightValue(this.getAttribute("min-height")), this._updateMaxHeightValue(this.getAttribute("max-height"));
+    super(b), this._$topResizer = this.query("#top"), this._$bottomResizer = this.query("#bottom"), this._$leftResizer = this.query("#left"), this._$rightResizer = this.query("#right"), this._updateMinWidthValue(this.getAttribute("min-width")), this._updateMaxWidthValue(this.getAttribute("max-width")), this._updateMinHeightValue(this.getAttribute("min-height")), this._updateMaxHeightValue(this.getAttribute("max-height"));
   }
   connectedCallback() {
     this._updateResizeState("top", this.hasAttribute("resize-top")), this._updateResizeState("bottom", this.hasAttribute("resize-bottom")), this._updateResizeState("left", this.hasAttribute("resize-left")), this._updateResizeState("right", this.hasAttribute("resize-right")), window.addEventListener("mousemove", this._handleMousemove), window.addEventListener("mouseup", this._handleMouseup);
@@ -1078,7 +1067,7 @@ class b extends s {
     this.removeAttribute("resize-right");
   }
 }
-customElements.define("aero-resizable-box", b);
+customElements.define("aero-resizable-box", m);
 const _ = `<style>\r
 	:host {\r
 		--aero-select-width: 150px;\r
@@ -1228,7 +1217,7 @@ const _ = `<style>\r
 	</div>\r
 </div>\r
 `;
-class m extends s {
+class v extends o {
   /** @private */
   _handlers = {
     documentClick: this._handleDocumentClick.bind(this),
@@ -1287,7 +1276,7 @@ class m extends s {
       (t) => t instanceof HTMLElement
     ), this._$button.textContent = this.getAttribute("button-text") ?? "▽", this._updateOptionIndex(
       this._getValidateOptionIndexByStr(
-        this.getAttribute("option-index") ?? "0"
+        this.getAttribute("option-index") ?? "-1"
       )
     );
   }
@@ -1457,8 +1446,8 @@ class m extends s {
     this._optionIndex = -1, this._$span.textContent = "";
   }
 }
-customElements.define("aero-select", m);
-class v extends HTMLElement {
+customElements.define("aero-select", v);
+class x extends HTMLElement {
   constructor() {
     super();
   }
@@ -1481,12 +1470,12 @@ class v extends HTMLElement {
     return this.textContent ?? "";
   }
 }
-customElements.define("aero-option", v);
+customElements.define("aero-option", x);
 export {
-  d as AeroNumericInput,
-  v as AeroOption,
-  p as AeroProgressSpinner,
-  b as AeroResizableBox,
-  m as AeroSelect,
-  l as AeroSpinbox
+  l as AeroNumericInput,
+  x as AeroOption,
+  g as AeroProgressSpinner,
+  m as AeroResizableBox,
+  v as AeroSelect,
+  c as AeroSpinbox
 };

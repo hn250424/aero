@@ -91,24 +91,18 @@ ni.addEventListener("input", () => {
 sb.addEventListener("input", () => {
 	console.log(sb.input.value);
 	console.log(sb.value);
-})`,Jd={html:Ud,css:Hd,js:Kd},eO=`<div class="wrapper" style="background-color: #C5D89D;">
-	<aero-progress-spinner width="60" height="60"
-		cycle="2" background="white" color="#9CAB84">
-	</aero-progress-spinner>
-</div>`,tO=`.wrapper {
-	width: 300px;
-	height: 200px;
+})`,Jd={html:Ud,css:Hd,js:Kd},eO=`<aero-progress-spinner id="spinner" width="50" height="50"
+	cycle="1.5" background="white" color="#9CAB84">
+</aero-progress-spinner>`,tO=`aero-progress-spinner:hover {
+	cursor: pointer;
+}`,iO=`const spinner = document.querySelector("#spinner");
+spinner.addEventListener("click", () => {
+	spinner.spin();
 
-	display: flex;
-	justify-content: center;
-	align-items: center;
-
-	margin-bottom: 10px;
-}
-
-aero-progress-spinner {
-
-}`,iO="",nO={html:eO,css:tO,js:iO},rO=`<aero-resizable-box id="rb" resize-right resizer-color="#C5D89D">
+	setTimeout(() => {
+		spinner.stop();
+	}, 2000);
+})`,nO={html:eO,css:tO,js:iO},rO=`<aero-resizable-box id="rb" resize-right resizer-color="#C5D89D">
 	<div>
 		<span style="background-color: #F6F0D7;"></span>
 		<p>Moby-Dick — Herman Melville</p>
@@ -162,7 +156,7 @@ rb.addEventListener("aero-resize", (e) => {
 rb.addEventListener("aero-resize-end", (e) => {
 	console.log("[resize-end] width: ", e.detail.width, " height: ", e.detail.height);
 })
-`,lO={html:rO,css:sO,js:oO},aO=`<aero-select id="as">
+`,lO={html:rO,css:sO,js:oO},aO=`<aero-select id="as" option-index="0">
 	<aero-option value="value-1">option-1</aero-option>
 	<aero-option value="value-2">option-2</aero-option>
 </aero-select>`,hO=`aero-select {
@@ -278,32 +272,32 @@ as.optionIndex = 0;`,pO={html:uO,css:dO,js:OO},gO={"aero-numeric-input":Fd,"aero
 <tr>
 <td><code>value</code></td>
 
-<td><code>string</code></td>
-<td><code>"0"</code></td>
+<td><code>number</code></td>
+<td><code>0</code></td>
 <td>The current value of the numeric input.</td>
 
 </tr>
 <tr>
 <td><code>min</code></td>
 
-<td><code>string</code></td>
-<td><code>"0"</code></td>
+<td><code>number</code></td>
+<td><code>0</code></td>
 <td>The minimum allowed value.</td>
 
 </tr>
 <tr>
 <td><code>max</code></td>
 
-<td><code>string</code></td>
-<td><code>"100"</code></td>
+<td><code>number</code></td>
+<td><code>100</code></td>
 <td>The maximum allowed value.</td>
 
 </tr>
 <tr>
 <td><code>step</code></td>
 
-<td><code>string</code></td>
-<td><code>"1"</code></td>
+<td><code>number</code></td>
+<td><code>1</code></td>
 <td>The stepping interval for the numeric input.</td>
 
 </tr>
@@ -423,32 +417,32 @@ as.optionIndex = 0;`,pO={html:uO,css:dO,js:OO},gO={"aero-numeric-input":Fd,"aero
 <tr>
 <td><code>value</code></td>
 
-<td><code>string</code></td>
-<td><code>"0"</code></td>
+<td><code>number</code></td>
+<td><code>0</code></td>
 <td>The current value of the numeric input.</td>
 
 </tr>
 <tr>
 <td><code>min</code></td>
 
-<td><code>string</code></td>
-<td><code>"0"</code></td>
+<td><code>number</code></td>
+<td><code>0</code></td>
 <td>The minimum allowed value.</td>
 
 </tr>
 <tr>
 <td><code>max</code></td>
 
-<td><code>string</code></td>
-<td><code>"100"</code></td>
+<td><code>number</code></td>
+<td><code>100</code></td>
 <td>The maximum allowed value.</td>
 
 </tr>
 <tr>
 <td><code>step</code></td>
 
-<td><code>string</code></td>
-<td><code>"1"</code></td>
+<td><code>number</code></td>
+<td><code>1</code></td>
 <td>The stepping interval for the numeric input.</td>
 
 </tr>
@@ -580,17 +574,25 @@ as.optionIndex = 0;`,pO={html:uO,css:dO,js:OO},gO={"aero-numeric-input":Fd,"aero
 <tbody><tr>
 <td><code>width</code></td>
 
-<td><code>string</code></td>
-<td><code>"50"</code></td>
+<td><code>number</code></td>
+<td><code>50</code></td>
 <td>The width of the spinner in pixels.</td>
 
 </tr>
 <tr>
 <td><code>height</code></td>
 
-<td><code>string</code></td>
-<td><code>"50"</code></td>
+<td><code>number</code></td>
+<td><code>50</code></td>
 <td>The height of the spinner in pixels.</td>
+
+</tr>
+<tr>
+<td><code>thickness</code></td>
+
+<td><code>number</code></td>
+<td><code>2</code></td>
+<td>The thickness of the spinner in pixels.</td>
 
 </tr>
 <tr>
@@ -612,9 +614,38 @@ as.optionIndex = 0;`,pO={html:uO,css:dO,js:OO},gO={"aero-numeric-input":Fd,"aero
 <tr>
 <td><code>cycle</code></td>
 
-<td><code>string</code></td>
-<td><code>"1"</code></td>
+<td><code>number</code></td>
+<td><code>1</code></td>
 <td>The duration of one spin cycle in seconds.</td>
+
+</tr>
+</tbody></table>
+<h3>Methods</h3>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+
+<th>Description</th>
+<th>Parameters</th>
+<th>Return</th>
+
+</tr>
+</thead>
+<tbody><tr>
+<td><code>spin</code></td>
+
+<td>Starts the spinner animation.</td>
+<td></td>
+<td></td>
+
+</tr>
+<tr>
+<td><code>stop</code></td>
+
+<td>Stops the spinner animation and pauses at the current position.</td>
+<td></td>
+<td></td>
 
 </tr>
 </tbody></table>
@@ -635,6 +666,11 @@ as.optionIndex = 0;`,pO={html:uO,css:dO,js:OO},gO={"aero-numeric-input":Fd,"aero
 <tr>
 <td><code>height</code></td>
 <td>height</td>
+
+</tr>
+<tr>
+<td><code>thickness</code></td>
+<td>thickness</td>
 
 </tr>
 <tr>
