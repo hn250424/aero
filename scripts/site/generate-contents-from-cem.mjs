@@ -3,6 +3,7 @@ import path from "path";
 import { customElementsManifestToMarkdown } from "@custom-elements-manifest/to-markdown";
 import { marked } from "marked";
 import { JSDOM } from "jsdom";
+import { postProcess } from "./post-process-from-cem/index.mjs";
 
 const ROOT = process.cwd();
 
@@ -105,7 +106,7 @@ for (const mod of cem.modules ?? []) {
 				});
 			});
 
-			const finalHtml = doc.body.innerHTML;
+			const finalHtml = postProcess(decl.tagName, doc.body.innerHTML);
 			const htmlFile = path.join(outDir, `${decl.tagName}.html`);
 			fs.writeFileSync(htmlFile, finalHtml, "utf-8");
 			console.log(`📄 ${htmlFile} generated`);

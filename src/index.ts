@@ -4,3 +4,4 @@ export { AeroProgressSpinner } from "./components/progress_spinner/AeroProgressS
 export { AeroResizableBox } from "./components/resizable_box/AeroResizableBox";
 export { AeroSelect } from "./components/select/AeroSelect";
 export { AeroOption } from "./components/select/AeroOption";
+export { AeroToast } from "./components/toast/AeroToast";

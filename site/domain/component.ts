@@ -5,3 +5,4 @@ export type ComponentKeys =
 	| "aero-resizable-box"
 	| "aero-select"
 	| "aero-option"
+	| "aero-toast"

@@ -7,6 +7,7 @@ import { aeroProgressSpinner } from "./progress_spinner";
 import { aeroResizableBox } from "./resizable_box";
 import { aeroSelect } from "./aero_select";
 import { aeroOption } from "./aero_option";
+import { aeroToast } from "./aero_toast";
 
 export const widgets: Record<ComponentKeys, PlaygroundWidgets> = {
   "aero-numeric-input": aeroNumericInput,
@@ -15,4 +16,5 @@ export const widgets: Record<ComponentKeys, PlaygroundWidgets> = {
   "aero-resizable-box": aeroResizableBox,
 	"aero-select": aeroSelect,
 	"aero-option": aeroOption,
+	"aero-toast": aeroToast,
 } as const;
