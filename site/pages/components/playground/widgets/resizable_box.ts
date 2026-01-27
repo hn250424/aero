@@ -1,14 +1,16 @@
-const html = `<aero-resizable-box id="rb" resize-right resizer-color="#C5D89D">
+import { colors } from "./colors";
+
+const html = `<aero-resizable-box id="rb" resize-right resizer-color=${colors.primary_3}>
 	<div>
-		<span style="background-color: #F6F0D7;"></span>
+		<span style="background-color: ${colors.primary_2};"></span>
 		<p>Moby-Dick — Herman Melville</p>
 	</div>
 	<div>
-		<span style="background-color: #C5D89D;"></span>
+		<span style="background-color: ${colors.primary_3};"></span>
 		<p>Jane Eyre — Charlotte Brontë</p>
 	</div>
 	<div>
-		<span style="background-color: #9CAB84;"></span>
+		<span style="background-color: ${colors.primary_4};"></span>
 		<p>The Brothers Karamazov — Fyodor Dostoevsky</p>
 	</div>
 </aero-resizable-box>`;

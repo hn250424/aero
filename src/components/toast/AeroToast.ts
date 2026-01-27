@@ -22,7 +22,7 @@ type ToastOptions = {
 const defaultToastOptions: ToastOptions = {
 	top: 90,
 	left: 50,
-	ms: 5000,
+	ms: 3000,
 	background: "black",
 	color: "white",
 };

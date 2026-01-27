@@ -1,9 +1,11 @@
+import { colors } from "./colors";
+
 const html = `<aero-spinbox id="sb" min="0.4" max="100" step="0.46" value="1"
-	minus-text="-" plus-text="+" button-backgroundcolor="#C5D89D">
+	minus-text="-" plus-text="+" button-backgroundcolor="${colors.primary_3}">
 </aero-spinbox>`;
 
 const css = `aero-spinbox {
-	border: 1px solid #9CAB84;
+	border: 1px solid ${colors.primary_4};
 	margin-bottom: 5px;
 }`;
 

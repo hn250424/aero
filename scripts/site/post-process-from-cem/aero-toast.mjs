@@ -53,7 +53,7 @@ export function postProcessAeroToast(html) {
 			<tr>
 				<td><code>ms</code></td>
 				<td><code>number</code></td>
-				<td><code>5000</code></td>
+				<td><code>3000</code></td>
 				<td>Duration before the toast disappears (milliseconds).</td>
 			</tr>
 			<tr>

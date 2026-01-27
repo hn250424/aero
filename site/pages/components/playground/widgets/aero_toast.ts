@@ -1,3 +1,4 @@
+import { colors } from "./colors";
 import { AERO_IMPORT_PATH } from "@site/constants/path";
 
 const html = `<button id="btn">Show</button>`;
@@ -5,8 +6,8 @@ const html = `<button id="btn">Show</button>`;
 const css = `button {
 	width: 150px;
 	height: 50px;
-	background: #C5D89D;
-	border: 1px solid #9CAB84;
+	background: ${colors.primary_4};
+	border: 1px solid ${colors.primary_2};
 	color: #fff;
 }
 
