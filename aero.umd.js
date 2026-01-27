@@ -78,6 +78,10 @@
 			}`)}_updateHeight(t){t=t||30,this.applyStyles(`#spinbox {
 				grid-template-columns: ${t}px 1fr ${t}px;
 			}`)}set buttonBackgroundColor(t){this.setAttribute("button-backgroundcolor",t)}set minusText(t){this.setAttribute("minus-text",t)}set plusText(t){this.setAttribute("plus-text",t)}decrement(){const t=this.value-this.step;this.value=this.getValidateValue(t)}increment(){const t=this.value+this.step;this.value=this.getValidateValue(t)}}customElements.define("aero-spinbox",c);const x=`<style>\r
+:host {\r
+	display: block;\r
+}\r
+\r
 #spinner {\r
     border-radius: 50%;\r
     transform: rotate(-45deg);\r
@@ -348,14 +352,12 @@
 </style>\r
 \r
 <span id="text"></span>\r
-`,k={top:90,left:50,ms:5e3,background:"black",color:"white"};class d extends s{_$text;constructor(t,e){super(y);const{top:n,left:i,ms:h,background:o,color:z}=e;this.style.animationDuration=`${h}ms`,this._$text=this.query("#text"),this._$text.textContent=t,this.applyStyles(`
+`,k={top:90,left:50,ms:3e3,background:"black",color:"white"};class d extends s{_$text;constructor(t,e){super(y);const{top:n,left:i,ms:h,background:o,color:z}=e;this._$text=this.query("#text"),this._$text.textContent=t,this.applyStyles(`
 			:host {
 				top: ${n}%;
 				left: ${i}%;
+				animation-duration: ${h}ms;
 				background: ${o};
-			}
-
-			#text {
 				color: ${z};
 			}
 		`),document.body.appendChild(this),this.addEventListener("animationend",()=>{this.remove()},{once:!0})}static show(t,e={}){const n={...k,...e};new d(t,n)}}customElements.define("aero-toast",d),r.AeroNumericInput=u,r.AeroOption=m,r.AeroProgressSpinner=p,r.AeroResizableBox=g,r.AeroSelect=b,r.AeroSpinbox=c,r.AeroToast=d,Object.defineProperty(r,Symbol.toStringTag,{value:"Module"})}));

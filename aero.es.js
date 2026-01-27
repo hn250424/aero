@@ -546,6 +546,10 @@ class g extends d {
 }
 customElements.define("aero-spinbox", g);
 const b = `<style>\r
+:host {\r
+	display: block;\r
+}\r
+\r
 #spinner {\r
     border-radius: 50%;\r
     transform: rotate(-45deg);\r
@@ -1514,7 +1518,7 @@ const y = `<style>\r
 `, k = {
   top: 90,
   left: 50,
-  ms: 5e3,
+  ms: 3e3,
   background: "black",
   color: "white"
 };
@@ -1523,14 +1527,12 @@ class h extends a {
   constructor(t, e) {
     super(y);
     const { top: n, left: i, ms: o, background: r, color: l } = e;
-    this.style.animationDuration = `${o}ms`, this._$text = this.query("#text"), this._$text.textContent = t, this.applyStyles(`
+    this._$text = this.query("#text"), this._$text.textContent = t, this.applyStyles(`
 			:host {
 				top: ${n}%;
 				left: ${i}%;
+				animation-duration: ${o}ms;
 				background: ${r};
-			}
-
-			#text {
 				color: ${l};
 			}
 		`), document.body.appendChild(this), this.addEventListener(
