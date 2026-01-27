@@ -1,4 +1,4 @@
-class o extends HTMLElement {
+class a extends HTMLElement {
   /**
    * The shadow root for this element.
    * @protected
@@ -65,7 +65,7 @@ class o extends HTMLElement {
     );
   }
 }
-class h extends o {
+class d extends a {
   /** @private */
   _boundDispatchInputEvent = this._dispatchInputEvent.bind(this);
   /** @private */
@@ -100,9 +100,9 @@ class h extends o {
    * @protected
    */
   getValidateValue(t) {
-    const e = isNaN(t) ? this.min : t, n = Math.max(this.min, Math.min(this.max, e)) - this.min, a = Math.round(n / this.step) * this.step;
-    let s = this.min + a;
-    return s > this.max && (s = s - this.step), Number(s.toFixed(this.decimalPlaces));
+    const e = isNaN(t) ? this.min : t, i = Math.max(this.min, Math.min(this.max, e)) - this.min, o = Math.round(i / this.step) * this.step;
+    let r = this.min + o;
+    return r > this.max && (r = r - this.step), Number(r.toFixed(this.decimalPlaces));
   }
   /**
    * Lifecycle callback: Invoked when the component is added to the DOM.
@@ -173,8 +173,8 @@ class h extends o {
    * @param {string | null} _oldValue - The old value of the attribute.
    * @param {string | null} newValue - The new value of the attribute.
    */
-  attributeChangedCallback(t, e, i) {
-    this._baseAeroNumericInputAttributeHandlers[t]?.(i);
+  attributeChangedCallback(t, e, n) {
+    this._baseAeroNumericInputAttributeHandlers[t]?.(n);
   }
   /**
    * A map of attribute names to their respective handler functions.
@@ -276,7 +276,7 @@ class h extends o {
     return e?.length > 1 ? e[1].length : 0;
   }
 }
-const d = `<style>\r
+const u = `<style>\r
 	:host {\r
 		border: 1px solid #ccc;\r
 		display: block;\r
@@ -306,9 +306,9 @@ const d = `<style>\r
 \r
 <input id="input" type="number" />\r
 `;
-class l extends h {
+class c extends d {
   constructor() {
-    super(d);
+    super(u);
   }
   /**
    * Returns the CSS selector for the internal input element.
@@ -319,8 +319,8 @@ class l extends h {
     return "#input";
   }
 }
-customElements.define("aero-numeric-input", l);
-const u = `<style>\r
+customElements.define("aero-numeric-input", c);
+const p = `<style>\r
 	:host {\r
 		border: 1px solid #ccc;\r
 		display: block;\r
@@ -365,7 +365,7 @@ const u = `<style>\r
 	<button id="plus">+</button>\r
 </div>\r
 `;
-class c extends h {
+class g extends d {
   /** @private */
   _boundDecrement = this.decrement.bind(this);
   /** @private */
@@ -386,14 +386,14 @@ class c extends h {
     */
   _resizeObserver;
   constructor() {
-    super(u), this._$minus = this.query("#minus"), this._$plus = this.query("#plus"), this._updateButtonBackgrondColor(
+    super(p), this._$minus = this.query("#minus"), this._$plus = this.query("#plus"), this._updateButtonBackgrondColor(
       this.getAttribute("button-backgroundcolor")
     ), this._updateMinuxText(this.getAttribute("minus-text")), this._updatePlusText(this.getAttribute("plus-text")), this._updateHeight(parseInt(getComputedStyle(this).height)), this._resizeObserver = new ResizeObserver((t) => {
       for (const e of t) {
-        const i = e.contentRect.height;
+        const n = e.contentRect.height;
         this.applyStyles(
           `#spinbox {
-						grid-template-columns: ${i}px 1fr ${i}px;
+						grid-template-columns: ${n}px 1fr ${n}px;
 					}`
         );
       }
@@ -441,8 +441,8 @@ class c extends h {
    * @param {string | null} _oldValue - The old value of the attribute.
    * @param {string | null} newValue - The new value of the attribute.
    */
-  attributeChangedCallback(t, e, i) {
-    super.attributeChangedCallback(t, e, i), this._aeroSpinboxAttributeHandlers[t]?.(i);
+  attributeChangedCallback(t, e, n) {
+    super.attributeChangedCallback(t, e, n), this._aeroSpinboxAttributeHandlers[t]?.(n);
   }
   /**
    * A map of attribute names to their respective handler functions for this component.
@@ -544,8 +544,8 @@ class c extends h {
     this.value = this.getValidateValue(t);
   }
 }
-customElements.define("aero-spinbox", c);
-const p = `<style>\r
+customElements.define("aero-spinbox", g);
+const b = `<style>\r
 #spinner {\r
     border-radius: 50%;\r
     transform: rotate(-45deg);\r
@@ -572,10 +572,10 @@ const p = `<style>\r
 \r
 <div id="spinner"></div>\r
 `;
-class g extends o {
+class m extends a {
   _$spinner;
   constructor() {
-    super(p), this._$spinner = this.query("#spinner"), this._updateSpinnerStyles();
+    super(b), this._$spinner = this.query("#spinner"), this._updateSpinnerStyles();
   }
   /**
    * Specifies the observed attributes for the custom element.
@@ -587,7 +587,7 @@ class g extends o {
   /**
    * Called when an observed attribute has been added, removed, or changed.
    */
-  attributeChangedCallback(t, e, i) {
+  attributeChangedCallback(t, e, n) {
     this._updateSpinnerStyles();
   }
   /**
@@ -595,14 +595,14 @@ class g extends o {
    * @private
    */
   _updateSpinnerStyles() {
-    const t = this.getAttribute("width") || "50", e = this.getAttribute("height") || "50", i = this.getAttribute("thickness") || "2", n = this.getAttribute("background") || "white", a = this.getAttribute("color") || "black", s = this.getAttribute("cycle") || "1";
+    const t = this.getAttribute("width") || "50", e = this.getAttribute("height") || "50", n = this.getAttribute("thickness") || "2", i = this.getAttribute("background") || "white", o = this.getAttribute("color") || "black", r = this.getAttribute("cycle") || "1";
     this.applyStyles(`
 			#spinner {
 				width: ${t}px;
         height: ${e}px;
-        border: ${i}px solid ${a};
-        border-right-color: ${n};
-        animation-duration: ${s}s;
+        border: ${n}px solid ${o};
+        border-right-color: ${i};
+        animation-duration: ${r}s;
 			}
 		`);
   }
@@ -673,8 +673,8 @@ class g extends o {
     this._$spinner.classList.remove("spin");
   }
 }
-customElements.define("aero-progress-spinner", g);
-const b = `<style>\r
+customElements.define("aero-progress-spinner", m);
+const _ = `<style>\r
 	:host {\r
 		position: relative;\r
 	}\r
@@ -724,7 +724,7 @@ const b = `<style>\r
 <div id="left" class="resizer horizontal"></div>\r
 <div id="right" class="resizer horizontal"></div>\r
 `;
-class m extends o {
+class v extends a {
   _$topResizer;
   _$bottomResizer;
   _$leftResizer;
@@ -746,7 +746,7 @@ class m extends o {
     right: (t) => this._processMousedownEvent(t, "right")
   };
   constructor() {
-    super(b), this._$topResizer = this.query("#top"), this._$bottomResizer = this.query("#bottom"), this._$leftResizer = this.query("#left"), this._$rightResizer = this.query("#right"), this._updateMinWidthValue(this.getAttribute("min-width")), this._updateMaxWidthValue(this.getAttribute("max-width")), this._updateMinHeightValue(this.getAttribute("min-height")), this._updateMaxHeightValue(this.getAttribute("max-height"));
+    super(_), this._$topResizer = this.query("#top"), this._$bottomResizer = this.query("#bottom"), this._$leftResizer = this.query("#left"), this._$rightResizer = this.query("#right"), this._updateMinWidthValue(this.getAttribute("min-width")), this._updateMaxWidthValue(this.getAttribute("max-width")), this._updateMinHeightValue(this.getAttribute("min-height")), this._updateMaxHeightValue(this.getAttribute("max-height"));
   }
   connectedCallback() {
     this._updateResizeState("top", this.hasAttribute("resize-top")), this._updateResizeState("bottom", this.hasAttribute("resize-bottom")), this._updateResizeState("left", this.hasAttribute("resize-left")), this._updateResizeState("right", this.hasAttribute("resize-right")), window.addEventListener("mousemove", this._handleMousemove), window.addEventListener("mouseup", this._handleMouseup);
@@ -763,29 +763,29 @@ class m extends o {
     this._isDragging && (this._animationFrameId && cancelAnimationFrame(this._animationFrameId), this._animationFrameId = requestAnimationFrame(() => {
       const e = this.getBoundingClientRect();
       if (this._isTopDragging) {
-        const i = e.bottom - t.clientY, n = Math.min(
-          Math.max(i, this._nMinHeight),
+        const n = e.bottom - t.clientY, i = Math.min(
+          Math.max(n, this._nMinHeight),
           this._nMaxHeight
         );
-        this.style.height = `${n}px`, this._emitResize(null, n);
+        this.style.height = `${i}px`, this._emitResize(null, i);
       } else if (this._isBottomDragging) {
-        const i = t.clientY - e.top, n = Math.min(
-          Math.max(i, this._nMinHeight),
+        const n = t.clientY - e.top, i = Math.min(
+          Math.max(n, this._nMinHeight),
           this._nMaxHeight
         );
-        this.style.height = `${n}px`, this._emitResize(null, n);
+        this.style.height = `${i}px`, this._emitResize(null, i);
       } else if (this._isLeftDragging) {
-        const i = e.right - t.clientX, n = Math.min(
-          Math.max(i, this._nMinWidth),
+        const n = e.right - t.clientX, i = Math.min(
+          Math.max(n, this._nMinWidth),
           this._nMaxWidth
         );
-        this.style.width = `${n}px`, this._emitResize(n, null);
+        this.style.width = `${i}px`, this._emitResize(i, null);
       } else if (this._isRightDragging) {
-        const i = t.clientX - e.left, n = Math.min(
-          Math.max(i, this._nMinWidth),
+        const n = t.clientX - e.left, i = Math.min(
+          Math.max(n, this._nMinWidth),
           this._nMaxWidth
         );
-        this.style.width = `${n}px`, this._emitResize(n, null);
+        this.style.width = `${i}px`, this._emitResize(i, null);
       }
     }));
   };
@@ -867,8 +867,8 @@ class m extends o {
    * @param {string | null} _oldValue - The old value of the attribute.
    * @param {string | null} newValue - The new value of the attribute.
    */
-  attributeChangedCallback(t, e, i) {
-    this._baseAeroResizeBoxAttributeHandlers[t]?.(i);
+  attributeChangedCallback(t, e, n) {
+    this._baseAeroResizeBoxAttributeHandlers[t]?.(n);
   }
   /**
    * A map of attribute names to their respective handler functions.
@@ -911,22 +911,22 @@ class m extends o {
    * @private
    */
   _updateResizeState(t, e) {
-    let i, n;
+    let n, i;
     switch (t) {
       case "top":
-        i = this._$topResizer, n = this._resizerHandlers.top;
+        n = this._$topResizer, i = this._resizerHandlers.top;
         break;
       case "bottom":
-        i = this._$bottomResizer, n = this._resizerHandlers.bottom;
+        n = this._$bottomResizer, i = this._resizerHandlers.bottom;
         break;
       case "left":
-        i = this._$leftResizer, n = this._resizerHandlers.left;
+        n = this._$leftResizer, i = this._resizerHandlers.left;
         break;
       case "right":
-        i = this._$rightResizer, n = this._resizerHandlers.right;
+        n = this._$rightResizer, i = this._resizerHandlers.right;
         break;
     }
-    i.hidden = !e, e ? i.addEventListener("mousedown", n) : i.removeEventListener("mousedown", n);
+    n.hidden = !e, e ? n.addEventListener("mousedown", i) : n.removeEventListener("mousedown", i);
   }
   /**
    * Updates the internal minimum width value.
@@ -1067,8 +1067,8 @@ class m extends o {
     this.removeAttribute("resize-right");
   }
 }
-customElements.define("aero-resizable-box", m);
-const _ = `<style>\r
+customElements.define("aero-resizable-box", v);
+const x = `<style>\r
 	:host {\r
 		--aero-select-width: 150px;\r
 		--aero-select-height: 36px;\r
@@ -1217,7 +1217,7 @@ const _ = `<style>\r
 	</div>\r
 </div>\r
 `;
-class v extends o {
+class f extends a {
   /** @private */
   _handlers = {
     documentClick: this._handleDocumentClick.bind(this),
@@ -1272,7 +1272,7 @@ class v extends o {
    */
   _pendingOptionIndex;
   constructor() {
-    super(_), this._$span = this.query("#span"), this._$button = this.query("#button"), this._$dropdown = this.query("#dropdown"), this._$slot = this.query("slot"), this._$options = (this._$slot?.assignedElements() ?? []).filter(
+    super(x), this._$span = this.query("#span"), this._$button = this.query("#button"), this._$dropdown = this.query("#dropdown"), this._$slot = this.query("slot"), this._$options = (this._$slot?.assignedElements() ?? []).filter(
       (t) => t instanceof HTMLElement
     ), this._$button.textContent = this.getAttribute("button-text") ?? "▽", this._updateOptionIndex(
       this._getValidateOptionIndexByStr(
@@ -1322,11 +1322,11 @@ class v extends o {
    */
   _handleDropdownClick(t) {
     const e = t.composedPath().find(
-      (n) => n instanceof HTMLElement && this._$options.includes(n)
+      (i) => i instanceof HTMLElement && this._$options.includes(i)
     );
     if (!e) return;
-    const i = this._$options.indexOf(e);
-    this.optionIndex = i, this._$dropdown.classList.remove("open"), this._dropdown_open = !1;
+    const n = this._$options.indexOf(e);
+    this.optionIndex = n, this._$dropdown.classList.remove("open"), this._dropdown_open = !1;
   }
   /**
    * Handles changes to the slotted `<aero-option>` elements.
@@ -1375,8 +1375,8 @@ class v extends o {
    * @param {string | null} newValue - The new value of the attribute.
    * @returns {void}
    */
-  attributeChangedCallback(t, e, i) {
-    this._aeroSelectAttributeHandlers[t]?.(i);
+  attributeChangedCallback(t, e, n) {
+    this._aeroSelectAttributeHandlers[t]?.(n);
   }
   /**
    * A map of attribute names to their respective handler functions for this component.
@@ -1446,8 +1446,8 @@ class v extends o {
     this._optionIndex = -1, this._$span.textContent = "";
   }
 }
-customElements.define("aero-select", v);
-class x extends HTMLElement {
+customElements.define("aero-select", f);
+class w extends HTMLElement {
   constructor() {
     super();
   }
@@ -1470,12 +1470,104 @@ class x extends HTMLElement {
     return this.textContent ?? "";
   }
 }
-customElements.define("aero-option", x);
+customElements.define("aero-option", w);
+const y = `<style>\r
+	:host {\r
+		position: fixed;\r
+\r
+		top: 90%;\r
+		left: 50%;\r
+\r
+		transform: translate(-50%, 10px);\r
+		opacity: 0;\r
+\r
+		animation: toast-fade linear forwards;\r
+\r
+		padding: 5px 10px;\r
+		border-radius: 5%;\r
+	}\r
+\r
+	#text {\r
+	}\r
+\r
+	@keyframes toast-fade {\r
+		0% {\r
+			transform: translate(-50%, 10px);\r
+			opacity: 0;\r
+		}\r
+		10% {\r
+			transform: translate(-50%, 0);\r
+			opacity: 1;\r
+		}\r
+		90% {\r
+			transform: translate(-50%, 0);\r
+			opacity: 1;\r
+		}\r
+		100% {\r
+			transform: translate(-50%, 10px);\r
+			opacity: 0;\r
+		}\r
+	}\r
+</style>\r
+\r
+<span id="text"></span>\r
+`, k = {
+  top: 90,
+  left: 50,
+  ms: 5e3,
+  background: "black",
+  color: "white"
+};
+class h extends a {
+  _$text;
+  constructor(t, e) {
+    super(y);
+    const { top: n, left: i, ms: o, background: r, color: l } = e;
+    this.style.animationDuration = `${o}ms`, this._$text = this.query("#text"), this._$text.textContent = t, this.applyStyles(`
+			:host {
+				top: ${n}%;
+				left: ${i}%;
+				background: ${r};
+			}
+
+			#text {
+				color: ${l};
+			}
+		`), document.body.appendChild(this), this.addEventListener(
+      "animationend",
+      () => {
+        this.remove();
+      },
+      { once: !0 }
+    );
+  }
+  /**
+   * Displays a toast notification on the screen.
+   *
+   * @param {string} text - A text content to display in the toast.
+   * @param {Partial<ToastOptions>} options - Optional configuration for the toast appearance and behavior.
+   * @returns {void}
+   * @static
+   *
+   * @example
+   * AeroToast.show('Hello World!');
+   * AeroToast.show('Success!', { background: 'green', ms: 3000 });
+   */
+  static show(t, e = {}) {
+    const n = {
+      ...k,
+      ...e
+    };
+    new h(t, n);
+  }
+}
+customElements.define("aero-toast", h);
 export {
-  l as AeroNumericInput,
-  x as AeroOption,
-  g as AeroProgressSpinner,
-  m as AeroResizableBox,
-  v as AeroSelect,
-  c as AeroSpinbox
+  c as AeroNumericInput,
+  w as AeroOption,
+  m as AeroProgressSpinner,
+  v as AeroResizableBox,
+  f as AeroSelect,
+  g as AeroSpinbox,
+  h as AeroToast
 };
