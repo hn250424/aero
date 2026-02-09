@@ -1,5 +1,23 @@
+.markdown-body h3 {
+	background-color: var(--primary-1);
+	width: fit-content;
+	padding: 0 20px;
+	margin-bottom: 15px
+}
+
+.markdown-body table {
+	margin-bottom: 40px;
+}
+
+.markdown-body thead tr {
+	background-color: var(--primary-2);
+}
+
 .markdown-body tbody tr td,
 .markdown-body tbody tr td code {
 	background-color: white;
 }
 
+.markdown-body tbody tr td {
+	text-align: center;
+}
