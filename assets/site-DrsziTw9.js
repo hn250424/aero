@@ -266,15 +266,15 @@ btn.addEventListener("click", () => {
 				</body>
 			</html>
 		`;i.srcdoc=a},s=Rs(n,[Hx()],r),o=Rs(e,[Ou()],r),l=Rs(t,[$u()],r);return{htmlEditor:s,cssEditor:o,javascriptEditor:l,dispose(){s.destroy(),o.destroy(),l.destroy()}}}function Rs(n,e,t){return new A({extensions:[ZS,On.of("    "),...e,A.updateListener.of(t)],parent:n})}function e1(n,e){t1(e,n)}function t1(n,e){const t=xO[n];e.htmlEditor.dispatch({changes:{from:0,to:e.htmlEditor.state.doc.length,insert:t.html}}),e.cssEditor.dispatch({changes:{from:0,to:e.cssEditor.state.doc.length,insert:t.css}}),e.javascriptEditor.dispatch({changes:{from:0,to:e.javascriptEditor.state.doc.length,insert:t.js}})}const i1=`<section class="introduction-container components-section">\r
-	<h1 class="introduction-title components-title">Introduction</h1>\r
+	<h1 class="introduction-title components-title">* Introduction</h1>\r
 	<div class="introduction-content components-content"></div>\r
 </section>\r
 `,n1=`<section class="api-container components-section">\r
-	<h1 class="api-title components-title">API</h1>\r
+	<h1 class="api-title components-title">* API</h1>\r
 	<div class="api-content components-content markdown-body"></div>\r
 </section>\r
 `,r1=`<section class="playground-container components-section">\r
-	<h1 class="playground-title components-title">Playground</h1>\r
+	<h1 class="playground-title components-title">* Playground</h1>\r
 \r
 	<div class="playground-content components-content">\r
 		<div class="playground-input">\r
