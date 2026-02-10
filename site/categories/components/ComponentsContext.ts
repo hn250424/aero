@@ -1,6 +1,7 @@
 import "./components.css";
 
-import type { Context } from "../Context";
+import type { PageableContext } from "../Context";
+import type { ComponentKeys } from "@site/domain";
 import type { PlaygroundEditors } from "./playground";
 
 import { createPlaygroundEditors } from "./playground";
@@ -9,7 +10,11 @@ import componentsIntroductionHtml from "./introduction/components_introduction.h
 import componentsApiHtml from "./api/components_api.html?raw";
 import componentsPlaygroundHtml from "./playground/components_playground.html?raw";
 
-export class ComponentsContext implements Context {
+import { applyWidgetToIntroduction } from "./introduction";
+import { applyWidgetToApi } from "./api";
+import { applyWidgetToPlayground } from "./playground";
+
+export class ComponentsContext implements PageableContext {
 	readonly $introductionContent: HTMLElement;
 	readonly $apiContent: HTMLElement;
 	readonly $htmlBox: HTMLElement;
@@ -35,6 +40,12 @@ export class ComponentsContext implements Context {
 			this.$javascriptBox,
 			this.$playgroundIframe
 		);
+	}
+
+	switchPage(key: ComponentKeys): void {
+		applyWidgetToIntroduction(this.$introductionContent, key);
+		applyWidgetToApi(this.$apiContent, key);
+		applyWidgetToPlayground(this.editors, key);
 	}
 
 	clean() {

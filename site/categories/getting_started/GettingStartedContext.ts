@@ -4,28 +4,30 @@ import "prismjs/components/prism-typescript";
 import "prismjs/themes/prism.css";
 import "./getting_started.css";
 
-import type { Context } from "../Context";
+import type { PageableContext } from "../Context";
 
 import gettingStartedContainerHtml from "./getting_started.html?raw";
 import gettingStartedInstallationHtml from "./installation/getting_started_installation.html?raw";
 import gettingStartedUsageHtml from "./usage/getting_started_usage.html?raw";
 
-export class GettingStartedContext implements Context {
+const _gettingStartedMap: Record<string, string> = {
+	installation: gettingStartedInstallationHtml,
+	usage: gettingStartedUsageHtml,
+};
+
+export class GettingStartedContext implements PageableContext {
 	$gettingStartedContainer: HTMLElement;
 
 	constructor($main: HTMLElement) {
 		$main.innerHTML = gettingStartedContainerHtml;
+
 		this.$gettingStartedContainer = document.querySelector(
 			".getting-started-container"
 		)!;
 	}
 
 	switchPage(key: string) {
-		if (key === "installation") {
-			this.$gettingStartedContainer.innerHTML = gettingStartedInstallationHtml;
-		} else if (key === "usage") {
-			this.$gettingStartedContainer.innerHTML = gettingStartedUsageHtml;
-		}
+		this.$gettingStartedContainer.innerHTML = _gettingStartedMap[key];
 
 		document.querySelectorAll("pre code").forEach((block) => {
 			const lines = block.textContent.split("\n");

@@ -10,13 +10,6 @@ export type { PlaygroundEditors, PlaygroundWidgets } from "./domain";
 export { createPlaygroundEditors } from "./editors";
 
 export function applyWidgetToPlayground(editors: PlaygroundEditors, key: ComponentKeys) {
-	applyWidget(key, editors);
-}
-
-function applyWidget(
-	key: ComponentKeys,
-	editors: PlaygroundEditors
-) {
 	const widget = widgets[key];
 
 	editors.htmlEditor.dispatch({

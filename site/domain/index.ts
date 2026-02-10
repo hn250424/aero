@@ -1,2 +1,2 @@
 export type { ComponentKeys } from "./component"
-export type { NavCategory } from "./category"
+export type { NavCategory, ContextNavCategory } from "./category"
