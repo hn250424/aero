@@ -1,9 +1,9 @@
 import { AppContext } from "./AppContext";
 
-import { setupHomeNavigation } from "./pages/home";
-import { setupGettingStartedNavigation } from "./pages/getting_started";
-import { setupComponentsNavigation } from "./pages/components";
-import { setupLinksNavigation } from "./pages/links";
+import { setupHomeNavigation } from "./categories/home";
+import { setupGettingStartedNavigation } from "./categories/getting_started";
+import { setupComponentsNavigation } from "./categories/components";
+import { setupLinksNavigation } from "./categories/links";
 
 export function setupNavigation(appContext: AppContext) {
 	setupHomeNavigation(appContext);
