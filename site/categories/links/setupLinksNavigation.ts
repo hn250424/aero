@@ -8,18 +8,26 @@ export function setupLinksNavigation(appContext: AppContext) {
 		if (!$target) return;
 
 		const key = $target.dataset.key as string;
-
-		_openMap[key as keyof typeof _openMap]();
+		_linkHandlers[key as keyof typeof _linkHandlers]();
 	});
 }
 
-const _openMap = {
-	github: _openGithub,
+const _linkHandlers = {
+	github: _linkGithub,
+	npm: _linkNpm,
 }
 
-function _openGithub() {
+function _linkGithub() {
 	window.open(
 		"https://github.com/hn250424/aero",
+		"_blank",
+		"noopener,noreferrer"
+	);
+}
+
+function _linkNpm() {
+	window.open(
+		"https://www.npmjs.com/package/@hn250424/aero",
 		"_blank",
 		"noopener,noreferrer"
 	);
