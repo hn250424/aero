@@ -4,22 +4,22 @@ import { AeroShadowElement } from "../../core/AeroShadowElement";
 /**
  * Configuration options for toast notifications.
  *
- * @typedef {Object} ToastOptions
+ * @typedef {Object} AeroToastOptions
  * @property {number} top - Vertical position of the toast as a percentage (0-100).
  * @property {number} left - Horizontal position of the toast as a percentage (0-100).
  * @property {number} ms - Duration in milliseconds before the toast disappears.
  * @property {string} background - Background color of the toast.
  * @property {string} color - Text color of the toast.
  */
-type ToastOptions = {
-	top: number;
-	left: number;
-	ms: number;
-	background: string;
-	color: string;
+export type AeroToastOptions = {
+	top?: number;
+	left?: number;
+	ms?: number;
+	background?: string;
+	color?: string;
 };
 
-const defaultToastOptions: ToastOptions = {
+const defaultAeroToastOptions: AeroToastOptions = {
 	top: 90,
 	left: 50,
 	ms: 3000,
@@ -39,7 +39,7 @@ const defaultToastOptions: ToastOptions = {
 export class AeroToast extends AeroShadowElement {
 	private _$text: HTMLElement;
 
-	constructor(text: string, options: ToastOptions) {
+	constructor(text: string, options: AeroToastOptions) {
 		super(AeroToastHtml);
 
 		const { top, left, ms, background, color } = options;
@@ -72,7 +72,7 @@ export class AeroToast extends AeroShadowElement {
 	 * Displays a toast notification on the screen.
 	 *
 	 * @param {string} text - A text content to display in the toast.
-	 * @param {Partial<ToastOptions>} options - Optional configuration for the toast appearance and behavior.
+	 * @param {Partial<AeroToastOptions>} options - Optional configuration for the toast appearance and behavior.
 	 * @returns {void}
 	 * @static
 	 *
@@ -80,9 +80,9 @@ export class AeroToast extends AeroShadowElement {
 	 * AeroToast.show('Hello World!');
 	 * AeroToast.show('Success!', { background: 'green', ms: 3000 });
 	 */
-	static show(text: string, options: Partial<ToastOptions> = {}) {
-		const resolvedOptions: ToastOptions = {
-			...defaultToastOptions,
+	static show(text: string, options: Partial<AeroToastOptions> = {}) {
+		const resolvedOptions: AeroToastOptions = {
+			...defaultAeroToastOptions,
 			...options,
 		};
 
