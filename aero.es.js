@@ -23,6 +23,16 @@ class a extends HTMLElement {
     return this.shadow.querySelector(t);
   }
   /**
+    * Queries the shadow DOM for an element matching the given selector.
+    * Unlike query(), this returns null if the element is not found.
+    * @param {string} selector - The CSS selector to match.
+    * @returns {T | null} The first element matching the selector, or null if none found.
+    * @protected
+    */
+  queryOptional(t) {
+    return this.shadow.querySelector(t);
+  }
+  /**
    * Applies a string of CSS to the shadow DOM by creating and appending a `<style>` tag.
    * @param {string} style - The CSS string to apply.
    * @protected
@@ -54,18 +64,15 @@ class a extends HTMLElement {
    */
   forwardCustomEvent(t, e) {
     this.dispatchEvent(
-      new CustomEvent(
-        t,
-        {
-          detail: e?.detail,
-          bubbles: !0,
-          composed: !0
-        }
-      )
+      new CustomEvent(t, {
+        detail: e?.detail,
+        bubbles: !0,
+        composed: !0
+      })
     );
   }
 }
-class d extends a {
+class p extends a {
   /** @private */
   _boundDispatchInputEvent = this._dispatchInputEvent.bind(this);
   /** @private */
@@ -100,9 +107,9 @@ class d extends a {
    * @protected
    */
   getValidateValue(t) {
-    const e = isNaN(t) ? this.min : t, i = Math.max(this.min, Math.min(this.max, e)) - this.min, o = Math.round(i / this.step) * this.step;
-    let r = this.min + o;
-    return r > this.max && (r = r - this.step), Number(r.toFixed(this.decimalPlaces));
+    const e = isNaN(t) ? this.min : t, r = Math.max(this.min, Math.min(this.max, e)) - this.min, s = Math.round(r / this.step) * this.step;
+    let i = this.min + s;
+    return i > this.max && (i = i - this.step), Number(i.toFixed(this.decimalPlaces));
   }
   /**
    * Lifecycle callback: Invoked when the component is added to the DOM.
@@ -276,7 +283,7 @@ class d extends a {
     return e?.length > 1 ? e[1].length : 0;
   }
 }
-const u = `<style>\r
+const f = `<style>\r
 	:host {\r
 		border: 1px solid #ccc;\r
 		display: block;\r
@@ -306,9 +313,9 @@ const u = `<style>\r
 \r
 <input id="input" type="number" />\r
 `;
-class c extends d {
+class y extends p {
   constructor() {
-    super(u);
+    super(f);
   }
   /**
    * Returns the CSS selector for the internal input element.
@@ -319,8 +326,8 @@ class c extends d {
     return "#input";
   }
 }
-customElements.define("aero-numeric-input", c);
-const p = `<style>\r
+customElements.define("aero-numeric-input", y);
+const w = `<style>\r
 	:host {\r
 		border: 1px solid #ccc;\r
 		display: block;\r
@@ -365,7 +372,7 @@ const p = `<style>\r
 	<button id="plus">+</button>\r
 </div>\r
 `;
-class g extends d {
+class k extends p {
   /** @private */
   _boundDecrement = this.decrement.bind(this);
   /** @private */
@@ -386,7 +393,7 @@ class g extends d {
     */
   _resizeObserver;
   constructor() {
-    super(p), this._$minus = this.query("#minus"), this._$plus = this.query("#plus"), this._updateButtonBackgrondColor(
+    super(w), this._$minus = this.query("#minus"), this._$plus = this.query("#plus"), this._updateButtonBackgrondColor(
       this.getAttribute("button-backgroundcolor")
     ), this._updateMinuxText(this.getAttribute("minus-text")), this._updatePlusText(this.getAttribute("plus-text")), this._updateHeight(parseInt(getComputedStyle(this).height)), this._resizeObserver = new ResizeObserver((t) => {
       for (const e of t) {
@@ -483,7 +490,7 @@ class g extends d {
   _updateButtonBackgrondColor(t) {
     this.applyStyles(
       `#spinbox > button {
-				background-color: ${t || "#ccc"};
+				background-color: ${t || "lightgrey"};
 			}`
     );
   }
@@ -544,8 +551,8 @@ class g extends d {
     this.value = this.getValidateValue(t);
   }
 }
-customElements.define("aero-spinbox", g);
-const b = `<style>\r
+customElements.define("aero-spinbox", k);
+const $ = `<style>\r
 :host {\r
 	display: block;\r
 }\r
@@ -576,10 +583,10 @@ const b = `<style>\r
 \r
 <div id="spinner"></div>\r
 `;
-class m extends a {
+class z extends a {
   _$spinner;
   constructor() {
-    super(b), this._$spinner = this.query("#spinner"), this._updateSpinnerStyles();
+    super($), this._$spinner = this.query("#spinner"), this._updateSpinnerStyles();
   }
   /**
    * Specifies the observed attributes for the custom element.
@@ -599,14 +606,14 @@ class m extends a {
    * @private
    */
   _updateSpinnerStyles() {
-    const t = this.getAttribute("width") || "50", e = this.getAttribute("height") || "50", n = this.getAttribute("thickness") || "2", i = this.getAttribute("background") || "white", o = this.getAttribute("color") || "black", r = this.getAttribute("cycle") || "1";
+    const t = this.getAttribute("width") || "50", e = this.getAttribute("height") || "50", n = this.getAttribute("thickness") || "2", r = this.getAttribute("background") || "white", s = this.getAttribute("color") || "black", i = this.getAttribute("cycle") || "1";
     this.applyStyles(`
 			#spinner {
 				width: ${t}px;
         height: ${e}px;
-        border: ${n}px solid ${o};
-        border-right-color: ${i};
-        animation-duration: ${r}s;
+        border: ${n}px solid ${s};
+        border-right-color: ${r};
+        animation-duration: ${i}s;
 			}
 		`);
   }
@@ -677,10 +684,15 @@ class m extends a {
     this._$spinner.classList.remove("spin");
   }
 }
-customElements.define("aero-progress-spinner", m);
-const _ = `<style>\r
+customElements.define("aero-progress-spinner", z);
+const A = `<style>\r
 	:host {\r
 		position: relative;\r
+		display: block;\r
+		width: 300px;\r
+		height: 300px;\r
+		border: 1px solid lightgray;\r
+		box-sizing: border-box;\r
 	}\r
 \r
 	.resizer {\r
@@ -728,7 +740,7 @@ const _ = `<style>\r
 <div id="left" class="resizer horizontal"></div>\r
 <div id="right" class="resizer horizontal"></div>\r
 `;
-class v extends a {
+class d extends a {
   _$topResizer;
   _$bottomResizer;
   _$leftResizer;
@@ -750,7 +762,13 @@ class v extends a {
     right: (t) => this._processMousedownEvent(t, "right")
   };
   constructor() {
-    super(_), this._$topResizer = this.query("#top"), this._$bottomResizer = this.query("#bottom"), this._$leftResizer = this.query("#left"), this._$rightResizer = this.query("#right"), this._updateMinWidthValue(this.getAttribute("min-width")), this._updateMaxWidthValue(this.getAttribute("max-width")), this._updateMinHeightValue(this.getAttribute("min-height")), this._updateMaxHeightValue(this.getAttribute("max-height"));
+    super(A), this._$topResizer = this.query("#top"), this._$bottomResizer = this.query("#bottom"), this._$leftResizer = this.query("#left"), this._$rightResizer = this.query("#right"), this._updateMinWidthValue(this.getAttribute("min-width")), this._updateMaxWidthValue(this.getAttribute("max-width")), this._updateMinHeightValue(this.getAttribute("min-height")), this._updateMaxHeightValue(this.getAttribute("max-height")), this._initializeAttributes();
+  }
+  _initializeAttributes() {
+    d.observedAttributes.forEach((t) => {
+      const e = this.getAttribute(t);
+      this._baseAeroResizeBoxAttributeHandlers[t]?.(e);
+    });
   }
   connectedCallback() {
     this._updateResizeState("top", this.hasAttribute("resize-top")), this._updateResizeState("bottom", this.hasAttribute("resize-bottom")), this._updateResizeState("left", this.hasAttribute("resize-left")), this._updateResizeState("right", this.hasAttribute("resize-right")), window.addEventListener("mousemove", this._handleMousemove), window.addEventListener("mouseup", this._handleMouseup);
@@ -767,29 +785,29 @@ class v extends a {
     this._isDragging && (this._animationFrameId && cancelAnimationFrame(this._animationFrameId), this._animationFrameId = requestAnimationFrame(() => {
       const e = this.getBoundingClientRect();
       if (this._isTopDragging) {
-        const n = e.bottom - t.clientY, i = Math.min(
+        const n = e.bottom - t.clientY, r = Math.min(
           Math.max(n, this._nMinHeight),
           this._nMaxHeight
         );
-        this.style.height = `${i}px`, this._emitResize(null, i);
+        this.style.height = `${r}px`, this._emitResize(null, r);
       } else if (this._isBottomDragging) {
-        const n = t.clientY - e.top, i = Math.min(
+        const n = t.clientY - e.top, r = Math.min(
           Math.max(n, this._nMinHeight),
           this._nMaxHeight
         );
-        this.style.height = `${i}px`, this._emitResize(null, i);
+        this.style.height = `${r}px`, this._emitResize(null, r);
       } else if (this._isLeftDragging) {
-        const n = e.right - t.clientX, i = Math.min(
+        const n = e.right - t.clientX, r = Math.min(
           Math.max(n, this._nMinWidth),
           this._nMaxWidth
         );
-        this.style.width = `${i}px`, this._emitResize(i, null);
+        this.style.width = `${r}px`, this._emitResize(r, null);
       } else if (this._isRightDragging) {
-        const n = t.clientX - e.left, i = Math.min(
+        const n = t.clientX - e.left, r = Math.min(
           Math.max(n, this._nMinWidth),
           this._nMaxWidth
         );
-        this.style.width = `${i}px`, this._emitResize(i, null);
+        this.style.width = `${r}px`, this._emitResize(r, null);
       }
     }));
   };
@@ -904,7 +922,7 @@ class v extends a {
       this._updateResizeState("right", t !== null);
     },
     "resizer-color": (t) => {
-      const e = t ?? "#ccc";
+      const e = t ?? "grey";
       this.applyStyles(`.resizer:hover { background-color: ${e}; }`);
     }
   };
@@ -915,22 +933,22 @@ class v extends a {
    * @private
    */
   _updateResizeState(t, e) {
-    let n, i;
+    let n, r;
     switch (t) {
       case "top":
-        n = this._$topResizer, i = this._resizerHandlers.top;
+        n = this._$topResizer, r = this._resizerHandlers.top;
         break;
       case "bottom":
-        n = this._$bottomResizer, i = this._resizerHandlers.bottom;
+        n = this._$bottomResizer, r = this._resizerHandlers.bottom;
         break;
       case "left":
-        n = this._$leftResizer, i = this._resizerHandlers.left;
+        n = this._$leftResizer, r = this._resizerHandlers.left;
         break;
       case "right":
-        n = this._$rightResizer, i = this._resizerHandlers.right;
+        n = this._$rightResizer, r = this._resizerHandlers.right;
         break;
     }
-    n.hidden = !e, e ? n.addEventListener("mousedown", i) : n.removeEventListener("mousedown", i);
+    n.hidden = !e, e ? n.addEventListener("mousedown", r) : n.removeEventListener("mousedown", r);
   }
   /**
    * Updates the internal minimum width value.
@@ -969,7 +987,7 @@ class v extends a {
    * @param {string} color - The color value.
    * @type {string}
    * @attr
-   * @default "#ccc"
+   * @default "lightgrey"
    */
   set resizerColor(t) {
     this.setAttribute("resizer-color", t);
@@ -1071,8 +1089,8 @@ class v extends a {
     this.removeAttribute("resize-right");
   }
 }
-customElements.define("aero-resizable-box", v);
-const x = `<style>\r
+customElements.define("aero-resizable-box", d);
+const E = `<style>\r
 	:host {\r
 		--aero-select-width: 150px;\r
 		--aero-select-height: 36px;\r
@@ -1221,7 +1239,7 @@ const x = `<style>\r
 	</div>\r
 </div>\r
 `;
-class f extends a {
+class C extends a {
   /** @private */
   _handlers = {
     documentClick: this._handleDocumentClick.bind(this),
@@ -1276,7 +1294,7 @@ class f extends a {
    */
   _pendingOptionIndex;
   constructor() {
-    super(x), this._$span = this.query("#span"), this._$button = this.query("#button"), this._$dropdown = this.query("#dropdown"), this._$slot = this.query("slot"), this._$options = (this._$slot?.assignedElements() ?? []).filter(
+    super(E), this._$span = this.query("#span"), this._$button = this.query("#button"), this._$dropdown = this.query("#dropdown"), this._$slot = this.query("slot"), this._$options = (this._$slot?.assignedElements() ?? []).filter(
       (t) => t instanceof HTMLElement
     ), this._$button.textContent = this.getAttribute("button-text") ?? "▽", this._updateOptionIndex(
       this._getValidateOptionIndexByStr(
@@ -1326,7 +1344,7 @@ class f extends a {
    */
   _handleDropdownClick(t) {
     const e = t.composedPath().find(
-      (i) => i instanceof HTMLElement && this._$options.includes(i)
+      (r) => r instanceof HTMLElement && this._$options.includes(r)
     );
     if (!e) return;
     const n = this._$options.indexOf(e);
@@ -1450,8 +1468,8 @@ class f extends a {
     this._optionIndex = -1, this._$span.textContent = "";
   }
 }
-customElements.define("aero-select", f);
-class w extends HTMLElement {
+customElements.define("aero-select", C);
+class S extends HTMLElement {
   constructor() {
     super();
   }
@@ -1474,8 +1492,8 @@ class w extends HTMLElement {
     return this.textContent ?? "";
   }
 }
-customElements.define("aero-option", w);
-const y = `<style>\r
+customElements.define("aero-option", S);
+const I = `<style>\r
 	:host {\r
 		position: fixed;\r
 \r
@@ -1515,25 +1533,25 @@ const y = `<style>\r
 </style>\r
 \r
 <span id="text"></span>\r
-`, k = {
+`, M = {
   top: 90,
   left: 50,
   ms: 3e3,
   background: "black",
   color: "white"
 };
-class h extends a {
+class l extends a {
   _$text;
   constructor(t, e) {
-    super(y);
-    const { top: n, left: i, ms: o, background: r, color: l } = e;
+    super(I);
+    const { top: n, left: r, ms: s, background: i, color: h } = e;
     this._$text = this.query("#text"), this._$text.textContent = t, this.applyStyles(`
 			:host {
 				top: ${n}%;
-				left: ${i}%;
-				animation-duration: ${o}ms;
-				background: ${r};
-				color: ${l};
+				left: ${r}%;
+				animation-duration: ${s}ms;
+				background: ${i};
+				color: ${h};
 			}
 		`), document.body.appendChild(this), this.addEventListener(
       "animationend",
@@ -1547,7 +1565,7 @@ class h extends a {
    * Displays a toast notification on the screen.
    *
    * @param {string} text - A text content to display in the toast.
-   * @param {Partial<ToastOptions>} options - Optional configuration for the toast appearance and behavior.
+   * @param {Partial<AeroToastOptions>} options - Optional configuration for the toast appearance and behavior.
    * @returns {void}
    * @static
    *
@@ -1557,19 +1575,283 @@ class h extends a {
    */
   static show(t, e = {}) {
     const n = {
-      ...k,
+      ...M,
       ...e
     };
-    new h(t, n);
+    new l(t, n);
   }
 }
-customElements.define("aero-toast", h);
+customElements.define("aero-toast", l);
+const H = `<style>\r
+	:host {\r
+		position: fixed;\r
+		top: 0;\r
+		left: 0;\r
+		width: 100%;\r
+		height: 100%;\r
+	}\r
+\r
+	#overlay {\r
+		position: relative;\r
+		width: 100%;\r
+		height: 100%;\r
+	}\r
+\r
+	#container {\r
+		position: absolute;\r
+		top: 50%;\r
+		left: 50%;\r
+		transform: translate(-50%, -50%);\r
+\r
+		min-width: 300px;\r
+		min-height: 100px;\r
+\r
+		display: grid;\r
+		grid-template-rows: 1fr 6fr;\r
+		grid-template-columns: 1fr;\r
+	}\r
+\r
+	#head {\r
+		display: grid;\r
+		place-items: center;\r
+		font-weight: bold;\r
+	}\r
+\r
+	#body {\r
+		display: grid;\r
+		grid-template-rows: 1fr auto;\r
+		grid-template-columns: 1fr;\r
+\r
+		place-items: center;\r
+	}\r
+\r
+	#button-box {\r
+		padding: 10px;\r
+	}\r
+\r
+	button {\r
+		min-width: 70px;\r
+		min-height: 30px;\r
+		border: none;\r
+	}\r
+\r
+	button:hover {\r
+		cursor: pointer;\r
+		filter: brightness(0.9);\r
+	}\r
+\r
+	button:active {\r
+		scale: 0.99;\r
+	}\r
+</style>\r
+\r
+<div id="overlay">\r
+	<div id="container">\r
+		<div id="head">\r
+			<span id="title"></span>\r
+		</div>\r
+		<div id="body">\r
+			<span id="message"></span>\r
+			<div id="button-box">\r
+				<button id="ok">ok</button>\r
+			</div>\r
+		</div>\r
+	</div>\r
+</div>\r
+`, R = `<style>\r
+	:host {\r
+		position: fixed;\r
+		top: 0;\r
+		left: 0;\r
+		width: 100%;\r
+		height: 100%;\r
+	}\r
+\r
+	#overlay {\r
+		position: relative;\r
+		width: 100%;\r
+		height: 100%;\r
+	}\r
+\r
+	#container {\r
+		position: absolute;\r
+		top: 50%;\r
+		left: 50%;\r
+		transform: translate(-50%, -50%);\r
+\r
+		min-width: 300px;\r
+		min-height: 100px;\r
+\r
+		display: grid;\r
+		grid-template-rows: 1fr 6fr;\r
+		grid-template-columns: 1fr;\r
+	}\r
+\r
+	#head {\r
+		display: grid;\r
+		place-items: center;\r
+		font-weight: bold;\r
+	}\r
+\r
+	#body {\r
+		display: grid;\r
+		grid-template-rows: 1fr auto;\r
+		grid-template-columns: 1fr;\r
+\r
+		place-items: center;\r
+	}\r
+\r
+	#button-box {\r
+		display: flex;\r
+		gap: 10px;\r
+		padding: 10px;\r
+	}\r
+\r
+	button {\r
+		min-width: 70px;\r
+		min-height: 30px;\r
+		border: none;\r
+	}\r
+\r
+	button:hover {\r
+		cursor: pointer;\r
+		filter: brightness(0.9);\r
+	}\r
+\r
+	button:active {\r
+		scale: 0.99;\r
+	}\r
+</style>\r
+\r
+<div id="overlay">\r
+	<div id="container">\r
+		<div id="head">\r
+			<span id="title"></span>\r
+		</div>\r
+		<div id="body">\r
+			<span id="message"></span>\r
+			<div id="button-box">\r
+				<button id="ok">ok</button>\r
+				<button id="cancel">cancel</button>\r
+			</div>\r
+		</div>\r
+	</div>\r
+</div>\r
+`, L = {
+  blue_5: "#2563eb"
+}, D = {
+  fontSize: "1rem",
+  containerBorder: "1px solid lightgrey",
+  containerBoxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)",
+  titleBoundaryColor: "lightgrey",
+  buttonPrimaryBackgroundColor: `${L.blue_5}`,
+  buttonPrimaryColor: "white",
+  buttonSecondaryBackgroundColor: "grey",
+  buttonSecondaryColor: "white",
+  buttonBorderRadius: "0"
+};
+class u extends a {
+  _$title;
+  _$message;
+  _$ok;
+  _$cancel;
+  _resolve;
+  _handleKeyDown;
+  constructor(t, e, n, r) {
+    super(t);
+    const {
+      fontSize: s,
+      containerBorder: i,
+      containerBoxShadow: h,
+      titleBoundaryColor: g,
+      buttonPrimaryBackgroundColor: b,
+      buttonPrimaryColor: m,
+      buttonSecondaryBackgroundColor: _,
+      buttonSecondaryColor: v,
+      buttonBorderRadius: x
+    } = r;
+    this._$title = this.query("#title"), this._$message = this.query("#message"), this._$title.textContent = e, this._$message.textContent = n, this._$ok = this.query("#ok"), this._$cancel = this.queryOptional("#cancel"), this.applyStyles(`
+			#container {
+				font-size: ${s};
+				border: ${i};
+				box-shadow: ${h};
+			}
+
+			#head {
+				border-bottom: 1px solid ${g};
+			}
+
+			button {
+				font-size: ${s};
+				border-radius: ${x}
+			}
+
+			#ok {
+				background-color: ${b};
+				color: ${m};
+			}
+
+			#cancel {
+				background-color: ${_};
+				color: ${v};
+			}
+		`), this._$ok.onclick = () => {
+      this.remove(), this._resolve?.(!0), this._resolve = void 0;
+    }, this._$cancel && (this._$cancel.onclick = () => {
+      this.remove(), this._resolve?.(!1), this._resolve = void 0;
+    }), this._handleKeyDown = (c) => {
+      c.key === "Enter" ? this._$ok.click() : c.key === "Escape" && (this._$cancel ? this._$cancel.click() : this._$ok.click());
+    }, window.addEventListener("keydown", this._handleKeyDown), document.body.appendChild(this);
+  }
+  /**
+   * Displays a alert notification on the screen.
+   *
+   * @param {string} message - A message content to display in the alert.
+   * @param {string} title - A title content to display in the alert.
+   * @param {Partial<AeroPopupOptions>} options - Configuration for appearance and behavior.
+   * @returns {Promise<void>}
+   * @static
+   *
+   * @example
+   * AeroPopup.alert('Hello World!');
+   */
+  static alert(t, e = "", n = {}) {
+    return this._create(H, t, e, n);
+  }
+  /**
+   * Displays a confirm notification on the screen.
+   *
+   * @param {string} message - A message content to display in the confirm.
+   * @param {string} title - A title content to display in the confirm.
+   * @param {Partial<AeroPopupOptions>} options - Configuration for appearance and behavior.
+   * @returns {Promise<void>}
+   * @static
+   *
+   * @example
+   * AeroPopup.confirm('Hello World?');
+   */
+  static confirm(t, e = "", n = {}) {
+    return this._create(R, t, e, n);
+  }
+  static _create(t, e, n, r) {
+    const s = {
+      ...D,
+      ...r
+    };
+    return new Promise((i) => {
+      const h = new u(t, n, e, s);
+      h._resolve = i;
+    });
+  }
+}
+customElements.define("aero-popup", u);
 export {
-  c as AeroNumericInput,
-  w as AeroOption,
-  m as AeroProgressSpinner,
-  v as AeroResizableBox,
-  f as AeroSelect,
-  g as AeroSpinbox,
-  h as AeroToast
+  y as AeroNumericInput,
+  S as AeroOption,
+  u as AeroPopup,
+  z as AeroProgressSpinner,
+  d as AeroResizableBox,
+  C as AeroSelect,
+  k as AeroSpinbox,
+  l as AeroToast
 };
