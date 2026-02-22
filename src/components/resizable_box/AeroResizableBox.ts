@@ -54,6 +54,15 @@ export class AeroResizableBox extends AeroShadowElement {
 		this._updateMaxWidthValue(this.getAttribute("max-width"));
 		this._updateMinHeightValue(this.getAttribute("min-height"));
 		this._updateMaxHeightValue(this.getAttribute("max-height"));
+
+		this._initializeAttributes()
+	}
+
+	private _initializeAttributes() {
+		AeroResizableBox.observedAttributes.forEach((attr) => {
+			const value = this.getAttribute(attr);
+			this._baseAeroResizeBoxAttributeHandlers[attr]?.(value);
+		});
 	}
 
 	connectedCallback() {
@@ -151,7 +160,7 @@ export class AeroResizableBox extends AeroShadowElement {
 		this._isBottomDragging = false;
 		this._isLeftDragging = false;
 		this._isRightDragging = false;
-	}
+	};
 
 	/**
 	 * Handles the mousedown event on a resizer element.
@@ -274,7 +283,7 @@ export class AeroResizableBox extends AeroShadowElement {
 			this._updateResizeState("right", newValue !== null);
 		},
 		"resizer-color": (newValue) => {
-			const color = newValue ?? "#ccc";
+			const color = newValue ?? "grey";
 			this.applyStyles(`.resizer:hover { background-color: ${color}; }`);
 		},
 	};
@@ -285,7 +294,10 @@ export class AeroResizableBox extends AeroShadowElement {
 	 * @param {boolean} enabled - Whether to enable or disable the resizer.
 	 * @private
 	 */
-	private _updateResizeState(direction: "top" | "bottom" | "left" | "right", enabled: boolean) {
+	private _updateResizeState(
+		direction: "top" | "bottom" | "left" | "right",
+		enabled: boolean
+	) {
 		let resizer;
 		let handler;
 
@@ -355,7 +367,7 @@ export class AeroResizableBox extends AeroShadowElement {
 	 * @param {string} color - The color value.
 	 * @type {string}
 	 * @attr
-	 * @default "#ccc"
+	 * @default "lightgrey"
 	 */
 	set resizerColor(color: string) {
 		this.setAttribute("resizer-color", color);
