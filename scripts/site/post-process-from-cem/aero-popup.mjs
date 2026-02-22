@@ -33,7 +33,7 @@ export function postProcessAeroPopup(html) {
 			<tr>
 				<td><code>fontSize</code></td>
 				<td><code>string</code></td>
-				<td><code>"1.2rem"</code></td>
+				<td><code>"1rem"</code></td>
 				<td>Font size for the popup content and buttons.</td>
 			</tr>
 			<tr>

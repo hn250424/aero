@@ -36,15 +36,15 @@ export function postProcessAeroToast(html) {
 		<tbody>
 			<tr>
 				<td><code>top</code></td>
-				<td><code>number</code></td>
-				<td><code>90</code></td>
-				<td>Vertical position of the toast (percentage, 0–100).</td>
+				<td><code>string</code></td>
+				<td><code>90%</code></td>
+				<td>Vertical position of the toast.</td>
 			</tr>
 			<tr>
 				<td><code>left</code></td>
-				<td><code>number</code></td>
-				<td><code>50</code></td>
-				<td>Horizontal position of the toast (percentage, 0–100).</td>
+				<td><code>string</code></td>
+				<td><code>50%</code></td>
+				<td>Horizontal position of the toast.</td>
 			</tr>
 			<tr>
 				<td><code>ms</code></td>
