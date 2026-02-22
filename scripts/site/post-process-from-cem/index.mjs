@@ -1,7 +1,9 @@
 import { postProcessAeroToast } from "./aero-toast.mjs"
+import { postProcessAeroPopup } from "./aero-popup.mjs"
 
 const processors = {
-	"aero-toast": postProcessAeroToast
+	"aero-toast": postProcessAeroToast,
+	"aero-popup": postProcessAeroPopup,
 }
 
 export function postProcess(tagName, html) {

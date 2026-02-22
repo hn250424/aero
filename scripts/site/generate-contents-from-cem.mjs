@@ -23,7 +23,7 @@ const cem = JSON.parse(cemRaw, (key, value) => {
 	return value;
 });
 
-const outDir = path.resolve(ROOT, "site/pages/components/api/widgets");
+const outDir = path.resolve(ROOT, "site/categories/components/api/widgets");
 fs.mkdirSync(outDir, { recursive: true });
 
 // Columns to remove from all tables
