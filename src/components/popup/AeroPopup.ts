@@ -4,7 +4,18 @@ import { AeroShadowElement } from "../../core/AeroShadowElement";
 import { colors } from "../../constants"
 
 /**
- * Configuration options for popup notifications.
+ * Configuration options for the popup notifications.
+ *
+ * @typedef {Object} AeroPopupOptions
+ * @property {string} [fontSize="1rem"] - Font size for the popup content and buttons.
+ * @property {string} [containerBorder="1px solid lightgrey"] - Border style for the popup container.
+ * @property {string} [containerBoxShadow="0 4px 8px rgba(0, 0, 0, 0.2)"] - Box shadow for the popup container.
+ * @property {string} [titleBoundaryColor="lightgrey"] - Color of the border between title and message.
+ * @property {string} [buttonPrimaryBackgroundColor="#2563eb"] - Background color for the OK button.
+ * @property {string} [buttonPrimaryColor="white"] - Text color for the OK button.
+ * @property {string} [buttonSecondaryBackgroundColor="grey"] - Background color for the Cancel button.
+ * @property {string} [buttonSecondaryColor="white"] - Text color for the Cancel button.
+ * @property {string} [buttonBorderRadius="0"] - Border radius for both buttons.
  */
 export type AeroPopupOptions = {
 	fontSize?: string;
@@ -19,7 +30,7 @@ export type AeroPopupOptions = {
 };
 
 const defaultAeroPopupOptions: AeroPopupOptions = {
-	fontSize: "1.2rem",
+	fontSize: "1rem",
 	containerBorder: "1px solid lightgrey",
 	containerBoxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)",
 	titleBoundaryColor: "lightgrey",
@@ -35,7 +46,7 @@ const defaultAeroPopupOptions: AeroPopupOptions = {
  */
 
 /**
- * A alert component for displaying notifications to users without blocking main processor.
+ * A popup component for displaying notifications to users without blocking main processor.
  *
  * @extends AeroShadowElement
  */
@@ -136,8 +147,9 @@ export class AeroPopup extends AeroShadowElement {
 	/**
 	 * Displays a alert notification on the screen.
 	 *
-	 * @param {string} title - A title content to display in the alert.
 	 * @param {string} message - A message content to display in the alert.
+	 * @param {string} title - A title content to display in the alert.
+	 * @param {Partial<AeroPopupOptions>} options - Configuration for appearance and behavior.
 	 * @returns {Promise<void>}
 	 * @static
 	 *
@@ -145,18 +157,19 @@ export class AeroPopup extends AeroShadowElement {
 	 * AeroPopup.alert('Hello World!');
 	 */
 	static alert(
-		title: string,
 		message: string,
+		title: string = "",
 		options: Partial<AeroPopupOptions> = {}
 	): Promise<boolean> {
-		return this._create(AeroAlertHtml, title, message, options);
+		return this._create(AeroAlertHtml, message, title, options);
 	}
 
 	/**
 	 * Displays a confirm notification on the screen.
 	 *
-	 * @param {string} title - A title content to display in the confirm.
 	 * @param {string} message - A message content to display in the confirm.
+	 * @param {string} title - A title content to display in the confirm.
+	 * @param {Partial<AeroPopupOptions>} options - Configuration for appearance and behavior.
 	 * @returns {Promise<void>}
 	 * @static
 	 *
@@ -164,18 +177,18 @@ export class AeroPopup extends AeroShadowElement {
 	 * AeroPopup.confirm('Hello World?');
 	 */
 	static confirm(
-		title: string,
 		message: string,
+		title: string = "",
 		options: Partial<AeroPopupOptions> = {}
 	): Promise<boolean> {
-		return this._create(AeroConfirmHtml, title, message, options);
+		return this._create(AeroConfirmHtml, message, title, options);
 	}
 
 	private static _create(
 		html: string,
-		title: string,
 		message: string,
-		options: Partial<AeroPopupOptions> = {}
+		title: string,
+		options: Partial<AeroPopupOptions>
 	): Promise<boolean> {
 		const resolvedOptions: AeroPopupOptions = {
 			...defaultAeroPopupOptions,

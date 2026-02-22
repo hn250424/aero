@@ -10,8 +10,6 @@ export function postProcessAeroToast(html) {
 	);
 	if (!staticMethodsH3) throw new Error("Error occur in AeroToast post-processing");
 
-
-
 	const methodsTable = staticMethodsH3.nextElementSibling;
 	if (!methodsTable || methodsTable.tagName !== "TABLE") {
 		return doc.body.innerHTML;
@@ -24,8 +22,6 @@ export function postProcessAeroToast(html) {
 
 	const optionsH3 = doc.createElement("h3");
 	optionsH3.textContent = "Toast Options";
-	// optionsH3.style.color = "var(--color-accent, #6b7280)";
-	// optionsH3.style.fontWeight = "500";
 
 	const table = doc.createElement("table");
 	table.innerHTML = `

@@ -6,3 +6,4 @@ export type ComponentKeys =
 	| "aero-select"
 	| "aero-option"
 	| "aero-toast"
+	| "aero-popup"
