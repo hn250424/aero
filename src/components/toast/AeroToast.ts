@@ -5,23 +5,23 @@ import { AeroShadowElement } from "../../core/AeroShadowElement";
  * Configuration options for toast notifications.
  *
  * @typedef {Object} AeroToastOptions
- * @property {number} top - Vertical position of the toast as a percentage (0-100).
- * @property {number} left - Horizontal position of the toast as a percentage (0-100).
+ * @property {string} top - Vertical position of the toast.
+ * @property {string} left - Horizontal position of the toast.
  * @property {number} ms - Duration in milliseconds before the toast disappears.
  * @property {string} background - Background color of the toast.
  * @property {string} color - Text color of the toast.
  */
 export type AeroToastOptions = {
-	top?: number;
-	left?: number;
+	top?: string;
+	left?: string;
 	ms?: number;
 	background?: string;
 	color?: string;
 };
 
 const defaultAeroToastOptions: AeroToastOptions = {
-	top: 90,
-	left: 50,
+	top: "90%",
+	left: "50%",
 	ms: 3000,
 	background: "black",
 	color: "white",
@@ -49,8 +49,8 @@ export class AeroToast extends AeroShadowElement {
 
 		this.applyStyles(`
 			:host {
-				top: ${top}%;
-				left: ${left}%;
+				top: ${top};
+				left: ${left};
 				animation-duration: ${ms}ms;
 				background: ${background};
 				color: ${color};

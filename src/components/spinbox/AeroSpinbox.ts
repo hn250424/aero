@@ -193,7 +193,7 @@ export class AeroSpinbox extends BaseAeroNumericInput {
 	 * @param {string} color - The color value.
 	 * @type {string}
 	 * @attr button-backgroundcolor
-	 * @default "#ccc"
+	 * @default "lightgrey"
 	 */
 	set buttonBackgroundColor(color: string) {
 		this.setAttribute("button-backgroundcolor", color);

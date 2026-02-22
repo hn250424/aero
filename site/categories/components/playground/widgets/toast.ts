@@ -27,7 +27,8 @@ const js = `import { AeroToast } from '${AERO_IMPORT_PATH}';
 const btn = document.getElementById("btn");
 btn.addEventListener("click", () => {
 	const options = {
-		background: "${colors.primary_5}"
+		background: "${colors.primary_5}",
+		top: "30%"
 	}
 	AeroToast.show("Hello Aero!", options);
 })
