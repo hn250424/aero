@@ -511,7 +511,7 @@ class k extends p {
    * @param {string} color - The color value.
    * @type {string}
    * @attr button-backgroundcolor
-   * @default "#ccc"
+   * @default "lightgrey"
    */
   set buttonBackgroundColor(t) {
     this.setAttribute("button-backgroundcolor", t);
