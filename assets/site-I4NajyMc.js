@@ -229,6 +229,7 @@ const btn = document.getElementById("btn");
 btn.addEventListener("click", () => {
 	const options = {
 		background: "${it.primary_5}"
+		top: "30%"
 	}
 	AeroToast.show("Hello Aero!", options);
 })

@@ -357,7 +357,7 @@
 </style>\r
 \r
 <span id="text"></span>\r
-`,A={top:90,left:50,ms:3e3,background:"black",color:"white"};class u extends o{_$text;constructor(t,e){super(z);const{top:n,left:r,ms:a,background:s,color:d}=e;this._$text=this.query("#text"),this._$text.textContent=t,this.applyStyles(`
+`,A={top:"90%",left:"50%",ms:3e3,background:"black",color:"white"};class u extends o{_$text;constructor(t,e){super(z);const{top:n,left:r,ms:a,background:s,color:d}=e;this._$text=this.query("#text"),this._$text.textContent=t,this.applyStyles(`
 			:host {
 				top: ${n}%;
 				left: ${r}%;

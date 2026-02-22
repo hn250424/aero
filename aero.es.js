@@ -1534,8 +1534,8 @@ const I = `<style>\r
 \r
 <span id="text"></span>\r
 `, M = {
-  top: 90,
-  left: 50,
+  top: "90%",
+  left: "50%",
   ms: 3e3,
   background: "black",
   color: "white"
