@@ -169,7 +169,7 @@ export class AeroSpinbox extends BaseAeroNumericInput {
 	private _updateButtonBackgrondColor(val: string | null) {
 		this.applyStyles(
 			`#spinbox > button {
-				background-color: ${val ? val : "#ccc"};
+				background-color: ${val ? val : "lightgrey"};
 			}`
 		);
 	}
