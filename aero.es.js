@@ -1547,8 +1547,8 @@ class l extends a {
     const { top: n, left: r, ms: s, background: i, color: h } = e;
     this._$text = this.query("#text"), this._$text.textContent = t, this.applyStyles(`
 			:host {
-				top: ${n}%;
-				left: ${r}%;
+				top: ${n};
+				left: ${r};
 				animation-duration: ${s}ms;
 				background: ${i};
 				color: ${h};
