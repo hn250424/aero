@@ -40,6 +40,17 @@ export class AeroShadowElement extends HTMLElement {
 	}
 
 	/**
+   * Queries the shadow DOM for an element matching the given selector.
+   * Unlike query(), this returns null if the element is not found.
+   * @param {string} selector - The CSS selector to match.
+   * @returns {T | null} The first element matching the selector, or null if none found.
+   * @protected
+   */
+	protected queryOptional<T extends HTMLElement>(selector: string): T | null {
+		return this.shadow.querySelector(selector) as T | null;
+	}
+
+	/**
 	 * Applies a string of CSS to the shadow DOM by creating and appending a `<style>` tag.
 	 * @param {string} style - The CSS string to apply.
 	 * @protected
@@ -59,9 +70,9 @@ export class AeroShadowElement extends HTMLElement {
 		this.dispatchEvent(
 			new Event(type, {
 				bubbles: true,
-				composed: true
+				composed: true,
 			})
-		)
+		);
 	}
 
 	/**
@@ -75,19 +86,16 @@ export class AeroShadowElement extends HTMLElement {
 	protected forwardCustomEvent(
 		type: string,
 		options?: {
-			detail?: unknown,
-			originalEvent?: Event,
+			detail?: unknown;
+			originalEvent?: Event;
 		}
 	) {
 		this.dispatchEvent(
-			new CustomEvent(
-				type,
-				{
-					detail: options?.detail,
-					bubbles: true,
-					composed: true,
-				}
-			)
-		)
+			new CustomEvent(type, {
+				detail: options?.detail,
+				bubbles: true,
+				composed: true,
+			})
+		);
 	}
 }

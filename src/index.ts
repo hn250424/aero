@@ -5,5 +5,4 @@ export { AeroResizableBox } from "./components/resizable_box/AeroResizableBox";
 export { AeroSelect } from "./components/select/AeroSelect";
 export { AeroOption } from "./components/select/AeroOption";
 export { AeroToast } from "./components/toast/AeroToast";
-export { AeroAlert } from "./components/popup/AeroAlert";
-export type { AeroPopupOptions } from "./components/popup/AeroPopupOptions"
+export { AeroPopup, type AeroPopupOptions } from "./components/popup/AeroPopup";
