@@ -55,10 +55,14 @@ export class AeroShadowElement extends HTMLElement {
 	 * @param {string} style - The CSS string to apply.
 	 * @protected
 	 */
-	protected applyStyles(style: string) {
-		const tag = document.createElement("style");
-		tag.textContent = style;
-		this.shadow.appendChild(tag);
+	protected applyStyles(style: string, id: string = "component-styles") {
+    let tag = this.shadow.querySelector(`#${id}`) as HTMLStyleElement;
+    if (!tag) {
+        tag = document.createElement("style");
+        tag.id = id;
+        this.shadow.appendChild(tag);
+    }
+    tag.textContent = style;
 	}
 
 	/**
