@@ -12,8 +12,8 @@ import aeroProgressIndeterminateSpinnerHtmlTemplate from "./AeroProgressIndeterm
  *
  * @attr {number} size - The size of the spinner in pixels.
  * @attr {number} thickness - The thickness of the spinner in pixels.
- * @attr {string} trackColor - The color of the spinner's track.
- * @attr {string} arcColor - The color of the spinner's arc.
+ * @attr {string} track-color - The color of the spinner's track.
+ * @attr {string} arc-color - The color of the spinner's arc.
  * @attr {number} cycle - The duration of one spin cycle in seconds.
  */
 export class AeroProgressIndeterminateSpinner extends AeroShadowElement {
