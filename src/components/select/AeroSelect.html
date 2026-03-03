@@ -42,7 +42,8 @@
 
 	::slotted(*) {
     display: grid;
-    grid-template-columns: 1fr auto;
+    grid-template-columns: calc(var(--aero-select-width) - var(--aero-select-height)) auto;
+		height: var(--aero-select-height);
 
     text-align: center;
 		line-height: var(--aero-select-height);
@@ -66,7 +67,6 @@
 
 	::slotted(*)::after {
 		content: '';
-		aspect-ratio: 1 / 1;
 	}
 
 	#overlay {
@@ -125,11 +125,18 @@
 
 	#dropdown {
 		position: absolute;
+		z-index: var(--aero-select-dropdown-z-index);
+
 		width: 100%;
+		max-height: calc(var(--aero-select-height, 36px) * 6.5);
+		overflow-y: auto;
+
 		display: none;
+
 		border: var(--aero-select-dropdown-border);
 		box-sizing: border-box;
-		z-index: var(--aero-select-dropdown-z-index);
+
+		scrollbar-width: thin;
 	}
 
 	#dropdown.open {
