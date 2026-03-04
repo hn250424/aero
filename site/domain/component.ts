@@ -1,8 +1,7 @@
 export type ComponentKeys =
 	| "aero-numeric-input"
 	| "aero-spinbox"
-	| "aero-progress-spinner"
-	| "aero-progress-indeterminate-spinner"
+	| "aero-indeterminate-spinner"
 	| "aero-resizable-box"
 	| "aero-select"
 	| "aero-option"

@@ -1,12 +1,12 @@
 import { AeroShadowElement } from "@src/core/AeroShadowElement";
-import aeroProgressIndeterminateSpinnerHtmlTemplate from "./AeroProgressIndeterminateSpinner.html?raw";
+import aeroIndeterminateSpinnerHtmlTemplate from "./AeroIndeterminateSpinner.html?raw";
 
 /**
  * @module components
  */
 
 /**
- * A circular progress indeterminate spinner component.
+ * A circular indeterminate spinner component.
  *
  * @extends AeroShadowElement
  *
@@ -16,7 +16,7 @@ import aeroProgressIndeterminateSpinnerHtmlTemplate from "./AeroProgressIndeterm
  * @attr {string} arc-color - The color of the spinner's arc.
  * @attr {number} cycle - The duration of one spin cycle in seconds.
  */
-export class AeroProgressIndeterminateSpinner extends AeroShadowElement {
+export class AeroIndeterminateSpinner extends AeroShadowElement {
 	private _size!: number;
 	private _thickness!: number;
 	private _radius!: number;
@@ -30,7 +30,7 @@ export class AeroProgressIndeterminateSpinner extends AeroShadowElement {
 	private _$arc!: SVGCircleElement;
 
 	constructor() {
-		super(aeroProgressIndeterminateSpinnerHtmlTemplate);
+		super(aeroIndeterminateSpinnerHtmlTemplate);
 
 		this._syncHostAttributes();
 
@@ -143,6 +143,6 @@ export class AeroProgressIndeterminateSpinner extends AeroShadowElement {
 }
 
 customElements.define(
-	"aero-progress-indeterminate-spinner",
-	AeroProgressIndeterminateSpinner
+	"aero-indeterminate-spinner",
+	AeroIndeterminateSpinner
 );
