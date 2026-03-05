@@ -29,32 +29,18 @@ export class AeroShadowElement extends HTMLElement {
 		this.shadow.appendChild(template.content.cloneNode(true));
 	}
 
-	/**
-	 * Queries the shadow DOM for an element matching the given selector.
-	 * @param {string} selector - The CSS selector to match.
-	 * @returns {T} The first element matching the selector.
-	 * @protected
-	 */
+	// Queries the shadow DOM for an element matching the given selector.
 	protected query<T extends HTMLElement>(selector: string): T {
 		return this.shadow.querySelector(selector)! as T;
 	}
 
-	/**
-   * Queries the shadow DOM for an element matching the given selector.
-   * Unlike query(), this returns null if the element is not found.
-   * @param {string} selector - The CSS selector to match.
-   * @returns {T | null} The first element matching the selector, or null if none found.
-   * @protected
-   */
+	// Queries the shadow DOM for an element matching the given selector.
+  // Unlike query(), this returns null if the element is not found.
 	protected queryOptional<T extends HTMLElement>(selector: string): T | null {
 		return this.shadow.querySelector(selector) as T | null;
 	}
 
-	/**
-	 * Applies a string of CSS to the shadow DOM by creating and appending a `<style>` tag.
-	 * @param {string} style - The CSS string to apply.
-	 * @protected
-	 */
+	// Applies a string of CSS to the shadow DOM by creating and appending a `<style>` tag.
 	protected applyStyles(style: string, id: string = "component-styles") {
     let tag = this.shadow.querySelector(`#${id}`) as HTMLStyleElement;
     if (!tag) {

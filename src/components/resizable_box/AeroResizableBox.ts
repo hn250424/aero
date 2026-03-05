@@ -85,11 +85,6 @@ export class AeroResizableBox extends AeroShadowElement {
 		window.removeEventListener("mouseup", this._handleMouseup);
 	}
 
-	/**
-	 * Handles mouse move events to perform resizing.
-	 * @param {MouseEvent} e - The mouse event.
-	 * @private
-	 */
 	private _handleMousemove = (e: MouseEvent) => {
 		if (!this._isDragging) return;
 		if (this._animationFrameId) cancelAnimationFrame(this._animationFrameId);
@@ -133,11 +128,6 @@ export class AeroResizableBox extends AeroShadowElement {
 		});
 	};
 
-	/**
-	 * Handles the mouseup event to finalize the resize operation.
-	 * @param {MouseEvent} e - The mouse event.
-	 * @private
-	 */
 	private _handleMouseup = (e: MouseEvent) => {
 		if (!this._isDragging) return;
 		this.forwardCustomEvent("aero-resize-end", {
@@ -162,12 +152,6 @@ export class AeroResizableBox extends AeroShadowElement {
 		this._isRightDragging = false;
 	};
 
-	/**
-	 * Handles the mousedown event on a resizer element.
-	 * @param {MouseEvent} e - The mouse event.
-	 * @param {"top" | "bottom" | "left" | "right"} resizer - The resizer that was clicked.
-	 * @private
-	 */
 	private _processMousedownEvent = (
 		e: MouseEvent,
 		resizer: "top" | "bottom" | "left" | "right"
@@ -203,12 +187,6 @@ export class AeroResizableBox extends AeroShadowElement {
 		}
 	};
 
-	/**
-	 * Emits the 'aero-resize' custom event.
-	 * @param {number | null} width - The new width, or null if not changed.
-	 * @param {number | null} height - The new height, or null if not changed.
-	 * @private
-	 */
 	private _emitResize(width: number | null, height: number | null) {
 		this.forwardCustomEvent("aero-resize", {
 			detail: {
@@ -218,10 +196,6 @@ export class AeroResizableBox extends AeroShadowElement {
 		});
 	}
 
-	/**
-	 * Specifies the observed attributes for the custom element.
-	 * @returns {string[]} An array of attribute names to observe.
-	 */
 	static get observedAttributes() {
 		return [
 			"min-width",
@@ -236,12 +210,6 @@ export class AeroResizableBox extends AeroShadowElement {
 		];
 	}
 
-	/**
-	 * Called when an observed attribute has been added, removed, or changed.
-	 * @param {string} name - The name of the attribute that changed.
-	 * @param {string | null} _oldValue - The old value of the attribute.
-	 * @param {string | null} newValue - The new value of the attribute.
-	 */
 	attributeChangedCallback(
 		name: string,
 		_oldValue: string | null,
@@ -250,10 +218,6 @@ export class AeroResizableBox extends AeroShadowElement {
 		this._baseAeroResizeBoxAttributeHandlers[name]?.(newValue);
 	}
 
-	/**
-	 * A map of attribute names to their respective handler functions.
-	 * @private
-	 */
 	private _baseAeroResizeBoxAttributeHandlers: Record<
 		string,
 		(newValue: string | null) => void
@@ -288,12 +252,6 @@ export class AeroResizableBox extends AeroShadowElement {
 		},
 	};
 
-	/**
-	 * Enables or disables a resizer.
-	 * @param {"top" | "bottom" | "left" | "right"} direction - The resizer to update.
-	 * @param {boolean} enabled - Whether to enable or disable the resizer.
-	 * @private
-	 */
 	private _updateResizeState(
 		direction: "top" | "bottom" | "left" | "right",
 		enabled: boolean
@@ -326,38 +284,18 @@ export class AeroResizableBox extends AeroShadowElement {
 		else resizer.removeEventListener("mousedown", handler);
 	}
 
-	/**
-	 * Updates the internal minimum width value.
-	 * @param {string | null} val - The new value.
-	 * @private
-	 */
 	private _updateMinWidthValue(val: string | null) {
 		this._nMinWidth = val ? Number(val) : 0;
 	}
 
-	/**
-	 * Updates the internal maximum width value.
-	 * @param {string | null} val - The new value.
-	 * @private
-	 */
 	private _updateMaxWidthValue(val: string | null) {
 		this._nMaxWidth = val ? Number(val) : 2000;
 	}
 
-	/**
-	 * Updates the internal minimum height value.
-	 * @param {string | null} val - The new value.
-	 * @private
-	 */
 	private _updateMinHeightValue(val: string | null) {
 		this._nMinHeight = val ? Number(val) : 0;
 	}
 
-	/**
-	 * Updates the internal maximum height value.
-	 * @param {string | null} val - The new value.
-	 * @private
-	 */
 	private _updateMaxHeightValue(val: string | null) {
 		this._nMaxHeight = val ? Number(val) : 2000;
 	}
