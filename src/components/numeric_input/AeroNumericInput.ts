@@ -15,11 +15,6 @@ export class AeroNumericInput extends BaseAeroNumericInput {
 		super(aeroNumericInputHtmlTemplate);
 	}
 
-	/**
-	 * Returns the CSS selector for the internal input element.
-	 * @returns {string} The CSS selector.
-	 * @protected
-	 */
 	protected getInputSelector(): string {
 		return "#input";
 	}

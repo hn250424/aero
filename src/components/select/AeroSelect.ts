@@ -50,50 +50,15 @@ export class AeroSelect extends AeroShadowElement {
     keydown: this._handleKeydown.bind(this),
   };
 
-	/**
-	 * The `<span>` element displaying the currently selected option's text.
-	 * @private
-	 */
+
 	private _$span: HTMLElement;
-	/**
-	 * The button element that toggles the dropdown.
-	 * @private
-	 */
 	private _$button: HTMLElement;
-	/**
-	 * The dropdown container element.
-	 * @private
-	 */
 	private _$dropdown: HTMLElement;
-	/**
-	 * An array of `<aero-option>` elements assigned to the slot.
-	 * @private
-	 */
 	private _$options: HTMLElement[] = [];
-	/**
-	 * The index of the currently selected option.
-	 * @private
-	 */
 	private _optionIndex = -1;
-	/**
-	 * Indicates whether the dropdown is currently open.
-	 * @private
-	 */
 	private _dropdown_open = false;
-	/**
-	 * The slot element that holds the `<aero-option>` elements.
-	 * @private
-	 */
 	private _$slot: HTMLSlotElement;
-	/**
-	 * The index of the currently highlighted option (for keyboard navigation).
-	 * @private
-	 */
 	private _highlightIndex = -1;
-	/**
-	 * A temporary store for the option index if it's set before the options are ready.
-	 * @private
-	 */
 	private _pendingOptionIndex?: number;
 
 	constructor() {
@@ -116,11 +81,6 @@ export class AeroSelect extends AeroShadowElement {
 		);
 	}
 
-	/**
-	 * Lifecycle callback: Invoked when the component is added to the DOM.
-	 * Sets up event listeners.
-	 * @returns {void}
-	 */
   connectedCallback() {
     document.addEventListener("click", this._handlers.documentClick);
     this._$button.addEventListener("click", this._handlers.buttonClick);
@@ -129,11 +89,6 @@ export class AeroSelect extends AeroShadowElement {
     this.addEventListener("keydown", this._handlers.keydown);
   }
 
-	/**
-	 * Lifecycle callback: Invoked when the component is removed from the DOM.
-	 * Cleans up event listeners to prevent memory leaks.
-	 * @returns {void}
-	 */
   disconnectedCallback() {
     document.removeEventListener("click", this._handlers.documentClick);
     this._$button.removeEventListener("click", this._handlers.buttonClick);
@@ -142,12 +97,6 @@ export class AeroSelect extends AeroShadowElement {
     this.removeEventListener("keydown", this._handlers.keydown);
   }
 
-	/**
-	 * Handles clicks anywhere on the document to close the dropdown if open.
-	 * @private
-	 * @param {MouseEvent} [e] - The mouse event.
-	 * @returns {void}
-	 */
 	private _handleDocumentClick(e?: MouseEvent) {
     if (this._dropdown_open && e?.target !== this) {
       this._$dropdown.classList.remove("open");
@@ -155,24 +104,12 @@ export class AeroSelect extends AeroShadowElement {
     }
   }
 
-	/**
-	 * Handles clicks on the dropdown toggle button.
-	 * @private
-	 * @param {MouseEvent} e - The mouse event.
-	 * @returns {void}
-	 */
 	private _handleButtonClick(e: MouseEvent) {
 		e.stopPropagation();
 		this._$dropdown.classList.toggle("open");
 		this._dropdown_open = !this._dropdown_open;
 	}
 
-	/**
-	 * Handles clicks within the dropdown menu.
-	 * @private
-	 * @param {MouseEvent} e - The mouse event.
-	 * @returns {void}
-	 */
 	private _handleDropdownClick(e: MouseEvent) {
 		const item = e
 			.composedPath()
@@ -189,11 +126,6 @@ export class AeroSelect extends AeroShadowElement {
 		this._dropdown_open = false;
 	}
 
-	/**
-	 * Handles changes to the slotted `<aero-option>` elements.
-	 * @private
-	 * @returns {void}
-	 */
 	private _handleSlotChange() {
 		const $preOption = this._$options[this._optionIndex];
 
@@ -210,12 +142,6 @@ export class AeroSelect extends AeroShadowElement {
 		}
 	}
 
-	/**
-	 * Handles keyboard navigation within the select component.
-	 * @private
-	 * @param {KeyboardEvent} e - The keyboard event.
-	 * @returns {void}
-	 */
 	private _handleKeydown(e: KeyboardEvent) {
 		if (e.key === "Enter" || e.key === " ") { // Enter, Spacebar
 			e.preventDefault();
@@ -252,21 +178,10 @@ export class AeroSelect extends AeroShadowElement {
 		}
 	}
 
-	/**
-	 * Specifies the observed attributes for the custom element.
-	 * @returns {string[]} An array of attribute names to observe.
-	 */
 	static get observedAttributes() {
 		return ["option-index"];
 	}
 
-	/**
-	 * Called when an observed attribute has been added, removed, or changed.
-	 * @param {string} name - The name of the attribute that changed.
-	 * @param {string | null} _oldValue - The old value of the attribute.
-	 * @param {string | null} newValue - The new value of the attribute.
-	 * @returns {void}
-	 */
 	attributeChangedCallback(
 		name: string,
 		_oldValue: string | null,
@@ -275,10 +190,6 @@ export class AeroSelect extends AeroShadowElement {
 		this._aeroSelectAttributeHandlers[name]?.(newValue);
 	}
 
-	/**
-	 * A map of attribute names to their respective handler functions for this component.
-	 * @private
-	 */
 	private _aeroSelectAttributeHandlers: Record<
 		string,
 		(newValue: string | null) => void
@@ -304,12 +215,6 @@ export class AeroSelect extends AeroShadowElement {
 		this.setAttribute("option-index", option.toString());
 	}
 
-	/**
-	 * Updates the currently selected option based on the provided index.
-	 * @private
-	 * @param {number} index - The index of the option to select.
-	 * @returns {void}
-	 */
 	private _updateOptionIndex(index: number) {
 		if (this._optionIndex === index) return;
 
@@ -328,11 +233,6 @@ export class AeroSelect extends AeroShadowElement {
 		this._optionIndex = index;
 		this._$span.textContent = option.textContent;
 
-		/**
-		 * Fired when the selected option changes.
-		 * @event aero-select-changed
-		 * @type {CustomEvent<{ option: HTMLElement, index: number }>}
-		 */
 		this.forwardCustomEvent("aero-select-changed", {
 			detail: {
 				option: option,
@@ -344,23 +244,12 @@ export class AeroSelect extends AeroShadowElement {
 		this._pendingOptionIndex = undefined;
 	}
 
-	/**
-	 * Validates and converts a string to a numeric option index.
-	 * @private
-	 * @param {string} index - The string representation of the index.
-	 * @returns {number} The validated numeric index, or -1 if invalid.
-	 */
 	private _getValidateOptionIndexByStr(index: string): number {
 		if (index === "") return -1; // Number("") is 0, so treat empty input as an invalid index.
 		const i = Number(index);
 		return Number.isNaN(i) ? -1 : i;
 	}
 
-	/**
-	 * Resets the select component to an unselected state.
-	 * @private
-	 * @returns {void}
-	 */
 	private _unsetOption() {
 		this._optionIndex = -1;
 		this._$span.textContent = "";
