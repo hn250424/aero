@@ -20,17 +20,15 @@
 		transform: translate(-50%, -50%);
 
 		min-width: 300px;
-		min-height: 100px;
+		min-height: 200px;
 
 		display: grid;
-		grid-template-rows: 1fr 6fr;
+		grid-template-rows: 1fr 4fr;
 		grid-template-columns: 1fr;
 	}
 
 	#head {
-		display: grid;
-		place-items: center;
-		font-weight: bold;
+
 	}
 
 	#body {
@@ -65,9 +63,7 @@
 
 <div id="overlay">
 	<div id="container">
-		<div id="head">
-			<span id="title"></span>
-		</div>
+		<div id="head"></div>
 		<div id="body">
 			<span id="message"></span>
 			<div id="button-box">

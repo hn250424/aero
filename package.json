@@ -27,6 +27,7 @@
     "site:build": "node scripts/build/build-site.js",
     "site:preview": "vite preview --config vite.config.site-build.ts",
     "site:deploy": "gh-pages -d docs",
+		
 		"site:publish": "npm run src:build && npm run site:prebuild && npm run site:build && npm run site:deploy"
   },
   "devDependencies": {
