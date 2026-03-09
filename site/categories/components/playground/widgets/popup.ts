@@ -31,11 +31,11 @@ setInterval(() => {
 const btn = document.getElementById("btn");
 btn.addEventListener("click", async () => {
 	const options = {
-		buttonPrimaryBackgroundColor: "${colors.primary_4}"
+		primaryBackgroundColor: "${colors.primary_4}"
 	}
-	const answer = await AeroPopup.confirm("Good?", "AeroPopup", options);
-	if (answer) console.log("Good");
-	else console.log("Sorry");
+	const answer = await AeroPopup.confirm("Good?", options);
+	if (answer) console.log("Ok");
+	else console.log("Cancel");
 })
 `;
 

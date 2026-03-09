@@ -10,22 +10,20 @@ import { colors } from "../../constants"
  * @property {string} [fontSize="1rem"] - Font size for the popup content and buttons.
  * @property {string} [containerBorder="1px solid lightgrey"] - Border style for the popup container.
  * @property {string} [containerBoxShadow="0 4px 8px rgba(0, 0, 0, 0.2)"] - Box shadow for the popup container.
- * @property {string} [titleBoundaryColor="lightgrey"] - Color of the border between title and message.
- * @property {string} [buttonPrimaryBackgroundColor="#2563eb"] - Background color for the OK button.
- * @property {string} [buttonPrimaryColor="white"] - Text color for the OK button.
- * @property {string} [buttonSecondaryBackgroundColor="grey"] - Background color for the Cancel button.
- * @property {string} [buttonSecondaryColor="white"] - Text color for the Cancel button.
+ * @property {string} [primaryBackgroundColor="#2563eb"] - Primary background color.
+ * @property {string} [primaryColor="white"] - Primary color.
+ * @property {string} [secondaryBackgroundColor="grey"] - Secondary background color.
+ * @property {string} [secondaryColor="white"] - Secondary color.
  * @property {string} [buttonBorderRadius="0"] - Border radius for both buttons.
  */
 export type AeroPopupOptions = {
 	fontSize?: string;
 	containerBorder?: string;
 	containerBoxShadow?: string;
-	titleBoundaryColor?: string;
-	buttonPrimaryBackgroundColor?: string;
-	buttonPrimaryColor?: string;
-	buttonSecondaryBackgroundColor?: string;
-	buttonSecondaryColor?: string;
+	primaryBackgroundColor?: string;
+	primaryColor?: string;
+	secondaryBackgroundColor?: string;
+	secondaryColor?: string;
 	buttonBorderRadius?: string;
 };
 
@@ -33,11 +31,10 @@ const defaultAeroPopupOptions: AeroPopupOptions = {
 	fontSize: "1rem",
 	containerBorder: "1px solid lightgrey",
 	containerBoxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)",
-	titleBoundaryColor: "lightgrey",
-	buttonPrimaryBackgroundColor: `${colors.blue_5}`,
-	buttonPrimaryColor: "white",
-	buttonSecondaryBackgroundColor: "grey",
-	buttonSecondaryColor: "white",
+	primaryBackgroundColor: `${colors.blue_5}`,
+	primaryColor: "white",
+	secondaryBackgroundColor: "grey",
+	secondaryColor: "white",
 	buttonBorderRadius: "0",
 };
 
@@ -51,7 +48,6 @@ const defaultAeroPopupOptions: AeroPopupOptions = {
  * @extends AeroShadowElement
  */
 export class AeroPopup extends AeroShadowElement {
-	private _$title: HTMLElement;
 	private _$message: HTMLElement;
 	private _$ok: HTMLElement;
 	private _$cancel: HTMLElement | null;
@@ -61,7 +57,6 @@ export class AeroPopup extends AeroShadowElement {
 
 	constructor(
 		html: string,
-		title: string,
 		message: string,
 		options: AeroPopupOptions
 	) {
@@ -71,17 +66,14 @@ export class AeroPopup extends AeroShadowElement {
 			fontSize,
 			containerBorder,
 			containerBoxShadow,
-			titleBoundaryColor,
-			buttonPrimaryBackgroundColor,
-			buttonPrimaryColor,
-			buttonSecondaryBackgroundColor,
-			buttonSecondaryColor,
+			primaryBackgroundColor,
+			primaryColor,
+			secondaryBackgroundColor,
+			secondaryColor,
 			buttonBorderRadius,
 		} = options;
 
-		this._$title = this.query("#title");
 		this._$message = this.query("#message");
-		this._$title.textContent = title;
 		this._$message.textContent = message;
 
 		this._$ok = this.query("#ok");
@@ -95,7 +87,7 @@ export class AeroPopup extends AeroShadowElement {
 			}
 
 			#head {
-				border-bottom: 1px solid ${titleBoundaryColor};
+				background: ${primaryBackgroundColor};
 			}
 
 			button {
@@ -104,13 +96,13 @@ export class AeroPopup extends AeroShadowElement {
 			}
 
 			#ok {
-				background-color: ${buttonPrimaryBackgroundColor};
-				color: ${buttonPrimaryColor};
+				background-color: ${primaryBackgroundColor};
+				color: ${primaryColor};
 			}
 
 			#cancel {
-				background-color: ${buttonSecondaryBackgroundColor};
-				color: ${buttonSecondaryColor};
+				background-color: ${secondaryBackgroundColor};
+				color: ${secondaryColor};
 			}
 		`);
 
@@ -148,7 +140,6 @@ export class AeroPopup extends AeroShadowElement {
 	 * Displays a alert notification on the screen.
 	 *
 	 * @param {string} message - A message content to display in the alert.
-	 * @param {string} title - A title content to display in the alert.
 	 * @param {Partial<AeroPopupOptions>} options - Configuration for appearance and behavior.
 	 * @returns {Promise<void>}
 	 * @static
@@ -158,17 +149,15 @@ export class AeroPopup extends AeroShadowElement {
 	 */
 	static alert(
 		message: string,
-		title: string = "",
 		options: Partial<AeroPopupOptions> = {}
 	): Promise<boolean> {
-		return this._create(AeroAlertHtml, message, title, options);
+		return this._create(AeroAlertHtml, message, options);
 	}
 
 	/**
 	 * Displays a confirm notification on the screen.
 	 *
 	 * @param {string} message - A message content to display in the confirm.
-	 * @param {string} title - A title content to display in the confirm.
 	 * @param {Partial<AeroPopupOptions>} options - Configuration for appearance and behavior.
 	 * @returns {Promise<void>}
 	 * @static
@@ -178,16 +167,14 @@ export class AeroPopup extends AeroShadowElement {
 	 */
 	static confirm(
 		message: string,
-		title: string = "",
 		options: Partial<AeroPopupOptions> = {}
 	): Promise<boolean> {
-		return this._create(AeroConfirmHtml, message, title, options);
+		return this._create(AeroConfirmHtml, message, options);
 	}
 
 	private static _create(
 		html: string,
 		message: string,
-		title: string,
 		options: Partial<AeroPopupOptions>
 	): Promise<boolean> {
 		const resolvedOptions: AeroPopupOptions = {
@@ -196,7 +183,7 @@ export class AeroPopup extends AeroShadowElement {
 		};
 
 		return new Promise<boolean>((resolve) => {
-			const popup = new AeroPopup(html, title, message, resolvedOptions);
+			const popup = new AeroPopup(html, message, resolvedOptions);
 			popup._resolve = resolve;
 		});
 	}
