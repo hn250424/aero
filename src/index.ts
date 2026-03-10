@@ -6,3 +6,4 @@ export { AeroSelect } from "./components/select/AeroSelect";
 export { AeroOption } from "./components/select/AeroOption";
 export { AeroToast, type AeroToastOptions } from "./components/toast/AeroToast";
 export { AeroPopup, type AeroPopupOptions } from "./components/popup/AeroPopup";
+export { AeroRoller } from "./components/roller/AeroRoller";

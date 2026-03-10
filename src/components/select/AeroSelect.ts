@@ -41,7 +41,6 @@ import { AeroShadowElement } from "../../core/AeroShadowElement";
  * @extends AeroShadowElement
  */
 export class AeroSelect extends AeroShadowElement {
-	/** @private */
 	private _handlers = {
     documentClick: this._handleDocumentClick.bind(this),
     buttonClick: this._handleButtonClick.bind(this),
@@ -49,7 +48,6 @@ export class AeroSelect extends AeroShadowElement {
     slotChange: this._handleSlotChange.bind(this),
     keydown: this._handleKeydown.bind(this),
   };
-
 
 	private _$span: HTMLElement;
 	private _$button: HTMLElement;
