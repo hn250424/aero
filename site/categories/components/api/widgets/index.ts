@@ -8,6 +8,7 @@ import AeroSelect from "./aero-select.html?raw";
 import AeroOption from "./aero-option.html?raw";
 import AeroToast from "./aero-toast.html?raw";
 import AeroPopup from "./aero-popup.html?raw";
+import AeroRoller from "./aero-roller.html?raw";
 
 export const widgets: Record<ComponentKeys, string> = {
 	"aero-numeric-input": AeroNumericInput,
@@ -18,4 +19,5 @@ export const widgets: Record<ComponentKeys, string> = {
 	"aero-option": AeroOption,
 	"aero-toast": AeroToast,
 	"aero-popup": AeroPopup,
+	"aero-roller": AeroRoller,
 } as const;
