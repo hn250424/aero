@@ -8,6 +8,7 @@ import { aeroSelectIntroduction } from "./select";
 import { aeroOptionIntroduction } from "./option";
 import { aeroToastIntroduction } from "./toast";
 import { aeroPopupIntroduction } from "./popup";
+import { aeroRollerIntroduction } from "./roller";
 
 export const widgets: Record<ComponentKeys, string> = {
 	"aero-numeric-input": aeroNumericInputIntroduction,
@@ -18,4 +19,5 @@ export const widgets: Record<ComponentKeys, string> = {
 	"aero-option": aeroOptionIntroduction,
 	"aero-toast": aeroToastIntroduction,
 	"aero-popup": aeroPopupIntroduction,
+	"aero-roller": aeroRollerIntroduction,
 } as const;

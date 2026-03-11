@@ -7,3 +7,4 @@ export type ComponentKeys =
 	| "aero-option"
 	| "aero-toast"
 	| "aero-popup"
+	| "aero-roller"
