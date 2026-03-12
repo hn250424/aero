@@ -1,4 +1,5 @@
 import { AppContext } from "@site/AppContext";
+import { navigateTo } from "@site/navigation";
 
 export function setupGettingStartedNavigation(appContext: AppContext) {
 	appContext.$navGettingStarted.addEventListener("click", (e) => {
@@ -7,8 +8,7 @@ export function setupGettingStartedNavigation(appContext: AppContext) {
 		) as HTMLElement;
 		if (!$target) return;
 
-		const gettingStartedCtx = appContext.switchCategory("getting_started");
 		const key = $target.dataset.key as string;
-		gettingStartedCtx.switchPage(key);
+		navigateTo(appContext, `/getting_started/${key}`);
 	})
 }

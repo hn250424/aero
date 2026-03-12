@@ -1,5 +1,6 @@
 import type { ComponentKeys } from "@site/domain";
 import { AppContext } from "@site/AppContext";
+import { navigateTo } from "@site/navigation";
 
 export function setupComponentsNavigation(appContext: AppContext) {
 	appContext.$navComponents?.addEventListener("click", (e) => {
@@ -8,8 +9,7 @@ export function setupComponentsNavigation(appContext: AppContext) {
 		) as HTMLElement;
 		if (!$target) return;
 
-		const componentsCtx = appContext.switchCategory("components");
 		const key = $target.dataset.key as ComponentKeys;
-		componentsCtx.switchPage(key);
+		navigateTo(appContext, `/components/${key}`);
 	});
 }
