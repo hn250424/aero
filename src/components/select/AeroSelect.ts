@@ -95,17 +95,58 @@ export class AeroSelect extends AeroShadowElement {
     this.removeEventListener("keydown", this._handlers.keydown);
   }
 
-	private _handleDocumentClick(e?: MouseEvent) {
-    if (this._dropdown_open && e?.target !== this) {
-      this._$dropdown.classList.remove("open");
+	private _handleDocumentClick(_e?: Event) {
+    if (this._dropdown_open) {
+      this._closeDropdown();
       this._dropdown_open = false;
     }
   }
 
 	private _handleButtonClick(e: MouseEvent) {
 		e.stopPropagation();
-		this._$dropdown.classList.toggle("open");
 		this._dropdown_open = !this._dropdown_open;
+		
+		if (this._dropdown_open) {
+			this._openDropdown();
+		} else {
+			this._closeDropdown();
+		}
+	}
+
+	private _openDropdown() {
+		const rect = this.getBoundingClientRect();
+		const dropdownHeight = this._$dropdown.offsetHeight || (parseInt(getComputedStyle(this).getPropertyValue('--aero-select-height')) * 6.5);
+		const spaceBelow = window.innerHeight - rect.bottom;
+		const spaceAbove = rect.top;
+
+		let openUp = false;
+		if (spaceBelow < dropdownHeight && spaceAbove > spaceBelow) {
+			openUp = true;
+		}
+
+		this._$dropdown.style.left = `${rect.left}px`;
+		this._$dropdown.style.width = `${rect.width}px`;
+
+		if (openUp) {
+			this._$dropdown.style.top = `${rect.top - dropdownHeight}px`;
+			this._$dropdown.classList.add("open-up");
+			this._$dropdown.classList.remove("open-down");
+		} else {
+			this._$dropdown.style.top = `${rect.bottom}px`;
+			this._$dropdown.classList.add("open-down");
+			this._$dropdown.classList.remove("open-up");
+		}
+
+		this._$dropdown.classList.add("open");
+		
+		window.addEventListener("scroll", this._handlers.documentClick as EventListener, { capture: true, passive: true });
+		window.addEventListener("resize", this._handlers.documentClick as EventListener);
+	}
+
+	private _closeDropdown() {
+		this._$dropdown.classList.remove("open", "open-up", "open-down");
+		window.removeEventListener("scroll", this._handlers.documentClick as EventListener, { capture: true });
+		window.removeEventListener("resize", this._handlers.documentClick as EventListener);
 	}
 
 	private _handleDropdownClick(e: MouseEvent) {
@@ -120,7 +161,7 @@ export class AeroSelect extends AeroShadowElement {
 
 		const idx = this._$options.indexOf(item);
 		this.optionIndex = idx;
-		this._$dropdown.classList.remove("open");
+		this._closeDropdown();
 		this._dropdown_open = false;
 	}
 
