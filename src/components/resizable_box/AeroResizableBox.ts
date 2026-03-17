@@ -15,6 +15,8 @@ import aeroResizableBoxHtmlTemplate from "./AeroResizableBox.html?raw";
  * @fires aero-resize-end - Fired when a resize operation ends. The detail object contains the final `width` and `height`.
  *
  * @slot - The default slot for content to be placed inside the resizable box.
+ *
+ * @cssprop --aero-resizable-box-resizer-color - The color of the resizer handles on hover.
  */
 export class AeroResizableBox extends AeroShadowElement {
 	private _$topResizer!: HTMLElement;
@@ -206,7 +208,6 @@ export class AeroResizableBox extends AeroShadowElement {
 			"resize-bottom",
 			"resize-left",
 			"resize-right",
-			"resizer-color",
 		];
 	}
 
@@ -245,10 +246,6 @@ export class AeroResizableBox extends AeroShadowElement {
 		},
 		"resize-right": (newValue) => {
 			this._updateResizeState("right", newValue !== null);
-		},
-		"resizer-color": (newValue) => {
-			const color = newValue ?? "grey";
-			this.applyStyles(`.resizer:hover { background-color: ${color}; }`);
 		},
 	};
 
@@ -298,17 +295,6 @@ export class AeroResizableBox extends AeroShadowElement {
 
 	private _updateMaxHeightValue(val: string | null) {
 		this._nMaxHeight = val ? Number(val) : 2000;
-	}
-
-	/**
-	 * The color of the resizer handles on hover.
-	 * @param {string} color - The color value.
-	 * @type {string}
-	 * @attr
-	 * @default "lightgrey"
-	 */
-	set resizerColor(color: string) {
-		this.setAttribute("resizer-color", color);
 	}
 
 	/**

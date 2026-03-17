@@ -10,6 +10,7 @@ import { BaseAeroNumericInput } from "../../base/BaseAeroNumericInput";
  *
  * @extends BaseAeroNumericInput
  *
+ * @cssprop --aero-spinbox-button-background - The background color of the increment and decrement buttons.
  */
 export class AeroSpinbox extends BaseAeroNumericInput {
 	private _boundDecrement = this.decrement.bind(this);
@@ -24,9 +25,6 @@ export class AeroSpinbox extends BaseAeroNumericInput {
 		this._$minus = this.query("#minus");
 		this._$plus = this.query("#plus");
 
-		this._updateButtonBackgrondColor(
-			this.getAttribute("button-backgroundcolor")
-		);
 		this._updateMinuxText(this.getAttribute("minus-text"));
 		this._updatePlusText(this.getAttribute("plus-text"));
 		this._updateHeight(parseInt(getComputedStyle(this).height));
@@ -70,7 +68,6 @@ export class AeroSpinbox extends BaseAeroNumericInput {
 			...super.observedAttributes,
 			"minus-text",
 			"plus-text",
-			"button-backgroundcolor",
 		];
 	}
 
@@ -93,9 +90,6 @@ export class AeroSpinbox extends BaseAeroNumericInput {
 		"plus-text": (val) => {
 			this._updatePlusText(val);
 		},
-		"button-backgroundcolor": (val) => {
-			this._updateButtonBackgrondColor(val);
-		},
 	};
 
 	private _updateMinuxText(val: string | null) {
@@ -106,14 +100,6 @@ export class AeroSpinbox extends BaseAeroNumericInput {
 		this._$plus.textContent = val ? val : "+";
 	}
 
-	private _updateButtonBackgrondColor(val: string | null) {
-		this.applyStyles(
-			`#spinbox > button {
-				background-color: ${val ? val : "lightgrey"};
-			}`
-		);
-	}
-
 	private _updateHeight(val: number | null) {
 		val = val ? val : 30;
 		this.applyStyles(
@@ -121,17 +107,6 @@ export class AeroSpinbox extends BaseAeroNumericInput {
 				grid-template-columns: ${val}px 1fr ${val}px;
 			}`
 		);
-	}
-
-	/**
-	 * The background color of the increment and decrement buttons.
-	 * @param {string} color - The color value.
-	 * @type {string}
-	 * @attr button-backgroundcolor
-	 * @default "lightgrey"
-	 */
-	set buttonBackgroundColor(color: string) {
-		this.setAttribute("button-backgroundcolor", color);
 	}
 
 	/**
