@@ -1,6 +1,6 @@
 import { colors } from "./colors";
 
-const html = `<aero-resizable-box id="rb" resize-right resizer-color=${colors.primary_3}>
+const html = `<aero-resizable-box id="rb" resize-right>
 	<div>
 		<span style="background-color: ${colors.primary_2};"></span>
 		<p>Moby-Dick — Herman Melville</p>
@@ -42,6 +42,8 @@ p {
 }
 
 aero-resizable-box {
+	--aero-resizable-box-resizer-color: ${colors.primary_3};
+	
 	display: block;
 	width: 300px;
 	height: 90%;
