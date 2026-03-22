@@ -14,29 +14,29 @@ import { AeroShadowElement } from "../../core/AeroShadowElement";
  *
  * @slot - Default slot for `<aero-option>` elements.
  *
- * @cssprop --aero-select-width - Width of the select component.
- * @cssprop --aero-select-height - Height of the select component.
- * @cssprop --aero-select-font-size - Font size for the select text.
- * @cssprop --aero-select-font-family - Font family for the select text.
- * @cssprop --aero-select-border - Border style for the select component.
- * @cssprop --aero-select-dropdown-border - Border style for the dropdown container.
- * @cssprop --aero-select-dropdown-z-index - Z-index for the dropdown container.
- * @cssprop --aero-select-dropdown-item-border - Border style for individual dropdown items.
- * @cssprop --aero-select-dropdown-item-background - Background color for individual dropdown items.
- * @cssprop --aero-select-dropdown-item-color - Text color for individual dropdown items.
- * @cssprop --aero-select-dropdown-hover-item-border - Border style for dropdown items on hover.
- * @cssprop --aero-select-dropdown-hover-item-background - Background color for dropdown items on hover.
- * @cssprop --aero-select-dropdown-hover-item-color - Text color for dropdown items on hover.
- * @cssprop --aero-select-dropdown-hover-item-cursor - Cursor style for dropdown items on hover.
- * @cssprop --aero-select-span-background - Background color for the displayed selected option text.
- * @cssprop --aero-select-span-border - Border style for the displayed selected option text.
- * @cssprop --aero-select-button-border - Border style for the dropdown toggle button.
- * @cssprop --aero-select-button-background - Background color for the dropdown toggle button.
- * @cssprop --aero-select-button-color - Text color for the dropdown toggle button.
- * @cssprop --aero-select-button-hover-border - Border style for the dropdown toggle button on hover.
- * @cssprop --aero-select-button-hover-background - Background color for the dropdown toggle button on hover.
- * @cssprop --aero-select-button-hover-color - Text color for the dropdown toggle button on hover.
- * @cssprop --aero-select-button-hover-cursor - Cursor style for the dropdown toggle button on hover.
+ * @cssprop [--aero-select-width=150px] - Width of the select component.
+ * @cssprop [--aero-select-height=36px] - Height of the select component.
+ * @cssprop [--aero-select-font-size=16px] - Font size for the select text.
+ * @cssprop [--aero-select-font-family=san-serif] - Font family for the select text.
+ * @cssprop [--aero-select-border=1px solid #000] - Border style for the select component.
+ * @cssprop [--aero-select-dropdown-border=1px solid #000] - Border style for the dropdown container.
+ * @cssprop [--aero-select-dropdown-z-index=100] - Z-index for the dropdown container.
+ * @cssprop [--aero-select-dropdown-item-border=1px solid grey] - Border style for individual dropdown items.
+ * @cssprop [--aero-select-dropdown-item-background=#fff] - Background color for individual dropdown items.
+ * @cssprop [--aero-select-dropdown-item-color=#000] - Text color for individual dropdown items.
+ * @cssprop [--aero-select-dropdown-hover-item-border=1px solid grey] - Border style for dropdown items on hover.
+ * @cssprop [--aero-select-dropdown-hover-item-background=#000] - Background color for dropdown items on hover.
+ * @cssprop [--aero-select-dropdown-hover-item-color=white] - Text color for dropdown items on hover.
+ * @cssprop [--aero-select-dropdown-hover-item-cursor=pointer] - Cursor style for dropdown items on hover.
+ * @cssprop [--aero-select-span-background=transparent] - Background color for the displayed selected option text.
+ * @cssprop [--aero-select-span-border=1px solid transparent] - Border style for the displayed selected option text.
+ * @cssprop [--aero-select-button-border=1px solid #000] - Border style for the dropdown toggle button.
+ * @cssprop [--aero-select-button-background=lightgrey] - Background color for the dropdown toggle button.
+ * @cssprop [--aero-select-button-color=#000] - Text color for the dropdown toggle button.
+ * @cssprop [--aero-select-button-hover-border=1px solid #000] - Border style for the dropdown toggle button on hover.
+ * @cssprop [--aero-select-button-hover-background=grey] - Background color for the dropdown toggle button on hover.
+ * @cssprop [--aero-select-button-hover-color=#000] - Text color for the dropdown toggle button on hover.
+ * @cssprop [--aero-select-button-hover-cursor=pointer] - Cursor style for the dropdown toggle button on hover.
  *
  * @extends AeroShadowElement
  */

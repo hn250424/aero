@@ -16,7 +16,7 @@ import aeroResizableBoxHtmlTemplate from "./AeroResizableBox.html?raw";
  *
  * @slot - The default slot for content to be placed inside the resizable box.
  *
- * @cssprop --aero-resizable-box-resizer-color - The color of the resizer handles on hover.
+ * @cssprop [--aero-resizable-box-resizer-color=grey] - The color of the resizer handles on hover.
  */
 export class AeroResizableBox extends AeroShadowElement {
 	private _$topResizer!: HTMLElement;

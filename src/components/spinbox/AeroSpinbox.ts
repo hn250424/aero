@@ -10,7 +10,7 @@ import { BaseAeroNumericInput } from "../../base/BaseAeroNumericInput";
  *
  * @extends BaseAeroNumericInput
  *
- * @cssprop --aero-spinbox-button-background - The background color of the increment and decrement buttons.
+ * @cssprop [--aero-spinbox-button-background=lightgrey] - The background color of the increment and decrement buttons.
  */
 export class AeroSpinbox extends BaseAeroNumericInput {
 	private _boundDecrement = this.decrement.bind(this);
