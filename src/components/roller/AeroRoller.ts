@@ -18,13 +18,13 @@ import AeroRollerHtml from "./AeroRoller.html?raw";
  * @attr {number} [item-height=30] - Height of each item in pixels.
  * @attr {number} [visible-count=5] - Number of visible items in the roller.
  *
- * @cssprop --aero-roller-item-cursor - Cursor style for roller items.
- * @cssprop --aero-roller-highlight-border-top - Top border style for the highlight element.
- * @cssprop --aero-roller-highlight-border-bottom - Bottom border style for the highlight element.
- * @cssprop --aero-roller-highlight-border-left - Left border style for the highlight element.
- * @cssprop --aero-roller-highlight-border-right - Right border style for the highlight element.
- * @cssprop --aero-roller-highlight-border - Fallback border style for the highlight element.
- * @cssprop --aero-roller-highlight-bg - Background color for the highlight element.
+ * @cssprop [--aero-roller-item-cursor=auto] - Cursor style for roller items.
+ * @cssprop [--aero-roller-highlight-border-top=none] - Top border style for the highlight element.
+ * @cssprop [--aero-roller-highlight-border-bottom=none] - Bottom border style for the highlight element.
+ * @cssprop [--aero-roller-highlight-border-left=none] - Left border style for the highlight element.
+ * @cssprop [--aero-roller-highlight-border-right=none] - Right border style for the highlight element.
+ * @cssprop [--aero-roller-highlight-border=none] - Fallback border style for the highlight element.
+ * @cssprop [--aero-roller-highlight-bg=none] - Background color for the highlight element.
  *
  * @extends AeroShadowElement
  */
@@ -250,6 +250,7 @@ export class AeroRoller<T = string> extends AeroShadowElement {
 	 * The zero-based index of the currently selected item.
 	 * @type {number}
 	 * @readonly
+	 * @default 0
 	 */
 	get index() {
 		return this._index;
@@ -278,6 +279,7 @@ export class AeroRoller<T = string> extends AeroShadowElement {
 	 * The currently selected item value.
 	 * @type {T}
 	 * @readonly
+	 * @default undefined
 	 */
 	get current() {
 		return this._items[this._index];
