@@ -15,6 +15,7 @@ import aeroIndeterminateSpinnerHtmlTemplate from "./AeroIndeterminateSpinner.htm
  * @attr {string} track-color - The color of the spinner's track.
  * @attr {string} arc-color - The color of the spinner's arc.
  * @attr {number} cycle - The duration of one spin cycle in seconds.
+ * @attr {number} arc-ratio - The maximum length of the spinner arc, expressed as a percentage of the total circumference (0-100).
  */
 export class AeroIndeterminateSpinner extends AeroShadowElement {
 	private _size!: number;
@@ -24,6 +25,7 @@ export class AeroIndeterminateSpinner extends AeroShadowElement {
 	private _trackColor!: string;
 	private _arcColor!: string;
 	private _cycle!: number;
+	private _arcRatio!: number;
 
 	private _$svg!: SVGSVGElement;
 	private _$track!: SVGCircleElement;
@@ -53,7 +55,7 @@ export class AeroIndeterminateSpinner extends AeroShadowElement {
 	}
 
 	static get observedAttributes() {
-		return ["size", "thickness", "track-color", "arc-color", "cycle"];
+		return ["size", "thickness", "track-color", "arc-color", "cycle", "arc-ratio"];
 	}
 
 	attributeChangedCallback(
@@ -74,6 +76,7 @@ export class AeroIndeterminateSpinner extends AeroShadowElement {
 		this._trackColor = this.getAttribute("track-color") || "transparent";
 		this._arcColor = this.getAttribute("arc-color") || "black";
 		this._cycle = parseInt(this.getAttribute("cycle") || "2");
+		this._arcRatio = parseFloat(this.getAttribute("arc-ratio") || "90") / 100
 	}
 
 	private _syncSvgAttributes() {
@@ -130,7 +133,7 @@ export class AeroIndeterminateSpinner extends AeroShadowElement {
 					stroke-dashoffset: 0;
 				}
 				50% {
-					stroke-dasharray: ${this._circumference * 0.9} ${this._circumference - (this._circumference * 0.9)};
+					stroke-dasharray: ${this._circumference * this._arcRatio} ${this._circumference - (this._circumference * this._arcRatio)};
 					stroke-dashoffset: 0;
 				}
 				100% {
