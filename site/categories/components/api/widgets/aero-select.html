@@ -22,6 +22,35 @@ Setting this property will update the displayed value and fire the `aero-select-
 
 </tr>
 </tbody></table>
+<h3>Methods</h3>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+
+<th>Description</th>
+<th>Parameters</th>
+<th>Return</th>
+
+</tr>
+</thead>
+<tbody><tr>
+<td><code>addEventListener</code></td>
+
+<td></td>
+<td><code>type: K, listener: ( this: this, ev: (HTMLElementEventMap &amp; { [P in keyof T]: CustomEvent&lt;T[P]&gt; })[K] ) =&gt; any, options: boolean | AddEventListenerOptions</code></td>
+<td><code>void</code></td>
+
+</tr>
+<tr>
+<td><code>removeEventListener</code></td>
+
+<td></td>
+<td><code>type: K, listener: ( this: this, ev: (HTMLElementEventMap &amp; { [P in keyof T]: CustomEvent&lt;T[P]&gt; })[K] ) =&gt; any, options: boolean | EventListenerOptions</code></td>
+<td><code>void</code></td>
+
+</tr>
+</tbody></table>
 <h3>Events</h3>
 <table>
 <thead>
@@ -65,13 +94,13 @@ Setting this property will update the displayed value and fire the `aero-select-
 </thead>
 <tbody><tr>
 <td><code>--aero-select-width</code></td>
-<td><code>150px</code></td>
-<td>Width of the select component.</td>
+<td><code>100%</code></td>
+<td>Default width of the select component.</td>
 </tr>
 <tr>
 <td><code>--aero-select-height</code></td>
 <td><code>36px</code></td>
-<td>Height of the select component.</td>
+<td>Default height of the select component.</td>
 </tr>
 <tr>
 <td><code>--aero-select-font-size</code></td>

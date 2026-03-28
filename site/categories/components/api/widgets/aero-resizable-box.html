@@ -121,6 +121,22 @@
 <td></td>
 
 </tr>
+<tr>
+<td><code>addEventListener</code></td>
+
+<td></td>
+<td><code>type: K, listener: ( this: this, ev: (HTMLElementEventMap &amp; { [P in keyof T]: CustomEvent&lt;T[P]&gt; })[K] ) =&gt; any, options: boolean | AddEventListenerOptions</code></td>
+<td><code>void</code></td>
+
+</tr>
+<tr>
+<td><code>removeEventListener</code></td>
+
+<td></td>
+<td><code>type: K, listener: ( this: this, ev: (HTMLElementEventMap &amp; { [P in keyof T]: CustomEvent&lt;T[P]&gt; })[K] ) =&gt; any, options: boolean | EventListenerOptions</code></td>
+<td><code>void</code></td>
+
+</tr>
 </tbody></table>
 <h3>Events</h3>
 <table>
@@ -135,19 +151,19 @@
 <tbody><tr>
 <td><code>aero-resize-start</code></td>
 
-<td>Fired when a resize operation begins. The detail object contains `width`, `height`, and `edge`.</td>
+<td>Fired when a resize operation begins.</td>
 
 </tr>
 <tr>
 <td><code>aero-resize</code></td>
 
-<td>Fired continuously during a resize operation. The detail object contains `width` and `height`.</td>
+<td>Fired continuously during a resize operation.</td>
 
 </tr>
 <tr>
 <td><code>aero-resize-end</code></td>
 
-<td>Fired when a resize operation ends. The detail object contains the final `width` and `height`.</td>
+<td>Fired when a resize operation ends.</td>
 
 </tr>
 </tbody></table>
