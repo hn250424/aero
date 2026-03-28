@@ -2,6 +2,35 @@ import { AeroShadowElement } from "../../core/AeroShadowElement";
 import aeroResizableBoxHtmlTemplate from "./AeroResizableBox.html?raw";
 
 /**
+ * Events fired by the `<aero-resizable-box>` component.
+ */
+export interface AeroResizableBoxEvents {
+	/** Fired when a resize operation begins. */
+	"aero-resize-start": {
+		/** Initial width of the box. */
+		width: number;
+		/** Initial height of the box. */
+		height: number;
+		/** The edge that is being dragged. */
+		edge: "top" | "bottom" | "left" | "right";
+	};
+	/** Fired continuously during a resize operation. */
+	"aero-resize": {
+		/** Current width of the box, or null if only height is changing. */
+		width: number | null;
+		/** Current height of the box, or null if only width is changing. */
+		height: number | null;
+	};
+	/** Fired when a resize operation ends. */
+	"aero-resize-end": {
+		/** Final width of the box. */
+		width: number;
+		/** Final height of the box. */
+		height: number;
+	};
+}
+
+/**
  * @module components
  */
 
@@ -10,15 +39,15 @@ import aeroResizableBoxHtmlTemplate from "./AeroResizableBox.html?raw";
  *
  * @extends AeroShadowElement
  *
- * @fires aero-resize-start - Fired when a resize operation begins. The detail object contains `width`, `height`, and `edge`.
- * @fires aero-resize - Fired continuously during a resize operation. The detail object contains `width` and `height`.
- * @fires aero-resize-end - Fired when a resize operation ends. The detail object contains the final `width` and `height`.
+ * @fires aero-resize-start - Fired when a resize operation begins.
+ * @fires aero-resize - Fired continuously during a resize operation.
+ * @fires aero-resize-end - Fired when a resize operation ends.
  *
  * @slot - The default slot for content to be placed inside the resizable box.
  *
  * @cssprop [--aero-resizable-box-resizer-color=grey] - The color of the resizer handles on hover.
  */
-export class AeroResizableBox extends AeroShadowElement {
+export class AeroResizableBox extends AeroShadowElement<AeroResizableBoxEvents> {
 	private _$topResizer!: HTMLElement;
 	private _$bottomResizer!: HTMLElement;
 	private _$leftResizer!: HTMLElement;
@@ -47,17 +76,17 @@ export class AeroResizableBox extends AeroShadowElement {
 	constructor() {
 		super(aeroResizableBoxHtmlTemplate);
 
-		this._$topResizer = this.query("#top");
-		this._$bottomResizer = this.query("#bottom");
-		this._$leftResizer = this.query("#left");
-		this._$rightResizer = this.query("#right");
+		this._$topResizer = this.query<HTMLElement>("#top");
+		this._$bottomResizer = this.query<HTMLElement>("#bottom");
+		this._$leftResizer = this.query<HTMLElement>("#left");
+		this._$rightResizer = this.query<HTMLElement>("#right");
 
 		this._updateMinWidthValue(this.getAttribute("min-width"));
 		this._updateMaxWidthValue(this.getAttribute("max-width"));
 		this._updateMinHeightValue(this.getAttribute("min-height"));
 		this._updateMaxHeightValue(this.getAttribute("max-height"));
 
-		this._initializeAttributes()
+		this._initializeAttributes();
 	}
 
 	private _initializeAttributes() {
@@ -130,7 +159,7 @@ export class AeroResizableBox extends AeroShadowElement {
 		});
 	};
 
-	private _handleMouseup = (e: MouseEvent) => {
+	private _handleMouseup = (_e: MouseEvent) => {
 		if (!this._isDragging) return;
 		this.forwardCustomEvent("aero-resize-end", {
 			detail: {
@@ -399,6 +428,12 @@ export class AeroResizableBox extends AeroShadowElement {
 	 */
 	removeRightResizer() {
 		this.removeAttribute("resize-right");
+	}
+}
+
+declare global {
+	interface HTMLElementTagNameMap {
+		"aero-resizable-box": AeroResizableBox;
 	}
 }
 

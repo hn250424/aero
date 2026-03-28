@@ -44,7 +44,7 @@ export class AeroToast extends AeroShadowElement {
 
 		const { top, left, ms, background, color } = options;
 
-		this._$text = this.query("#text");
+		this._$text = this.query<HTMLElement>("#text");
 		this._$text.textContent = text;
 
 		this.applyStyles(`
@@ -87,6 +87,12 @@ export class AeroToast extends AeroShadowElement {
 		};
 
 		new AeroToast(text, resolvedOptions);
+	}
+}
+
+declare global {
+	interface HTMLElementTagNameMap {
+		"aero-toast": AeroToast;
 	}
 }
 

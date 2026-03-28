@@ -2,6 +2,19 @@ import aeroSelectHtmlTemplate from "./AeroSelect.html?raw";
 import { AeroShadowElement } from "../../core/AeroShadowElement";
 
 /**
+ * Events fired by the `<aero-select>` component.
+ */
+export interface AeroSelectEvents {
+	/** Fired when the selected option changes. */
+	"aero-select-changed": {
+		/** The newly selected option element. */
+		option: HTMLElement;
+		/** The zero-based index of the selected option. */
+		index: number;
+	};
+}
+
+/**
  * @module components
  */
 
@@ -40,14 +53,14 @@ import { AeroShadowElement } from "../../core/AeroShadowElement";
  *
  * @extends AeroShadowElement
  */
-export class AeroSelect extends AeroShadowElement {
+export class AeroSelect extends AeroShadowElement<AeroSelectEvents> {
 	private _handlers = {
-    documentClick: this._handleDocumentClick.bind(this),
-    buttonClick: this._handleButtonClick.bind(this),
-    dropdownClick: this._handleDropdownClick.bind(this),
-    slotChange: this._handleSlotChange.bind(this),
-    keydown: this._handleKeydown.bind(this),
-  };
+		documentClick: this._handleDocumentClick.bind(this),
+		buttonClick: this._handleButtonClick.bind(this),
+		dropdownClick: this._handleDropdownClick.bind(this),
+		slotChange: this._handleSlotChange.bind(this),
+		keydown: this._handleKeydown.bind(this),
+	};
 
 	private _$span: HTMLElement;
 	private _$button: HTMLElement;
@@ -62,10 +75,10 @@ export class AeroSelect extends AeroShadowElement {
 	constructor() {
 		super(aeroSelectHtmlTemplate);
 
-		this._$span = this.query("#span");
-		this._$button = this.query("#button");
-		this._$dropdown = this.query("#dropdown");
-		this._$slot = this.query("slot") as HTMLSlotElement;
+		this._$span = this.query<HTMLElement>("#span");
+		this._$button = this.query<HTMLElement>("#button");
+		this._$dropdown = this.query<HTMLElement>("#dropdown");
+		this._$slot = this.query("slot");
 		this._$options = (this._$slot?.assignedElements() ?? []).filter(
 			(el): el is HTMLElement => el instanceof HTMLElement
 		);
@@ -79,33 +92,33 @@ export class AeroSelect extends AeroShadowElement {
 		);
 	}
 
-  connectedCallback() {
-    document.addEventListener("click", this._handlers.documentClick);
-    this._$button.addEventListener("click", this._handlers.buttonClick);
-    this._$dropdown.addEventListener("click", this._handlers.dropdownClick);
-    this._$slot?.addEventListener("slotchange", this._handlers.slotChange);
-    this.addEventListener("keydown", this._handlers.keydown);
-  }
+	connectedCallback() {
+		document.addEventListener("click", this._handlers.documentClick);
+		this._$button.addEventListener("click", this._handlers.buttonClick);
+		this._$dropdown.addEventListener("click", this._handlers.dropdownClick);
+		this._$slot?.addEventListener("slotchange", this._handlers.slotChange);
+		this.addEventListener("keydown", this._handlers.keydown);
+	}
 
-  disconnectedCallback() {
-    document.removeEventListener("click", this._handlers.documentClick);
-    this._$button.removeEventListener("click", this._handlers.buttonClick);
-    this._$dropdown.removeEventListener("click", this._handlers.dropdownClick);
-    this._$slot?.removeEventListener("slotchange", this._handlers.slotChange);
-    this.removeEventListener("keydown", this._handlers.keydown);
-  }
+	disconnectedCallback() {
+		document.removeEventListener("click", this._handlers.documentClick);
+		this._$button.removeEventListener("click", this._handlers.buttonClick);
+		this._$dropdown.removeEventListener("click", this._handlers.dropdownClick);
+		this._$slot?.removeEventListener("slotchange", this._handlers.slotChange);
+		this.removeEventListener("keydown", this._handlers.keydown);
+	}
 
 	private _handleDocumentClick(_e?: Event) {
-    if (this._dropdown_open) {
-      this._closeDropdown();
-      this._dropdown_open = false;
-    }
-  }
+		if (this._dropdown_open) {
+			this._closeDropdown();
+			this._dropdown_open = false;
+		}
+	}
 
 	private _handleButtonClick(e: MouseEvent) {
 		e.stopPropagation();
 		this._dropdown_open = !this._dropdown_open;
-		
+
 		if (this._dropdown_open) {
 			this._openDropdown();
 		} else {
@@ -115,7 +128,10 @@ export class AeroSelect extends AeroShadowElement {
 
 	private _openDropdown() {
 		const rect = this.getBoundingClientRect();
-		const dropdownHeight = this._$dropdown.offsetHeight || (parseInt(getComputedStyle(this).getPropertyValue('--aero-select-height')) * 6.5);
+		const dropdownHeight =
+			this._$dropdown.offsetHeight ||
+			parseInt(getComputedStyle(this).getPropertyValue("--aero-select-height")) *
+				6.5;
 		const spaceBelow = window.innerHeight - rect.bottom;
 		const spaceAbove = rect.top;
 
@@ -138,15 +154,29 @@ export class AeroSelect extends AeroShadowElement {
 		}
 
 		this._$dropdown.classList.add("open");
-		
-		window.addEventListener("scroll", this._handlers.documentClick as EventListener, { capture: true, passive: true });
-		window.addEventListener("resize", this._handlers.documentClick as EventListener);
+
+		window.addEventListener(
+			"scroll",
+			this._handlers.documentClick as EventListener,
+			{ capture: true, passive: true }
+		);
+		window.addEventListener(
+			"resize",
+			this._handlers.documentClick as EventListener
+		);
 	}
 
 	private _closeDropdown() {
 		this._$dropdown.classList.remove("open", "open-up", "open-down");
-		window.removeEventListener("scroll", this._handlers.documentClick as EventListener, { capture: true });
-		window.removeEventListener("resize", this._handlers.documentClick as EventListener);
+		window.removeEventListener(
+			"scroll",
+			this._handlers.documentClick as EventListener,
+			{ capture: true }
+		);
+		window.removeEventListener(
+			"resize",
+			this._handlers.documentClick as EventListener
+		);
 	}
 
 	private _handleDropdownClick(e: MouseEvent) {
@@ -172,7 +202,8 @@ export class AeroSelect extends AeroShadowElement {
 			.assignedElements()
 			.filter((el): el is HTMLElement => el instanceof HTMLElement);
 
-		if (this._pendingOptionIndex !== undefined) { // If an index was set before options were ready, try to apply it now.
+		if (this._pendingOptionIndex !== undefined) {
+			// If an index was set before options were ready, try to apply it now.
 			const indexToTry = this._pendingOptionIndex;
 			this._pendingOptionIndex = undefined; // Prevent recursive call.
 			this.optionIndex = indexToTry;
@@ -234,9 +265,7 @@ export class AeroSelect extends AeroShadowElement {
 		(newValue: string | null) => void
 	> = {
 		"option-index": (newValue) => {
-			this._updateOptionIndex(
-				this._getValidateOptionIndexByStr(newValue ?? "")
-			);
+			this._updateOptionIndex(this._getValidateOptionIndexByStr(newValue ?? ""));
 		},
 	};
 
@@ -295,5 +324,10 @@ export class AeroSelect extends AeroShadowElement {
 	}
 }
 
-customElements.define("aero-select", AeroSelect);
+declare global {
+	interface HTMLElementTagNameMap {
+		"aero-select": AeroSelect;
+	}
+}
 
+customElements.define("aero-select", AeroSelect);
