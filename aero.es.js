@@ -13,12 +13,9 @@ class a extends HTMLElement {
     const e = document.createElement("template");
     e.innerHTML = t, this.shadow = this.attachShadow({ mode: "open" }), this.shadow.appendChild(e.content.cloneNode(!0));
   }
-  // Queries the shadow DOM for an element matching the given selector.
   query(t) {
     return this.shadow.querySelector(t);
   }
-  // Queries the shadow DOM for an element matching the given selector.
-  // Unlike query(), this returns null if the element is not found.
   queryOptional(t) {
     return this.shadow.querySelector(t);
   }
@@ -56,6 +53,12 @@ class a extends HTMLElement {
         composed: !0
       })
     );
+  }
+  addEventListener(t, e, i) {
+    super.addEventListener(t, e, i);
+  }
+  removeEventListener(t, e, i) {
+    super.removeEventListener(t, e, i);
   }
 }
 class p extends a {
@@ -804,7 +807,7 @@ class d extends a {
 customElements.define("aero-resizable-box", d);
 const z = `<style>\r
 	:host {\r
-		--aero-select-width: 150px;\r
+		--aero-select-width: 100%;\r
 		--aero-select-height: 36px;\r
 \r
 		--aero-select-font-size: 16px;\r
@@ -837,8 +840,8 @@ const z = `<style>\r
 \r
 		display: block;\r
 \r
-		width: var(--aero-select-width);\r
-		height: var(--aero-select-height);\r
+		width: var(--aero-select-width, 100%);\r
+		height: var(--aero-select-height, 36px);\r
 \r
 		font-size: var(--aero-select-font-size);\r
 		font-family: var(--aero-select-font-family);\r
@@ -846,8 +849,8 @@ const z = `<style>\r
 \r
 	::slotted(*) {\r
     display: grid;\r
-    grid-template-columns: calc(var(--aero-select-width) - var(--aero-select-height)) auto;\r
-		height: var(--aero-select-height);\r
+    grid-template-columns: 1fr var(--aero-select-height, 36px);\r
+		height: var(--aero-select-height, 36px);\r
 \r
     text-align: center;\r
 		line-height: var(--aero-select-height);\r
@@ -931,7 +934,6 @@ const z = `<style>\r
 		position: fixed;\r
 		z-index: var(--aero-select-dropdown-z-index);\r
 \r
-		width: var(--aero-select-width);\r
 		max-height: calc(var(--aero-select-height, 36px) * 6.5);\r
 		overflow-y: auto;\r
 \r
@@ -999,10 +1001,24 @@ class A extends a {
   _openDropdown() {
     const t = this.getBoundingClientRect(), e = this._$dropdown.offsetHeight || parseInt(getComputedStyle(this).getPropertyValue("--aero-select-height")) * 6.5, i = window.innerHeight - t.bottom, n = t.top;
     let r = !1;
-    i < e && n > i && (r = !0), this._$dropdown.style.left = `${t.left}px`, this._$dropdown.style.width = `${t.width}px`, r ? (this._$dropdown.style.top = `${t.top - e}px`, this._$dropdown.classList.add("open-up"), this._$dropdown.classList.remove("open-down")) : (this._$dropdown.style.top = `${t.bottom}px`, this._$dropdown.classList.add("open-down"), this._$dropdown.classList.remove("open-up")), this._$dropdown.classList.add("open"), window.addEventListener("scroll", this._handlers.documentClick, { capture: !0, passive: !0 }), window.addEventListener("resize", this._handlers.documentClick);
+    i < e && n > i && (r = !0), this._$dropdown.style.left = `${t.left}px`, this._$dropdown.style.width = `${t.width}px`, r ? (this._$dropdown.style.top = `${t.top - e}px`, this._$dropdown.classList.add("open-up"), this._$dropdown.classList.remove("open-down")) : (this._$dropdown.style.top = `${t.bottom}px`, this._$dropdown.classList.add("open-down"), this._$dropdown.classList.remove("open-up")), this._$dropdown.classList.add("open"), window.addEventListener(
+      "scroll",
+      this._handlers.documentClick,
+      { capture: !0, passive: !0 }
+    ), window.addEventListener(
+      "resize",
+      this._handlers.documentClick
+    );
   }
   _closeDropdown() {
-    this._$dropdown.classList.remove("open", "open-up", "open-down"), window.removeEventListener("scroll", this._handlers.documentClick, { capture: !0 }), window.removeEventListener("resize", this._handlers.documentClick);
+    this._$dropdown.classList.remove("open", "open-up", "open-down"), window.removeEventListener(
+      "scroll",
+      this._handlers.documentClick,
+      { capture: !0 }
+    ), window.removeEventListener(
+      "resize",
+      this._handlers.documentClick
+    );
   }
   _handleDropdownClick(t) {
     const e = t.composedPath().find(
@@ -1042,9 +1058,7 @@ class A extends a {
   }
   _aeroSelectAttributeHandlers = {
     "option-index": (t) => {
-      this._updateOptionIndex(
-        this._getValidateOptionIndexByStr(t ?? "")
-      );
+      this._updateOptionIndex(this._getValidateOptionIndexByStr(t ?? ""));
     }
   };
   /**
@@ -1354,7 +1368,7 @@ const H = `<style>\r
 </div>\r
 `, M = {
   blue_5: "#2563eb"
-}, D = {
+}, L = {
   fontSize: "1rem",
   containerBorder: "1px solid lightgrey",
   containerBoxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)",
@@ -1445,7 +1459,7 @@ class c extends a {
   }
   static _create(t, e, i) {
     const n = {
-      ...D,
+      ...L,
       ...i
     };
     return new Promise((r) => {
@@ -1455,7 +1469,7 @@ class c extends a {
   }
 }
 customElements.define("aero-popup", c);
-const L = `<style>\r
+const D = `<style>\r
 \r
 </style>\r
 \r
@@ -1496,7 +1510,7 @@ class R extends a {
     }, 100);
   };
   constructor() {
-    super(L), this._$list = this.query("#list"), this._itemHeight = parseInt(this.getAttribute("item-height") ?? "30"), this._visibleCount = parseInt(this.getAttribute("visible-count") ?? "5"), this._syncStyles();
+    super(D), this._$list = this.query("#list"), this._itemHeight = parseInt(this.getAttribute("item-height") ?? "30"), this._visibleCount = parseInt(this.getAttribute("visible-count") ?? "5"), this._syncStyles();
   }
   connectedCallback() {
     this.addEventListener("pointerdown", this._onPointerDown), this.addEventListener("wheel", this._onWheel, { passive: !1 });
@@ -1627,8 +1641,6 @@ class R extends a {
     this._y = t, e ? this._$list.style.transition = "none" : this._$list.style.transition = "transform 0.2s ease-out", this._$list.style.transform = `translateY(${this._y}px)`;
   }
   _end() {
-    if (!this._isDown) return;
-    this._isDown = !1;
     const t = Math.round(Math.abs(this._y / this._itemHeight));
     this.scrollToIndex(t), this.dispatchEvent(
       new CustomEvent("change", {
