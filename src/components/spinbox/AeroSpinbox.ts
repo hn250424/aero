@@ -22,8 +22,8 @@ export class AeroSpinbox extends BaseAeroNumericInput {
 	constructor() {
 		super(aeroSpinboxHtmlTemplate);
 
-		this._$minus = this.query("#minus");
-		this._$plus = this.query("#plus");
+		this._$minus = this.query<HTMLElement>("#minus");
+		this._$plus = this.query<HTMLElement>("#plus");
 
 		this._updateMinuxText(this.getAttribute("minus-text"));
 		this._updatePlusText(this.getAttribute("plus-text"));
@@ -145,6 +145,12 @@ export class AeroSpinbox extends BaseAeroNumericInput {
 	increment() {
 		const num = this.value + this.step;
 		this.value = this.getValidateValue(num);
+	}
+}
+
+declare global {
+	interface HTMLElementTagNameMap {
+		"aero-spinbox": AeroSpinbox;
 	}
 }
 

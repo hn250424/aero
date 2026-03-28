@@ -7,8 +7,11 @@
  * with a shadow DOM. It handles the boilerplate of creating a shadow root and cloning a template.
  *
  * @abstract
+ * @template T - A record defining custom event names and their detail types.
  */
-export class AeroShadowElement extends HTMLElement {
+export abstract class AeroShadowElement<
+	T extends Record<string, any> = {}
+> extends HTMLElement {
 	/**
 	 * The shadow root for this element.
 	 * @protected
@@ -30,25 +33,35 @@ export class AeroShadowElement extends HTMLElement {
 	}
 
 	// Queries the shadow DOM for an element matching the given selector.
-	protected query<T extends HTMLElement>(selector: string): T {
-		return this.shadow.querySelector(selector)! as T;
+	protected query<K extends keyof HTMLElementTagNameMap>(
+		selector: K
+	): HTMLElementTagNameMap[K];
+	protected query<E extends HTMLElement = HTMLElement>(selector: string): E;
+	protected query(selector: string): any {
+		return this.shadow.querySelector(selector)!;
 	}
 
 	// Queries the shadow DOM for an element matching the given selector.
-  // Unlike query(), this returns null if the element is not found.
-	protected queryOptional<T extends HTMLElement>(selector: string): T | null {
-		return this.shadow.querySelector(selector) as T | null;
+	// Unlike query(), this returns null if the element is not found.
+	protected queryOptional<K extends keyof HTMLElementTagNameMap>(
+		selector: K
+	): HTMLElementTagNameMap[K] | null;
+	protected queryOptional<E extends HTMLElement = HTMLElement>(
+		selector: string
+	): E | null;
+	protected queryOptional(selector: string): any {
+		return this.shadow.querySelector(selector);
 	}
 
 	// Applies a string of CSS to the shadow DOM by creating and appending a `<style>` tag.
 	protected applyStyles(style: string, id: string = "component-styles") {
-    let tag = this.shadow.querySelector(`#${id}`) as HTMLStyleElement;
-    if (!tag) {
-        tag = document.createElement("style");
-        tag.id = id;
-        this.shadow.appendChild(tag);
-    }
-    tag.textContent = style;
+		let tag = this.shadow.querySelector(`#${id}`) as HTMLStyleElement;
+		if (!tag) {
+			tag = document.createElement("style");
+			tag.id = id;
+			this.shadow.appendChild(tag);
+		}
+		tag.textContent = style;
 	}
 
 	/**
@@ -73,10 +86,10 @@ export class AeroShadowElement extends HTMLElement {
 	 * @param {Event} [options.originalEvent] - The original event that triggered this custom event.
 	 * @protected
 	 */
-	protected forwardCustomEvent(
-		type: string,
+	protected forwardCustomEvent<K extends keyof T & string>(
+		type: K,
 		options?: {
-			detail?: unknown;
+			detail?: T[K];
 			originalEvent?: Event;
 		}
 	) {
@@ -87,5 +100,53 @@ export class AeroShadowElement extends HTMLElement {
 				composed: true,
 			})
 		);
+	}
+
+	// TypeScript Overloads for addEventListener/removeEventListener
+
+	override addEventListener<
+		K extends keyof (HTMLElementEventMap & { [P in keyof T]: CustomEvent<T[P]> })
+	>(
+		type: K,
+		listener: (
+			this: this,
+			ev: (HTMLElementEventMap & { [P in keyof T]: CustomEvent<T[P]> })[K]
+		) => any,
+		options?: boolean | AddEventListenerOptions
+	): void;
+	override addEventListener(
+		type: string,
+		listener: EventListenerOrEventListenerObject,
+		options?: boolean | AddEventListenerOptions
+	): void;
+	override addEventListener(
+		type: string,
+		listener: any,
+		options?: boolean | AddEventListenerOptions
+	): void {
+		super.addEventListener(type, listener, options);
+	}
+
+	override removeEventListener<
+		K extends keyof (HTMLElementEventMap & { [P in keyof T]: CustomEvent<T[P]> })
+	>(
+		type: K,
+		listener: (
+			this: this,
+			ev: (HTMLElementEventMap & { [P in keyof T]: CustomEvent<T[P]> })[K]
+		) => any,
+		options?: boolean | EventListenerOptions
+	): void;
+	override removeEventListener(
+		type: string,
+		listener: EventListenerOrEventListenerObject,
+		options?: boolean | EventListenerOptions
+	): void;
+	override removeEventListener(
+		type: string,
+		listener: any,
+		options?: boolean | EventListenerOptions
+	): void {
+		super.removeEventListener(type, listener, options);
 	}
 }

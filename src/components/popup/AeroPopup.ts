@@ -1,7 +1,7 @@
 import AeroAlertHtml from "./AeroAlert.html?raw";
 import AeroConfirmHtml from "./AeroConfirm.html?raw";
 import { AeroShadowElement } from "../../core/AeroShadowElement";
-import { colors } from "../../constants"
+import { colors } from "../../constants";
 
 /**
  * Configuration options for the popup notifications.
@@ -73,11 +73,11 @@ export class AeroPopup extends AeroShadowElement {
 			buttonBorderRadius,
 		} = options;
 
-		this._$message = this.query("#message");
+		this._$message = this.query<HTMLElement>("#message");
 		this._$message.textContent = message;
 
-		this._$ok = this.query("#ok");
-		this._$cancel = this.queryOptional("#cancel");
+		this._$ok = this.query<HTMLElement>("#ok");
+		this._$cancel = this.queryOptional<HTMLElement>("#cancel");
 
 		this.applyStyles(`
 			#container {
@@ -186,6 +186,12 @@ export class AeroPopup extends AeroShadowElement {
 			const popup = new AeroPopup(html, message, resolvedOptions);
 			popup._resolve = resolve;
 		});
+	}
+}
+
+declare global {
+	interface HTMLElementTagNameMap {
+		"aero-popup": AeroPopup;
 	}
 }
 

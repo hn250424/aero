@@ -38,4 +38,10 @@ export class AeroOption extends HTMLElement {
 	}
 }
 
+declare global {
+	interface HTMLElementTagNameMap {
+		"aero-option": AeroOption;
+	}
+}
+
 customElements.define("aero-option", AeroOption);

@@ -2,6 +2,20 @@ import { AeroShadowElement } from "../../core/AeroShadowElement";
 import AeroRollerHtml from "./AeroRoller.html?raw";
 
 /**
+ * Events fired by the `<aero-roller>` component.
+ * @template T - The type of the items in the roller.
+ */
+export interface AeroRollerEvents<T = any> {
+	/** Fired when the selected option changes. */
+	change: {
+		/** The index of the selected item. */
+		index: number;
+		/** The value of the selected item. */
+		value: T;
+	};
+}
+
+/**
  * @module components
  */
 
@@ -28,9 +42,9 @@ import AeroRollerHtml from "./AeroRoller.html?raw";
  *
  * @extends AeroShadowElement
  */
-export class AeroRoller<T = string> extends AeroShadowElement {
+export class AeroRoller<T = string> extends AeroShadowElement<AeroRollerEvents<T>> {
 	private _items: T[] = [];
-	private _$list;
+	private _$list: HTMLElement;
 	private _itemHeight = 0;
 	private _visibleCount = 5;
 	private _maxHeight = 0;
@@ -93,7 +107,7 @@ export class AeroRoller<T = string> extends AeroShadowElement {
 	constructor() {
 		super(AeroRollerHtml);
 
-		this._$list = this.query("#list");
+		this._$list = this.query<HTMLElement>("#list");
 
 		this._itemHeight = parseInt(this.getAttribute("item-height") ?? "30");
 		this._visibleCount = parseInt(this.getAttribute("visible-count") ?? "5");
@@ -300,9 +314,6 @@ export class AeroRoller<T = string> extends AeroShadowElement {
 	}
 
 	private _end() {
-		if (!this._isDown) return;
-		this._isDown = false;
-
 		const targetIndex = Math.round(Math.abs(this._y / this._itemHeight));
 		this.scrollToIndex(targetIndex);
 
@@ -311,6 +322,12 @@ export class AeroRoller<T = string> extends AeroShadowElement {
 				detail: { index: targetIndex, value: this._items[targetIndex] },
 			})
 		);
+	}
+}
+
+declare global {
+	interface HTMLElementTagNameMap {
+		"aero-roller": AeroRoller;
 	}
 }
 

@@ -16,7 +16,7 @@ import { AeroShadowElement } from "../core/AeroShadowElement";
  * @fires focusin - Fired when the element receives focus.
  * @fires focusout - Fired when the element loses focus.
  */
-export abstract class BaseAeroNumericInput extends AeroShadowElement {
+export abstract class BaseAeroNumericInput<T extends Record<string, any> = {}> extends AeroShadowElement<T> {
 	private _boundDispatchInputEvent = this._dispatchInputEvent.bind(this);
 	private _boundDispatchChangeEvent = this._dispatchChangeEvent.bind(this);
 	private _boundDispatchFocusinEvent = this._dispatchFocusinEvent.bind(this);
@@ -35,7 +35,7 @@ export abstract class BaseAeroNumericInput extends AeroShadowElement {
 	protected abstract getInputSelector(): string;
 
 	private _initializeInput() {
-		this._$input = this.query(this.getInputSelector());
+		this._$input = this.query<HTMLInputElement>(this.getInputSelector());
 	}
 
 	protected getValidateValue(value: number): number {
