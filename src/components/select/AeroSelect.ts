@@ -27,8 +27,8 @@ export interface AeroSelectEvents {
  *
  * @slot - Default slot for `<aero-option>` elements.
  *
- * @cssprop [--aero-select-width=150px] - Width of the select component.
- * @cssprop [--aero-select-height=36px] - Height of the select component.
+ * @cssprop [--aero-select-width=100%] - Default width of the select component.
+ * @cssprop [--aero-select-height=36px] - Default height of the select component.
  * @cssprop [--aero-select-font-size=16px] - Font size for the select text.
  * @cssprop [--aero-select-font-family=san-serif] - Font family for the select text.
  * @cssprop [--aero-select-border=1px solid #000] - Border style for the select component.
