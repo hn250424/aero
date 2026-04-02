@@ -89,11 +89,3 @@ export class AeroToast extends AeroShadowElement {
 		new AeroToast(text, resolvedOptions);
 	}
 }
-
-declare global {
-	interface HTMLElementTagNameMap {
-		"aero-toast": AeroToast;
-	}
-}
-
-customElements.define("aero-toast", AeroToast);
