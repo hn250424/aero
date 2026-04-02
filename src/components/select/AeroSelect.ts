@@ -323,11 +323,4 @@ export class AeroSelect extends AeroShadowElement<AeroSelectEvents> {
 		this._$span.textContent = "";
 	}
 }
-
-declare global {
-	interface HTMLElementTagNameMap {
-		"aero-select": AeroSelect;
-	}
-}
-
-customElements.define("aero-select", AeroSelect);
+

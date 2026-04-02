@@ -325,10 +325,4 @@ export class AeroRoller<T = string> extends AeroShadowElement<AeroRollerEvents<T
 	}
 }
 
-declare global {
-	interface HTMLElementTagNameMap {
-		"aero-roller": AeroRoller;
-	}
-}
 
-customElements.define("aero-roller", AeroRoller);

@@ -148,10 +148,4 @@ export class AeroSpinbox extends BaseAeroNumericInput {
 	}
 }
 
-declare global {
-	interface HTMLElementTagNameMap {
-		"aero-spinbox": AeroSpinbox;
-	}
-}
 
-customElements.define("aero-spinbox", AeroSpinbox);

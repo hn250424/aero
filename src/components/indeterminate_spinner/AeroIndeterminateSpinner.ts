@@ -145,13 +145,4 @@ export class AeroIndeterminateSpinner extends AeroShadowElement {
 	}
 }
 
-declare global {
-	interface HTMLElementTagNameMap {
-		"aero-indeterminate-spinner": AeroIndeterminateSpinner;
-	}
-}
 
-customElements.define(
-	"aero-indeterminate-spinner",
-	AeroIndeterminateSpinner
-);

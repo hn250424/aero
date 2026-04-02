@@ -20,10 +20,4 @@ export class AeroNumericInput extends BaseAeroNumericInput {
 	}
 }
 
-declare global {
-	interface HTMLElementTagNameMap {
-		"aero-numeric-input": AeroNumericInput;
-	}
-}
 
-customElements.define("aero-numeric-input", AeroNumericInput);

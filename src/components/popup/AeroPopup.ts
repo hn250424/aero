@@ -189,10 +189,4 @@ export class AeroPopup extends AeroShadowElement {
 	}
 }
 
-declare global {
-	interface HTMLElementTagNameMap {
-		"aero-popup": AeroPopup;
-	}
-}
 
-customElements.define("aero-popup", AeroPopup);

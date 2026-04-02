@@ -431,10 +431,4 @@ export class AeroResizableBox extends AeroShadowElement<AeroResizableBoxEvents> 
 	}
 }
 
-declare global {
-	interface HTMLElementTagNameMap {
-		"aero-resizable-box": AeroResizableBox;
-	}
-}
 
-customElements.define("aero-resizable-box", AeroResizableBox);
