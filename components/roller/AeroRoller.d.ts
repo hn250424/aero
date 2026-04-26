@@ -92,8 +92,3 @@ export declare class AeroRoller<T = string> extends AeroShadowElement<AeroRoller
     private _move;
     private _end;
 }
-declare global {
-    interface HTMLElementTagNameMap {
-        "aero-roller": AeroRoller;
-    }
-}

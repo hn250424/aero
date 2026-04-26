@@ -140,8 +140,3 @@ export declare class AeroResizableBox extends AeroShadowElement<AeroResizableBox
      */
     removeRightResizer(): void;
 }
-declare global {
-    interface HTMLElementTagNameMap {
-        "aero-resizable-box": AeroResizableBox;
-    }
-}

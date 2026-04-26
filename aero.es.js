@@ -236,7 +236,6 @@ class x extends p {
     return "#input";
   }
 }
-customElements.define("aero-numeric-input", x);
 const f = `<style>\r
 	:host {\r
 		border: 1px solid #ccc;\r
@@ -376,7 +375,6 @@ class w extends p {
     this.value = this.getValidateValue(t);
   }
 }
-customElements.define("aero-spinbox", w);
 const y = `<style>\r
 	:host {\r
 		display: block;\r
@@ -465,10 +463,6 @@ class $ extends a {
 		`);
   }
 }
-customElements.define(
-  "aero-indeterminate-spinner",
-  $
-);
 const k = `<style>\r
 	:host {\r
 		position: relative;\r
@@ -804,7 +798,6 @@ class d extends a {
     this.removeAttribute("resize-right");
   }
 }
-customElements.define("aero-resizable-box", d);
 const z = `<style>\r
 	:host {\r
 		--aero-select-width: 100%;\r
@@ -1101,7 +1094,6 @@ class A extends a {
     this._optionIndex = -1, this._$span.textContent = "";
   }
 }
-customElements.define("aero-select", A);
 class E extends HTMLElement {
   constructor() {
     super();
@@ -1125,7 +1117,6 @@ class E extends HTMLElement {
     return this.textContent ?? "";
   }
 }
-customElements.define("aero-option", E);
 const C = `<style>\r
 	:host {\r
 		position: fixed;\r
@@ -1138,11 +1129,11 @@ const C = `<style>\r
 \r
 		animation: toast-fade linear forwards;\r
 \r
-		padding: 5px 10px;\r
-		border-radius: 5%;\r
+		border-radius: 5px;\r
 	}\r
 \r
-	#text {\r
+	#box {\r
+		padding: 5px 10px;\r
 	}\r
 \r
 	@keyframes toast-fade {\r
@@ -1165,7 +1156,9 @@ const C = `<style>\r
 	}\r
 </style>\r
 \r
-<span id="text"></span>\r
+<div id="box">\r
+	<span id="text"></span>\r
+</div>\r
 `, I = {
   top: "90%",
   left: "50%",
@@ -1214,7 +1207,6 @@ class l extends a {
     new l(t, i);
   }
 }
-customElements.define("aero-toast", l);
 const H = `<style>\r
 	:host {\r
 		position: fixed;\r
@@ -1468,7 +1460,6 @@ class c extends a {
     });
   }
 }
-customElements.define("aero-popup", c);
 const D = `<style>\r
 \r
 </style>\r
@@ -1649,6 +1640,14 @@ class R extends a {
     );
   }
 }
+customElements.define("aero-numeric-input", x);
+customElements.define("aero-spinbox", w);
+customElements.define("aero-indeterminate-spinner", $);
+customElements.define("aero-resizable-box", d);
+customElements.define("aero-select", A);
+customElements.define("aero-option", E);
+customElements.define("aero-toast", l);
+customElements.define("aero-popup", c);
 customElements.define("aero-roller", R);
 export {
   $ as AeroIndeterminateSpinner,

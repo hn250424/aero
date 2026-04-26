@@ -50,8 +50,3 @@ export declare class AeroSpinbox extends BaseAeroNumericInput {
      */
     increment(): void;
 }
-declare global {
-    interface HTMLElementTagNameMap {
-        "aero-spinbox": AeroSpinbox;
-    }
-}

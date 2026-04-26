@@ -86,8 +86,3 @@ export declare class AeroSelect extends AeroShadowElement<AeroSelectEvents> {
     private _getValidateOptionIndexByStr;
     private _unsetOption;
 }
-declare global {
-    interface HTMLElementTagNameMap {
-        "aero-select": AeroSelect;
-    }
-}

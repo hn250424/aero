@@ -11,8 +11,3 @@ export declare class AeroNumericInput extends BaseAeroNumericInput {
     constructor();
     protected getInputSelector(): string;
 }
-declare global {
-    interface HTMLElementTagNameMap {
-        "aero-numeric-input": AeroNumericInput;
-    }
-}

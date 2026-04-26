@@ -41,8 +41,3 @@ export declare class AeroToast extends AeroShadowElement {
      */
     static show(text: string, options?: Partial<AeroToastOptions>): void;
 }
-declare global {
-    interface HTMLElementTagNameMap {
-        "aero-toast": AeroToast;
-    }
-}

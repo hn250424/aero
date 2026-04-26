@@ -25,8 +25,3 @@ export declare class AeroOption extends HTMLElement {
      */
     get label(): string;
 }
-declare global {
-    interface HTMLElementTagNameMap {
-        "aero-option": AeroOption;
-    }
-}

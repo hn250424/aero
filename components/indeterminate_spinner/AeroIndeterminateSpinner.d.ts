@@ -34,8 +34,3 @@ export declare class AeroIndeterminateSpinner extends AeroShadowElement {
     private _syncSvgAttributes;
     private _syncStyles;
 }
-declare global {
-    interface HTMLElementTagNameMap {
-        "aero-indeterminate-spinner": AeroIndeterminateSpinner;
-    }
-}

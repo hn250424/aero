@@ -63,8 +63,3 @@ export declare class AeroPopup extends AeroShadowElement {
     static confirm(message: string, options?: Partial<AeroPopupOptions>): Promise<boolean>;
     private static _create;
 }
-declare global {
-    interface HTMLElementTagNameMap {
-        "aero-popup": AeroPopup;
-    }
-}
