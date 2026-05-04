@@ -1,4 +1,3 @@
-// import "@hn250424/aero";
 import { AERO_IMPORT_PATH } from "@site/constants/path";
 
 import type { Extension } from "@codemirror/state";

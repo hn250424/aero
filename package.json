@@ -1,6 +1,6 @@
 {
-  "name": "@hn250424/aero",
-  "version": "0.1.4",
+  "name": "@taren250424/aero",
+  "version": "0.1.1",
   "description": "Web component library with built-in convenience features",
   "license": "MIT",
   "type": "module",
@@ -27,7 +27,7 @@
     "site:build": "node scripts/build/build-site.js",
     "site:preview": "vite preview --config vite.config.site-build.ts",
     "site:deploy": "gh-pages -d docs",
-		"release": "npm run src:build && npm run site:prebuild && npm run site:build && npm run site:deploy"
+    "release": "npm run src:build && npm run site:prebuild && npm run site:build && npm run site:deploy"
   },
   "devDependencies": {
     "@custom-elements-manifest/analyzer": "^0.11.0",
@@ -45,7 +45,6 @@
     "@codemirror/lang-css": "^6.3.1",
     "@codemirror/lang-html": "^6.4.11",
     "@codemirror/lang-javascript": "^6.2.4",
-    "@hn250424/aero": "^0.1.1",
     "codemirror": "^6.0.2",
     "github-markdown-css": "^5.8.1",
     "marked": "^17.0.1",

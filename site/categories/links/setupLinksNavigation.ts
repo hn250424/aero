@@ -19,7 +19,7 @@ const _linkHandlers = {
 
 function _linkGithub() {
 	window.open(
-		"https://github.com/hn250424/aero",
+		"https://github.com/taren250424/aero",
 		"_blank",
 		"noopener,noreferrer"
 	);
@@ -27,7 +27,7 @@ function _linkGithub() {
 
 function _linkNpm() {
 	window.open(
-		"https://www.npmjs.com/package/@hn250424/aero",
+		"https://www.npmjs.com/package/@taren250424/aero",
 		"_blank",
 		"noopener,noreferrer"
 	);
