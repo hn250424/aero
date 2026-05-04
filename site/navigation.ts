@@ -6,11 +6,13 @@ import { setupGettingStartedNavigation } from "./categories/getting_started";
 import { setupComponentsNavigation } from "./categories/components";
 import { setupLinksNavigation } from "./categories/links";
 
+const BASE = "/aero"
+
 /**
  * Navigates to a specific path using history.pushState
  */
 export function navigateTo(appContext: AppContext, path: string) {
-	window.history.pushState(null, "", path);
+	window.history.pushState(null, "", BASE + path);
 	handleRoute(appContext);
 }
 
@@ -21,14 +23,14 @@ export function setupNavigation(appContext: AppContext) {
 	setupLinksNavigation(appContext);
 
 	window.addEventListener("popstate", () => handleRoute(appContext));
-	
+
 	// Handle initial route
 	handleRoute(appContext);
 }
 
 function handleRoute(appContext: AppContext) {
 	const pathname = window.location.pathname;
-	
+
 	// Assuming base path is / or /aero/
 	const normalizedPath = pathname.replace(/^\/aero/, "") || "/";
 

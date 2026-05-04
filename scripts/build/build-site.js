@@ -29,6 +29,8 @@ try {
 
 	console.log("📂 Copying lib → docs...");
 	cpSync(libDir, docsDir, { recursive: true });
+	console.log("📄 Copying 404.html → docs...");
+	cpSync(path.resolve("404.html"), path.resolve(docsDir, "404.html"));
 
 	console.log("✅ Docs successfully built and copied to ./docs");
 } catch (err) {
