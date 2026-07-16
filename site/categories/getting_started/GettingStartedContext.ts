@@ -30,7 +30,7 @@ export class GettingStartedContext implements PageableContext {
 		this.$gettingStartedContainer.innerHTML = _gettingStartedMap[key];
 
 		document.querySelectorAll("pre code").forEach((block) => {
-			const lines = block.textContent.split("\n");
+			const lines = block.textContent!.split("\n");
 			const minIndent = lines
 				.filter((line) => line.trim().length > 0)
 				.reduce((min, line) => {
