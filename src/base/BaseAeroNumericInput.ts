@@ -39,6 +39,10 @@ export abstract class BaseAeroNumericInput<T extends Record<string, any> = {}> e
 	}
 
 	protected getValidateValue(value: number): number {
+		// An inverted range (min > max) has no valid value.
+		// Fall back to 'min', mirroring native <input type="range"> behavior.
+		if (this.min > this.max) return this.min;
+
 		const numValue = isNaN(value) ? this.min : value;
 
 		// Clamp
@@ -72,6 +76,16 @@ export abstract class BaseAeroNumericInput<T extends Record<string, any> = {}> e
 		this._$input.addEventListener("change", this._boundDispatchChangeEvent);
 		this._$input.addEventListener("focusin", this._boundDispatchFocusinEvent);
 		this._$input.addEventListener("focusout", this._boundDispatchFocusoutEvent);
+
+		/**
+		 * Validate a declaratively provided value once, after all initial
+		 * attributes are parsed. Doing this earlier (in the 'value' attribute
+		 * handler) would clamp against min/max attributes that have not been
+		 * applied yet.
+		 */
+		if (this.getAttribute("value") !== null) {
+			this.value = this.value;
+		}
 	}
 
 	disconnectedCallback() {
@@ -146,8 +160,7 @@ export abstract class BaseAeroNumericInput<T extends Record<string, any> = {}> e
 	};
 
 	private _syncUI(val: string | null) {
-		if (!val) return;
-		this._$input.value = val;
+		this._$input.value = val ?? "";
 	}
 
 	/**
@@ -167,7 +180,10 @@ export abstract class BaseAeroNumericInput<T extends Record<string, any> = {}> e
 	 */
 	get value() {
 		const v = this.getAttribute("value");
-		return v === null ? this.min : Number(v);
+		if (v === null) return this.min;
+
+		const n = Number(v);
+		return isNaN(n) ? this.min : n;
 	}
 	set value(val: number) {
 		const validValue = this.getValidateValue(val);
@@ -217,13 +233,20 @@ export abstract class BaseAeroNumericInput<T extends Record<string, any> = {}> e
 		this.setAttribute("step", String(val));
 	}
 
-	// The number of decimal places, derived from the `step` attribute.
+	// The number of decimal places, derived from the `step` and `min` attributes.
+	// 'min' participates because stepping is relative to it: with min="0.05"
+	// and step="0.1", valid values (0.05, 0.15, ...) need two decimal places.
 	protected get decimalPlaces() {
-		const stepAttr = this.getAttribute("step");
+		const decimalsOf = (attr: string | null) => {
+			if (!attr || isNaN(Number(attr))) return 0;
 
-		if (!stepAttr || isNaN(Number(stepAttr))) return 0;
+			const parts = attr.split(".");
+			return parts.length > 1 ? parts[1].length : 0;
+		};
 
-		const parts = stepAttr?.split(".");
-		return parts?.length > 1 ? parts[1].length : 0;
+		return Math.max(
+			decimalsOf(this.getAttribute("step")),
+			decimalsOf(this.getAttribute("min"))
+		);
 	}
 }

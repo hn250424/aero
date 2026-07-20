@@ -70,6 +70,52 @@ describe("BaseAeroNumericInput", () => {
 			base.value = 0.1 + 0.2;
 			expect(base.value).toBe(0.3);
 		});
+
+		test("should fall back to min when the range is inverted (min > max)", () => {
+			base.min = 10;
+			base.max = 5;
+
+			base.value = 7;
+
+			expect(base.value).toBe(10);
+		});
+
+		test("should keep decimal places implied by min when stepping", () => {
+			base.min = 0.05;
+			base.step = 0.1;
+
+			// Valid values are 0.05, 0.15, 0.25, ...
+			base.value = 0.17;
+			expect(base.value).toBe(0.15);
+		});
+	});
+
+	describe("Attribute edge cases", () => {
+		test("should fall back to min when value attribute is not a number", () => {
+			base.min = 3;
+			base.setAttribute("value", "abc");
+
+			expect(base.value).toBe(3);
+		});
+
+		test("should validate a declarative value once connected", () => {
+			base.setAttribute("max", "100");
+			base.setAttribute("value", "150");
+
+			document.body.appendChild(base);
+
+			expect(base.value).toBe(100);
+			expect(base.input.valueAsNumber).toBe(100);
+
+			base.remove();
+		});
+
+		test("should clear the input when the value attribute is removed", () => {
+			base.value = 50;
+			base.removeAttribute("value");
+
+			expect(base.input.value).toBe("");
+		});
 	});
 
 	describe("Value normalization", () => {
