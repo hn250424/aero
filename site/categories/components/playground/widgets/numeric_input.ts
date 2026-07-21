@@ -1,7 +1,7 @@
 import { colors } from "./colors";
 
 const html = `<aero-numeric-input
-	id="ni", min="0.4" max="100" step="0.46" value="1">
+	id="ni" min="0.4" max="100" step="0.46" value="1">
 </aero-numeric-input>`;
 
 const css = `aero-numeric-input {
