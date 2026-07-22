@@ -15,6 +15,10 @@ const js = `const sb = document.getElementById("sb");
 sb.addEventListener("input", () => {
 	console.log(sb.input.value);
 	console.log(sb.value);
+})
+// The +/- buttons also fire input/change events.
+sb.addEventListener("change", () => {
+	console.log("change:", sb.value);
 })`;
 
 export const aeroSpinbox = {

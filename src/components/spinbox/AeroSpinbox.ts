@@ -10,6 +10,9 @@ import { BaseAeroNumericInput } from "../../base/BaseAeroNumericInput";
  *
  * @extends BaseAeroNumericInput
  *
+ * @fires input - Fired when the value changes, including via the increment/decrement buttons.
+ * @fires change - Fired when the value is committed, including via the increment/decrement buttons.
+ *
  * @cssprop [--aero-spinbox-button-background=lightgrey] - The background color of the increment and decrement buttons.
  */
 export class AeroSpinbox extends BaseAeroNumericInput {
@@ -25,7 +28,7 @@ export class AeroSpinbox extends BaseAeroNumericInput {
 		this._$minus = this.query<HTMLElement>("#minus");
 		this._$plus = this.query<HTMLElement>("#plus");
 
-		this._updateMinuxText(this.getAttribute("minus-text"));
+		this._updateMinusText(this.getAttribute("minus-text"));
 		this._updatePlusText(this.getAttribute("plus-text"));
 		this._updateHeight(parseInt(getComputedStyle(this).height));
 
@@ -50,6 +53,8 @@ export class AeroSpinbox extends BaseAeroNumericInput {
 	}
 
 	connectedCallback() {
+		super.connectedCallback();
+
 		this._$minus.addEventListener("click", this._boundDecrement);
 		this._$plus.addEventListener("click", this._boundIncrement);
 
@@ -57,6 +62,8 @@ export class AeroSpinbox extends BaseAeroNumericInput {
   }
 
   disconnectedCallback() {
+		super.disconnectedCallback();
+
 		this._$minus.removeEventListener("click", this._boundDecrement);
 		this._$plus.removeEventListener("click", this._boundIncrement);
 
@@ -85,14 +92,14 @@ export class AeroSpinbox extends BaseAeroNumericInput {
 		(val: string | null) => void
 	> = {
 		"minus-text": (val) => {
-			this._updateMinuxText(val);
+			this._updateMinusText(val);
 		},
 		"plus-text": (val) => {
 			this._updatePlusText(val);
 		},
 	};
 
-	private _updateMinuxText(val: string | null) {
+	private _updateMinusText(val: string | null) {
 		this._$minus.textContent = val ? val : "-";
 	}
 
@@ -133,18 +140,29 @@ export class AeroSpinbox extends BaseAeroNumericInput {
 
 	/**
 	 * Decrements the input value by the step amount.
+	 * Fires `input` and `change` events when the value actually changes.
 	 */
 	decrement() {
-		const num = this.value - this.step;
-		this.value = this.getValidateValue(num);
+		this._stepBy(-this.step);
 	}
 
 	/**
 	 * Increments the input value by the step amount.
+	 * Fires `input` and `change` events when the value actually changes.
 	 */
 	increment() {
-		const num = this.value + this.step;
-		this.value = this.getValidateValue(num);
+		this._stepBy(this.step);
+	}
+
+	private _stepBy(delta: number) {
+		const previous = this.value;
+		this.value = this.getValidateValue(this.value + delta);
+
+		// Mirror native spin buttons: notify listeners only on real changes.
+		if (this.value !== previous) {
+			this.forwardNativeEvent("input");
+			this.forwardNativeEvent("change");
+		}
 	}
 }
 

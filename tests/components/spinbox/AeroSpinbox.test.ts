@@ -46,6 +46,34 @@ describe("AeroSpinbox", () => {
 			expect(dom.value).toBe(51);
 		});
 
+		test("should fire input and change events when buttons change the value", () => {
+			const inputSpy = vi.fn();
+			const changeSpy = vi.fn();
+			dom.addEventListener("input", inputSpy);
+			dom.addEventListener("change", changeSpy);
+
+			dom.increment();
+
+			expect(inputSpy).toHaveBeenCalledOnce();
+			expect(changeSpy).toHaveBeenCalledOnce();
+			expect(dom.value).toBe(51);
+		});
+
+		test("should not fire events when the value is already at a boundary", () => {
+			dom.value = 100;
+
+			const inputSpy = vi.fn();
+			const changeSpy = vi.fn();
+			dom.addEventListener("input", inputSpy);
+			dom.addEventListener("change", changeSpy);
+
+			dom.increment();
+
+			expect(inputSpy).not.toHaveBeenCalled();
+			expect(changeSpy).not.toHaveBeenCalled();
+			expect(dom.value).toBe(100);
+		});
+
 		test("should increment and decrement value based on step", () => {
 			dom.step = 1;
 

@@ -84,7 +84,8 @@
 <tbody><tr>
 <td><code>decrement</code></td>
 
-<td>Decrements the input value by the step amount.</td>
+<td>Decrements the input value by the step amount.
+Fires `input` and `change` events when the value actually changes.</td>
 <td></td>
 <td></td>
 
@@ -92,7 +93,8 @@
 <tr>
 <td><code>increment</code></td>
 
-<td>Increments the input value by the step amount.</td>
+<td>Increments the input value by the step amount.
+Fires `input` and `change` events when the value actually changes.</td>
 <td></td>
 <td></td>
 
@@ -127,13 +129,13 @@
 <tbody><tr>
 <td><code>input</code></td>
 
-<td>Fired when the value of the element has changed.</td>
+<td>Fired when the value changes, including via the increment/decrement buttons.</td>
 
 </tr>
 <tr>
 <td><code>change</code></td>
 
-<td>Fired when the value of the element has been committed by the user.</td>
+<td>Fired when the value is committed, including via the increment/decrement buttons.</td>
 
 </tr>
 <tr>
