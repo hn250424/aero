@@ -12,6 +12,8 @@
 		position: absolute;
 		background-color: transparent;
 		transition: background-color 0.3s ease;
+		/* Required for pointer-event dragging on touch devices. */
+		touch-action: none;
 	}
 
 	.resizer:hover {

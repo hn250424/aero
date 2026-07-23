@@ -58,6 +58,41 @@ describe("AeroResizableBox", () => {
 		})
 	})
 
+	describe("Attribute edge cases", () => {
+		test("falls back to defaults when size attributes are not numbers", () => {
+			dom.setAttribute("min-width", "abc");
+			dom.setAttribute("max-width", "xyz");
+
+			expect(dom.minWidth).toBe("0");
+			expect(dom.maxWidth).toBe("2000");
+		});
+
+		test("falls back to defaults when size attributes are negative", () => {
+			dom.setAttribute("min-height", "-10");
+			dom.setAttribute("max-height", "-10");
+
+			expect(dom.minHeight).toBe("0");
+			expect(dom.maxHeight).toBe("2000");
+		});
+	});
+
+	describe("Drag state cleanup", () => {
+		test("restores body cursor and user-select when removed mid-drag", () => {
+			dom.setAttribute("resize-right", "");
+
+			const downEvent = new MouseEvent("pointerdown", { bubbles: true });
+			dom["_processPointerdownEvent"](downEvent, "right");
+
+			expect(document.body.style.cursor).toBe("ew-resize");
+			expect(document.body.style.userSelect).toBe("none");
+
+			dom.remove();
+
+			expect(document.body.style.cursor).toBe("");
+			expect(document.body.style.userSelect).toBe("");
+		});
+	});
+
 	// TODO: decide on bracket notation approach
 	describe("Events", () => {
 		test("fires aero-resize-start on top resizer mousedown", async () => {
@@ -67,7 +102,7 @@ describe("AeroResizableBox", () => {
 			dom.addEventListener("aero-resize-start", spy);
 
 			const event = new MouseEvent("mousedown", { bubbles: true });
-  		dom["_processMousedownEvent"](event, "top");
+  		dom["_processPointerdownEvent"](event, "top");
 
 			expect(spy).toHaveBeenCalledOnce();
 			const detail = spy.mock.calls[0][0].detail;
@@ -83,12 +118,12 @@ describe("AeroResizableBox", () => {
 			dom.addEventListener("aero-resize", spy);
 
 			const downEvent = new MouseEvent("mousedown", { bubbles: true });
-  		dom["_processMousedownEvent"](downEvent, "right");
+  		dom["_processPointerdownEvent"](downEvent, "right");
 
 			await new Promise(requestAnimationFrame);
 
 			const moveEvent = new MouseEvent("mousemove", { bubbles: true });
-  		dom["_handleMousemove"](moveEvent);
+  		dom["_handlePointermove"](moveEvent);
 
 			await new Promise(requestAnimationFrame);
 
@@ -105,12 +140,12 @@ describe("AeroResizableBox", () => {
 			dom.addEventListener("aero-resize", spy);
 
 			const downEvent = new MouseEvent("mousedown", { bubbles: true });
-  		dom["_processMousedownEvent"](downEvent, "bottom");
+  		dom["_processPointerdownEvent"](downEvent, "bottom");
 
 			await new Promise(requestAnimationFrame);
 
 			const moveEvent = new MouseEvent("mousemove", { bubbles: true });
-  		dom["_handleMousemove"](moveEvent);
+  		dom["_handlePointermove"](moveEvent);
 
 			await new Promise(requestAnimationFrame);
 
@@ -127,17 +162,17 @@ describe("AeroResizableBox", () => {
 			dom.addEventListener("aero-resize-end", spy);
 
 			const downEvent = new MouseEvent("mousedown", { bubbles: true });
-  		dom["_processMousedownEvent"](downEvent, "left");
+  		dom["_processPointerdownEvent"](downEvent, "left");
 
 			await new Promise(requestAnimationFrame);
 
 			const moveEvent = new MouseEvent("mousemove", { bubbles: true });
-  		dom["_handleMousemove"](moveEvent);
+  		dom["_handlePointermove"](moveEvent);
 
 			await new Promise(requestAnimationFrame);
 
 			const upEvent = new MouseEvent("mouseup", { bubbles: true });
-  		dom["_handleMouseup"](upEvent);
+  		dom["_handlePointerup"](upEvent);
 
 			expect(spy).toHaveBeenCalledOnce();
 			const detail = spy.mock.calls[0][0].detail;

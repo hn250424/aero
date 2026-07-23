@@ -36,6 +36,7 @@ export interface AeroResizableBoxEvents {
 
 /**
  * A container element that can be resized by dragging its edges.
+ * Dragging works with mouse, touch, and pen input (pointer events).
  *
  * @extends AeroShadowElement
  *
@@ -67,10 +68,10 @@ export class AeroResizableBox extends AeroShadowElement<AeroResizableBoxEvents> 
 	private _animationFrameId: number | null = null;
 
 	private _resizerHandlers = {
-		top: (e: MouseEvent) => this._processMousedownEvent(e, "top"),
-		bottom: (e: MouseEvent) => this._processMousedownEvent(e, "bottom"),
-		left: (e: MouseEvent) => this._processMousedownEvent(e, "left"),
-		right: (e: MouseEvent) => this._processMousedownEvent(e, "right"),
+		top: (e: PointerEvent) => this._processPointerdownEvent(e, "top"),
+		bottom: (e: PointerEvent) => this._processPointerdownEvent(e, "bottom"),
+		left: (e: PointerEvent) => this._processPointerdownEvent(e, "left"),
+		right: (e: PointerEvent) => this._processPointerdownEvent(e, "right"),
 	};
 
 	constructor() {
@@ -102,8 +103,9 @@ export class AeroResizableBox extends AeroShadowElement<AeroResizableBoxEvents> 
 		this._updateResizeState("left", this.hasAttribute("resize-left"));
 		this._updateResizeState("right", this.hasAttribute("resize-right"));
 
-		window.addEventListener("mousemove", this._handleMousemove);
-		window.addEventListener("mouseup", this._handleMouseup);
+		window.addEventListener("pointermove", this._handlePointermove);
+		window.addEventListener("pointerup", this._handlePointerup);
+		window.addEventListener("pointercancel", this._handlePointerup);
 	}
 
 	disconnectedCallback() {
@@ -112,11 +114,16 @@ export class AeroResizableBox extends AeroShadowElement<AeroResizableBoxEvents> 
 		this._updateResizeState("left", false);
 		this._updateResizeState("right", false);
 
-		window.removeEventListener("mousemove", this._handleMousemove);
-		window.removeEventListener("mouseup", this._handleMouseup);
+		window.removeEventListener("pointermove", this._handlePointermove);
+		window.removeEventListener("pointerup", this._handlePointerup);
+		window.removeEventListener("pointercancel", this._handlePointerup);
+
+		// If the element is removed mid-drag, restore the global cursor
+		// and text-selection state that _processPointerdownEvent changed.
+		this._stopDragging();
 	}
 
-	private _handleMousemove = (e: MouseEvent) => {
+	private _handlePointermove = (e: PointerEvent | MouseEvent) => {
 		if (!this._isDragging) return;
 		if (this._animationFrameId) cancelAnimationFrame(this._animationFrameId);
 
@@ -124,42 +131,35 @@ export class AeroResizableBox extends AeroShadowElement<AeroResizableBoxEvents> 
 			const rect = this.getBoundingClientRect();
 
 			if (this._isTopDragging) {
-				const offsetY = rect.bottom - e.clientY;
-				const newHeight = Math.min(
-					Math.max(offsetY, this._nMinHeight),
-					this._nMaxHeight
-				);
+				const newHeight = this._clampHeight(rect.bottom - e.clientY);
 				this.style.height = `${newHeight}px`;
 				this._emitResize(null, newHeight);
 			} else if (this._isBottomDragging) {
-				const offsetY = e.clientY - rect.top;
-				const newHeight = Math.min(
-					Math.max(offsetY, this._nMinHeight),
-					this._nMaxHeight
-				);
+				const newHeight = this._clampHeight(e.clientY - rect.top);
 				this.style.height = `${newHeight}px`;
 				this._emitResize(null, newHeight);
 			} else if (this._isLeftDragging) {
-				const offsetX = rect.right - e.clientX;
-				const newWidth = Math.min(
-					Math.max(offsetX, this._nMinWidth),
-					this._nMaxWidth
-				);
+				const newWidth = this._clampWidth(rect.right - e.clientX);
 				this.style.width = `${newWidth}px`;
 				this._emitResize(newWidth, null);
 			} else if (this._isRightDragging) {
-				const offsetX = e.clientX - rect.left;
-				const newWidth = Math.min(
-					Math.max(offsetX, this._nMinWidth),
-					this._nMaxWidth
-				);
+				const newWidth = this._clampWidth(e.clientX - rect.left);
 				this.style.width = `${newWidth}px`;
 				this._emitResize(newWidth, null);
 			}
 		});
 	};
 
-	private _handleMouseup = (_e: MouseEvent) => {
+	// When min > max, 'min' wins, mirroring CSS min-width/max-width resolution.
+	private _clampWidth(width: number) {
+		return Math.max(Math.min(width, this._nMaxWidth), this._nMinWidth);
+	}
+
+	private _clampHeight(height: number) {
+		return Math.max(Math.min(height, this._nMaxHeight), this._nMinHeight);
+	}
+
+	private _handlePointerup = (_e: PointerEvent | MouseEvent) => {
 		if (!this._isDragging) return;
 		this.forwardCustomEvent("aero-resize-end", {
 			detail: {
@@ -167,6 +167,12 @@ export class AeroResizableBox extends AeroShadowElement<AeroResizableBoxEvents> 
 				height: this.offsetHeight,
 			},
 		});
+
+		this._stopDragging();
+	};
+
+	private _stopDragging() {
+		if (!this._isDragging) return;
 
 		if (this._animationFrameId) {
 			cancelAnimationFrame(this._animationFrameId);
@@ -181,10 +187,10 @@ export class AeroResizableBox extends AeroShadowElement<AeroResizableBoxEvents> 
 		this._isBottomDragging = false;
 		this._isLeftDragging = false;
 		this._isRightDragging = false;
-	};
+	}
 
-	private _processMousedownEvent = (
-		e: MouseEvent,
+	private _processPointerdownEvent = (
+		e: PointerEvent | MouseEvent,
 		resizer: "top" | "bottom" | "left" | "right"
 	) => {
 		e.preventDefault();
@@ -306,24 +312,32 @@ export class AeroResizableBox extends AeroShadowElement<AeroResizableBoxEvents> 
 
 		resizer.hidden = !enabled;
 
-		if (enabled) resizer.addEventListener("mousedown", handler);
-		else resizer.removeEventListener("mousedown", handler);
+		if (enabled) resizer.addEventListener("pointerdown", handler);
+		else resizer.removeEventListener("pointerdown", handler);
+	}
+
+	// Parses a size attribute, falling back when the value is missing,
+	// not a number, or negative.
+	private _parseSize(val: string | null, fallback: number): number {
+		if (val === null || val === "") return fallback;
+		const n = Number(val);
+		return isNaN(n) || n < 0 ? fallback : n;
 	}
 
 	private _updateMinWidthValue(val: string | null) {
-		this._nMinWidth = val ? Number(val) : 0;
+		this._nMinWidth = this._parseSize(val, 0);
 	}
 
 	private _updateMaxWidthValue(val: string | null) {
-		this._nMaxWidth = val ? Number(val) : 2000;
+		this._nMaxWidth = this._parseSize(val, 2000);
 	}
 
 	private _updateMinHeightValue(val: string | null) {
-		this._nMinHeight = val ? Number(val) : 0;
+		this._nMinHeight = this._parseSize(val, 0);
 	}
 
 	private _updateMaxHeightValue(val: string | null) {
-		this._nMaxHeight = val ? Number(val) : 2000;
+		this._nMaxHeight = this._parseSize(val, 2000);
 	}
 
 	/**
