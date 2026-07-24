@@ -10,12 +10,14 @@ import aeroIndeterminateSpinnerHtmlTemplate from "./AeroIndeterminateSpinner.htm
  *
  * @extends AeroShadowElement
  *
- * @attr {number} size - The size of the spinner in pixels.
- * @attr {number} thickness - The thickness of the spinner in pixels.
- * @attr {string} track-color - The color of the spinner's track.
- * @attr {string} arc-color - The color of the spinner's arc.
- * @attr {number} cycle - The duration of one spin cycle in seconds.
- * @attr {number} arc-ratio - The maximum length of the spinner arc, expressed as a percentage of the total circumference (0-100).
+ * Invalid or non-positive numeric attribute values fall back to their defaults.
+ *
+ * @attr {number} [size=50] - The size of the spinner in pixels.
+ * @attr {number} [thickness=4] - The thickness of the spinner in pixels.
+ * @attr {string} [track-color=transparent] - The color of the spinner's track.
+ * @attr {string} [arc-color=black] - The color of the spinner's arc.
+ * @attr {number} [cycle=2] - The duration of one spin cycle in seconds. Accepts fractional values (e.g. 0.5).
+ * @attr {number} [arc-ratio=90] - The maximum length of the spinner arc, expressed as a percentage of the total circumference (1-100).
  */
 export class AeroIndeterminateSpinner extends AeroShadowElement {
 	private _size!: number;
@@ -69,14 +71,25 @@ export class AeroIndeterminateSpinner extends AeroShadowElement {
 	}
 
 	private _syncHostAttributes() {
-		this._size = parseInt(this.getAttribute("size") || "50");
-		this._thickness = parseInt(this.getAttribute("thickness") || "4");
-		this._radius = this._size / 2 - this._thickness - 1;
+		this._size = this._parsePositive(this.getAttribute("size"), 50);
+		this._thickness = this._parsePositive(this.getAttribute("thickness"), 4);
+		// Keep the radius positive even when thickness is large relative to size.
+		this._radius = Math.max(this._size / 2 - this._thickness - 1, 1);
 		this._circumference = 2 * Math.PI * this._radius;
 		this._trackColor = this.getAttribute("track-color") || "transparent";
 		this._arcColor = this.getAttribute("arc-color") || "black";
-		this._cycle = parseInt(this.getAttribute("cycle") || "2");
-		this._arcRatio = parseFloat(this.getAttribute("arc-ratio") || "90") / 100
+		// parseFloat: 'cycle' accepts fractional seconds (e.g. 0.5).
+		this._cycle = this._parsePositive(this.getAttribute("cycle"), 2);
+
+		const ratio = parseFloat(this.getAttribute("arc-ratio") ?? "");
+		this._arcRatio = (isNaN(ratio) ? 90 : Math.min(Math.max(ratio, 1), 100)) / 100;
+	}
+
+	// Parses a numeric attribute, falling back when the value is missing,
+	// not a number, or not positive.
+	private _parsePositive(raw: string | null, fallback: number): number {
+		const n = parseFloat(raw ?? "");
+		return isNaN(n) || n <= 0 ? fallback : n;
 	}
 
 	private _syncSvgAttributes() {
@@ -94,6 +107,11 @@ export class AeroIndeterminateSpinner extends AeroShadowElement {
 	}
 
 	private _syncStyles() {
+		// The collapsed arc length at the start/end of the cycle.
+		// Clamped so the gap (circumference - collapsedArc) never goes negative
+		// on very small spinners, which would invalidate the dasharray.
+		const collapsedArc = Math.min(10, this._circumference);
+
 		this.applyStyles(`
 			:host {
 				width: ${this._size}px;
@@ -129,7 +147,7 @@ export class AeroIndeterminateSpinner extends AeroShadowElement {
 
 			@keyframes arc {
 				0% {
-					stroke-dasharray: 10 ${this._circumference - 10};
+					stroke-dasharray: ${collapsedArc} ${this._circumference - collapsedArc};
 					stroke-dashoffset: 0;
 				}
 				50% {
@@ -137,7 +155,7 @@ export class AeroIndeterminateSpinner extends AeroShadowElement {
 					stroke-dashoffset: 0;
 				}
 				100% {
-					stroke-dasharray: 10 ${this._circumference - 10};
+					stroke-dasharray: ${collapsedArc} ${this._circumference - collapsedArc};
 					stroke-dashoffset: ${this._circumference * -1};
 				}
 			}
