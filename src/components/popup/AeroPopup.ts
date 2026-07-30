@@ -44,6 +44,11 @@ const defaultAeroPopupOptions: AeroPopupOptions = {
 
 /**
  * A popup component for displaying notifications to users without blocking main processor.
+ * Use the static `alert()`/`confirm()` methods; a manually constructed instance
+ * must be appended to the DOM by the caller.
+ *
+ * When several popups are stacked, only the topmost one reacts to the
+ * Enter/Escape keyboard shortcuts.
  *
  * @extends AeroShadowElement
  */
@@ -53,12 +58,12 @@ export class AeroPopup extends AeroShadowElement {
 	private _$cancel: HTMLElement | null;
 
 	private _resolve?: (result: boolean) => void;
-	private _handleKeyDown: (e: KeyboardEvent) => void;
+	private _previousFocus: HTMLElement | null = null;
 
 	constructor(
-		html: string,
-		message: string,
-		options: AeroPopupOptions
+		html: string = AeroAlertHtml,
+		message: string = "",
+		options: AeroPopupOptions = {}
 	) {
 		super(html);
 
@@ -71,7 +76,7 @@ export class AeroPopup extends AeroShadowElement {
 			secondaryBackgroundColor,
 			secondaryColor,
 			buttonBorderRadius,
-		} = options;
+		} = { ...defaultAeroPopupOptions, ...options };
 
 		this._$message = this.query<HTMLElement>("#message");
 		this._$message.textContent = message;
@@ -106,35 +111,62 @@ export class AeroPopup extends AeroShadowElement {
 			}
 		`);
 
-		this._$ok.onclick = () => {
-			this.remove();
-			this._resolve?.(true);
-			this._resolve = undefined;
-		};
+		this._$ok.onclick = () => this._settle(true);
 
 		if (this._$cancel) {
-			this._$cancel.onclick = () => {
-				this.remove();
-				this._resolve?.(false);
-				this._resolve = undefined;
-			};
+			this._$cancel.onclick = () => this._settle(false);
 		}
+	}
 
-		this._handleKeyDown = (e: KeyboardEvent) => {
-			if (e.key === "Enter") {
-				this._$ok.click();
-			} else if (e.key === "Escape") {
-				if (this._$cancel) {
-					this._$cancel.click();
-				} else {
-					this._$ok.click();
-				}
-			}
-		};
+	connectedCallback() {
 		window.addEventListener("keydown", this._handleKeyDown);
 
-		document.body.appendChild(this);
+		// Move focus into the popup so keyboard users land on the primary action.
+		this._previousFocus =
+			document.activeElement instanceof HTMLElement
+				? document.activeElement
+				: null;
+		this._$ok.focus();
 	}
+
+	disconnectedCallback() {
+		window.removeEventListener("keydown", this._handleKeyDown);
+
+		// Restore focus to where it was before the popup opened.
+		this._previousFocus?.focus();
+		this._previousFocus = null;
+
+		// If the popup is removed without a button press (e.g. taken out of the
+		// DOM manually), settle as a dismissal so awaiting callers never hang.
+		this._resolve?.(false);
+		this._resolve = undefined;
+	}
+
+	// Removes the popup and resolves its promise exactly once.
+	private _settle(result: boolean) {
+		const resolve = this._resolve;
+		this._resolve = undefined;
+		this.remove();
+		resolve?.(result);
+	}
+
+	private _handleKeyDown = (e: KeyboardEvent) => {
+		// With stacked popups, only the topmost (last appended) reacts to keys.
+		const popups = document.querySelectorAll("aero-popup");
+		if (popups[popups.length - 1] !== this) return;
+
+		if (e.key === "Enter") {
+			e.preventDefault();
+			this._$ok.click();
+		} else if (e.key === "Escape") {
+			e.preventDefault();
+			if (this._$cancel) {
+				this._$cancel.click();
+			} else {
+				this._$ok.click();
+			}
+		}
+	};
 
 	/**
 	 * Displays a alert notification on the screen.
@@ -177,14 +209,10 @@ export class AeroPopup extends AeroShadowElement {
 		message: string,
 		options: Partial<AeroPopupOptions>
 	): Promise<boolean> {
-		const resolvedOptions: AeroPopupOptions = {
-			...defaultAeroPopupOptions,
-			...options,
-		};
-
 		return new Promise<boolean>((resolve) => {
-			const popup = new AeroPopup(html, message, resolvedOptions);
+			const popup = new AeroPopup(html, message, options);
 			popup._resolve = resolve;
+			document.body.appendChild(popup);
 		});
 	}
 }
