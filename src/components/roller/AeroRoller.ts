@@ -29,8 +29,8 @@ export interface AeroRollerEvents<T = any> {
  * @element aero-roller
  * @fires change - Fired when the selected option changes.
  *
- * @attr {number} [item-height=30] - Height of each item in pixels.
- * @attr {number} [visible-count=5] - Number of visible items in the roller.
+ * @attr {number} [item-height=30] - Height of each item in pixels. Invalid or non-positive values fall back to the default.
+ * @attr {number} [visible-count=5] - Number of visible items in the roller. Even values are bumped to the next odd number so the selected item stays centered; invalid values fall back to the default.
  *
  * @cssprop [--aero-roller-item-cursor=auto] - Cursor style for roller items.
  * @cssprop [--aero-roller-highlight-border-top=none] - Top border style for the highlight element.
@@ -109,10 +109,30 @@ export class AeroRoller<T = string> extends AeroShadowElement<AeroRollerEvents<T
 
 		this._$list = this.query<HTMLElement>("#list");
 
-		this._itemHeight = parseInt(this.getAttribute("item-height") ?? "30");
-		this._visibleCount = parseInt(this.getAttribute("visible-count") ?? "5");
+		this._itemHeight = AeroRoller._parseItemHeight(
+			this.getAttribute("item-height")
+		);
+		this._visibleCount = AeroRoller._parseVisibleCount(
+			this.getAttribute("visible-count")
+		);
 
 		this._syncStyles();
+	}
+
+	// Parses the item-height attribute; invalid or non-positive values fall
+	// back to 30 (a zero height would break index calculations).
+	private static _parseItemHeight(raw: string | null): number {
+		const n = parseInt(raw ?? "");
+		return isNaN(n) || n <= 0 ? 30 : n;
+	}
+
+	// Parses the visible-count attribute; invalid or non-positive values fall
+	// back to 5, and even counts are bumped to the next odd number so the
+	// selected item can sit exactly in the middle.
+	private static _parseVisibleCount(raw: string | null): number {
+		const n = parseInt(raw ?? "");
+		const safe = isNaN(n) || n < 1 ? 5 : n;
+		return safe % 2 === 0 ? safe + 1 : safe;
 	}
 
 	connectedCallback() {
@@ -144,15 +164,17 @@ export class AeroRoller<T = string> extends AeroShadowElement<AeroRollerEvents<T
 		(newValue: string | null) => void
 	> = {
 		"item-height": (newValue) => {
-			this._updateItemHeight(parseInt(newValue ?? "30"));
+			this._updateItemHeight(AeroRoller._parseItemHeight(newValue));
 		},
 		"visible-count": (newValue) => {
-			this._updateVisibleCount(parseInt(newValue ?? "5"));
+			this._updateVisibleCount(AeroRoller._parseVisibleCount(newValue));
 		},
 	};
 
 	/**
 	 * Sets the list of items for the roller.
+	 * Items are rendered as plain text, so markup in a value is displayed
+	 * literally rather than parsed as HTML.
 	 * @param {T[]} items - The array of items to display.
 	 */
 	setItems(items: T[]) {
@@ -176,8 +198,7 @@ export class AeroRoller<T = string> extends AeroShadowElement<AeroRollerEvents<T
 	}
 
 	private _updateVisibleCount(count: number) {
-		if (count < 0) this._visibleCount = 0;
-		this._visibleCount = count % 2 === 0 ? count + 1 : count;
+		this._visibleCount = count;
 
 		// this._updateMaxHeight()
 		this._syncStyles();
@@ -243,14 +264,19 @@ export class AeroRoller<T = string> extends AeroShadowElement<AeroRollerEvents<T
 	private _render() {
 		const paddingCount = Math.floor(this._visibleCount / 2);
 
-		const padding = Array(paddingCount)
-			.fill(`<div class="item"></div>`)
-			.join("");
+		const appendItem = (text: string) => {
+			const $item = document.createElement("div");
+			$item.className = "item";
+			// textContent (not innerHTML) so item values can never inject markup.
+			$item.textContent = text;
+			this._$list.appendChild($item);
+		};
 
-		this._$list.innerHTML =
-			padding +
-			this._items.map((item) => `<div class="item">${item}</div>`).join("") +
-			padding;
+		this._$list.textContent = "";
+
+		for (let i = 0; i < paddingCount; i++) appendItem("");
+		this._items.forEach((item) => appendItem(String(item)));
+		for (let i = 0; i < paddingCount; i++) appendItem("");
 	}
 
 	private _reset() {
@@ -314,14 +340,17 @@ export class AeroRoller<T = string> extends AeroShadowElement<AeroRollerEvents<T
 	}
 
 	private _end() {
+		const previousIndex = this._index;
 		const targetIndex = Math.round(Math.abs(this._y / this._itemHeight));
 		this.scrollToIndex(targetIndex);
 
-		this.dispatchEvent(
-			new CustomEvent("change", {
-				detail: { index: targetIndex, value: this._items[targetIndex] },
-			})
-		);
+		// scrollToIndex clamps, so read back the committed index and only
+		// notify listeners when the selection actually changed.
+		if (this._index === previousIndex) return;
+
+		this.forwardCustomEvent("change", {
+			detail: { index: this._index, value: this._items[this._index] },
+		});
 	}
 }
 
