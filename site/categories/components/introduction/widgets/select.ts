@@ -1,1 +1,1 @@
-export const aeroSelectIntroduction = "A select component that overcomes the styling limitations of the native select element.";
+export const aeroSelectIntroduction = "A select component that overcomes the styling limitations of the native select element. Fully keyboard accessible: Enter/Space opens the dropdown, ArrowUp/ArrowDown move the highlight, Enter selects, and Escape closes.";

@@ -18,7 +18,7 @@ as.addEventListener("aero-select-changed", (e) => {
 	const option = e.detail.option;
 	console.log(option.value);
 	console.log(option.textContent);
-	console.log(event.detail.index);
+	console.log(e.detail.index);
 })`;
 
 export const aeroSelect = {

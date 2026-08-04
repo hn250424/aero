@@ -18,6 +18,20 @@ describe("AeroSelect", () => {
 		test("check init props", async () => {
 			expect(dom.optionIndex).toBe(-1);
 		});
+
+		test("becomes keyboard-focusable on connect", () => {
+			expect(dom.getAttribute("tabindex")).toBe("0");
+		});
+
+		test("keeps a user-provided tabindex", () => {
+			const custom = document.createElement("aero-select") as AeroSelect;
+			custom.setAttribute("tabindex", "-1");
+			document.body.appendChild(custom);
+
+			expect(custom.getAttribute("tabindex")).toBe("-1");
+
+			custom.remove();
+		});
 	});
 
 	describe("When options exist", () => {
@@ -47,6 +61,23 @@ describe("AeroSelect", () => {
 
 		test("resets optionIndex when attribute value is invalid", () => {
 			dom.setAttribute("option-index", "invalid-value");
+			expect(dom.optionIndex).toBe(-1);
+		});
+
+		test("resets optionIndex when attribute value is not an integer", () => {
+			dom.setAttribute("option-index", "1.5");
+			expect(dom.optionIndex).toBe(-1);
+		});
+
+		test("does not apply a stale out-of-range index after options change", async () => {
+			dom.optionIndex = 9;
+			expect(dom.optionIndex).toBe(-1);
+
+			// A later slotchange must not resurrect the out-of-range index.
+			const extra = document.createElement("aero-option") as AeroOption;
+			dom.append(extra);
+			await Promise.resolve();
+
 			expect(dom.optionIndex).toBe(-1);
 		});
 

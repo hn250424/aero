@@ -22,6 +22,10 @@ export interface AeroSelectEvents {
  * `<aero-select>` is a custom select element that provides a customizable dropdown selection.
  * It uses `<aero-option>` elements as its options.
  *
+ * The host is made keyboard-focusable automatically (`tabindex="0"` unless one is provided).
+ * Keyboard interaction: Enter/Space opens the dropdown, ArrowUp/ArrowDown move the highlight,
+ * Enter commits the highlighted option, and Escape closes the dropdown.
+ *
  * @element aero-select
  * @fires aero-select-changed - Fired when the selected option changes.
  *
@@ -93,6 +97,10 @@ export class AeroSelect extends AeroShadowElement<AeroSelectEvents> {
 	}
 
 	connectedCallback() {
+		// Make the host keyboard-focusable so the keyboard interactions
+		// (Enter/Space/Arrows/Escape) are reachable without custom markup.
+		if (!this.hasAttribute("tabindex")) this.setAttribute("tabindex", "0");
+
 		document.addEventListener("click", this._handlers.documentClick);
 		this._$button.addEventListener("click", this._handlers.buttonClick);
 		this._$dropdown.addEventListener("click", this._handlers.dropdownClick);
@@ -108,15 +116,19 @@ export class AeroSelect extends AeroShadowElement<AeroSelectEvents> {
 		this.removeEventListener("keydown", this._handlers.keydown);
 	}
 
-	private _handleDocumentClick(_e?: Event) {
+	private _handleDocumentClick(e?: Event) {
+		// Ignore events that originate inside this select: clicks are handled
+		// by the button/dropdown handlers, and scrolling the dropdown's own
+		// list must not close it.
+		if (e?.composedPath().includes(this)) return;
+
 		if (this._dropdown_open) {
 			this._closeDropdown();
 			this._dropdown_open = false;
 		}
 	}
 
-	private _handleButtonClick(e: MouseEvent) {
-		e.stopPropagation();
+	private _handleButtonClick(_e: MouseEvent) {
 		this._dropdown_open = !this._dropdown_open;
 
 		if (this._dropdown_open) {
@@ -155,6 +167,14 @@ export class AeroSelect extends AeroShadowElement<AeroSelectEvents> {
 
 		this._$dropdown.classList.add("open");
 
+		// Start keyboard navigation from the current selection.
+		if (this._optionIndex >= 0) {
+			this._highlightIndex = this._optionIndex;
+			const opt = this._$options[this._highlightIndex];
+			opt?.classList.add("highlight");
+			opt?.scrollIntoView({ block: "nearest" });
+		}
+
 		window.addEventListener(
 			"scroll",
 			this._handlers.documentClick as EventListener,
@@ -167,6 +187,11 @@ export class AeroSelect extends AeroShadowElement<AeroSelectEvents> {
 	}
 
 	private _closeDropdown() {
+		// Always clear the keyboard highlight so no stale highlight styling
+		// remains however the dropdown was closed (Escape, outside click, ...).
+		this._$options[this._highlightIndex]?.classList.remove("highlight");
+		this._highlightIndex = -1;
+
 		this._$dropdown.classList.remove("open", "open-up", "open-down");
 		window.removeEventListener(
 			"scroll",
@@ -219,12 +244,11 @@ export class AeroSelect extends AeroShadowElement<AeroSelectEvents> {
 			if (!this._dropdown_open) {
 				this._$button.click(); // Open.
 			} else {
-				const opt = this._$options[this._highlightIndex];
-				if (opt) {
-					opt.classList.remove("highlight");
+				// Commit the highlighted option; _closeDropdown (triggered by
+				// the button click) clears the highlight state.
+				if (this._$options[this._highlightIndex]) {
 					this.optionIndex = this._highlightIndex;
 				}
-				this._highlightIndex = -1;
 				this._$button.click();
 			}
 		}
@@ -234,7 +258,7 @@ export class AeroSelect extends AeroShadowElement<AeroSelectEvents> {
 			if (!this._dropdown_open) return;
 
 			if (e.key === "ArrowDown" && this._highlightIndex + 1 === this._$options.length) return;
-			if (e.key === "ArrowUp" && this._highlightIndex === -1) return;
+			if (e.key === "ArrowUp" && this._highlightIndex <= 0) return;
 
 			this._$options[this._highlightIndex]?.classList.remove("highlight");
 			this._highlightIndex = e.key === "ArrowDown" ? this._highlightIndex + 1 : this._highlightIndex - 1;
@@ -244,7 +268,6 @@ export class AeroSelect extends AeroShadowElement<AeroSelectEvents> {
 
 		if (e.key === "Escape" && this._dropdown_open) {
 			this._$button.click();
-			this._highlightIndex = -1;
 		}
 	}
 
@@ -293,8 +316,15 @@ export class AeroSelect extends AeroShadowElement<AeroSelectEvents> {
 
 		const option = this._$options[index];
 		if (!option) {
-			// If the option isn't ready, store the index to try again after slotchange.
-			this._pendingOptionIndex = index;
+			if (this._$options.length === 0) {
+				// Options aren't slotted yet (e.g. attribute set before upgrade);
+				// store the index to try again after slotchange.
+				this._pendingOptionIndex = index;
+			} else {
+				// Options exist, so the index is simply out of range: unselect
+				// instead of keeping a stale pending index around.
+				this._unsetOption();
+			}
 			return;
 		}
 
@@ -315,7 +345,8 @@ export class AeroSelect extends AeroShadowElement<AeroSelectEvents> {
 	private _getValidateOptionIndexByStr(index: string): number {
 		if (index === "") return -1; // Number("") is 0, so treat empty input as an invalid index.
 		const i = Number(index);
-		return Number.isNaN(i) ? -1 : i;
+		// Only whole numbers are valid indexes ("1.5" or "abc" unselects).
+		return Number.isInteger(i) ? i : -1;
 	}
 
 	private _unsetOption() {

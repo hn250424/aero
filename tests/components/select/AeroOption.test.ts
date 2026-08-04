@@ -1,4 +1,4 @@
-import { beforeEach, afterEach, describe, expect, test, vi } from "vitest";
+import { beforeEach, afterEach, describe, expect, test } from "vitest";
 import { AeroOption } from "@src/components/select/AeroOption";
 
 describe("AeroOption", () => {
