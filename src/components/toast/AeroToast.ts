@@ -33,16 +33,31 @@ const defaultAeroToastOptions: AeroToastOptions = {
 
 /**
  * A toast component for displaying temporary notifications to users.
+ * Use the static `show()` method; a manually constructed instance must be
+ * appended to the DOM by the caller.
  *
  * @extends AeroShadowElement
  */
 export class AeroToast extends AeroShadowElement {
 	private _$text: HTMLElement;
+	private _ms: number;
+	private _removalTimer?: number;
 
-	constructor(text: string, options: AeroToastOptions) {
+	private _handleAnimationEnd = () => this.remove();
+
+	constructor(text: string = "", options: AeroToastOptions = {}) {
 		super(AeroToastHtml);
 
-		const { top, left, ms, background, color } = options;
+		const { top, left, ms, background, color } = {
+			...defaultAeroToastOptions,
+			...options,
+		};
+
+		// Guard against invalid durations so the toast is always removed.
+		this._ms =
+			typeof ms === "number" && Number.isFinite(ms) && ms > 0
+				? ms
+				: (defaultAeroToastOptions.ms as number);
 
 		this._$text = this.query<HTMLElement>("#text");
 		this._$text.textContent = text;
@@ -51,21 +66,32 @@ export class AeroToast extends AeroShadowElement {
 			:host {
 				top: ${top};
 				left: ${left};
-				animation-duration: ${ms}ms;
+				animation-duration: ${this._ms}ms;
 				background: ${background};
 				color: ${color};
 			}
 		`);
+	}
 
-		document.body.appendChild(this);
+	connectedCallback() {
+		this.addEventListener("animationend", this._handleAnimationEnd, {
+			once: true,
+		});
 
-		this.addEventListener(
-			"animationend",
-			() => {
-				this.remove();
-			},
-			{ once: true }
+		/**
+		 * Fallback removal for environments where the CSS animation never
+		 * finishes (e.g. 'animation: none' user styles or a hidden ancestor),
+		 * so the toast cannot linger in the DOM forever.
+		 */
+		this._removalTimer = window.setTimeout(
+			() => this.remove(),
+			this._ms + 100
 		);
+	}
+
+	disconnectedCallback() {
+		this.removeEventListener("animationend", this._handleAnimationEnd);
+		window.clearTimeout(this._removalTimer);
 	}
 
 	/**
@@ -81,11 +107,6 @@ export class AeroToast extends AeroShadowElement {
 	 * AeroToast.show('Success!', { background: 'green', ms: 3000 });
 	 */
 	static show(text: string, options: Partial<AeroToastOptions> = {}) {
-		const resolvedOptions: AeroToastOptions = {
-			...defaultAeroToastOptions,
-			...options,
-		};
-
-		new AeroToast(text, resolvedOptions);
+		document.body.appendChild(new AeroToast(text, options));
 	}
 }
