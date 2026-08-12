@@ -26,6 +26,5 @@ lib
 
 artifacts
 docs
-src-dev-index.html
-src-dev-index.ts
+src-dev
 TODO.txt
