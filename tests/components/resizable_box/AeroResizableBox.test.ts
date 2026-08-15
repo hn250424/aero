@@ -80,7 +80,7 @@ describe("AeroResizableBox", () => {
     test("restores body cursor and user-select when removed mid-drag", () => {
       dom.setAttribute("resize-right", "");
 
-      const downEvent = new MouseEvent("pointerdown", { bubbles: true });
+      const downEvent = new PointerEvent("pointerdown", { bubbles: true, pointerId: 1 });
       dom["_processPointerdownEvent"](downEvent, "right");
 
       expect(document.body.style.cursor).toBe("ew-resize");
@@ -95,13 +95,13 @@ describe("AeroResizableBox", () => {
 
   // TODO: decide on bracket notation approach
   describe("Events", () => {
-    test("fires aero-resize-start on top resizer mousedown", async () => {
+    test("fires aero-resize-start on top resizer pointerdown", async () => {
       dom.setAttribute("resize-top", "");
 
       const spy = vi.fn();
       dom.addEventListener("aero-resize-start", spy);
 
-      const event = new MouseEvent("mousedown", { bubbles: true });
+      const event = new PointerEvent("pointerdown", { bubbles: true, pointerId: 1 });
       dom["_processPointerdownEvent"](event, "top");
 
       expect(spy).toHaveBeenCalledOnce();
@@ -111,18 +111,18 @@ describe("AeroResizableBox", () => {
       expect(detail.height).toBe(dom.offsetHeight);
     });
 
-    test("fires aero-resize on right resizer mousemove", async () => {
+    test("fires aero-resize on right resizer pointermove", async () => {
       dom.setAttribute("resize-right", "");
 
       const spy = vi.fn();
       dom.addEventListener("aero-resize", spy);
 
-      const downEvent = new MouseEvent("mousedown", { bubbles: true });
+      const downEvent = new PointerEvent("pointerdown", { bubbles: true, pointerId: 1 });
       dom["_processPointerdownEvent"](downEvent, "right");
 
       await new Promise(requestAnimationFrame);
 
-      const moveEvent = new MouseEvent("mousemove", { bubbles: true });
+      const moveEvent = new PointerEvent("pointermove", { bubbles: true, pointerId: 1 });
       dom["_handlePointermove"](moveEvent);
 
       await new Promise(requestAnimationFrame);
@@ -133,18 +133,18 @@ describe("AeroResizableBox", () => {
       expect(detail.height).toBe(null);
     });
 
-    test("fires aero-resize on bottom resizer mousemove", async () => {
+    test("fires aero-resize on bottom resizer pointermove", async () => {
       dom.setAttribute("resize-bottom", "");
 
       const spy = vi.fn();
       dom.addEventListener("aero-resize", spy);
 
-      const downEvent = new MouseEvent("mousedown", { bubbles: true });
+      const downEvent = new PointerEvent("pointerdown", { bubbles: true, pointerId: 1 });
       dom["_processPointerdownEvent"](downEvent, "bottom");
 
       await new Promise(requestAnimationFrame);
 
-      const moveEvent = new MouseEvent("mousemove", { bubbles: true });
+      const moveEvent = new PointerEvent("pointermove", { bubbles: true, pointerId: 1 });
       dom["_handlePointermove"](moveEvent);
 
       await new Promise(requestAnimationFrame);
@@ -155,29 +155,59 @@ describe("AeroResizableBox", () => {
       expect(detail.height).toBe(dom.offsetHeight);
     });
 
-    test("fires aero-resize-end on left resizer mouseup", async () => {
+    test("fires aero-resize-end on left resizer pointerup", async () => {
       dom.setAttribute("resize-left", "");
 
       const spy = vi.fn();
       dom.addEventListener("aero-resize-end", spy);
 
-      const downEvent = new MouseEvent("mousedown", { bubbles: true });
+      const downEvent = new PointerEvent("pointerdown", { bubbles: true, pointerId: 1 });
       dom["_processPointerdownEvent"](downEvent, "left");
 
       await new Promise(requestAnimationFrame);
 
-      const moveEvent = new MouseEvent("mousemove", { bubbles: true });
+      const moveEvent = new PointerEvent("pointermove", { bubbles: true, pointerId: 1 });
       dom["_handlePointermove"](moveEvent);
 
       await new Promise(requestAnimationFrame);
 
-      const upEvent = new MouseEvent("mouseup", { bubbles: true });
+      const upEvent = new PointerEvent("pointerup", { bubbles: true, pointerId: 1 });
       dom["_handlePointerup"](upEvent);
 
       expect(spy).toHaveBeenCalledOnce();
       const detail = spy.mock.calls[0][0].detail;
       expect(detail.width).toBe(dom.offsetWidth);
       expect(detail.height).toBe(dom.offsetHeight);
+    });
+
+    test("ignores pointermove and pointerup from other pointers during a drag", async () => {
+      dom.setAttribute("resize-right", "");
+
+      const moveSpy = vi.fn();
+      const endSpy = vi.fn();
+      dom.addEventListener("aero-resize", moveSpy);
+      dom.addEventListener("aero-resize-end", endSpy);
+
+      dom["_processPointerdownEvent"](
+        new PointerEvent("pointerdown", { bubbles: true, pointerId: 1 }),
+        "right"
+      );
+
+      dom["_handlePointermove"](
+        new PointerEvent("pointermove", { bubbles: true, pointerId: 2 })
+      );
+      await new Promise(requestAnimationFrame);
+      expect(moveSpy).not.toHaveBeenCalled();
+
+      dom["_handlePointerup"](
+        new PointerEvent("pointerup", { bubbles: true, pointerId: 2 })
+      );
+      expect(endSpy).not.toHaveBeenCalled();
+
+      dom["_handlePointerup"](
+        new PointerEvent("pointerup", { bubbles: true, pointerId: 1 })
+      );
+      expect(endSpy).toHaveBeenCalledOnce();
     });
   })
 });

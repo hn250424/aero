@@ -66,6 +66,7 @@ export class AeroResizableBox extends AeroShadowElement<AeroResizableBoxEvents> 
   private _isDragging: boolean = false;
 
   private _animationFrameId: number | null = null;
+  private _activePointerId: number | null = null;
 
   private _resizerHandlers = {
     top: (e: PointerEvent) => this._processPointerdownEvent(e, "top"),
@@ -123,8 +124,8 @@ export class AeroResizableBox extends AeroShadowElement<AeroResizableBoxEvents> 
     this._stopDragging();
   }
 
-  private _handlePointermove = (e: PointerEvent | MouseEvent) => {
-    if (!this._isDragging) return;
+  private _handlePointermove = (e: PointerEvent) => {
+    if (!this._isDragging || e.pointerId !== this._activePointerId) return;
     if (this._animationFrameId) cancelAnimationFrame(this._animationFrameId);
 
     this._animationFrameId = requestAnimationFrame(() => {
@@ -159,8 +160,8 @@ export class AeroResizableBox extends AeroShadowElement<AeroResizableBoxEvents> 
     return Math.max(Math.min(height, this._nMaxHeight), this._nMinHeight);
   }
 
-  private _handlePointerup = (_e: PointerEvent | MouseEvent) => {
-    if (!this._isDragging) return;
+  private _handlePointerup = (e: PointerEvent) => {
+    if (!this._isDragging || e.pointerId !== this._activePointerId) return;
     this.forwardCustomEvent("aero-resize-end", {
       detail: {
         width: this.offsetWidth,
@@ -187,15 +188,21 @@ export class AeroResizableBox extends AeroShadowElement<AeroResizableBoxEvents> 
     this._isBottomDragging = false;
     this._isLeftDragging = false;
     this._isRightDragging = false;
+    this._activePointerId = null;
   }
 
   private _processPointerdownEvent = (
-    e: PointerEvent | MouseEvent,
+    e: PointerEvent,
     resizer: "top" | "bottom" | "left" | "right"
   ) => {
+    // A second concurrent pointer (e.g. another finger) must not take over
+    // or interfere with the drag in progress.
+    if (this._isDragging) return;
+
     e.preventDefault();
     document.body.style.userSelect = "none";
     this._isDragging = true;
+    this._activePointerId = e.pointerId;
     this.forwardCustomEvent("aero-resize-start", {
       detail: {
         width: this.offsetWidth,
