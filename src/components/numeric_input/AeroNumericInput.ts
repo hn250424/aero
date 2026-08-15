@@ -11,13 +11,13 @@ import aeroNumericInputHtmlTemplate from "./AeroNumericInput.html?raw";
  * @extends BaseAeroNumericInput
  */
 export class AeroNumericInput extends BaseAeroNumericInput {
-	constructor() {
-		super(aeroNumericInputHtmlTemplate);
-	}
+  constructor() {
+    super(aeroNumericInputHtmlTemplate);
+  }
 
-	protected getInputSelector(): string {
-		return "#input";
-	}
+  protected getInputSelector(): string {
+    return "#input";
+  }
 }
 
 

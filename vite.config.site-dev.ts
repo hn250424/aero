@@ -3,5 +3,5 @@ import path from "path";
 import siteConfig from "./vite.config.site";
 
 export default defineConfig({
-	...siteConfig
+  ...siteConfig
 });

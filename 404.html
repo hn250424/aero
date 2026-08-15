@@ -4,12 +4,12 @@
     <meta charset="utf-8">
     <title>Aero - Redirecting...</title>
     <script type="text/javascript">
-      
+
       var pathname = window.location.pathname;
       var search = window.location.search;
       var hash = window.location.hash;
-      
-      var base = '/aero/'; 
+
+      var base = '/aero/';
       if (!pathname.startsWith(base)) base = '/';
 
       window.location.replace(base + '?path=' + encodeURIComponent(pathname) + encodeURIComponent(search) + hash);

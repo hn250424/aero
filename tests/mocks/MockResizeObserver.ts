@@ -1,5 +1,5 @@
 export class MockResizeObserver implements ResizeObserver {
-	observe() {}
-	unobserve() {}
-	disconnect() {}
+  observe() {}
+  unobserve() {}
+  disconnect() {}
 }

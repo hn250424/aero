@@ -21,36 +21,36 @@ customElements.define("aero-roller", AeroRoller);
 
 // Global Types
 declare global {
-	interface HTMLElementTagNameMap {
-		"aero-numeric-input": AeroNumericInput;
-		"aero-spinbox": AeroSpinbox;
-		"aero-indeterminate-spinner": AeroIndeterminateSpinner;
-		"aero-resizable-box": AeroResizableBox;
-		"aero-select": AeroSelect;
-		"aero-option": AeroOption;
-		"aero-toast": AeroToast;
-		"aero-popup": AeroPopup;
-		"aero-roller": AeroRoller;
-	}
+  interface HTMLElementTagNameMap {
+    "aero-numeric-input": AeroNumericInput;
+    "aero-spinbox": AeroSpinbox;
+    "aero-indeterminate-spinner": AeroIndeterminateSpinner;
+    "aero-resizable-box": AeroResizableBox;
+    "aero-select": AeroSelect;
+    "aero-option": AeroOption;
+    "aero-toast": AeroToast;
+    "aero-popup": AeroPopup;
+    "aero-roller": AeroRoller;
+  }
 }
 
 // Exports
 export {
-	AeroNumericInput,
-	AeroSpinbox,
-	AeroIndeterminateSpinner,
-	AeroResizableBox,
-	AeroSelect,
-	AeroOption,
-	AeroToast,
-	AeroPopup,
-	AeroRoller,
+  AeroNumericInput,
+  AeroSpinbox,
+  AeroIndeterminateSpinner,
+  AeroResizableBox,
+  AeroSelect,
+  AeroOption,
+  AeroToast,
+  AeroPopup,
+  AeroRoller,
 };
 
 export type {
-	AeroResizableBoxEvents,
-	AeroSelectEvents,
-	AeroToastOptions,
-	AeroPopupOptions,
-	AeroRollerEvents,
+  AeroResizableBoxEvents,
+  AeroSelectEvents,
+  AeroToastOptions,
+  AeroPopupOptions,
+  AeroRollerEvents,
 };

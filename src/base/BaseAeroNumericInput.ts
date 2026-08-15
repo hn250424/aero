@@ -17,236 +17,236 @@ import { AeroShadowElement } from "../core/AeroShadowElement";
  * @fires focusout - Fired when the element loses focus.
  */
 export abstract class BaseAeroNumericInput<T extends Record<string, any> = {}> extends AeroShadowElement<T> {
-	private _boundDispatchInputEvent = this._dispatchInputEvent.bind(this);
-	private _boundDispatchChangeEvent = this._dispatchChangeEvent.bind(this);
-	private _boundDispatchFocusinEvent = this._dispatchFocusinEvent.bind(this);
-	private _boundDispatchFocusoutEvent = this._dispatchFocusoutEvent.bind(this);
+  private _boundDispatchInputEvent = this._dispatchInputEvent.bind(this);
+  private _boundDispatchChangeEvent = this._dispatchChangeEvent.bind(this);
+  private _boundDispatchFocusinEvent = this._dispatchFocusinEvent.bind(this);
+  private _boundDispatchFocusoutEvent = this._dispatchFocusoutEvent.bind(this);
 
-	private _$input!: HTMLInputElement;
+  private _$input!: HTMLInputElement;
 
-	protected constructor(htmlTemplate: string) {
-		super(htmlTemplate);
+  protected constructor(htmlTemplate: string) {
+    super(htmlTemplate);
 
-		this._initializeInput();
+    this._initializeInput();
 
-		this._syncUI(this.getAttribute("value"));
-	}
+    this._syncUI(this.getAttribute("value"));
+  }
 
-	protected abstract getInputSelector(): string;
+  protected abstract getInputSelector(): string;
 
-	private _initializeInput() {
-		this._$input = this.query<HTMLInputElement>(this.getInputSelector());
-	}
+  private _initializeInput() {
+    this._$input = this.query<HTMLInputElement>(this.getInputSelector());
+  }
 
-	protected getValidateValue(value: number): number {
-		// An inverted range (min > max) has no valid value.
-		// Fall back to 'min', mirroring native <input type="range"> behavior.
-		if (this.min > this.max) return this.min;
+  protected getValidateValue(value: number): number {
+    // An inverted range (min > max) has no valid value.
+    // Fall back to 'min', mirroring native <input type="range"> behavior.
+    if (this.min > this.max) return this.min;
 
-		const numValue = isNaN(value) ? this.min : value;
+    const numValue = isNaN(value) ? this.min : value;
 
-		// Clamp
-		const clampedValue = Math.max(this.min, Math.min(this.max, numValue));
+    // Clamp
+    const clampedValue = Math.max(this.min, Math.min(this.max, numValue));
 
-		// Calculate the offset from the minimum value.
-		// Stepping logic should be relative to 'min', not zero.
-		const offset = clampedValue - this.min;
+    // Calculate the offset from the minimum value.
+    // Stepping logic should be relative to 'min', not zero.
+    const offset = clampedValue - this.min;
 
-		// Round the offset to the nearest multiple of 'step'.
-		const steppedOffset = Math.round(offset / this.step) * this.step;
+    // Round the offset to the nearest multiple of 'step'.
+    const steppedOffset = Math.round(offset / this.step) * this.step;
 
-		// Apply the stepped offset back to 'min'.
-		let newValue = this.min + steppedOffset;
+    // Apply the stepped offset back to 'min'.
+    let newValue = this.min + steppedOffset;
 
-		// Final safety check: if rounding pushed the value above 'max',
-		// move back by one step.
-		if (newValue > this.max) {
-			newValue = newValue - this.step;
-		}
+    // Final safety check: if rounding pushed the value above 'max',
+    // move back by one step.
+    if (newValue > this.max) {
+      newValue = newValue - this.step;
+    }
 
-		/**
-		 * Use toFixed() followed by Number() to eliminate floating-point arithmetic errors
-		 * (e.g., 0.30000000000000004 -> 0.3) and return a clean numeric value.
-		 */
-		return Number(newValue.toFixed(this.decimalPlaces));
-	}
+    /**
+     * Use toFixed() followed by Number() to eliminate floating-point arithmetic errors
+     * (e.g., 0.30000000000000004 -> 0.3) and return a clean numeric value.
+     */
+    return Number(newValue.toFixed(this.decimalPlaces));
+  }
 
-	connectedCallback() {
-		this._$input.addEventListener("input", this._boundDispatchInputEvent);
-		this._$input.addEventListener("change", this._boundDispatchChangeEvent);
-		this._$input.addEventListener("focusin", this._boundDispatchFocusinEvent);
-		this._$input.addEventListener("focusout", this._boundDispatchFocusoutEvent);
+  connectedCallback() {
+    this._$input.addEventListener("input", this._boundDispatchInputEvent);
+    this._$input.addEventListener("change", this._boundDispatchChangeEvent);
+    this._$input.addEventListener("focusin", this._boundDispatchFocusinEvent);
+    this._$input.addEventListener("focusout", this._boundDispatchFocusoutEvent);
 
-		/**
-		 * Validate a declaratively provided value once, after all initial
-		 * attributes are parsed. Doing this earlier (in the 'value' attribute
-		 * handler) would clamp against min/max attributes that have not been
-		 * applied yet.
-		 */
-		if (this.getAttribute("value") !== null) {
-			this.value = this.value;
-		}
-	}
+    /**
+     * Validate a declaratively provided value once, after all initial
+     * attributes are parsed. Doing this earlier (in the 'value' attribute
+     * handler) would clamp against min/max attributes that have not been
+     * applied yet.
+     */
+    if (this.getAttribute("value") !== null) {
+      this.value = this.value;
+    }
+  }
 
-	disconnectedCallback() {
-		this._$input.removeEventListener("input", this._boundDispatchInputEvent);
-		this._$input.removeEventListener("change", this._boundDispatchChangeEvent);
-		this._$input.removeEventListener(
-			"focusin",
-			this._boundDispatchFocusinEvent
-		);
-		this._$input.removeEventListener(
-			"focusout",
-			this._boundDispatchFocusoutEvent
-		);
-	}
+  disconnectedCallback() {
+    this._$input.removeEventListener("input", this._boundDispatchInputEvent);
+    this._$input.removeEventListener("change", this._boundDispatchChangeEvent);
+    this._$input.removeEventListener(
+      "focusin",
+      this._boundDispatchFocusinEvent
+    );
+    this._$input.removeEventListener(
+      "focusout",
+      this._boundDispatchFocusoutEvent
+    );
+  }
 
-	private _dispatchInputEvent(event: Event) {
-		event.stopImmediatePropagation();
-		this.forwardNativeEvent("input");
-	}
+  private _dispatchInputEvent(event: Event) {
+    event.stopImmediatePropagation();
+    this.forwardNativeEvent("input");
+  }
 
-	private _dispatchChangeEvent(event: Event) {
-		event.stopImmediatePropagation();
+  private _dispatchChangeEvent(event: Event) {
+    event.stopImmediatePropagation();
 
-		const validatedValue = this.getValidateValue(this._$input.valueAsNumber);
-		this.value = validatedValue;
+    const validatedValue = this.getValidateValue(this._$input.valueAsNumber);
+    this.value = validatedValue;
 
-		this.forwardNativeEvent("change");
-	}
+    this.forwardNativeEvent("change");
+  }
 
-	private _dispatchFocusinEvent(event: Event) {
-		event.stopImmediatePropagation();
-		this.forwardNativeEvent("focusin");
-	}
+  private _dispatchFocusinEvent(event: Event) {
+    event.stopImmediatePropagation();
+    this.forwardNativeEvent("focusin");
+  }
 
-	private _dispatchFocusoutEvent(event: Event) {
-		event.stopImmediatePropagation();
+  private _dispatchFocusoutEvent(event: Event) {
+    event.stopImmediatePropagation();
 
-		const validatedValue = this.getValidateValue(this._$input.valueAsNumber);
-		this.value = validatedValue;
+    const validatedValue = this.getValidateValue(this._$input.valueAsNumber);
+    this.value = validatedValue;
 
-		this.forwardNativeEvent("focusout");
-	}
+    this.forwardNativeEvent("focusout");
+  }
 
-	static get observedAttributes() {
-		return ["value", "min", "max", "step"];
-	}
+  static get observedAttributes() {
+    return ["value", "min", "max", "step"];
+  }
 
-	attributeChangedCallback(
-		name: string,
-		_oldValue: string | null,
-		newValue: string | null
-	) {
-		this._baseAeroNumericInputAttributeHandlers[name]?.(newValue);
-	}
+  attributeChangedCallback(
+    name: string,
+    _oldValue: string | null,
+    newValue: string | null
+  ) {
+    this._baseAeroNumericInputAttributeHandlers[name]?.(newValue);
+  }
 
-	private _baseAeroNumericInputAttributeHandlers: Record<
-		string,
-		(newValue: string | null) => void
-	> = {
-		value: (newValue) => {
-			this._syncUI(newValue);
-		},
-		min: () => {
-			this.value = this.value;
-		},
-		max: () => {
-			this.value = this.value;
-		},
-		step: () => {
-			this.value = this.value;
-		},
-	};
+  private _baseAeroNumericInputAttributeHandlers: Record<
+    string,
+    (newValue: string | null) => void
+  > = {
+    value: (newValue) => {
+      this._syncUI(newValue);
+    },
+    min: () => {
+      this.value = this.value;
+    },
+    max: () => {
+      this.value = this.value;
+    },
+    step: () => {
+      this.value = this.value;
+    },
+  };
 
-	private _syncUI(val: string | null) {
-		this._$input.value = val ?? "";
-	}
+  private _syncUI(val: string | null) {
+    this._$input.value = val ?? "";
+  }
 
-	/**
-	 * The underlying HTML input element.
-	 * @type {HTMLInputElement}
-	 * @readonly
-	 */
-	get input() {
-		return this._$input;
-	}
+  /**
+   * The underlying HTML input element.
+   * @type {HTMLInputElement}
+   * @readonly
+   */
+  get input() {
+    return this._$input;
+  }
 
-	/**
-	 * The current value of the numeric input.
-	 * @type {number}
-	 * @attr
-	 * @default 0
-	 */
-	get value() {
-		const v = this.getAttribute("value");
-		if (v === null) return this.min;
+  /**
+   * The current value of the numeric input.
+   * @type {number}
+   * @attr
+   * @default 0
+   */
+  get value() {
+    const v = this.getAttribute("value");
+    if (v === null) return this.min;
 
-		const n = Number(v);
-		return isNaN(n) ? this.min : n;
-	}
-	set value(val: number) {
-		const validValue = this.getValidateValue(val);
-		this.setAttribute("value", String(validValue));
-	}
+    const n = Number(v);
+    return isNaN(n) ? this.min : n;
+  }
+  set value(val: number) {
+    const validValue = this.getValidateValue(val);
+    this.setAttribute("value", String(validValue));
+  }
 
-	/**
-	 * The minimum allowed value.
-	 * @type {number}
-	 * @attr
-	 * @default 0
-	 */
-	get min() {
-		const v = this.getAttribute("min");
-		return v === null || isNaN(Number(v)) ? 0 : Number(v);
-	}
-	set min(val: number) {
-		this.setAttribute("min", String(val));
-	}
+  /**
+   * The minimum allowed value.
+   * @type {number}
+   * @attr
+   * @default 0
+   */
+  get min() {
+    const v = this.getAttribute("min");
+    return v === null || isNaN(Number(v)) ? 0 : Number(v);
+  }
+  set min(val: number) {
+    this.setAttribute("min", String(val));
+  }
 
-	/**
-	 * The maximum allowed value.
-	 * @type {number}
-	 * @attr
-	 * @default 100
-	 */
-	get max() {
-		const v = this.getAttribute("max");
-		return v === null || isNaN(Number(v)) ? 100 : Number(v);
-	}
-	set max(val: number) {
-		this.setAttribute("max", String(val));
-	}
+  /**
+   * The maximum allowed value.
+   * @type {number}
+   * @attr
+   * @default 100
+   */
+  get max() {
+    const v = this.getAttribute("max");
+    return v === null || isNaN(Number(v)) ? 100 : Number(v);
+  }
+  set max(val: number) {
+    this.setAttribute("max", String(val));
+  }
 
-	/**
-	 * The stepping interval for the numeric input.
-	 * @type {number}
-	 * @attr
-	 * @default 1
-	 */
-	get step() {
-		const v = this.getAttribute("step");
-		const n = Number(v);
-		return v === null || isNaN(n) || n <= 0 ? 1 : n;
-	}
-	set step(val: number) {
-		this.setAttribute("step", String(val));
-	}
+  /**
+   * The stepping interval for the numeric input.
+   * @type {number}
+   * @attr
+   * @default 1
+   */
+  get step() {
+    const v = this.getAttribute("step");
+    const n = Number(v);
+    return v === null || isNaN(n) || n <= 0 ? 1 : n;
+  }
+  set step(val: number) {
+    this.setAttribute("step", String(val));
+  }
 
-	// The number of decimal places, derived from the `step` and `min` attributes.
-	// 'min' participates because stepping is relative to it: with min="0.05"
-	// and step="0.1", valid values (0.05, 0.15, ...) need two decimal places.
-	protected get decimalPlaces() {
-		const decimalsOf = (attr: string | null) => {
-			if (!attr || isNaN(Number(attr))) return 0;
+  // The number of decimal places, derived from the `step` and `min` attributes.
+  // 'min' participates because stepping is relative to it: with min="0.05"
+  // and step="0.1", valid values (0.05, 0.15, ...) need two decimal places.
+  protected get decimalPlaces() {
+    const decimalsOf = (attr: string | null) => {
+      if (!attr || isNaN(Number(attr))) return 0;
 
-			const parts = attr.split(".");
-			return parts.length > 1 ? parts[1].length : 0;
-		};
+      const parts = attr.split(".");
+      return parts.length > 1 ? parts[1].length : 0;
+    };
 
-		return Math.max(
-			decimalsOf(this.getAttribute("step")),
-			decimalsOf(this.getAttribute("min"))
-		);
-	}
+    return Math.max(
+      decimalsOf(this.getAttribute("step")),
+      decimalsOf(this.getAttribute("min"))
+    );
+  }
 }

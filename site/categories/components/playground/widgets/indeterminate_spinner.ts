@@ -7,7 +7,7 @@ const css = ``;
 const js = ``;
 
 export const aeroIndeterminateSpinner = {
-	html: html,
-	css: css,
-	js: js,
+  html: html,
+  css: css,
+  js: js,
 };

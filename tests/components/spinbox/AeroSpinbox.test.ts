@@ -3,91 +3,91 @@ import { AeroSpinbox } from "@src/components/spinbox/AeroSpinbox";
 import { MockResizeObserver } from "../../mocks/MockResizeObserver";
 
 describe("AeroSpinbox", () => {
-	(
-		globalThis as unknown as { ResizeObserver: typeof ResizeObserver }
-	).ResizeObserver = MockResizeObserver;
+  (
+    globalThis as unknown as { ResizeObserver: typeof ResizeObserver }
+  ).ResizeObserver = MockResizeObserver;
 
-	let dom: AeroSpinbox;
+  let dom: AeroSpinbox;
 
-	beforeEach(() => {
-		dom = document.createElement("aero-spinbox") as AeroSpinbox;
-		document.body.appendChild(dom);
-	});
+  beforeEach(() => {
+    dom = document.createElement("aero-spinbox") as AeroSpinbox;
+    document.body.appendChild(dom);
+  });
 
-	afterEach(() => {
-		dom.remove();
-	});
+  afterEach(() => {
+    dom.remove();
+  });
 
-	describe("Interaction with step property", () => {
-		beforeEach(() => {
-			dom.value = 50;
-			dom.min = 0;
-			dom.max = 100;
-			dom.step = 1;
-		});
+  describe("Interaction with step property", () => {
+    beforeEach(() => {
+      dom.value = 50;
+      dom.min = 0;
+      dom.max = 100;
+      dom.step = 1;
+    });
 
-		test("should increment and decrement value based on min", () => {
-			dom.min = 50;
+    test("should increment and decrement value based on min", () => {
+      dom.min = 50;
 
-			dom.decrement();
-			expect(dom.value).toBe(50);
-			dom.min = 49;
-			dom.decrement();
-			expect(dom.value).toBe(49);
-		});
+      dom.decrement();
+      expect(dom.value).toBe(50);
+      dom.min = 49;
+      dom.decrement();
+      expect(dom.value).toBe(49);
+    });
 
-		test("should increment and decrement value based on max", () => {
-			dom.max = 50;
+    test("should increment and decrement value based on max", () => {
+      dom.max = 50;
 
-			dom.increment();
-			expect(dom.value).toBe(50);
-			dom.max = 51;
-			dom.increment();
-			expect(dom.value).toBe(51);
-		});
+      dom.increment();
+      expect(dom.value).toBe(50);
+      dom.max = 51;
+      dom.increment();
+      expect(dom.value).toBe(51);
+    });
 
-		test("should fire input and change events when buttons change the value", () => {
-			const inputSpy = vi.fn();
-			const changeSpy = vi.fn();
-			dom.addEventListener("input", inputSpy);
-			dom.addEventListener("change", changeSpy);
+    test("should fire input and change events when buttons change the value", () => {
+      const inputSpy = vi.fn();
+      const changeSpy = vi.fn();
+      dom.addEventListener("input", inputSpy);
+      dom.addEventListener("change", changeSpy);
 
-			dom.increment();
+      dom.increment();
 
-			expect(inputSpy).toHaveBeenCalledOnce();
-			expect(changeSpy).toHaveBeenCalledOnce();
-			expect(dom.value).toBe(51);
-		});
+      expect(inputSpy).toHaveBeenCalledOnce();
+      expect(changeSpy).toHaveBeenCalledOnce();
+      expect(dom.value).toBe(51);
+    });
 
-		test("should not fire events when the value is already at a boundary", () => {
-			dom.value = 100;
+    test("should not fire events when the value is already at a boundary", () => {
+      dom.value = 100;
 
-			const inputSpy = vi.fn();
-			const changeSpy = vi.fn();
-			dom.addEventListener("input", inputSpy);
-			dom.addEventListener("change", changeSpy);
+      const inputSpy = vi.fn();
+      const changeSpy = vi.fn();
+      dom.addEventListener("input", inputSpy);
+      dom.addEventListener("change", changeSpy);
 
-			dom.increment();
+      dom.increment();
 
-			expect(inputSpy).not.toHaveBeenCalled();
-			expect(changeSpy).not.toHaveBeenCalled();
-			expect(dom.value).toBe(100);
-		});
+      expect(inputSpy).not.toHaveBeenCalled();
+      expect(changeSpy).not.toHaveBeenCalled();
+      expect(dom.value).toBe(100);
+    });
 
-		test("should increment and decrement value based on step", () => {
-			dom.step = 1;
+    test("should increment and decrement value based on step", () => {
+      dom.step = 1;
 
-			dom.decrement();
-			expect(dom.value).toBe(49);
-			dom.increment();
-			expect(dom.value).toBe(50);
+      dom.decrement();
+      expect(dom.value).toBe(49);
+      dom.increment();
+      expect(dom.value).toBe(50);
 
-			dom.step = 0.4;
+      dom.step = 0.4;
 
-			dom.decrement();
-			expect(dom.value).toBe(49.6);
-			dom.increment();
-			expect(dom.value).toBe(50.0);
-		});
-	});
+      dom.decrement();
+      expect(dom.value).toBe(49.6);
+      dom.increment();
+      expect(dom.value).toBe(50.0);
+    });
+  });
 });

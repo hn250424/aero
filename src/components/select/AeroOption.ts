@@ -12,30 +12,30 @@
  * @extends HTMLElement
  */
 export class AeroOption extends HTMLElement {
-	constructor() {
-		super()
-	}
+  constructor() {
+    super()
+  }
 
-	/**
-	 * The value associated with this option, similar to the `value` attribute on a standard `<option>`.
-	 * @type {string}
-	 * @attr value
-	 */
-	get value(): string {
-		return this.getAttribute("value") ?? "";
-	}
+  /**
+   * The value associated with this option, similar to the `value` attribute on a standard `<option>`.
+   * @type {string}
+   * @attr value
+   */
+  get value(): string {
+    return this.getAttribute("value") ?? "";
+  }
 
-	set value(v: string) {
-		this.setAttribute("value", v);
-	}
+  set value(v: string) {
+    this.setAttribute("value", v);
+  }
 
-	/**
-	 * The visible text label of the option. This is typically the text content of the element.
-	 * @type {string}
-	 */
-	get label(): string {
-		return this.textContent ?? "";
-	}
+  /**
+   * The visible text label of the option. This is typically the text content of the element.
+   * @type {string}
+   */
+  get label(): string {
+    return this.textContent ?? "";
+  }
 }
 
 

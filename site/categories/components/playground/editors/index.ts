@@ -14,62 +14,62 @@ import { javascript } from "@codemirror/lang-javascript";
  * Each editor is bound to the given iframe and re-renders it whenever its content changes.
  */
 export function createPlaygroundEditors(
-	$htmlBox: HTMLElement,
-	$cssBox: HTMLElement,
-	$javascriptBox: HTMLElement,
-	$playgroundIframe: HTMLIFrameElement
+  $htmlBox: HTMLElement,
+  $cssBox: HTMLElement,
+  $javascriptBox: HTMLElement,
+  $playgroundIframe: HTMLIFrameElement
 ): PlaygroundEditors {
-		const updatePlayground = () => {
-		const doc = `
-			<html>
-				<head>
-					<style>${cssEditor.state.doc.toString()}</style>
-				</head>
-				<body>
-					${htmlEditor.state.doc.toString()}
-					<script type="module">
-						import '${AERO_IMPORT_PATH}'
-						${javascriptEditor.state.doc.toString()}
-					</script>
-				</body>
-			</html>
-		`;
+    const updatePlayground = () => {
+    const doc = `
+      <html>
+        <head>
+          <style>${cssEditor.state.doc.toString()}</style>
+        </head>
+        <body>
+          ${htmlEditor.state.doc.toString()}
+          <script type="module">
+            import '${AERO_IMPORT_PATH}'
+            ${javascriptEditor.state.doc.toString()}
+          </script>
+        </body>
+      </html>
+    `;
 
-		$playgroundIframe.srcdoc = doc;
-	};
+    $playgroundIframe.srcdoc = doc;
+  };
 
-	const htmlEditor = createEditor($htmlBox, [html()], updatePlayground);
-	const cssEditor = createEditor($cssBox, [css()], updatePlayground);
-	const javascriptEditor = createEditor(
-		$javascriptBox,
-		[javascript()],
-		updatePlayground
-	);
+  const htmlEditor = createEditor($htmlBox, [html()], updatePlayground);
+  const cssEditor = createEditor($cssBox, [css()], updatePlayground);
+  const javascriptEditor = createEditor(
+    $javascriptBox,
+    [javascript()],
+    updatePlayground
+  );
 
-	return {
-		htmlEditor,
-		cssEditor,
-		javascriptEditor,
-		dispose() {
-			htmlEditor.destroy();
-			cssEditor.destroy();
-			javascriptEditor.destroy();
-		}
-	};
+  return {
+    htmlEditor,
+    cssEditor,
+    javascriptEditor,
+    dispose() {
+      htmlEditor.destroy();
+      cssEditor.destroy();
+      javascriptEditor.destroy();
+    }
+  };
 }
 
 function createEditor(
-	parent: HTMLElement,
-	extensions: Extension[],
-	onChange: () => void
+  parent: HTMLElement,
+  extensions: Extension[],
+  onChange: () => void
 ) {
-	return new EditorView({
-		extensions: [
-			basicSetup,
-			indentUnit.of("    "),
-			...extensions,
-			EditorView.updateListener.of(onChange),
-		],
-		parent: parent,
-	});
+  return new EditorView({
+    extensions: [
+      basicSetup,
+      indentUnit.of("    "),
+      ...extensions,
+      EditorView.updateListener.of(onChange),
+    ],
+    parent: parent,
+  });
 }

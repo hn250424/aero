@@ -1,154 +1,154 @@
 <style>
-	:host {
-		--aero-select-width: 100%;
-		--aero-select-height: 36px;
+  :host {
+    --aero-select-width: 100%;
+    --aero-select-height: 36px;
 
-		--aero-select-font-size: 16px;
-		--aero-select-font-family: san-serif;
+    --aero-select-font-size: 16px;
+    --aero-select-font-family: san-serif;
 
-		--aero-select-border: 1px solid #000;
+    --aero-select-border: 1px solid #000;
 
-		--aero-select-dropdown-border: 1px solid #000;
-		--aero-select-dropdown-z-index: 100;
-		--aero-select-dropdown-item-border: 1px solid grey;
-		--aero-select-dropdown-item-background: #fff;
-		--aero-select-dropdown-item-color: #000;
+    --aero-select-dropdown-border: 1px solid #000;
+    --aero-select-dropdown-z-index: 100;
+    --aero-select-dropdown-item-border: 1px solid grey;
+    --aero-select-dropdown-item-background: #fff;
+    --aero-select-dropdown-item-color: #000;
 
-		--aero-select-dropdown-hover-item-border: 1px solid grey;
-		--aero-select-dropdown-hover-item-background: #000;
-		--aero-select-dropdown-hover-item-color: white;
-		--aero-select-dropdown-hover-item-cursor: pointer;
+    --aero-select-dropdown-hover-item-border: 1px solid grey;
+    --aero-select-dropdown-hover-item-background: #000;
+    --aero-select-dropdown-hover-item-color: white;
+    --aero-select-dropdown-hover-item-cursor: pointer;
 
-		--aero-select-span-background: transparent;
-		--aero-select-span-border: 1px solid transparent;
+    --aero-select-span-background: transparent;
+    --aero-select-span-border: 1px solid transparent;
 
-		--aero-select-button-border: 1px solid #000;
-		--aero-select-button-background: lightgrey;
-		--aero-select-button-color: #000;
+    --aero-select-button-border: 1px solid #000;
+    --aero-select-button-background: lightgrey;
+    --aero-select-button-color: #000;
 
-		--aero-select-button-hover-border: 1px solid #000;
-		--aero-select-button-hover-background: grey;
-		--aero-select-button-hover-color: #000;
-		--aero-select-button-hover-cursor: pointer;
+    --aero-select-button-hover-border: 1px solid #000;
+    --aero-select-button-hover-background: grey;
+    --aero-select-button-hover-color: #000;
+    --aero-select-button-hover-cursor: pointer;
 
-		display: block;
+    display: block;
 
-		width: var(--aero-select-width, 100%);
-		height: var(--aero-select-height, 36px);
+    width: var(--aero-select-width, 100%);
+    height: var(--aero-select-height, 36px);
 
-		font-size: var(--aero-select-font-size);
-		font-family: var(--aero-select-font-family);
-	}
+    font-size: var(--aero-select-font-size);
+    font-family: var(--aero-select-font-family);
+  }
 
-	::slotted(*) {
+  ::slotted(*) {
     display: grid;
     grid-template-columns: 1fr var(--aero-select-height, 36px);
-		height: var(--aero-select-height, 36px);
+    height: var(--aero-select-height, 36px);
 
     text-align: center;
-		line-height: var(--aero-select-height);
+    line-height: var(--aero-select-height);
 
-		border-bottom: var(--aero-select-dropdown-item-border);
-		background-color: var(--aero-select-dropdown-item-background);
-		color: var(--aero-select-dropdown-item-color);
-	}
+    border-bottom: var(--aero-select-dropdown-item-border);
+    background-color: var(--aero-select-dropdown-item-background);
+    color: var(--aero-select-dropdown-item-color);
+  }
 
-	::slotted(*.highlight),
-	::slotted(*:hover) {
-		border-bottom: var(--aero-select-dropdown-hover-item-border);
-		background-color: var(--aero-select-dropdown-hover-item-background);
-		color: var(--aero-select-dropdown-hover-item-color);
-		cursor: var(--aero-select-dropdown-hover-item-cursor);
-	}
+  ::slotted(*.highlight),
+  ::slotted(*:hover) {
+    border-bottom: var(--aero-select-dropdown-hover-item-border);
+    background-color: var(--aero-select-dropdown-hover-item-background);
+    color: var(--aero-select-dropdown-hover-item-color);
+    cursor: var(--aero-select-dropdown-hover-item-cursor);
+  }
 
-	::slotted(*:last-child) {
-		border-bottom: none;
-	}
+  ::slotted(*:last-child) {
+    border-bottom: none;
+  }
 
-	::slotted(*)::after {
-		content: '';
-	}
+  ::slotted(*)::after {
+    content: '';
+  }
 
-	#overlay {
-		position: relative;
+  #overlay {
+    position: relative;
 
-		width: 100%;
+    width: 100%;
     height: 100%;
-	}
+  }
 
-	#container {
-		width: 100%;
-		height: 100%;
+  #container {
+    width: 100%;
+    height: 100%;
 
-		display: grid;
-		grid-template-columns: 1fr auto;
+    display: grid;
+    grid-template-columns: 1fr auto;
 
-		border: var(--aero-select-border);
-		box-sizing: border-box;
-	}
+    border: var(--aero-select-border);
+    box-sizing: border-box;
+  }
 
-	#span,
-	#button {
-		padding: 0;
-		margin: 0;
-	}
+  #span,
+  #button {
+    padding: 0;
+    margin: 0;
+  }
 
-	#span {
-		display: flex;
-		justify-content: center;
-		align-items: center;
+  #span {
+    display: flex;
+    justify-content: center;
+    align-items: center;
 
-		background-color: var(--aero-select-span-background);
+    background-color: var(--aero-select-span-background);
 
-		border: var(--aero-select-span-border);
-		box-sizing: border-box;
-	}
+    border: var(--aero-select-span-border);
+    box-sizing: border-box;
+  }
 
-	#span:hover {
-		cursor: default;
-	}
+  #span:hover {
+    cursor: default;
+  }
 
-	#button {
+  #button {
     aspect-ratio: 1 / 1;
 
-		border: var(--aero-select-button-border);
-		background-color: var(--aero-select-button-background);
-		color: var(--aero-select-button-color);
-	}
+    border: var(--aero-select-button-border);
+    background-color: var(--aero-select-button-background);
+    color: var(--aero-select-button-color);
+  }
 
-	#button:hover {
-		border: var(--aero-select-button-hover-border);
-		background-color: var(--aero-select-button-hover-background);
-		color: var(--aero-select-button-hover-color);
-		cursor: var(--aero-select-button-hover-cursor);
-	}
+  #button:hover {
+    border: var(--aero-select-button-hover-border);
+    background-color: var(--aero-select-button-hover-background);
+    color: var(--aero-select-button-hover-color);
+    cursor: var(--aero-select-button-hover-cursor);
+  }
 
-	#dropdown {
-		position: fixed;
-		z-index: var(--aero-select-dropdown-z-index);
+  #dropdown {
+    position: fixed;
+    z-index: var(--aero-select-dropdown-z-index);
 
-		max-height: calc(var(--aero-select-height, 36px) * 6.5);
-		overflow-y: auto;
+    max-height: calc(var(--aero-select-height, 36px) * 6.5);
+    overflow-y: auto;
 
-		display: none;
+    display: none;
 
-		border: var(--aero-select-dropdown-border);
-		box-sizing: border-box;
+    border: var(--aero-select-dropdown-border);
+    box-sizing: border-box;
 
-		scrollbar-width: thin;
-	}
+    scrollbar-width: thin;
+  }
 
-	#dropdown.open {
-		display: block;
-	}
+  #dropdown.open {
+    display: block;
+  }
 </style>
 
 <div id="overlay">
-	<div id="container">
-		<span id="span"></span>
-		<button id="button"></button>
-	</div>
-	<div id="dropdown">
-		<slot></slot>
-	</div>
+  <div id="container">
+    <span id="span"></span>
+    <button id="button"></button>
+  </div>
+  <div id="dropdown">
+    <slot></slot>
+  </div>
 </div>

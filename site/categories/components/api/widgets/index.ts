@@ -11,13 +11,13 @@ import AeroPopup from "./aero-popup.html?raw";
 import AeroRoller from "./aero-roller.html?raw";
 
 export const widgets: Record<ComponentKeys, string> = {
-	"aero-numeric-input": AeroNumericInput,
-	"aero-spinbox": AeroSpinbox,
-	"aero-indeterminate-spinner": AeroIndeterminateSpinner,
-	"aero-resizable-box": AeroResizableBox,
-	"aero-select": AeroSelect,
-	"aero-option": AeroOption,
-	"aero-toast": AeroToast,
-	"aero-popup": AeroPopup,
-	"aero-roller": AeroRoller,
+  "aero-numeric-input": AeroNumericInput,
+  "aero-spinbox": AeroSpinbox,
+  "aero-indeterminate-spinner": AeroIndeterminateSpinner,
+  "aero-resizable-box": AeroResizableBox,
+  "aero-select": AeroSelect,
+  "aero-option": AeroOption,
+  "aero-toast": AeroToast,
+  "aero-popup": AeroPopup,
+  "aero-roller": AeroRoller,
 } as const;

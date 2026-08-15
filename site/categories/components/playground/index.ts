@@ -10,29 +10,29 @@ export type { PlaygroundEditors, PlaygroundWidgets } from "./domain";
 export { createPlaygroundEditors } from "./editors";
 
 export function applyWidgetToPlayground(editors: PlaygroundEditors, key: ComponentKeys) {
-	const widget = widgets[key];
+  const widget = widgets[key];
 
-	editors.htmlEditor.dispatch({
-		changes: {
-			from: 0,
-			to: editors.htmlEditor.state.doc.length,
-			insert: widget.html,
-		},
-	});
+  editors.htmlEditor.dispatch({
+    changes: {
+      from: 0,
+      to: editors.htmlEditor.state.doc.length,
+      insert: widget.html,
+    },
+  });
 
-	editors.cssEditor.dispatch({
-		changes: {
-			from: 0,
-			to: editors.cssEditor.state.doc.length,
-			insert: widget.css,
-		},
-	});
+  editors.cssEditor.dispatch({
+    changes: {
+      from: 0,
+      to: editors.cssEditor.state.doc.length,
+      insert: widget.css,
+    },
+  });
 
-	editors.javascriptEditor.dispatch({
-		changes: {
-			from: 0,
-			to: editors.javascriptEditor.state.doc.length,
-			insert: widget.js,
-		},
-	});
+  editors.javascriptEditor.dispatch({
+    changes: {
+      from: 0,
+      to: editors.javascriptEditor.state.doc.length,
+      insert: widget.js,
+    },
+  });
 }

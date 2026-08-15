@@ -11,43 +11,43 @@ import gettingStartedInstallationHtml from "./installation/getting_started_insta
 import gettingStartedUsageHtml from "./usage/getting_started_usage.html?raw";
 
 const _gettingStartedMap: Record<string, string> = {
-	installation: gettingStartedInstallationHtml,
-	usage: gettingStartedUsageHtml,
+  installation: gettingStartedInstallationHtml,
+  usage: gettingStartedUsageHtml,
 };
 
 export class GettingStartedContext implements PageableContext {
-	$gettingStartedContainer: HTMLElement;
+  $gettingStartedContainer: HTMLElement;
 
-	constructor($main: HTMLElement) {
-		$main.innerHTML = gettingStartedContainerHtml;
+  constructor($main: HTMLElement) {
+    $main.innerHTML = gettingStartedContainerHtml;
 
-		this.$gettingStartedContainer = document.querySelector(
-			".getting-started-container"
-		)!;
-	}
+    this.$gettingStartedContainer = document.querySelector(
+      ".getting-started-container"
+    )!;
+  }
 
-	switchPage(key: string) {
-		this.$gettingStartedContainer.innerHTML = _gettingStartedMap[key];
+  switchPage(key: string) {
+    this.$gettingStartedContainer.innerHTML = _gettingStartedMap[key];
 
-		document.querySelectorAll("pre code").forEach((block) => {
-			const lines = block.textContent!.split("\n");
-			const minIndent = lines
-				.filter((line) => line.trim().length > 0)
-				.reduce((min, line) => {
-					const indent = line.match(/^\s*/)?.[0].length ?? 0;
-					return Math.min(min, indent);
-				}, Infinity);
+    document.querySelectorAll("pre code").forEach((block) => {
+      const lines = block.textContent!.split("\n");
+      const minIndent = lines
+        .filter((line) => line.trim().length > 0)
+        .reduce((min, line) => {
+          const indent = line.match(/^\s*/)?.[0].length ?? 0;
+          return Math.min(min, indent);
+        }, Infinity);
 
-			const cleaned = lines
-				.map((line) => line.slice(minIndent))
-				.join("\n")
-				.trim();
+      const cleaned = lines
+        .map((line) => line.slice(minIndent))
+        .join("\n")
+        .trim();
 
-			block.textContent = cleaned;
-		});
+      block.textContent = cleaned;
+    });
 
-		Prism.highlightAllUnder(this.$gettingStartedContainer);
-	}
+    Prism.highlightAllUnder(this.$gettingStartedContainer);
+  }
 
-	clean(): void {}
+  clean(): void {}
 }

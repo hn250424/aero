@@ -1,11 +1,11 @@
 .components-container {
-	display: flex;
-	flex-direction: column;
+  display: flex;
+  flex-direction: column;
 
-	gap: 30px;
-	padding: var(--container-padding);
+  gap: 30px;
+  padding: var(--container-padding);
 }
 
 .components-title {
-	margin-bottom: 20px;
+  margin-bottom: 20px;
 }

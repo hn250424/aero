@@ -12,70 +12,70 @@ import { AeroShadowElement } from "../core/AeroShadowElement";
  * @abstract
  */
 export class BaseAeroContainer extends AeroShadowElement {
-	/**
-	 * @param {string} htmlTemplate - The HTML string to be used as the template for the shadow DOM.
-	 * @protected
-	 */
-	protected constructor(htmlTemplate: string) {
-		super(htmlTemplate);
+  /**
+   * @param {string} htmlTemplate - The HTML string to be used as the template for the shadow DOM.
+   * @protected
+   */
+  protected constructor(htmlTemplate: string) {
+    super(htmlTemplate);
 
-		this._updateBackground(this.getAttribute("background"));
-	}
+    this._updateBackground(this.getAttribute("background"));
+  }
 
-	/**
-	 * Specifies the observed attributes for the custom element.
-	 * @returns {string[]} An array of attribute names to observe.
-	 */
-	static get observedAttributes() {
-		return ["background"];
-	}
+  /**
+   * Specifies the observed attributes for the custom element.
+   * @returns {string[]} An array of attribute names to observe.
+   */
+  static get observedAttributes() {
+    return ["background"];
+  }
 
-	/**
-	 * Called when an observed attribute has been added, removed, or changed.
-	 * @param {string} name - The name of the attribute that changed.
-	 * @param {string | null} _oldValue - The old value of the attribute.
-	 * @param {string | null} newValue - The new value of the attribute.
-	 */
-	attributeChangedCallback(
-		name: string,
-		_oldValue: string | null,
-		newValue: string | null
-	) {
-		this._baseAeroContainerAttributeHandlers[name]?.(newValue);
-	}
+  /**
+   * Called when an observed attribute has been added, removed, or changed.
+   * @param {string} name - The name of the attribute that changed.
+   * @param {string | null} _oldValue - The old value of the attribute.
+   * @param {string | null} newValue - The new value of the attribute.
+   */
+  attributeChangedCallback(
+    name: string,
+    _oldValue: string | null,
+    newValue: string | null
+  ) {
+    this._baseAeroContainerAttributeHandlers[name]?.(newValue);
+  }
 
-	/**
-	 * A map of attribute names to their respective handler functions.
-	 * @private
-	 */
-	private _baseAeroContainerAttributeHandlers: Record<
-		string,
-		(newValue: string | null) => void
-	> = {
-		background: (newValue) => {
-			this._updateBackground(newValue);
-		},
-	};
+  /**
+   * A map of attribute names to their respective handler functions.
+   * @private
+   */
+  private _baseAeroContainerAttributeHandlers: Record<
+    string,
+    (newValue: string | null) => void
+  > = {
+    background: (newValue) => {
+      this._updateBackground(newValue);
+    },
+  };
 
-	/**
-	 * Updates the background style of the container.
-	 * @param {string | null} val - The new background value.
-	 * @private
-	 */
-	private _updateBackground(val: string | null) {
-		this.applyStyles(
-			`:host {
-				background: ${val ? val : "rgba(0, 0, 0, 0.5)"};
-			}`
-		);
-	}
+  /**
+   * Updates the background style of the container.
+   * @param {string | null} val - The new background value.
+   * @private
+   */
+  private _updateBackground(val: string | null) {
+    this.applyStyles(
+      `:host {
+        background: ${val ? val : "rgba(0, 0, 0, 0.5)"};
+      }`
+    );
+  }
 
-	/**
-	 * Sets the background of the container.
-	 * @param {string} val - The new background value.
-	 * @attr
-	 */
-	set containerBackground(val: string) {
-		this.setAttribute("background", val);
-	}
+  /**
+   * Sets the background of the container.
+   * @param {string} val - The new background value.
+   * @attr
+   */
+  set containerBackground(val: string) {
+    this.setAttribute("background", val);
+  }
 }

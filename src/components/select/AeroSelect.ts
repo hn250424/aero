@@ -5,13 +5,13 @@ import { AeroShadowElement } from "../../core/AeroShadowElement";
  * Events fired by the `<aero-select>` component.
  */
 export interface AeroSelectEvents {
-	/** Fired when the selected option changes. */
-	"aero-select-changed": {
-		/** The newly selected option element. */
-		option: HTMLElement;
-		/** The zero-based index of the selected option. */
-		index: number;
-	};
+  /** Fired when the selected option changes. */
+  "aero-select-changed": {
+    /** The newly selected option element. */
+    option: HTMLElement;
+    /** The zero-based index of the selected option. */
+    index: number;
+  };
 }
 
 /**
@@ -58,300 +58,300 @@ export interface AeroSelectEvents {
  * @extends AeroShadowElement
  */
 export class AeroSelect extends AeroShadowElement<AeroSelectEvents> {
-	private _handlers = {
-		documentClick: this._handleDocumentClick.bind(this),
-		buttonClick: this._handleButtonClick.bind(this),
-		dropdownClick: this._handleDropdownClick.bind(this),
-		slotChange: this._handleSlotChange.bind(this),
-		keydown: this._handleKeydown.bind(this),
-	};
+  private _handlers = {
+    documentClick: this._handleDocumentClick.bind(this),
+    buttonClick: this._handleButtonClick.bind(this),
+    dropdownClick: this._handleDropdownClick.bind(this),
+    slotChange: this._handleSlotChange.bind(this),
+    keydown: this._handleKeydown.bind(this),
+  };
 
-	private _$span: HTMLElement;
-	private _$button: HTMLElement;
-	private _$dropdown: HTMLElement;
-	private _$options: HTMLElement[] = [];
-	private _optionIndex = -1;
-	private _dropdown_open = false;
-	private _$slot: HTMLSlotElement;
-	private _highlightIndex = -1;
-	private _pendingOptionIndex?: number;
+  private _$span: HTMLElement;
+  private _$button: HTMLElement;
+  private _$dropdown: HTMLElement;
+  private _$options: HTMLElement[] = [];
+  private _optionIndex = -1;
+  private _dropdown_open = false;
+  private _$slot: HTMLSlotElement;
+  private _highlightIndex = -1;
+  private _pendingOptionIndex?: number;
 
-	constructor() {
-		super(aeroSelectHtmlTemplate);
+  constructor() {
+    super(aeroSelectHtmlTemplate);
 
-		this._$span = this.query<HTMLElement>("#span");
-		this._$button = this.query<HTMLElement>("#button");
-		this._$dropdown = this.query<HTMLElement>("#dropdown");
-		this._$slot = this.query("slot");
-		this._$options = (this._$slot?.assignedElements() ?? []).filter(
-			(el): el is HTMLElement => el instanceof HTMLElement
-		);
+    this._$span = this.query<HTMLElement>("#span");
+    this._$button = this.query<HTMLElement>("#button");
+    this._$dropdown = this.query<HTMLElement>("#dropdown");
+    this._$slot = this.query("slot");
+    this._$options = (this._$slot?.assignedElements() ?? []).filter(
+      (el): el is HTMLElement => el instanceof HTMLElement
+    );
 
-		this._$button.textContent = this.getAttribute("button-text") ?? "▽";
+    this._$button.textContent = this.getAttribute("button-text") ?? "▽";
 
-		this._updateOptionIndex(
-			this._getValidateOptionIndexByStr(
-				this.getAttribute("option-index") ?? "-1"
-			)
-		);
-	}
+    this._updateOptionIndex(
+      this._getValidateOptionIndexByStr(
+        this.getAttribute("option-index") ?? "-1"
+      )
+    );
+  }
 
-	connectedCallback() {
-		// Make the host keyboard-focusable so the keyboard interactions
-		// (Enter/Space/Arrows/Escape) are reachable without custom markup.
-		if (!this.hasAttribute("tabindex")) this.setAttribute("tabindex", "0");
+  connectedCallback() {
+    // Make the host keyboard-focusable so the keyboard interactions
+    // (Enter/Space/Arrows/Escape) are reachable without custom markup.
+    if (!this.hasAttribute("tabindex")) this.setAttribute("tabindex", "0");
 
-		document.addEventListener("click", this._handlers.documentClick);
-		this._$button.addEventListener("click", this._handlers.buttonClick);
-		this._$dropdown.addEventListener("click", this._handlers.dropdownClick);
-		this._$slot?.addEventListener("slotchange", this._handlers.slotChange);
-		this.addEventListener("keydown", this._handlers.keydown);
-	}
+    document.addEventListener("click", this._handlers.documentClick);
+    this._$button.addEventListener("click", this._handlers.buttonClick);
+    this._$dropdown.addEventListener("click", this._handlers.dropdownClick);
+    this._$slot?.addEventListener("slotchange", this._handlers.slotChange);
+    this.addEventListener("keydown", this._handlers.keydown);
+  }
 
-	disconnectedCallback() {
-		document.removeEventListener("click", this._handlers.documentClick);
-		this._$button.removeEventListener("click", this._handlers.buttonClick);
-		this._$dropdown.removeEventListener("click", this._handlers.dropdownClick);
-		this._$slot?.removeEventListener("slotchange", this._handlers.slotChange);
-		this.removeEventListener("keydown", this._handlers.keydown);
-	}
+  disconnectedCallback() {
+    document.removeEventListener("click", this._handlers.documentClick);
+    this._$button.removeEventListener("click", this._handlers.buttonClick);
+    this._$dropdown.removeEventListener("click", this._handlers.dropdownClick);
+    this._$slot?.removeEventListener("slotchange", this._handlers.slotChange);
+    this.removeEventListener("keydown", this._handlers.keydown);
+  }
 
-	private _handleDocumentClick(e?: Event) {
-		// Ignore events that originate inside this select: clicks are handled
-		// by the button/dropdown handlers, and scrolling the dropdown's own
-		// list must not close it.
-		if (e?.composedPath().includes(this)) return;
+  private _handleDocumentClick(e?: Event) {
+    // Ignore events that originate inside this select: clicks are handled
+    // by the button/dropdown handlers, and scrolling the dropdown's own
+    // list must not close it.
+    if (e?.composedPath().includes(this)) return;
 
-		if (this._dropdown_open) {
-			this._closeDropdown();
-			this._dropdown_open = false;
-		}
-	}
+    if (this._dropdown_open) {
+      this._closeDropdown();
+      this._dropdown_open = false;
+    }
+  }
 
-	private _handleButtonClick(_e: MouseEvent) {
-		this._dropdown_open = !this._dropdown_open;
+  private _handleButtonClick(_e: MouseEvent) {
+    this._dropdown_open = !this._dropdown_open;
 
-		if (this._dropdown_open) {
-			this._openDropdown();
-		} else {
-			this._closeDropdown();
-		}
-	}
+    if (this._dropdown_open) {
+      this._openDropdown();
+    } else {
+      this._closeDropdown();
+    }
+  }
 
-	private _openDropdown() {
-		const rect = this.getBoundingClientRect();
-		const dropdownHeight =
-			this._$dropdown.offsetHeight ||
-			parseInt(getComputedStyle(this).getPropertyValue("--aero-select-height")) *
-				6.5;
-		const spaceBelow = window.innerHeight - rect.bottom;
-		const spaceAbove = rect.top;
+  private _openDropdown() {
+    const rect = this.getBoundingClientRect();
+    const dropdownHeight =
+      this._$dropdown.offsetHeight ||
+      parseInt(getComputedStyle(this).getPropertyValue("--aero-select-height")) *
+        6.5;
+    const spaceBelow = window.innerHeight - rect.bottom;
+    const spaceAbove = rect.top;
 
-		let openUp = false;
-		if (spaceBelow < dropdownHeight && spaceAbove > spaceBelow) {
-			openUp = true;
-		}
+    let openUp = false;
+    if (spaceBelow < dropdownHeight && spaceAbove > spaceBelow) {
+      openUp = true;
+    }
 
-		this._$dropdown.style.left = `${rect.left}px`;
-		this._$dropdown.style.width = `${rect.width}px`;
+    this._$dropdown.style.left = `${rect.left}px`;
+    this._$dropdown.style.width = `${rect.width}px`;
 
-		if (openUp) {
-			this._$dropdown.style.top = `${rect.top - dropdownHeight}px`;
-			this._$dropdown.classList.add("open-up");
-			this._$dropdown.classList.remove("open-down");
-		} else {
-			this._$dropdown.style.top = `${rect.bottom}px`;
-			this._$dropdown.classList.add("open-down");
-			this._$dropdown.classList.remove("open-up");
-		}
+    if (openUp) {
+      this._$dropdown.style.top = `${rect.top - dropdownHeight}px`;
+      this._$dropdown.classList.add("open-up");
+      this._$dropdown.classList.remove("open-down");
+    } else {
+      this._$dropdown.style.top = `${rect.bottom}px`;
+      this._$dropdown.classList.add("open-down");
+      this._$dropdown.classList.remove("open-up");
+    }
 
-		this._$dropdown.classList.add("open");
+    this._$dropdown.classList.add("open");
 
-		// Start keyboard navigation from the current selection.
-		if (this._optionIndex >= 0) {
-			this._highlightIndex = this._optionIndex;
-			const opt = this._$options[this._highlightIndex];
-			opt?.classList.add("highlight");
-			opt?.scrollIntoView({ block: "nearest" });
-		}
+    // Start keyboard navigation from the current selection.
+    if (this._optionIndex >= 0) {
+      this._highlightIndex = this._optionIndex;
+      const opt = this._$options[this._highlightIndex];
+      opt?.classList.add("highlight");
+      opt?.scrollIntoView({ block: "nearest" });
+    }
 
-		window.addEventListener(
-			"scroll",
-			this._handlers.documentClick as EventListener,
-			{ capture: true, passive: true }
-		);
-		window.addEventListener(
-			"resize",
-			this._handlers.documentClick as EventListener
-		);
-	}
+    window.addEventListener(
+      "scroll",
+      this._handlers.documentClick as EventListener,
+      { capture: true, passive: true }
+    );
+    window.addEventListener(
+      "resize",
+      this._handlers.documentClick as EventListener
+    );
+  }
 
-	private _closeDropdown() {
-		// Always clear the keyboard highlight so no stale highlight styling
-		// remains however the dropdown was closed (Escape, outside click, ...).
-		this._$options[this._highlightIndex]?.classList.remove("highlight");
-		this._highlightIndex = -1;
+  private _closeDropdown() {
+    // Always clear the keyboard highlight so no stale highlight styling
+    // remains however the dropdown was closed (Escape, outside click, ...).
+    this._$options[this._highlightIndex]?.classList.remove("highlight");
+    this._highlightIndex = -1;
 
-		this._$dropdown.classList.remove("open", "open-up", "open-down");
-		window.removeEventListener(
-			"scroll",
-			this._handlers.documentClick as EventListener,
-			{ capture: true }
-		);
-		window.removeEventListener(
-			"resize",
-			this._handlers.documentClick as EventListener
-		);
-	}
+    this._$dropdown.classList.remove("open", "open-up", "open-down");
+    window.removeEventListener(
+      "scroll",
+      this._handlers.documentClick as EventListener,
+      { capture: true }
+    );
+    window.removeEventListener(
+      "resize",
+      this._handlers.documentClick as EventListener
+    );
+  }
 
-	private _handleDropdownClick(e: MouseEvent) {
-		const item = e
-			.composedPath()
-			.find(
-				(node): node is HTMLElement =>
-					node instanceof HTMLElement && this._$options.includes(node)
-			);
+  private _handleDropdownClick(e: MouseEvent) {
+    const item = e
+      .composedPath()
+      .find(
+        (node): node is HTMLElement =>
+          node instanceof HTMLElement && this._$options.includes(node)
+      );
 
-		if (!item) return;
+    if (!item) return;
 
-		const idx = this._$options.indexOf(item);
-		this.optionIndex = idx;
-		this._closeDropdown();
-		this._dropdown_open = false;
-	}
+    const idx = this._$options.indexOf(item);
+    this.optionIndex = idx;
+    this._closeDropdown();
+    this._dropdown_open = false;
+  }
 
-	private _handleSlotChange() {
-		const $preOption = this._$options[this._optionIndex];
+  private _handleSlotChange() {
+    const $preOption = this._$options[this._optionIndex];
 
-		this._$options = this._$slot
-			.assignedElements()
-			.filter((el): el is HTMLElement => el instanceof HTMLElement);
+    this._$options = this._$slot
+      .assignedElements()
+      .filter((el): el is HTMLElement => el instanceof HTMLElement);
 
-		if (this._pendingOptionIndex !== undefined) {
-			// If an index was set before options were ready, try to apply it now.
-			const indexToTry = this._pendingOptionIndex;
-			this._pendingOptionIndex = undefined; // Prevent recursive call.
-			this.optionIndex = indexToTry;
-		} else {
-			this.optionIndex = this._$options.findIndex((o) => o === $preOption);
-		}
-	}
+    if (this._pendingOptionIndex !== undefined) {
+      // If an index was set before options were ready, try to apply it now.
+      const indexToTry = this._pendingOptionIndex;
+      this._pendingOptionIndex = undefined; // Prevent recursive call.
+      this.optionIndex = indexToTry;
+    } else {
+      this.optionIndex = this._$options.findIndex((o) => o === $preOption);
+    }
+  }
 
-	private _handleKeydown(e: KeyboardEvent) {
-		if (e.key === "Enter" || e.key === " ") { // Enter, Spacebar
-			e.preventDefault();
+  private _handleKeydown(e: KeyboardEvent) {
+    if (e.key === "Enter" || e.key === " ") { // Enter, Spacebar
+      e.preventDefault();
 
-			if (!this._dropdown_open) {
-				this._$button.click(); // Open.
-			} else {
-				// Commit the highlighted option; _closeDropdown (triggered by
-				// the button click) clears the highlight state.
-				if (this._$options[this._highlightIndex]) {
-					this.optionIndex = this._highlightIndex;
-				}
-				this._$button.click();
-			}
-		}
+      if (!this._dropdown_open) {
+        this._$button.click(); // Open.
+      } else {
+        // Commit the highlighted option; _closeDropdown (triggered by
+        // the button click) clears the highlight state.
+        if (this._$options[this._highlightIndex]) {
+          this.optionIndex = this._highlightIndex;
+        }
+        this._$button.click();
+      }
+    }
 
-		if (e.key === "ArrowDown" || e.key === "ArrowUp") {
-			e.preventDefault();
-			if (!this._dropdown_open) return;
+    if (e.key === "ArrowDown" || e.key === "ArrowUp") {
+      e.preventDefault();
+      if (!this._dropdown_open) return;
 
-			if (e.key === "ArrowDown" && this._highlightIndex + 1 === this._$options.length) return;
-			if (e.key === "ArrowUp" && this._highlightIndex <= 0) return;
+      if (e.key === "ArrowDown" && this._highlightIndex + 1 === this._$options.length) return;
+      if (e.key === "ArrowUp" && this._highlightIndex <= 0) return;
 
-			this._$options[this._highlightIndex]?.classList.remove("highlight");
-			this._highlightIndex = e.key === "ArrowDown" ? this._highlightIndex + 1 : this._highlightIndex - 1;
-			this._$options[this._highlightIndex]?.classList.add("highlight");
-			this._$options[this._highlightIndex]?.scrollIntoView({ block: "nearest" });
-		}
+      this._$options[this._highlightIndex]?.classList.remove("highlight");
+      this._highlightIndex = e.key === "ArrowDown" ? this._highlightIndex + 1 : this._highlightIndex - 1;
+      this._$options[this._highlightIndex]?.classList.add("highlight");
+      this._$options[this._highlightIndex]?.scrollIntoView({ block: "nearest" });
+    }
 
-		if (e.key === "Escape" && this._dropdown_open) {
-			this._$button.click();
-		}
-	}
+    if (e.key === "Escape" && this._dropdown_open) {
+      this._$button.click();
+    }
+  }
 
-	static get observedAttributes() {
-		return ["option-index"];
-	}
+  static get observedAttributes() {
+    return ["option-index"];
+  }
 
-	attributeChangedCallback(
-		name: string,
-		_oldValue: string | null,
-		newValue: string | null
-	) {
-		this._aeroSelectAttributeHandlers[name]?.(newValue);
-	}
+  attributeChangedCallback(
+    name: string,
+    _oldValue: string | null,
+    newValue: string | null
+  ) {
+    this._aeroSelectAttributeHandlers[name]?.(newValue);
+  }
 
-	private _aeroSelectAttributeHandlers: Record<
-		string,
-		(newValue: string | null) => void
-	> = {
-		"option-index": (newValue) => {
-			this._updateOptionIndex(this._getValidateOptionIndexByStr(newValue ?? ""));
-		},
-	};
+  private _aeroSelectAttributeHandlers: Record<
+    string,
+    (newValue: string | null) => void
+  > = {
+    "option-index": (newValue) => {
+      this._updateOptionIndex(this._getValidateOptionIndexByStr(newValue ?? ""));
+    },
+  };
 
-	/**
-	 * The zero-based index of the currently selected option.
-	 * Setting this property will update the displayed value and fire the `aero-select-changed` event.
-	 * @type {number}
-	 * @attr option-index
-	 * @default -1
-	 */
-	get optionIndex(): number {
-		return this._optionIndex;
-	}
-	set optionIndex(option: number) {
-		this.setAttribute("option-index", option.toString());
-	}
+  /**
+   * The zero-based index of the currently selected option.
+   * Setting this property will update the displayed value and fire the `aero-select-changed` event.
+   * @type {number}
+   * @attr option-index
+   * @default -1
+   */
+  get optionIndex(): number {
+    return this._optionIndex;
+  }
+  set optionIndex(option: number) {
+    this.setAttribute("option-index", option.toString());
+  }
 
-	private _updateOptionIndex(index: number) {
-		if (this._optionIndex === index) return;
+  private _updateOptionIndex(index: number) {
+    if (this._optionIndex === index) return;
 
-		if (index < 0) {
-			this._unsetOption();
-			return;
-		}
+    if (index < 0) {
+      this._unsetOption();
+      return;
+    }
 
-		const option = this._$options[index];
-		if (!option) {
-			if (this._$options.length === 0) {
-				// Options aren't slotted yet (e.g. attribute set before upgrade);
-				// store the index to try again after slotchange.
-				this._pendingOptionIndex = index;
-			} else {
-				// Options exist, so the index is simply out of range: unselect
-				// instead of keeping a stale pending index around.
-				this._unsetOption();
-			}
-			return;
-		}
+    const option = this._$options[index];
+    if (!option) {
+      if (this._$options.length === 0) {
+        // Options aren't slotted yet (e.g. attribute set before upgrade);
+        // store the index to try again after slotchange.
+        this._pendingOptionIndex = index;
+      } else {
+        // Options exist, so the index is simply out of range: unselect
+        // instead of keeping a stale pending index around.
+        this._unsetOption();
+      }
+      return;
+    }
 
-		this._optionIndex = index;
-		this._$span.textContent = option.textContent;
+    this._optionIndex = index;
+    this._$span.textContent = option.textContent;
 
-		this.forwardCustomEvent("aero-select-changed", {
-			detail: {
-				option: option,
-				index: index,
-			},
-		});
+    this.forwardCustomEvent("aero-select-changed", {
+      detail: {
+        option: option,
+        index: index,
+      },
+    });
 
-		// Clear the pending index since we successfully updated.
-		this._pendingOptionIndex = undefined;
-	}
+    // Clear the pending index since we successfully updated.
+    this._pendingOptionIndex = undefined;
+  }
 
-	private _getValidateOptionIndexByStr(index: string): number {
-		if (index === "") return -1; // Number("") is 0, so treat empty input as an invalid index.
-		const i = Number(index);
-		// Only whole numbers are valid indexes ("1.5" or "abc" unselects).
-		return Number.isInteger(i) ? i : -1;
-	}
+  private _getValidateOptionIndexByStr(index: string): number {
+    if (index === "") return -1; // Number("") is 0, so treat empty input as an invalid index.
+    const i = Number(index);
+    // Only whole numbers are valid indexes ("1.5" or "abc" unselects).
+    return Number.isInteger(i) ? i : -1;
+  }
 
-	private _unsetOption() {
-		this._optionIndex = -1;
-		this._$span.textContent = "";
-	}
+  private _unsetOption() {
+    this._optionIndex = -1;
+    this._$span.textContent = "";
+  }
 }
-
+

@@ -1,69 +1,69 @@
 import { colors } from "./colors";
 
 const html = `<aero-resizable-box id="rb" resize-right>
-	<div>
-		<span style="background-color: ${colors.primary_2};"></span>
-		<p>Moby-Dick — Herman Melville</p>
-	</div>
-	<div>
-		<span style="background-color: ${colors.primary_3};"></span>
-		<p>Jane Eyre — Charlotte Brontë</p>
-	</div>
-	<div>
-		<span style="background-color: ${colors.primary_4};"></span>
-		<p>The Brothers Karamazov — Fyodor Dostoevsky</p>
-	</div>
+  <div>
+    <span style="background-color: ${colors.primary_2};"></span>
+    <p>Moby-Dick — Herman Melville</p>
+  </div>
+  <div>
+    <span style="background-color: ${colors.primary_3};"></span>
+    <p>Jane Eyre — Charlotte Brontë</p>
+  </div>
+  <div>
+    <span style="background-color: ${colors.primary_4};"></span>
+    <p>The Brothers Karamazov — Fyodor Dostoevsky</p>
+  </div>
 </aero-resizable-box>`;
 
 const css = `html, body {
-	height: 100%;
+  height: 100%;
 }
 
 div {
-	display: flex;
-	align-items: center;
-	gap: 10px;
-	margin: 0 10px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0 10px;
 }
 
 span {
-	flex-shrink: 0;
-	width: 7px;
-	height: 7px;
-	border-radius: 50%;
+  flex-shrink: 0;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
 }
 
 p {
-	overflow: hidden;
-	text-overflow: ellipsis;
-	white-space: nowrap;
-	margin: 0;
-	font-size; 0.9rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  margin: 0;
+  font-size; 0.9rem;
 }
 
 aero-resizable-box {
-	--aero-resizable-box-resizer-color: ${colors.primary_3};
-	
-	display: block;
-	width: 300px;
-	height: 90%;
-	border: 1px solid #ccc;
+  --aero-resizable-box-resizer-color: ${colors.primary_3};
+
+  display: block;
+  width: 300px;
+  height: 90%;
+  border: 1px solid #ccc;
 }`;
 
 const js = `const rb = document.getElementById('rb')
 rb.addEventListener("aero-resize-start", (e) => {
-	console.log("[resize-start] width: ", e.detail.width, " height: ", e.detail.height, " edge: ", e.detail.edge);
+  console.log("[resize-start] width: ", e.detail.width, " height: ", e.detail.height, " edge: ", e.detail.edge);
 })
 rb.addEventListener("aero-resize", (e) => {
-	console.log("[resize] width: ", e.detail.width, " height: ", e.detail.height);
+  console.log("[resize] width: ", e.detail.width, " height: ", e.detail.height);
 })
 rb.addEventListener("aero-resize-end", (e) => {
-	console.log("[resize-end] width: ", e.detail.width, " height: ", e.detail.height);
+  console.log("[resize-end] width: ", e.detail.width, " height: ", e.detail.height);
 })
 `;
 
 export const aeroResizableBox = {
-	html: html,
-	css: css,
-	js: js,
+  html: html,
+  css: css,
+  js: js,
 };
