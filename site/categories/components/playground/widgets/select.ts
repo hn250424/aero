@@ -7,6 +7,7 @@ const html = `<aero-select id="as" option-index="0">
 
 const css = `aero-select {
   --aero-select-height: 40px;
+  --aero-select-text-align: left;
   --aero-select-button-background: ${colors.primary_3};
   --aero-select-button-border: 1px solid grey;
   --aero-select-button-hover-background: ${colors.primary_4};

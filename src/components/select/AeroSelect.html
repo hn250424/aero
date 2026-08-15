@@ -5,6 +5,7 @@
 
     --aero-select-font-size: 16px;
     --aero-select-font-family: san-serif;
+    --aero-select-text-align: center;
 
     --aero-select-border: 1px solid #000;
 
@@ -45,7 +46,7 @@
     grid-template-columns: 1fr var(--aero-select-height, 36px);
     height: var(--aero-select-height, 36px);
 
-    text-align: center;
+    text-align: var(--aero-select-text-align);
     line-height: var(--aero-select-height);
 
     border-bottom: var(--aero-select-dropdown-item-border);
@@ -95,7 +96,9 @@
 
   #span {
     display: flex;
-    justify-content: center;
+    /* left/right are valid justify-content keywords, so the same value
+       drives both this flex row and the options' text-align. */
+    justify-content: var(--aero-select-text-align);
     align-items: center;
 
     background-color: var(--aero-select-span-background);

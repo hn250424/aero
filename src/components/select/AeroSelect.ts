@@ -35,6 +35,7 @@ export interface AeroSelectEvents {
  * @cssprop [--aero-select-height=36px] - Default height of the select component.
  * @cssprop [--aero-select-font-size=16px] - Font size for the select text.
  * @cssprop [--aero-select-font-family=san-serif] - Font family for the select text.
+ * @cssprop [--aero-select-text-align=center] - Horizontal alignment of the selected text and dropdown options (left | center | right).
  * @cssprop [--aero-select-border=1px solid #000] - Border style for the select component.
  * @cssprop [--aero-select-dropdown-border=1px solid #000] - Border style for the dropdown container.
  * @cssprop [--aero-select-dropdown-z-index=100] - Z-index for the dropdown container.
