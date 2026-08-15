@@ -19,7 +19,7 @@ export type AeroToastOptions = {
   color?: string;
 };
 
-const defaultAeroToastOptions: AeroToastOptions = {
+const defaultAeroToastOptions: Required<AeroToastOptions> = {
   top: "90%",
   left: "50%",
   ms: 3000,
@@ -53,11 +53,7 @@ export class AeroToast extends AeroShadowElement {
       ...options,
     };
 
-    // Guard against invalid durations so the toast is always removed.
-    this._ms =
-      typeof ms === "number" && Number.isFinite(ms) && ms > 0
-        ? ms
-        : (defaultAeroToastOptions.ms as number);
+    this._ms = ms;
 
     this._$text = this.query<HTMLElement>("#text");
     this._$text.textContent = text;

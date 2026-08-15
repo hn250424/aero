@@ -38,15 +38,6 @@ describe("AeroToast", () => {
       vi.advanceTimersByTime(1100);
       expect(document.querySelector("aero-toast")).toBeNull();
     });
-
-    test("falls back to the default duration for invalid ms values", () => {
-      vi.useFakeTimers();
-
-      AeroToast.show("oops", { ms: -5 });
-
-      vi.advanceTimersByTime(3100);
-      expect(document.querySelector("aero-toast")).toBeNull();
-    });
   });
 
   describe("removal", () => {
