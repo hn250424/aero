@@ -32,9 +32,9 @@ describe("AeroResizableBox", () => {
       dom.addRightResizer();
 
       isResizeTop = dom.getAttribute("resize-top");
-      isResizeBottom = dom.getAttribute("resize-top");
-      isResizeLeft = dom.getAttribute("resize-top");
-      isResizeRight = dom.getAttribute("resize-top");
+      isResizeBottom = dom.getAttribute("resize-bottom");
+      isResizeLeft = dom.getAttribute("resize-left");
+      isResizeRight = dom.getAttribute("resize-right");
 
       expect(isResizeTop).toBe("");
       expect(isResizeBottom).toBe("");
@@ -47,9 +47,9 @@ describe("AeroResizableBox", () => {
       dom.removeRightResizer();
 
       isResizeTop = dom.getAttribute("resize-top");
-      isResizeBottom = dom.getAttribute("resize-top");
-      isResizeLeft = dom.getAttribute("resize-top");
-      isResizeRight = dom.getAttribute("resize-top");
+      isResizeBottom = dom.getAttribute("resize-bottom");
+      isResizeLeft = dom.getAttribute("resize-left");
+      isResizeRight = dom.getAttribute("resize-right");
 
       expect(isResizeTop).toBe(null)
       expect(isResizeBottom).toBe(null)
