@@ -23,6 +23,11 @@ describe("AeroSelect", () => {
       expect(dom.getAttribute("tabindex")).toBe("0");
     });
 
+    test("inner button is not a tab stop", () => {
+      const button = dom.shadowRoot!.querySelector("#button")!;
+      expect(button.getAttribute("tabindex")).toBe("-1");
+    });
+
     test("keeps a user-provided tabindex", () => {
       const custom = document.createElement("aero-select") as AeroSelect;
       custom.setAttribute("tabindex", "-1");
