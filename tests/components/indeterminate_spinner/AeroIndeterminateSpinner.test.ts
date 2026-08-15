@@ -48,6 +48,15 @@ describe("AeroIndeterminateSpinner", () => {
       expect(Number(arc().getAttribute("r"))).toBeGreaterThan(0);
     });
 
+    test("falls back to the default arc-ratio for out-of-range values", () => {
+      dom.setAttribute("arc-ratio", "150");
+
+      const style =
+        dom.shadowRoot!.querySelector("#component-styles")!.textContent!;
+      const circumference = 2 * Math.PI * (50 / 2 - 4 - 1);
+      expect(style).toContain(String(circumference * 0.9));
+    });
+
     test("accepts fractional cycle values", () => {
       dom.setAttribute("cycle", "0.5");
 

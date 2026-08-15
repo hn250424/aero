@@ -81,15 +81,14 @@ export class AeroIndeterminateSpinner extends AeroShadowElement {
     // parseFloat: 'cycle' accepts fractional seconds (e.g. 0.5).
     this._cycle = this._parsePositive(this.getAttribute("cycle"), 2);
 
-    const ratio = parseFloat(this.getAttribute("arc-ratio") ?? "");
-    this._arcRatio = (isNaN(ratio) ? 90 : Math.min(Math.max(ratio, 1), 100)) / 100;
+    this._arcRatio = this._parsePositive(this.getAttribute("arc-ratio"), 90, 100) / 100;
   }
 
   // Parses a numeric attribute, falling back when the value is missing,
-  // not a number, or not positive.
-  private _parsePositive(raw: string | null, fallback: number): number {
+  // not a number, not positive, or above max.
+  private _parsePositive(raw: string | null, fallback: number, max = Infinity): number {
     const n = parseFloat(raw ?? "");
-    return isNaN(n) || n <= 0 ? fallback : n;
+    return isNaN(n) || n <= 0 || n > max ? fallback : n;
   }
 
   private _syncSvgAttributes() {
