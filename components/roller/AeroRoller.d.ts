@@ -25,8 +25,8 @@ export interface AeroRollerEvents<T = any> {
  * @element aero-roller
  * @fires change - Fired when the selected option changes.
  *
- * @attr {number} [item-height=30] - Height of each item in pixels.
- * @attr {number} [visible-count=5] - Number of visible items in the roller.
+ * @attr {number} [item-height=30] - Height of each item in pixels. Invalid or non-positive values fall back to the default.
+ * @attr {number} [visible-count=5] - Number of visible items in the roller. Even values are bumped to the next odd number so the selected item stays centered; invalid values fall back to the default.
  *
  * @cssprop [--aero-roller-item-cursor=auto] - Cursor style for roller items.
  * @cssprop [--aero-roller-highlight-border-top=none] - Top border style for the highlight element.
@@ -54,6 +54,8 @@ export declare class AeroRoller<T = string> extends AeroShadowElement<AeroRoller
     private _wheelTimer?;
     private _onWheel;
     constructor();
+    private static _parseItemHeight;
+    private static _parseVisibleCount;
     connectedCallback(): void;
     disconnectedCallback(): void;
     static get observedAttributes(): string[];
@@ -61,6 +63,8 @@ export declare class AeroRoller<T = string> extends AeroShadowElement<AeroRoller
     private _aeroRollerAttributeHandlers;
     /**
      * Sets the list of items for the roller.
+     * Items are rendered as plain text, so markup in a value is displayed
+     * literally rather than parsed as HTML.
      * @param {T[]} items - The array of items to display.
      */
     setItems(items: T[]): void;

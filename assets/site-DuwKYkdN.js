@@ -1,248 +1,253 @@
-(function(){const e=document.createElement("link").relList;if(e&&e.supports&&e.supports("modulepreload"))return;for(const r of document.querySelectorAll('link[rel="modulepreload"]'))i(r);new MutationObserver(r=>{for(const s of r)if(s.type==="childList")for(const o of s.addedNodes)o.tagName==="LINK"&&o.rel==="modulepreload"&&i(o)}).observe(document,{childList:!0,subtree:!0});function t(r){const s={};return r.integrity&&(s.integrity=r.integrity),r.referrerPolicy&&(s.referrerPolicy=r.referrerPolicy),r.crossOrigin==="use-credentials"?s.credentials="include":r.crossOrigin==="anonymous"?s.credentials="omit":s.credentials="same-origin",s}function i(r){if(r.ep)return;r.ep=!0;const s=t(r);fetch(r.href,s)}})();const _f=`<section class="home-container">\r
-	\r
-</section>\r
+(function(){const e=document.createElement("link").relList;if(e&&e.supports&&e.supports("modulepreload"))return;for(const r of document.querySelectorAll('link[rel="modulepreload"]'))i(r);new MutationObserver(r=>{for(const s of r)if(s.type==="childList")for(const o of s.addedNodes)o.tagName==="LINK"&&o.rel==="modulepreload"&&i(o)}).observe(document,{childList:!0,subtree:!0});function t(r){const s={};return r.integrity&&(s.integrity=r.integrity),r.referrerPolicy&&(s.referrerPolicy=r.referrerPolicy),r.crossOrigin==="use-credentials"?s.credentials="include":r.crossOrigin==="anonymous"?s.credentials="omit":s.credentials="same-origin",s}function i(r){if(r.ep)return;r.ep=!0;const s=t(r);fetch(r.href,s)}})();const _f=`<section class="home-container">
+
+</section>
 `;class ec{constructor(e){e.innerHTML=_f}clean(){}}var Ml=typeof globalThis<"u"?globalThis:typeof window<"u"?window:typeof global<"u"?global:typeof self<"u"?self:{};function zf(n){return n&&n.__esModule&&Object.prototype.hasOwnProperty.call(n,"default")?n.default:n}var Jr={exports:{}},El;function Df(){return El||(El=1,(function(n){var e=typeof window<"u"?window:typeof WorkerGlobalScope<"u"&&self instanceof WorkerGlobalScope?self:{};var t=(function(i){var r=/(?:^|\s)lang(?:uage)?-([\w-]+)(?=\s|$)/i,s=0,o={},l={manual:i.Prism&&i.Prism.manual,disableWorkerMessageHandler:i.Prism&&i.Prism.disableWorkerMessageHandler,util:{encode:function m(b){return b instanceof a?new a(b.type,m(b.content),b.alias):Array.isArray(b)?b.map(m):b.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/\u00a0/g," ")},type:function(m){return Object.prototype.toString.call(m).slice(8,-1)},objId:function(m){return m.__id||Object.defineProperty(m,"__id",{value:++s}),m.__id},clone:function m(b,w){w=w||{};var x,Q;switch(l.util.type(b)){case"Object":if(Q=l.util.objId(b),w[Q])return w[Q];x={},w[Q]=x;for(var v in b)b.hasOwnProperty(v)&&(x[v]=m(b[v],w));return x;case"Array":return Q=l.util.objId(b),w[Q]?w[Q]:(x=[],w[Q]=x,b.forEach(function(T,$){x[$]=m(T,w)}),x);default:return b}},getLanguage:function(m){for(;m;){var b=r.exec(m.className);if(b)return b[1].toLowerCase();m=m.parentElement}return"none"},setLanguage:function(m,b){m.className=m.className.replace(RegExp(r,"gi"),""),m.classList.add("language-"+b)},currentScript:function(){if(typeof document>"u")return null;if(document.currentScript&&document.currentScript.tagName==="SCRIPT")return document.currentScript;try{throw new Error}catch(x){var m=(/at [^(\r\n]*\((.*):[^:]+:[^:]+\)$/i.exec(x.stack)||[])[1];if(m){var b=document.getElementsByTagName("script");for(var w in b)if(b[w].src==m)return b[w]}return null}},isActive:function(m,b,w){for(var x="no-"+b;m;){var Q=m.classList;if(Q.contains(b))return!0;if(Q.contains(x))return!1;m=m.parentElement}return!!w}},languages:{plain:o,plaintext:o,text:o,txt:o,extend:function(m,b){var w=l.util.clone(l.languages[m]);for(var x in b)w[x]=b[x];return w},insertBefore:function(m,b,w,x){x=x||l.languages;var Q=x[m],v={};for(var T in Q)if(Q.hasOwnProperty(T)){if(T==b)for(var $ in w)w.hasOwnProperty($)&&(v[$]=w[$]);w.hasOwnProperty(T)||(v[T]=Q[T])}var _=x[m];return x[m]=v,l.languages.DFS(l.languages,function(M,R){R===_&&M!=m&&(this[M]=v)}),v},DFS:function m(b,w,x,Q){Q=Q||{};var v=l.util.objId;for(var T in b)if(b.hasOwnProperty(T)){w.call(b,T,b[T],x||T);var $=b[T],_=l.util.type($);_==="Object"&&!Q[v($)]?(Q[v($)]=!0,m($,w,null,Q)):_==="Array"&&!Q[v($)]&&(Q[v($)]=!0,m($,w,T,Q))}}},plugins:{},highlightAll:function(m,b){l.highlightAllUnder(document,m,b)},highlightAllUnder:function(m,b,w){var x={callback:w,container:m,selector:'code[class*="language-"], [class*="language-"] code, code[class*="lang-"], [class*="lang-"] code'};l.hooks.run("before-highlightall",x),x.elements=Array.prototype.slice.apply(x.container.querySelectorAll(x.selector)),l.hooks.run("before-all-elements-highlight",x);for(var Q=0,v;v=x.elements[Q++];)l.highlightElement(v,b===!0,x.callback)},highlightElement:function(m,b,w){var x=l.util.getLanguage(m),Q=l.languages[x];l.util.setLanguage(m,x);var v=m.parentElement;v&&v.nodeName.toLowerCase()==="pre"&&l.util.setLanguage(v,x);var T=m.textContent,$={element:m,language:x,grammar:Q,code:T};function _(R){$.highlightedCode=R,l.hooks.run("before-insert",$),$.element.innerHTML=$.highlightedCode,l.hooks.run("after-highlight",$),l.hooks.run("complete",$),w&&w.call($.element)}if(l.hooks.run("before-sanity-check",$),v=$.element.parentElement,v&&v.nodeName.toLowerCase()==="pre"&&!v.hasAttribute("tabindex")&&v.setAttribute("tabindex","0"),!$.code){l.hooks.run("complete",$),w&&w.call($.element);return}if(l.hooks.run("before-highlight",$),!$.grammar){_(l.util.encode($.code));return}if(b&&i.Worker){var M=new Worker(l.filename);M.onmessage=function(R){_(R.data)},M.postMessage(JSON.stringify({language:$.language,code:$.code,immediateClose:!0}))}else _(l.highlight($.code,$.grammar,$.language))},highlight:function(m,b,w){var x={code:m,grammar:b,language:w};if(l.hooks.run("before-tokenize",x),!x.grammar)throw new Error('The language "'+x.language+'" has no grammar.');return x.tokens=l.tokenize(x.code,x.grammar),l.hooks.run("after-tokenize",x),a.stringify(l.util.encode(x.tokens),x.language)},tokenize:function(m,b){var w=b.rest;if(w){for(var x in w)b[x]=w[x];delete b.rest}var Q=new d;return u(Q,Q.head,m),c(m,Q,b,Q.head,0),O(Q)},hooks:{all:{},add:function(m,b){var w=l.hooks.all;w[m]=w[m]||[],w[m].push(b)},run:function(m,b){var w=l.hooks.all[m];if(!(!w||!w.length))for(var x=0,Q;Q=w[x++];)Q(b)}},Token:a};i.Prism=l;function a(m,b,w,x){this.type=m,this.content=b,this.alias=w,this.length=(x||"").length|0}a.stringify=function m(b,w){if(typeof b=="string")return b;if(Array.isArray(b)){var x="";return b.forEach(function(_){x+=m(_,w)}),x}var Q={type:b.type,content:m(b.content,w),tag:"span",classes:["token",b.type],attributes:{},language:w},v=b.alias;v&&(Array.isArray(v)?Array.prototype.push.apply(Q.classes,v):Q.classes.push(v)),l.hooks.run("wrap",Q);var T="";for(var $ in Q.attributes)T+=" "+$+'="'+(Q.attributes[$]||"").replace(/"/g,"&quot;")+'"';return"<"+Q.tag+' class="'+Q.classes.join(" ")+'"'+T+">"+Q.content+"</"+Q.tag+">"};function h(m,b,w,x){m.lastIndex=b;var Q=m.exec(w);if(Q&&x&&Q[1]){var v=Q[1].length;Q.index+=v,Q[0]=Q[0].slice(v)}return Q}function c(m,b,w,x,Q,v){for(var T in w)if(!(!w.hasOwnProperty(T)||!w[T])){var $=w[T];$=Array.isArray($)?$:[$];for(var _=0;_<$.length;++_){if(v&&v.cause==T+","+_)return;var M=$[_],R=M.inside,Y=!!M.lookbehind,L=!!M.greedy,I=M.alias;if(L&&!M.pattern.global){var de=M.pattern.toString().match(/[imsuy]*$/)[0];M.pattern=RegExp(M.pattern.source,de+"g")}for(var me=M.pattern||M,G=x.next,B=Q;G!==b.tail&&!(v&&B>=v.reach);B+=G.value.length,G=G.next){var le=G.value;if(b.length>m.length)return;if(!(le instanceof a)){var ke=1,K;if(L){if(K=h(me,B,m,Y),!K||K.index>=m.length)break;var Ot=K.index,je=K.index+K[0].length,be=B;for(be+=G.value.length;Ot>=be;)G=G.next,be+=G.value.length;if(be-=G.value.length,B=be,G.value instanceof a)continue;for(var Le=G;Le!==b.tail&&(be<je||typeof Le.value=="string");Le=Le.next)ke++,be+=Le.value.length;ke--,le=m.slice(B,be),K.index-=B}else if(K=h(me,0,le,Y),!K)continue;var Ot=K.index,Dt=K[0],Ur=le.slice(0,Ot),Rl=le.slice(Ot+Dt.length),Hr=B+le.length;v&&Hr>v.reach&&(v.reach=Hr);var mn=G.prev;Ur&&(mn=u(b,mn,Ur),B+=Ur.length),f(b,mn,ke);var Ef=new a(T,R?l.tokenize(Dt,R):Dt,I,Dt);if(G=u(b,mn,Ef),Rl&&u(b,G,Rl),ke>1){var Kr={cause:T+","+_,reach:Hr};c(m,b,w,G.prev,B,Kr),v&&Kr.reach>v.reach&&(v.reach=Kr.reach)}}}}}}function d(){var m={value:null,prev:null,next:null},b={value:null,prev:m,next:null};m.next=b,this.head=m,this.tail=b,this.length=0}function u(m,b,w){var x=b.next,Q={value:w,prev:b,next:x};return b.next=Q,x.prev=Q,m.length++,Q}function f(m,b,w){for(var x=b.next,Q=0;Q<w&&x!==m.tail;Q++)x=x.next;b.next=x,x.prev=b,m.length-=Q}function O(m){for(var b=[],w=m.head.next;w!==m.tail;)b.push(w.value),w=w.next;return b}if(!i.document)return i.addEventListener&&(l.disableWorkerMessageHandler||i.addEventListener("message",function(m){var b=JSON.parse(m.data),w=b.language,x=b.code,Q=b.immediateClose;i.postMessage(l.highlight(x,l.languages[w],w)),Q&&i.close()},!1)),l;var p=l.util.currentScript();p&&(l.filename=p.src,p.hasAttribute("data-manual")&&(l.manual=!0));function g(){l.manual||l.highlightAll()}if(!l.manual){var S=document.readyState;S==="loading"||S==="interactive"&&p&&p.defer?document.addEventListener("DOMContentLoaded",g):window.requestAnimationFrame?window.requestAnimationFrame(g):window.setTimeout(g,16)}return l})(e);n.exports&&(n.exports=t),typeof Ml<"u"&&(Ml.Prism=t),t.languages.markup={comment:{pattern:/<!--(?:(?!<!--)[\s\S])*?-->/,greedy:!0},prolog:{pattern:/<\?[\s\S]+?\?>/,greedy:!0},doctype:{pattern:/<!DOCTYPE(?:[^>"'[\]]|"[^"]*"|'[^']*')+(?:\[(?:[^<"'\]]|"[^"]*"|'[^']*'|<(?!!--)|<!--(?:[^-]|-(?!->))*-->)*\]\s*)?>/i,greedy:!0,inside:{"internal-subset":{pattern:/(^[^\[]*\[)[\s\S]+(?=\]>$)/,lookbehind:!0,greedy:!0,inside:null},string:{pattern:/"[^"]*"|'[^']*'/,greedy:!0},punctuation:/^<!|>$|[[\]]/,"doctype-tag":/^DOCTYPE/i,name:/[^\s<>'"]+/}},cdata:{pattern:/<!\[CDATA\[[\s\S]*?\]\]>/i,greedy:!0},tag:{pattern:/<\/?(?!\d)[^\s>\/=$<%]+(?:\s(?:\s*[^\s>\/=]+(?:\s*=\s*(?:"[^"]*"|'[^']*'|[^\s'">=]+(?=[\s>]))|(?=[\s/>])))+)?\s*\/?>/,greedy:!0,inside:{tag:{pattern:/^<\/?[^\s>\/]+/,inside:{punctuation:/^<\/?/,namespace:/^[^\s>\/:]+:/}},"special-attr":[],"attr-value":{pattern:/=\s*(?:"[^"]*"|'[^']*'|[^\s'">=]+)/,inside:{punctuation:[{pattern:/^=/,alias:"attr-equals"},{pattern:/^(\s*)["']|["']$/,lookbehind:!0}]}},punctuation:/\/?>/,"attr-name":{pattern:/[^\s>\/]+/,inside:{namespace:/^[^\s>\/:]+:/}}}},entity:[{pattern:/&[\da-z]{1,8};/i,alias:"named-entity"},/&#x?[\da-f]{1,8};/i]},t.languages.markup.tag.inside["attr-value"].inside.entity=t.languages.markup.entity,t.languages.markup.doctype.inside["internal-subset"].inside=t.languages.markup,t.hooks.add("wrap",function(i){i.type==="entity"&&(i.attributes.title=i.content.replace(/&amp;/,"&"))}),Object.defineProperty(t.languages.markup.tag,"addInlined",{value:function(r,s){var o={};o["language-"+s]={pattern:/(^<!\[CDATA\[)[\s\S]+?(?=\]\]>$)/i,lookbehind:!0,inside:t.languages[s]},o.cdata=/^<!\[CDATA\[|\]\]>$/i;var l={"included-cdata":{pattern:/<!\[CDATA\[[\s\S]*?\]\]>/i,inside:o}};l["language-"+s]={pattern:/[\s\S]+/,inside:t.languages[s]};var a={};a[r]={pattern:RegExp(/(<__[^>]*>)(?:<!\[CDATA\[(?:[^\]]|\](?!\]>))*\]\]>|(?!<!\[CDATA\[)[\s\S])*?(?=<\/__>)/.source.replace(/__/g,function(){return r}),"i"),lookbehind:!0,greedy:!0,inside:l},t.languages.insertBefore("markup","cdata",a)}}),Object.defineProperty(t.languages.markup.tag,"addAttribute",{value:function(i,r){t.languages.markup.tag.inside["special-attr"].push({pattern:RegExp(/(^|["'\s])/.source+"(?:"+i+")"+/\s*=\s*(?:"[^"]*"|'[^']*'|[^\s'">=]+(?=[\s>]))/.source,"i"),lookbehind:!0,inside:{"attr-name":/^[^\s=]+/,"attr-value":{pattern:/=[\s\S]+/,inside:{value:{pattern:/(^=\s*(["']|(?!["'])))\S[\s\S]*(?=\2$)/,lookbehind:!0,alias:[r,"language-"+r],inside:t.languages[r]},punctuation:[{pattern:/^=/,alias:"attr-equals"},/"|'/]}}}})}}),t.languages.html=t.languages.markup,t.languages.mathml=t.languages.markup,t.languages.svg=t.languages.markup,t.languages.xml=t.languages.extend("markup",{}),t.languages.ssml=t.languages.xml,t.languages.atom=t.languages.xml,t.languages.rss=t.languages.xml,(function(i){var r=/(?:"(?:\\(?:\r\n|[\s\S])|[^"\\\r\n])*"|'(?:\\(?:\r\n|[\s\S])|[^'\\\r\n])*')/;i.languages.css={comment:/\/\*[\s\S]*?\*\//,atrule:{pattern:RegExp("@[\\w-](?:"+/[^;{\s"']|\s+(?!\s)/.source+"|"+r.source+")*?"+/(?:;|(?=\s*\{))/.source),inside:{rule:/^@[\w-]+/,"selector-function-argument":{pattern:/(\bselector\s*\(\s*(?![\s)]))(?:[^()\s]|\s+(?![\s)])|\((?:[^()]|\([^()]*\))*\))+(?=\s*\))/,lookbehind:!0,alias:"selector"},keyword:{pattern:/(^|[^\w-])(?:and|not|only|or)(?![\w-])/,lookbehind:!0}}},url:{pattern:RegExp("\\burl\\((?:"+r.source+"|"+/(?:[^\\\r\n()"']|\\[\s\S])*/.source+")\\)","i"),greedy:!0,inside:{function:/^url/i,punctuation:/^\(|\)$/,string:{pattern:RegExp("^"+r.source+"$"),alias:"url"}}},selector:{pattern:RegExp(`(^|[{}\\s])[^{}\\s](?:[^{};"'\\s]|\\s+(?![\\s{])|`+r.source+")*(?=\\s*\\{)"),lookbehind:!0},string:{pattern:r,greedy:!0},property:{pattern:/(^|[^-\w\xA0-\uFFFF])(?!\s)[-_a-z\xA0-\uFFFF](?:(?!\s)[-\w\xA0-\uFFFF])*(?=\s*:)/i,lookbehind:!0},important:/!important\b/i,function:{pattern:/(^|[^-a-z0-9])[-a-z0-9]+(?=\()/i,lookbehind:!0},punctuation:/[(){};:,]/},i.languages.css.atrule.inside.rest=i.languages.css;var s=i.languages.markup;s&&(s.tag.addInlined("style","css"),s.tag.addAttribute("style","css"))})(t),t.languages.clike={comment:[{pattern:/(^|[^\\])\/\*[\s\S]*?(?:\*\/|$)/,lookbehind:!0,greedy:!0},{pattern:/(^|[^\\:])\/\/.*/,lookbehind:!0,greedy:!0}],string:{pattern:/(["'])(?:\\(?:\r\n|[\s\S])|(?!\1)[^\\\r\n])*\1/,greedy:!0},"class-name":{pattern:/(\b(?:class|extends|implements|instanceof|interface|new|trait)\s+|\bcatch\s+\()[\w.\\]+/i,lookbehind:!0,inside:{punctuation:/[.\\]/}},keyword:/\b(?:break|catch|continue|do|else|finally|for|function|if|in|instanceof|new|null|return|throw|try|while)\b/,boolean:/\b(?:false|true)\b/,function:/\b\w+(?=\()/,number:/\b0x[\da-f]+\b|(?:\b\d+(?:\.\d*)?|\B\.\d+)(?:e[+-]?\d+)?/i,operator:/[<>]=?|[!=]=?=?|--?|\+\+?|&&?|\|\|?|[?*/~^%]/,punctuation:/[{}[\];(),.:]/},t.languages.javascript=t.languages.extend("clike",{"class-name":[t.languages.clike["class-name"],{pattern:/(^|[^$\w\xA0-\uFFFF])(?!\s)[_$A-Z\xA0-\uFFFF](?:(?!\s)[$\w\xA0-\uFFFF])*(?=\.(?:constructor|prototype))/,lookbehind:!0}],keyword:[{pattern:/((?:^|\})\s*)catch\b/,lookbehind:!0},{pattern:/(^|[^.]|\.\.\.\s*)\b(?:as|assert(?=\s*\{)|async(?=\s*(?:function\b|\(|[$\w\xA0-\uFFFF]|$))|await|break|case|class|const|continue|debugger|default|delete|do|else|enum|export|extends|finally(?=\s*(?:\{|$))|for|from(?=\s*(?:['"]|$))|function|(?:get|set)(?=\s*(?:[#\[$\w\xA0-\uFFFF]|$))|if|implements|import|in|instanceof|interface|let|new|null|of|package|private|protected|public|return|static|super|switch|this|throw|try|typeof|undefined|var|void|while|with|yield)\b/,lookbehind:!0}],function:/#?(?!\s)[_$a-zA-Z\xA0-\uFFFF](?:(?!\s)[$\w\xA0-\uFFFF])*(?=\s*(?:\.\s*(?:apply|bind|call)\s*)?\()/,number:{pattern:RegExp(/(^|[^\w$])/.source+"(?:"+(/NaN|Infinity/.source+"|"+/0[bB][01]+(?:_[01]+)*n?/.source+"|"+/0[oO][0-7]+(?:_[0-7]+)*n?/.source+"|"+/0[xX][\dA-Fa-f]+(?:_[\dA-Fa-f]+)*n?/.source+"|"+/\d+(?:_\d+)*n/.source+"|"+/(?:\d+(?:_\d+)*(?:\.(?:\d+(?:_\d+)*)?)?|\.\d+(?:_\d+)*)(?:[Ee][+-]?\d+(?:_\d+)*)?/.source)+")"+/(?![\w$])/.source),lookbehind:!0},operator:/--|\+\+|\*\*=?|=>|&&=?|\|\|=?|[!=]==|<<=?|>>>?=?|[-+*/%&|^!=<>]=?|\.{3}|\?\?=?|\?\.?|[~:]/}),t.languages.javascript["class-name"][0].pattern=/(\b(?:class|extends|implements|instanceof|interface|new)\s+)[\w.\\]+/,t.languages.insertBefore("javascript","keyword",{regex:{pattern:RegExp(/((?:^|[^$\w\xA0-\uFFFF."'\])\s]|\b(?:return|yield))\s*)/.source+/\//.source+"(?:"+/(?:\[(?:[^\]\\\r\n]|\\.)*\]|\\.|[^/\\\[\r\n])+\/[dgimyus]{0,7}/.source+"|"+/(?:\[(?:[^[\]\\\r\n]|\\.|\[(?:[^[\]\\\r\n]|\\.|\[(?:[^[\]\\\r\n]|\\.)*\])*\])*\]|\\.|[^/\\\[\r\n])+\/[dgimyus]{0,7}v[dgimyus]{0,7}/.source+")"+/(?=(?:\s|\/\*(?:[^*]|\*(?!\/))*\*\/)*(?:$|[\r\n,.;:})\]]|\/\/))/.source),lookbehind:!0,greedy:!0,inside:{"regex-source":{pattern:/^(\/)[\s\S]+(?=\/[a-z]*$)/,lookbehind:!0,alias:"language-regex",inside:t.languages.regex},"regex-delimiter":/^\/|\/$/,"regex-flags":/^[a-z]+$/}},"function-variable":{pattern:/#?(?!\s)[_$a-zA-Z\xA0-\uFFFF](?:(?!\s)[$\w\xA0-\uFFFF])*(?=\s*[=:]\s*(?:async\s*)?(?:\bfunction\b|(?:\((?:[^()]|\([^()]*\))*\)|(?!\s)[_$a-zA-Z\xA0-\uFFFF](?:(?!\s)[$\w\xA0-\uFFFF])*)\s*=>))/,alias:"function"},parameter:[{pattern:/(function(?:\s+(?!\s)[_$a-zA-Z\xA0-\uFFFF](?:(?!\s)[$\w\xA0-\uFFFF])*)?\s*\(\s*)(?!\s)(?:[^()\s]|\s+(?![\s)])|\([^()]*\))+(?=\s*\))/,lookbehind:!0,inside:t.languages.javascript},{pattern:/(^|[^$\w\xA0-\uFFFF])(?!\s)[_$a-z\xA0-\uFFFF](?:(?!\s)[$\w\xA0-\uFFFF])*(?=\s*=>)/i,lookbehind:!0,inside:t.languages.javascript},{pattern:/(\(\s*)(?!\s)(?:[^()\s]|\s+(?![\s)])|\([^()]*\))+(?=\s*\)\s*=>)/,lookbehind:!0,inside:t.languages.javascript},{pattern:/((?:\b|\s|^)(?!(?:as|async|await|break|case|catch|class|const|continue|debugger|default|delete|do|else|enum|export|extends|finally|for|from|function|get|if|implements|import|in|instanceof|interface|let|new|null|of|package|private|protected|public|return|set|static|super|switch|this|throw|try|typeof|undefined|var|void|while|with|yield)(?![$\w\xA0-\uFFFF]))(?:(?!\s)[_$a-zA-Z\xA0-\uFFFF](?:(?!\s)[$\w\xA0-\uFFFF])*\s*)\(\s*|\]\s*\(\s*)(?!\s)(?:[^()\s]|\s+(?![\s)])|\([^()]*\))+(?=\s*\)\s*\{)/,lookbehind:!0,inside:t.languages.javascript}],constant:/\b[A-Z](?:[A-Z_]|\dx?)*\b/}),t.languages.insertBefore("javascript","string",{hashbang:{pattern:/^#!.*/,greedy:!0,alias:"comment"},"template-string":{pattern:/`(?:\\[\s\S]|\$\{(?:[^{}]|\{(?:[^{}]|\{[^}]*\})*\})+\}|(?!\$\{)[^\\`])*`/,greedy:!0,inside:{"template-punctuation":{pattern:/^`|`$/,alias:"string"},interpolation:{pattern:/((?:^|[^\\])(?:\\{2})*)\$\{(?:[^{}]|\{(?:[^{}]|\{[^}]*\})*\})+\}/,lookbehind:!0,inside:{"interpolation-punctuation":{pattern:/^\$\{|\}$/,alias:"punctuation"},rest:t.languages.javascript}},string:/[\s\S]+/}},"string-property":{pattern:/((?:^|[,{])[ \t]*)(["'])(?:\\(?:\r\n|[\s\S])|(?!\2)[^\\\r\n])*\2(?=\s*:)/m,lookbehind:!0,greedy:!0,alias:"property"}}),t.languages.insertBefore("javascript","operator",{"literal-property":{pattern:/((?:^|[,{])[ \t]*)(?!\s)[_$a-zA-Z\xA0-\uFFFF](?:(?!\s)[$\w\xA0-\uFFFF])*(?=\s*:)/m,lookbehind:!0,alias:"property"}}),t.languages.markup&&(t.languages.markup.tag.addInlined("script","javascript"),t.languages.markup.tag.addAttribute(/on(?:abort|blur|change|click|composition(?:end|start|update)|dblclick|error|focus(?:in|out)?|key(?:down|up)|load|mouse(?:down|enter|leave|move|out|over|up)|reset|resize|scroll|select|slotchange|submit|unload|wheel)/.source,"javascript")),t.languages.js=t.languages.javascript,(function(){if(typeof t>"u"||typeof document>"u")return;Element.prototype.matches||(Element.prototype.matches=Element.prototype.msMatchesSelector||Element.prototype.webkitMatchesSelector);var i="Loading…",r=function(p,g){return"✖ Error "+p+" while fetching file: "+g},s="✖ Error: File does not exist or is empty",o={js:"javascript",py:"python",rb:"ruby",ps1:"powershell",psm1:"powershell",sh:"bash",bat:"batch",h:"c",tex:"latex"},l="data-src-status",a="loading",h="loaded",c="failed",d="pre[data-src]:not(["+l+'="'+h+'"]):not(['+l+'="'+a+'"])';function u(p,g,S){var m=new XMLHttpRequest;m.open("GET",p,!0),m.onreadystatechange=function(){m.readyState==4&&(m.status<400&&m.responseText?g(m.responseText):m.status>=400?S(r(m.status,m.statusText)):S(s))},m.send(null)}function f(p){var g=/^\s*(\d+)\s*(?:(,)\s*(?:(\d+)\s*)?)?$/.exec(p||"");if(g){var S=Number(g[1]),m=g[2],b=g[3];return m?b?[S,Number(b)]:[S,void 0]:[S,S]}}t.hooks.add("before-highlightall",function(p){p.selector+=", "+d}),t.hooks.add("before-sanity-check",function(p){var g=p.element;if(g.matches(d)){p.code="",g.setAttribute(l,a);var S=g.appendChild(document.createElement("CODE"));S.textContent=i;var m=g.getAttribute("data-src"),b=p.language;if(b==="none"){var w=(/\.(\w+)$/.exec(m)||[,"none"])[1];b=o[w]||w}t.util.setLanguage(S,b),t.util.setLanguage(g,b);var x=t.plugins.autoloader;x&&x.loadLanguages(b),u(m,function(Q){g.setAttribute(l,h);var v=f(g.getAttribute("data-range"));if(v){var T=Q.split(/\r\n?|\n/g),$=v[0],_=v[1]==null?T.length:v[1];$<0&&($+=T.length),$=Math.max(0,Math.min($-1,T.length)),_<0&&(_+=T.length),_=Math.max(0,Math.min(_,T.length)),Q=T.slice($,_).join(`
-`),g.hasAttribute("data-start")||g.setAttribute("data-start",String($+1))}S.textContent=Q,t.highlightElement(S)},function(Q){g.setAttribute(l,c),S.textContent=Q})}}),t.plugins.fileHighlight={highlight:function(g){for(var S=(g||document).querySelectorAll(d),m=0,b;b=S[m++];)t.highlightElement(b)}};var O=!1;t.fileHighlight=function(){O||(console.warn("Prism.fileHighlight is deprecated. Use `Prism.plugins.fileHighlight.highlight` instead."),O=!0),t.plugins.fileHighlight.highlight.apply(this,arguments)}})()})(Jr)),Jr.exports}var jf=Df();const Lf=zf(jf);(function(n){var e="\\b(?:BASH|BASHOPTS|BASH_ALIASES|BASH_ARGC|BASH_ARGV|BASH_CMDS|BASH_COMPLETION_COMPAT_DIR|BASH_LINENO|BASH_REMATCH|BASH_SOURCE|BASH_VERSINFO|BASH_VERSION|COLORTERM|COLUMNS|COMP_WORDBREAKS|DBUS_SESSION_BUS_ADDRESS|DEFAULTS_PATH|DESKTOP_SESSION|DIRSTACK|DISPLAY|EUID|GDMSESSION|GDM_LANG|GNOME_KEYRING_CONTROL|GNOME_KEYRING_PID|GPG_AGENT_INFO|GROUPS|HISTCONTROL|HISTFILE|HISTFILESIZE|HISTSIZE|HOME|HOSTNAME|HOSTTYPE|IFS|INSTANCE|JOB|LANG|LANGUAGE|LC_ADDRESS|LC_ALL|LC_IDENTIFICATION|LC_MEASUREMENT|LC_MONETARY|LC_NAME|LC_NUMERIC|LC_PAPER|LC_TELEPHONE|LC_TIME|LESSCLOSE|LESSOPEN|LINES|LOGNAME|LS_COLORS|MACHTYPE|MAILCHECK|MANDATORY_PATH|NO_AT_BRIDGE|OLDPWD|OPTERR|OPTIND|ORBIT_SOCKETDIR|OSTYPE|PAPERSIZE|PATH|PIPESTATUS|PPID|PS1|PS2|PS3|PS4|PWD|RANDOM|REPLY|SECONDS|SELINUX_INIT|SESSION|SESSIONTYPE|SESSION_MANAGER|SHELL|SHELLOPTS|SHLVL|SSH_AUTH_SOCK|TERM|UID|UPSTART_EVENTS|UPSTART_INSTANCE|UPSTART_JOB|UPSTART_SESSION|USER|WINDOWID|XAUTHORITY|XDG_CONFIG_DIRS|XDG_CURRENT_DESKTOP|XDG_DATA_DIRS|XDG_GREETER_DATA_DIR|XDG_MENU_PREFIX|XDG_RUNTIME_DIR|XDG_SEAT|XDG_SEAT_PATH|XDG_SESSION_DESKTOP|XDG_SESSION_ID|XDG_SESSION_PATH|XDG_SESSION_TYPE|XDG_VTNR|XMODIFIERS)\\b",t={pattern:/(^(["']?)\w+\2)[ \t]+\S.*/,lookbehind:!0,alias:"punctuation",inside:null},i={bash:t,environment:{pattern:RegExp("\\$"+e),alias:"constant"},variable:[{pattern:/\$?\(\([\s\S]+?\)\)/,greedy:!0,inside:{variable:[{pattern:/(^\$\(\([\s\S]+)\)\)/,lookbehind:!0},/^\$\(\(/],number:/\b0x[\dA-Fa-f]+\b|(?:\b\d+(?:\.\d*)?|\B\.\d+)(?:[Ee]-?\d+)?/,operator:/--|\+\+|\*\*=?|<<=?|>>=?|&&|\|\||[=!+\-*/%<>^&|]=?|[?~:]/,punctuation:/\(\(?|\)\)?|,|;/}},{pattern:/\$\((?:\([^)]+\)|[^()])+\)|`[^`]+`/,greedy:!0,inside:{variable:/^\$\(|^`|\)$|`$/}},{pattern:/\$\{[^}]+\}/,greedy:!0,inside:{operator:/:[-=?+]?|[!\/]|##?|%%?|\^\^?|,,?/,punctuation:/[\[\]]/,environment:{pattern:RegExp("(\\{)"+e),lookbehind:!0,alias:"constant"}}},/\$(?:\w+|[#?*!@$])/],entity:/\\(?:[abceEfnrtv\\"]|O?[0-7]{1,3}|U[0-9a-fA-F]{8}|u[0-9a-fA-F]{4}|x[0-9a-fA-F]{1,2})/};n.languages.bash={shebang:{pattern:/^#!\s*\/.*/,alias:"important"},comment:{pattern:/(^|[^"{\\$])#.*/,lookbehind:!0},"function-name":[{pattern:/(\bfunction\s+)[\w-]+(?=(?:\s*\(?:\s*\))?\s*\{)/,lookbehind:!0,alias:"function"},{pattern:/\b[\w-]+(?=\s*\(\s*\)\s*\{)/,alias:"function"}],"for-or-select":{pattern:/(\b(?:for|select)\s+)\w+(?=\s+in\s)/,alias:"variable",lookbehind:!0},"assign-left":{pattern:/(^|[\s;|&]|[<>]\()\w+(?:\.\w+)*(?=\+?=)/,inside:{environment:{pattern:RegExp("(^|[\\s;|&]|[<>]\\()"+e),lookbehind:!0,alias:"constant"}},alias:"variable",lookbehind:!0},parameter:{pattern:/(^|\s)-{1,2}(?:\w+:[+-]?)?\w+(?:\.\w+)*(?=[=\s]|$)/,alias:"variable",lookbehind:!0},string:[{pattern:/((?:^|[^<])<<-?\s*)(\w+)\s[\s\S]*?(?:\r?\n|\r)\2/,lookbehind:!0,greedy:!0,inside:i},{pattern:/((?:^|[^<])<<-?\s*)(["'])(\w+)\2\s[\s\S]*?(?:\r?\n|\r)\3/,lookbehind:!0,greedy:!0,inside:{bash:t}},{pattern:/(^|[^\\](?:\\\\)*)"(?:\\[\s\S]|\$\([^)]+\)|\$(?!\()|`[^`]+`|[^"\\`$])*"/,lookbehind:!0,greedy:!0,inside:i},{pattern:/(^|[^$\\])'[^']*'/,lookbehind:!0,greedy:!0},{pattern:/\$'(?:[^'\\]|\\[\s\S])*'/,greedy:!0,inside:{entity:i.entity}}],environment:{pattern:RegExp("\\$?"+e),alias:"constant"},variable:i.variable,function:{pattern:/(^|[\s;|&]|[<>]\()(?:add|apropos|apt|apt-cache|apt-get|aptitude|aspell|automysqlbackup|awk|basename|bash|bc|bconsole|bg|bzip2|cal|cargo|cat|cfdisk|chgrp|chkconfig|chmod|chown|chroot|cksum|clear|cmp|column|comm|composer|cp|cron|crontab|csplit|curl|cut|date|dc|dd|ddrescue|debootstrap|df|diff|diff3|dig|dir|dircolors|dirname|dirs|dmesg|docker|docker-compose|du|egrep|eject|env|ethtool|expand|expect|expr|fdformat|fdisk|fg|fgrep|file|find|fmt|fold|format|free|fsck|ftp|fuser|gawk|git|gparted|grep|groupadd|groupdel|groupmod|groups|grub-mkconfig|gzip|halt|head|hg|history|host|hostname|htop|iconv|id|ifconfig|ifdown|ifup|import|install|ip|java|jobs|join|kill|killall|less|link|ln|locate|logname|logrotate|look|lpc|lpr|lprint|lprintd|lprintq|lprm|ls|lsof|lynx|make|man|mc|mdadm|mkconfig|mkdir|mke2fs|mkfifo|mkfs|mkisofs|mknod|mkswap|mmv|more|most|mount|mtools|mtr|mutt|mv|nano|nc|netstat|nice|nl|node|nohup|notify-send|npm|nslookup|op|open|parted|passwd|paste|pathchk|ping|pkill|pnpm|podman|podman-compose|popd|pr|printcap|printenv|ps|pushd|pv|quota|quotacheck|quotactl|ram|rar|rcp|reboot|remsync|rename|renice|rev|rm|rmdir|rpm|rsync|scp|screen|sdiff|sed|sendmail|seq|service|sftp|sh|shellcheck|shuf|shutdown|sleep|slocate|sort|split|ssh|stat|strace|su|sudo|sum|suspend|swapon|sync|sysctl|tac|tail|tar|tee|time|timeout|top|touch|tr|traceroute|tsort|tty|umount|uname|unexpand|uniq|units|unrar|unshar|unzip|update-grub|uptime|useradd|userdel|usermod|users|uudecode|uuencode|v|vcpkg|vdir|vi|vim|virsh|vmstat|wait|watch|wc|wget|whereis|which|who|whoami|write|xargs|xdg-open|yarn|yes|zenity|zip|zsh|zypper)(?=$|[)\s;|&])/,lookbehind:!0},keyword:{pattern:/(^|[\s;|&]|[<>]\()(?:case|do|done|elif|else|esac|fi|for|function|if|in|select|then|until|while)(?=$|[)\s;|&])/,lookbehind:!0},builtin:{pattern:/(^|[\s;|&]|[<>]\()(?:\.|:|alias|bind|break|builtin|caller|cd|command|continue|declare|echo|enable|eval|exec|exit|export|getopts|hash|help|let|local|logout|mapfile|printf|pwd|read|readarray|readonly|return|set|shift|shopt|source|test|times|trap|type|typeset|ulimit|umask|unalias|unset)(?=$|[)\s;|&])/,lookbehind:!0,alias:"class-name"},boolean:{pattern:/(^|[\s;|&]|[<>]\()(?:false|true)(?=$|[)\s;|&])/,lookbehind:!0},"file-descriptor":{pattern:/\B&\d\b/,alias:"important"},operator:{pattern:/\d?<>|>\||\+=|=[=~]?|!=?|<<[<-]?|[&\d]?>>|\d[<>]&?|[<>][&=]?|&[>&]?|\|[&|]?/,inside:{"file-descriptor":{pattern:/^\d/,alias:"important"}}},punctuation:/\$?\(\(?|\)\)?|\.\.|[{}[\];\\]/,number:{pattern:/(^|\s)(?:[1-9]\d*|0)(?:[.,]\d+)?\b/,lookbehind:!0}},t.inside=n.languages.bash;for(var r=["comment","function-name","for-or-select","assign-left","parameter","string","environment","function","keyword","builtin","boolean","file-descriptor","operator","punctuation","number"],s=i.variable[1].inside,o=0;o<r.length;o++)s[r[o]]=n.languages.bash[r[o]];n.languages.sh=n.languages.bash,n.languages.shell=n.languages.bash})(Prism);var _l={},zl;function Wf(){return zl||(zl=1,(function(n){n.languages.typescript=n.languages.extend("javascript",{"class-name":{pattern:/(\b(?:class|extends|implements|instanceof|interface|new|type)\s+)(?!keyof\b)(?!\s)[_$a-zA-Z\xA0-\uFFFF](?:(?!\s)[$\w\xA0-\uFFFF])*(?:\s*<(?:[^<>]|<(?:[^<>]|<[^<>]*>)*>)*>)?/,lookbehind:!0,greedy:!0,inside:null},builtin:/\b(?:Array|Function|Promise|any|boolean|console|never|number|string|symbol|unknown)\b/}),n.languages.typescript.keyword.push(/\b(?:abstract|declare|is|keyof|readonly|require)\b/,/\b(?:asserts|infer|interface|module|namespace|type)\b(?=\s*(?:[{_$a-zA-Z\xA0-\uFFFF]|$))/,/\btype\b(?=\s*(?:[\{*]|$))/),delete n.languages.typescript.parameter,delete n.languages.typescript["literal-property"];var e=n.languages.extend("typescript",{});delete e["class-name"],n.languages.typescript["class-name"].inside=e,n.languages.insertBefore("typescript","function",{decorator:{pattern:/@[$\w\xA0-\uFFFF]+/,inside:{at:{pattern:/^@/,alias:"operator"},function:/^[\s\S]+/}},"generic-function":{pattern:/#?(?!\s)[_$a-zA-Z\xA0-\uFFFF](?:(?!\s)[$\w\xA0-\uFFFF])*\s*<(?:[^<>]|<(?:[^<>]|<[^<>]*>)*>)*>(?=\s*\()/,greedy:!0,inside:{function:/^#?(?!\s)[_$a-zA-Z\xA0-\uFFFF](?:(?!\s)[$\w\xA0-\uFFFF])*/,generic:{pattern:/<[\s\S]+/,alias:"class-name",inside:e}}}}),n.languages.ts=n.languages.typescript})(Prism)),_l}Wf();const Yf=`<div class="getting-started-container">\r
-\r
-</div>\r
-\r
-`,Vf=`<section class="getting-started-installation getting-started-section">\r
-	<h1>Installation</h1>\r
-\r
-	<p>\r
-		Using a bundler (such as Vite or Webpack) is recommended.\r
-		If you are not using a bundler, you can use Aero directly via a CDN without installation.\r
-	</p>\r
-\r
-	<pre><code class="language-bash">\r
-		npm install @taren250424/aero\r
-	</code></pre>\r
-</section>\r
-`,qf=`<section class="getting-started-usage getting-started-section">\r
-	<h1>Usage</h1>\r
-\r
-	<p>\r
-		If you're using a bundler (Vite, Webpack, etc.), import Aero once at your application entry point:\r
-	</p>\r
-\r
-	<pre><code class="language-ts">\r
-		import "@taren250424/aero";\r
-	</code></pre>\r
-\r
-	<p>\r
-		You can then use the components in your HTML:\r
-	</p>\r
-\r
-	<pre><code class="language-html">\r
-		&lt;aero-numeric-input&gt;&lt;/aero-numeric-input&gt;\r
-	</code></pre>\r
-\r
-	<p>\r
-		If you import the component type explicitly,\r
-		you can benefit from type checking and IDE auto-completion when creating elements dynamically.\r
-	</p>\r
-\r
-	<pre><code class="language-ts">\r
-		import type { AeroNumericInput } from "@taren250424/aero";\r
-		const input = document.createElement("aero-numeric-input") as AeroNumericInput;\r
-	</code></pre>\r
-\r
-	<p>\r
-		For simple usage without a bundler, you can include Aero directly via CDN:\r
-	</p>\r
-\r
-	<pre><code class="language-html">\r
-		&lt;script src="https://unpkg.com/@taren250424/aero/umd"&gt;&lt;/script&gt;\r
-	</code></pre>\r
-\r
-	<p>\r
-		You can then use the components in your HTML:\r
-	</p>\r
-\r
-	<pre><code class="language-html">\r
-		&lt;aero-numeric-input&gt;&lt;/aero-numeric-input&gt;\r
-	</code></pre>\r
-\r
-</section>\r
+`),g.hasAttribute("data-start")||g.setAttribute("data-start",String($+1))}S.textContent=Q,t.highlightElement(S)},function(Q){g.setAttribute(l,c),S.textContent=Q})}}),t.plugins.fileHighlight={highlight:function(g){for(var S=(g||document).querySelectorAll(d),m=0,b;b=S[m++];)t.highlightElement(b)}};var O=!1;t.fileHighlight=function(){O||(console.warn("Prism.fileHighlight is deprecated. Use `Prism.plugins.fileHighlight.highlight` instead."),O=!0),t.plugins.fileHighlight.highlight.apply(this,arguments)}})()})(Jr)),Jr.exports}var jf=Df();const Lf=zf(jf);(function(n){var e="\\b(?:BASH|BASHOPTS|BASH_ALIASES|BASH_ARGC|BASH_ARGV|BASH_CMDS|BASH_COMPLETION_COMPAT_DIR|BASH_LINENO|BASH_REMATCH|BASH_SOURCE|BASH_VERSINFO|BASH_VERSION|COLORTERM|COLUMNS|COMP_WORDBREAKS|DBUS_SESSION_BUS_ADDRESS|DEFAULTS_PATH|DESKTOP_SESSION|DIRSTACK|DISPLAY|EUID|GDMSESSION|GDM_LANG|GNOME_KEYRING_CONTROL|GNOME_KEYRING_PID|GPG_AGENT_INFO|GROUPS|HISTCONTROL|HISTFILE|HISTFILESIZE|HISTSIZE|HOME|HOSTNAME|HOSTTYPE|IFS|INSTANCE|JOB|LANG|LANGUAGE|LC_ADDRESS|LC_ALL|LC_IDENTIFICATION|LC_MEASUREMENT|LC_MONETARY|LC_NAME|LC_NUMERIC|LC_PAPER|LC_TELEPHONE|LC_TIME|LESSCLOSE|LESSOPEN|LINES|LOGNAME|LS_COLORS|MACHTYPE|MAILCHECK|MANDATORY_PATH|NO_AT_BRIDGE|OLDPWD|OPTERR|OPTIND|ORBIT_SOCKETDIR|OSTYPE|PAPERSIZE|PATH|PIPESTATUS|PPID|PS1|PS2|PS3|PS4|PWD|RANDOM|REPLY|SECONDS|SELINUX_INIT|SESSION|SESSIONTYPE|SESSION_MANAGER|SHELL|SHELLOPTS|SHLVL|SSH_AUTH_SOCK|TERM|UID|UPSTART_EVENTS|UPSTART_INSTANCE|UPSTART_JOB|UPSTART_SESSION|USER|WINDOWID|XAUTHORITY|XDG_CONFIG_DIRS|XDG_CURRENT_DESKTOP|XDG_DATA_DIRS|XDG_GREETER_DATA_DIR|XDG_MENU_PREFIX|XDG_RUNTIME_DIR|XDG_SEAT|XDG_SEAT_PATH|XDG_SESSION_DESKTOP|XDG_SESSION_ID|XDG_SESSION_PATH|XDG_SESSION_TYPE|XDG_VTNR|XMODIFIERS)\\b",t={pattern:/(^(["']?)\w+\2)[ \t]+\S.*/,lookbehind:!0,alias:"punctuation",inside:null},i={bash:t,environment:{pattern:RegExp("\\$"+e),alias:"constant"},variable:[{pattern:/\$?\(\([\s\S]+?\)\)/,greedy:!0,inside:{variable:[{pattern:/(^\$\(\([\s\S]+)\)\)/,lookbehind:!0},/^\$\(\(/],number:/\b0x[\dA-Fa-f]+\b|(?:\b\d+(?:\.\d*)?|\B\.\d+)(?:[Ee]-?\d+)?/,operator:/--|\+\+|\*\*=?|<<=?|>>=?|&&|\|\||[=!+\-*/%<>^&|]=?|[?~:]/,punctuation:/\(\(?|\)\)?|,|;/}},{pattern:/\$\((?:\([^)]+\)|[^()])+\)|`[^`]+`/,greedy:!0,inside:{variable:/^\$\(|^`|\)$|`$/}},{pattern:/\$\{[^}]+\}/,greedy:!0,inside:{operator:/:[-=?+]?|[!\/]|##?|%%?|\^\^?|,,?/,punctuation:/[\[\]]/,environment:{pattern:RegExp("(\\{)"+e),lookbehind:!0,alias:"constant"}}},/\$(?:\w+|[#?*!@$])/],entity:/\\(?:[abceEfnrtv\\"]|O?[0-7]{1,3}|U[0-9a-fA-F]{8}|u[0-9a-fA-F]{4}|x[0-9a-fA-F]{1,2})/};n.languages.bash={shebang:{pattern:/^#!\s*\/.*/,alias:"important"},comment:{pattern:/(^|[^"{\\$])#.*/,lookbehind:!0},"function-name":[{pattern:/(\bfunction\s+)[\w-]+(?=(?:\s*\(?:\s*\))?\s*\{)/,lookbehind:!0,alias:"function"},{pattern:/\b[\w-]+(?=\s*\(\s*\)\s*\{)/,alias:"function"}],"for-or-select":{pattern:/(\b(?:for|select)\s+)\w+(?=\s+in\s)/,alias:"variable",lookbehind:!0},"assign-left":{pattern:/(^|[\s;|&]|[<>]\()\w+(?:\.\w+)*(?=\+?=)/,inside:{environment:{pattern:RegExp("(^|[\\s;|&]|[<>]\\()"+e),lookbehind:!0,alias:"constant"}},alias:"variable",lookbehind:!0},parameter:{pattern:/(^|\s)-{1,2}(?:\w+:[+-]?)?\w+(?:\.\w+)*(?=[=\s]|$)/,alias:"variable",lookbehind:!0},string:[{pattern:/((?:^|[^<])<<-?\s*)(\w+)\s[\s\S]*?(?:\r?\n|\r)\2/,lookbehind:!0,greedy:!0,inside:i},{pattern:/((?:^|[^<])<<-?\s*)(["'])(\w+)\2\s[\s\S]*?(?:\r?\n|\r)\3/,lookbehind:!0,greedy:!0,inside:{bash:t}},{pattern:/(^|[^\\](?:\\\\)*)"(?:\\[\s\S]|\$\([^)]+\)|\$(?!\()|`[^`]+`|[^"\\`$])*"/,lookbehind:!0,greedy:!0,inside:i},{pattern:/(^|[^$\\])'[^']*'/,lookbehind:!0,greedy:!0},{pattern:/\$'(?:[^'\\]|\\[\s\S])*'/,greedy:!0,inside:{entity:i.entity}}],environment:{pattern:RegExp("\\$?"+e),alias:"constant"},variable:i.variable,function:{pattern:/(^|[\s;|&]|[<>]\()(?:add|apropos|apt|apt-cache|apt-get|aptitude|aspell|automysqlbackup|awk|basename|bash|bc|bconsole|bg|bzip2|cal|cargo|cat|cfdisk|chgrp|chkconfig|chmod|chown|chroot|cksum|clear|cmp|column|comm|composer|cp|cron|crontab|csplit|curl|cut|date|dc|dd|ddrescue|debootstrap|df|diff|diff3|dig|dir|dircolors|dirname|dirs|dmesg|docker|docker-compose|du|egrep|eject|env|ethtool|expand|expect|expr|fdformat|fdisk|fg|fgrep|file|find|fmt|fold|format|free|fsck|ftp|fuser|gawk|git|gparted|grep|groupadd|groupdel|groupmod|groups|grub-mkconfig|gzip|halt|head|hg|history|host|hostname|htop|iconv|id|ifconfig|ifdown|ifup|import|install|ip|java|jobs|join|kill|killall|less|link|ln|locate|logname|logrotate|look|lpc|lpr|lprint|lprintd|lprintq|lprm|ls|lsof|lynx|make|man|mc|mdadm|mkconfig|mkdir|mke2fs|mkfifo|mkfs|mkisofs|mknod|mkswap|mmv|more|most|mount|mtools|mtr|mutt|mv|nano|nc|netstat|nice|nl|node|nohup|notify-send|npm|nslookup|op|open|parted|passwd|paste|pathchk|ping|pkill|pnpm|podman|podman-compose|popd|pr|printcap|printenv|ps|pushd|pv|quota|quotacheck|quotactl|ram|rar|rcp|reboot|remsync|rename|renice|rev|rm|rmdir|rpm|rsync|scp|screen|sdiff|sed|sendmail|seq|service|sftp|sh|shellcheck|shuf|shutdown|sleep|slocate|sort|split|ssh|stat|strace|su|sudo|sum|suspend|swapon|sync|sysctl|tac|tail|tar|tee|time|timeout|top|touch|tr|traceroute|tsort|tty|umount|uname|unexpand|uniq|units|unrar|unshar|unzip|update-grub|uptime|useradd|userdel|usermod|users|uudecode|uuencode|v|vcpkg|vdir|vi|vim|virsh|vmstat|wait|watch|wc|wget|whereis|which|who|whoami|write|xargs|xdg-open|yarn|yes|zenity|zip|zsh|zypper)(?=$|[)\s;|&])/,lookbehind:!0},keyword:{pattern:/(^|[\s;|&]|[<>]\()(?:case|do|done|elif|else|esac|fi|for|function|if|in|select|then|until|while)(?=$|[)\s;|&])/,lookbehind:!0},builtin:{pattern:/(^|[\s;|&]|[<>]\()(?:\.|:|alias|bind|break|builtin|caller|cd|command|continue|declare|echo|enable|eval|exec|exit|export|getopts|hash|help|let|local|logout|mapfile|printf|pwd|read|readarray|readonly|return|set|shift|shopt|source|test|times|trap|type|typeset|ulimit|umask|unalias|unset)(?=$|[)\s;|&])/,lookbehind:!0,alias:"class-name"},boolean:{pattern:/(^|[\s;|&]|[<>]\()(?:false|true)(?=$|[)\s;|&])/,lookbehind:!0},"file-descriptor":{pattern:/\B&\d\b/,alias:"important"},operator:{pattern:/\d?<>|>\||\+=|=[=~]?|!=?|<<[<-]?|[&\d]?>>|\d[<>]&?|[<>][&=]?|&[>&]?|\|[&|]?/,inside:{"file-descriptor":{pattern:/^\d/,alias:"important"}}},punctuation:/\$?\(\(?|\)\)?|\.\.|[{}[\];\\]/,number:{pattern:/(^|\s)(?:[1-9]\d*|0)(?:[.,]\d+)?\b/,lookbehind:!0}},t.inside=n.languages.bash;for(var r=["comment","function-name","for-or-select","assign-left","parameter","string","environment","function","keyword","builtin","boolean","file-descriptor","operator","punctuation","number"],s=i.variable[1].inside,o=0;o<r.length;o++)s[r[o]]=n.languages.bash[r[o]];n.languages.sh=n.languages.bash,n.languages.shell=n.languages.bash})(Prism);var _l={},zl;function Wf(){return zl||(zl=1,(function(n){n.languages.typescript=n.languages.extend("javascript",{"class-name":{pattern:/(\b(?:class|extends|implements|instanceof|interface|new|type)\s+)(?!keyof\b)(?!\s)[_$a-zA-Z\xA0-\uFFFF](?:(?!\s)[$\w\xA0-\uFFFF])*(?:\s*<(?:[^<>]|<(?:[^<>]|<[^<>]*>)*>)*>)?/,lookbehind:!0,greedy:!0,inside:null},builtin:/\b(?:Array|Function|Promise|any|boolean|console|never|number|string|symbol|unknown)\b/}),n.languages.typescript.keyword.push(/\b(?:abstract|declare|is|keyof|readonly|require)\b/,/\b(?:asserts|infer|interface|module|namespace|type)\b(?=\s*(?:[{_$a-zA-Z\xA0-\uFFFF]|$))/,/\btype\b(?=\s*(?:[\{*]|$))/),delete n.languages.typescript.parameter,delete n.languages.typescript["literal-property"];var e=n.languages.extend("typescript",{});delete e["class-name"],n.languages.typescript["class-name"].inside=e,n.languages.insertBefore("typescript","function",{decorator:{pattern:/@[$\w\xA0-\uFFFF]+/,inside:{at:{pattern:/^@/,alias:"operator"},function:/^[\s\S]+/}},"generic-function":{pattern:/#?(?!\s)[_$a-zA-Z\xA0-\uFFFF](?:(?!\s)[$\w\xA0-\uFFFF])*\s*<(?:[^<>]|<(?:[^<>]|<[^<>]*>)*>)*>(?=\s*\()/,greedy:!0,inside:{function:/^#?(?!\s)[_$a-zA-Z\xA0-\uFFFF](?:(?!\s)[$\w\xA0-\uFFFF])*/,generic:{pattern:/<[\s\S]+/,alias:"class-name",inside:e}}}}),n.languages.ts=n.languages.typescript})(Prism)),_l}Wf();const Yf=`<div class="getting-started-container">
+
+</div>
+
+`,Vf=`<section class="getting-started-installation getting-started-section">
+  <h1>Installation</h1>
+
+  <p>
+    Using a bundler (such as Vite or Webpack) is recommended.
+    If you are not using a bundler, you can use Aero directly via a CDN without installation.
+  </p>
+
+  <pre><code class="language-bash">
+    npm install @taren250424/aero
+  </code></pre>
+</section>
+`,qf=`<section class="getting-started-usage getting-started-section">
+  <h1>Usage</h1>
+
+  <p>
+    If you're using a bundler (Vite, Webpack, etc.), import Aero once at your application entry point:
+  </p>
+
+  <pre><code class="language-ts">
+    import "@taren250424/aero";
+  </code></pre>
+
+  <p>
+    You can then use the components in your HTML:
+  </p>
+
+  <pre><code class="language-html">
+    &lt;aero-numeric-input&gt;&lt;/aero-numeric-input&gt;
+  </code></pre>
+
+  <p>
+    If you import the component type explicitly,
+    you can benefit from type checking and IDE auto-completion when creating elements dynamically.
+  </p>
+
+  <pre><code class="language-ts">
+    import type { AeroNumericInput } from "@taren250424/aero";
+    const input = document.createElement("aero-numeric-input") as AeroNumericInput;
+  </code></pre>
+
+  <p>
+    For simple usage without a bundler, you can include Aero directly via CDN:
+  </p>
+
+  <pre><code class="language-html">
+    &lt;script src="https://unpkg.com/@taren250424/aero/umd"&gt;&lt;/script&gt;
+  </code></pre>
+
+  <p>
+    You can then use the components in your HTML:
+  </p>
+
+  <pre><code class="language-html">
+    &lt;aero-numeric-input&gt;&lt;/aero-numeric-input&gt;
+  </code></pre>
+
+</section>
 `,If={installation:Vf,usage:qf};class Bf{$gettingStartedContainer;constructor(e){e.innerHTML=Yf,this.$gettingStartedContainer=document.querySelector(".getting-started-container")}switchPage(e){this.$gettingStartedContainer.innerHTML=If[e],document.querySelectorAll("pre code").forEach(t=>{const i=t.textContent.split(`
 `),r=i.filter(o=>o.trim().length>0).reduce((o,l)=>{const a=l.match(/^\s*/)?.[0].length??0;return Math.min(o,a)},1/0),s=i.map(o=>o.slice(r)).join(`
 `).trim();t.textContent=s}),Lf.highlightAllUnder(this.$gettingStartedContainer)}clean(){}}const re={primary_2:"#F6F0D7",primary_3:"#C5D89D",primary_4:"#9CAB84",primary_5:"#89986D"},Nf=`<aero-numeric-input
-	id="ni", min="0.4" max="100" step="0.46" value="1">
+  id="ni" min="0.4" max="100" step="0.46" value="1">
 </aero-numeric-input>`,Gf=`aero-numeric-input {
-	border: 1px solid ${re.primary_4};
-	text-align: center;
-	margin-bottom: 5px;
+  border: 1px solid ${re.primary_4};
+  text-align: center;
+  margin-bottom: 5px;
 }`,Ff=`const ni = document.getElementById("ni");
 ni.addEventListener("input", () => {
-	console.log(ni.input.value);
-	console.log(ni.value);
+  console.log(ni.input.value);
+  console.log(ni.value);
 })`,Uf={html:Nf,css:Gf,js:Ff},Hf=`<aero-spinbox id="sb" min="0.4" max="100" step="0.46" value="1"
-	minus-text="-" plus-text="+">
+  minus-text="-" plus-text="+">
 </aero-spinbox>`,Kf=`aero-spinbox {
-	--aero-spinbox-button-background: ${re.primary_3};
+  --aero-spinbox-button-background: ${re.primary_3};
 
-	border: 1px solid ${re.primary_4};
-	margin-bottom: 5px;
+  border: 1px solid ${re.primary_4};
+  margin-bottom: 5px;
 }`,Jf=`const sb = document.getElementById("sb");
 sb.addEventListener("input", () => {
-	console.log(sb.input.value);
-	console.log(sb.value);
+  console.log(sb.input.value);
+  console.log(sb.value);
+})
+// The +/- buttons also fire input/change events.
+sb.addEventListener("change", () => {
+  console.log("change:", sb.value);
 })`,eO={html:Hf,css:Kf,js:Jf},tO=`<aero-indeterminate-spinner>
 </aero-indeterminate-spinner>
 `,iO="",nO="",rO={html:tO,css:iO,js:nO},sO=`<aero-resizable-box id="rb" resize-right>
-	<div>
-		<span style="background-color: ${re.primary_2};"></span>
-		<p>Moby-Dick — Herman Melville</p>
-	</div>
-	<div>
-		<span style="background-color: ${re.primary_3};"></span>
-		<p>Jane Eyre — Charlotte Brontë</p>
-	</div>
-	<div>
-		<span style="background-color: ${re.primary_4};"></span>
-		<p>The Brothers Karamazov — Fyodor Dostoevsky</p>
-	</div>
+  <div>
+    <span style="background-color: ${re.primary_2};"></span>
+    <p>Moby-Dick — Herman Melville</p>
+  </div>
+  <div>
+    <span style="background-color: ${re.primary_3};"></span>
+    <p>Jane Eyre — Charlotte Brontë</p>
+  </div>
+  <div>
+    <span style="background-color: ${re.primary_4};"></span>
+    <p>The Brothers Karamazov — Fyodor Dostoevsky</p>
+  </div>
 </aero-resizable-box>`,oO=`html, body {
-	height: 100%;
+  height: 100%;
 }
 
 div {
-	display: flex;
-	align-items: center;
-	gap: 10px;
-	margin: 0 10px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0 10px;
 }
 
 span {
-	flex-shrink: 0;
-	width: 7px;
-	height: 7px;
-	border-radius: 50%;
+  flex-shrink: 0;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
 }
 
 p {
-	overflow: hidden;
-	text-overflow: ellipsis;
-	white-space: nowrap;
-	margin: 0;
-	font-size; 0.9rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  margin: 0;
+  font-size; 0.9rem;
 }
 
 aero-resizable-box {
-	--aero-resizable-box-resizer-color: ${re.primary_3};
-	
-	display: block;
-	width: 300px;
-	height: 90%;
-	border: 1px solid #ccc;
+  --aero-resizable-box-resizer-color: ${re.primary_3};
+
+  display: block;
+  width: 300px;
+  height: 90%;
+  border: 1px solid #ccc;
 }`,lO=`const rb = document.getElementById('rb')
 rb.addEventListener("aero-resize-start", (e) => {
-	console.log("[resize-start] width: ", e.detail.width, " height: ", e.detail.height, " edge: ", e.detail.edge);
+  console.log("[resize-start] width: ", e.detail.width, " height: ", e.detail.height, " edge: ", e.detail.edge);
 })
 rb.addEventListener("aero-resize", (e) => {
-	console.log("[resize] width: ", e.detail.width, " height: ", e.detail.height);
+  console.log("[resize] width: ", e.detail.width, " height: ", e.detail.height);
 })
 rb.addEventListener("aero-resize-end", (e) => {
-	console.log("[resize-end] width: ", e.detail.width, " height: ", e.detail.height);
+  console.log("[resize-end] width: ", e.detail.width, " height: ", e.detail.height);
 })
 `,aO={html:sO,css:oO,js:lO},hO=`<aero-select id="as" option-index="0">
-	<aero-option value="value-1">option-1</aero-option>
-	<aero-option value="value-2">option-2</aero-option>
+  <aero-option value="value-1">option-1</aero-option>
+  <aero-option value="value-2">option-2</aero-option>
 </aero-select>`,cO=`aero-select {
-	--aero-select-height: 40px;
-	--aero-select-button-background: ${re.primary_3};
-	--aero-select-button-border: 1px solid grey;
-	--aero-select-button-hover-background: ${re.primary_4};
-	--aero-select-dropdown-hover-item-background: ${re.primary_3};
+  --aero-select-height: 40px;
+  --aero-select-text-align: left;
+  --aero-select-button-background: ${re.primary_3};
+  --aero-select-button-border: 1px solid grey;
+  --aero-select-button-hover-background: ${re.primary_4};
+  --aero-select-dropdown-hover-item-background: ${re.primary_3};
 }`,dO=`const as = document.getElementById("as");
 as.addEventListener("aero-select-changed", (e) => {
-	const option = e.detail.option;
-	console.log(option.value);
-	console.log(option.textContent);
-	console.log(event.detail.index);
+  const option = e.detail.option;
+  console.log(option.value);
+  console.log(option.textContent);
+  console.log(e.detail.index);
 })`,uO={html:hO,css:cO,js:dO},fO='<aero-select id="as"></aero-select>',OO=`aero-select {
-	--aero-select-height: 40px;
-	--aero-select-button-background: ${re.primary_3};
-	--aero-select-button-border: 1px solid grey;
-	--aero-select-button-hover-background: ${re.primary_4};
-	--aero-select-dropdown-hover-item-background: ${re.primary_3};
+  --aero-select-height: 40px;
+  --aero-select-button-background: ${re.primary_3};
+  --aero-select-button-border: 1px solid grey;
+  --aero-select-button-hover-background: ${re.primary_4};
+  --aero-select-dropdown-hover-item-background: ${re.primary_3};
 }`,pO=`const as = document.getElementById("as");
 const op = document.createElement("aero-option");
 op.value = "value-1";
 op.textContent = "option-1";
 as.appendChild(op);
 as.optionIndex = 0;`,gO={html:fO,css:OO,js:pO},zo="/aero/aero.es.js",mO='<button id="btn">Show</button>',bO=`button {
-	width: 150px;
-	height: 50px;
-	background: ${re.primary_4};
-	border: 1px solid ${re.primary_2};
-	color: #fff;
+  width: 150px;
+  height: 50px;
+  background: ${re.primary_4};
+  border: 1px solid ${re.primary_2};
+  color: #fff;
 }
 
 button:hover {
-	filter: brightness(0.9);
-	cursor: pointer;
+  filter: brightness(0.9);
+  cursor: pointer;
 }
 
 button:active {
-	filter: brightness(1.1);
-	transform: scale(0.98);
+  filter: brightness(1.1);
+  transform: scale(0.98);
 }
 `,yO=`import { AeroToast } from '${zo}';
 
 const btn = document.getElementById("btn");
 btn.addEventListener("click", () => {
-	const options = {
-		background: "${re.primary_5}",
-		top: "30%"
-	}
-	AeroToast.show("Hello Aero!", options);
+  const options = {
+    background: "${re.primary_5}",
+    top: "30%"
+  }
+  AeroToast.show("Hello Aero!", options);
 })
 `,SO={html:mO,css:bO,js:yO},xO='<button id="btn">Confirm</button>',QO=`button {
-	width: 150px;
-	height: 50px;
-	background: ${re.primary_4};
-	border: 1px solid ${re.primary_2};
-	color: #fff;
+  width: 150px;
+  height: 50px;
+  background: ${re.primary_4};
+  border: 1px solid ${re.primary_2};
+  color: #fff;
 }
 
 button:hover {
-	filter: brightness(0.9);
-	cursor: pointer;
+  filter: brightness(0.9);
+  cursor: pointer;
 }
 
 button:active {
-	filter: brightness(1.1);
-	transform: scale(0.98);
+  filter: brightness(1.1);
+  transform: scale(0.98);
 }
 `,wO=`import { AeroPopup } from '${zo}';
 let count = 0
 setInterval(() => {
-	console.log(count++)
+  console.log(count++)
 }, 1000);
 
 const btn = document.getElementById("btn");
 btn.addEventListener("click", async () => {
-	const options = {
-		primaryBackgroundColor: "${re.primary_4}"
-	}
-	const answer = await AeroPopup.confirm("Good?", options);
-	if (answer) console.log("Ok");
-	else console.log("Cancel");
+  const options = {
+    primaryBackgroundColor: "${re.primary_4}"
+  }
+  const answer = await AeroPopup.confirm("Good?", options);
+  if (answer) console.log("Ok");
+  else console.log("Cancel");
 })
 `,vO={html:xO,css:QO,js:wO},kO="<aero-roller></aero-roller>",$O=`aero-roller {
-	--aero-roller-highlight-border-top: 1px solid ${re.primary_5};
-	--aero-roller-highlight-border-bottom: 1px solid ${re.primary_5};
-	--aero-roller-highlight-bg: rgba(197, 216, 157, 0.35);
-	--aero-roller-item-cursor: pointer;
+  --aero-roller-highlight-border-top: 1px solid ${re.primary_5};
+  --aero-roller-highlight-border-bottom: 1px solid ${re.primary_5};
+  --aero-roller-highlight-bg: rgba(197, 216, 157, 0.35);
+  --aero-roller-item-cursor: pointer;
 
-	width: 200px;
+  width: 200px;
 
-	background-color: #F9F9F7;
+  background-color: #F9F9F7;
   border: 1px solid #E0E0D5;
   border-radius: 16px;
 
-	box-shadow:
+  box-shadow:
     0 4px 6px -1px rgba(0, 0, 0, 0.05),
     0 2px 4px -1px rgba(0, 0, 0, 0.03);
 }`,PO=`const arr = ["apple", "banana", "cherry", "mango", "grape", "pear", "peach"]
@@ -251,7 +256,7 @@ const roller = document.querySelector('aero-roller')
 roller.setItems(arr)
 
 roller.addEventListener("change", () => {
-	console.log(roller.index)
+  console.log(roller.index)
 })`,TO={html:kO,css:$O,js:PO},CO={"aero-numeric-input":Uf,"aero-spinbox":eO,"aero-indeterminate-spinner":rO,"aero-resizable-box":aO,"aero-select":uO,"aero-option":gO,"aero-toast":SO,"aero-popup":vO,"aero-roller":TO};let js=[],tc=[];(()=>{let n="lc,34,7n,7,7b,19,,,,2,,2,,,20,b,1c,l,g,,2t,7,2,6,2,2,,4,z,,u,r,2j,b,1m,9,9,,o,4,,9,,3,,5,17,3,3b,f,,w,1j,,,,4,8,4,,3,7,a,2,t,,1m,,,,2,4,8,,9,,a,2,q,,2,2,1l,,4,2,4,2,2,3,3,,u,2,3,,b,2,1l,,4,5,,2,4,,k,2,m,6,,,1m,,,2,,4,8,,7,3,a,2,u,,1n,,,,c,,9,,14,,3,,1l,3,5,3,,4,7,2,b,2,t,,1m,,2,,2,,3,,5,2,7,2,b,2,s,2,1l,2,,,2,4,8,,9,,a,2,t,,20,,4,,2,3,,,8,,29,,2,7,c,8,2q,,2,9,b,6,22,2,r,,,,,,1j,e,,5,,2,5,b,,10,9,,2u,4,,6,,2,2,2,p,2,4,3,g,4,d,,2,2,6,,f,,jj,3,qa,3,t,3,t,2,u,2,1s,2,,7,8,,2,b,9,,19,3,3b,2,y,,3a,3,4,2,9,,6,3,63,2,2,,1m,,,7,,,,,2,8,6,a,2,,1c,h,1r,4,1c,7,,,5,,14,9,c,2,w,4,2,2,,3,1k,,,2,3,,,3,1m,8,2,2,48,3,,d,,7,4,,6,,3,2,5i,1m,,5,ek,,5f,x,2da,3,3x,,2o,w,fe,6,2x,2,n9w,4,,a,w,2,28,2,7k,,3,,4,,p,2,5,,47,2,q,i,d,,12,8,p,b,1a,3,1c,,2,4,2,2,13,,1v,6,2,2,2,2,c,,8,,1b,,1f,,,3,2,2,5,2,,,16,2,8,,6m,,2,,4,,fn4,,kh,g,g,g,a6,2,gt,,6a,,45,5,1ae,3,,2,5,4,14,3,4,,4l,2,fx,4,ar,2,49,b,4w,,1i,f,1k,3,1d,4,2,2,1x,3,10,5,,8,1q,,c,2,1g,9,a,4,2,,2n,3,2,,,2,6,,4g,,3,8,l,2,1l,2,,,,,m,,e,7,3,5,5f,8,2,3,,,n,,29,,2,6,,,2,,,2,,2,6j,,2,4,6,2,,2,r,2,2d,8,2,,,2,2y,,,,2,6,,,2t,3,2,4,,5,77,9,,2,6t,,a,2,,,4,,40,4,2,2,4,,w,a,14,6,2,4,8,,9,6,2,3,1a,d,,2,ba,7,,6,,,2a,m,2,7,,2,,2,3e,6,3,,,2,,7,,,20,2,3,,,,9n,2,f0b,5,1n,7,t4,,1r,4,29,,f5k,2,43q,,,3,4,5,8,8,2,7,u,4,44,3,1iz,1j,4,1e,8,,e,,m,5,,f,11s,7,,h,2,7,,2,,5,79,7,c5,4,15s,7,31,7,240,5,gx7k,2o,3k,6o".split(",").map(e=>e?parseInt(e,36):1);for(let e=0,t=0;e<n.length;e++)(e%2?tc:js).push(t=t+n[e])})();function AO(n){if(n<768)return!1;for(let e=0,t=js.length;;){let i=e+t>>1;if(n<js[i])t=i;else if(n>=tc[i])e=i+1;else return!0;if(e==t)return!1}}function Dl(n){return n>=127462&&n<=127487}const jl=8205;function ZO(n,e,t=!0,i=!0){return(t?ic:XO)(n,e,i)}function ic(n,e,t){if(e==n.length)return e;e&&nc(n.charCodeAt(e))&&rc(n.charCodeAt(e-1))&&e--;let i=es(n,e);for(e+=Ll(i);e<n.length;){let r=es(n,e);if(i==jl||r==jl||t&&AO(r))e+=Ll(r),i=r;else if(Dl(r)){let s=0,o=e-2;for(;o>=0&&Dl(es(n,o));)s++,o-=2;if(s%2==0)break;e+=2}else break}return e}function XO(n,e,t){for(;e>0;){let i=ic(n,e-2,t);if(i<e)return i;e--}return 0}function es(n,e){let t=n.charCodeAt(e);if(!rc(t)||e+1==n.length)return t;let i=n.charCodeAt(e+1);return nc(i)?(t-55296<<10)+(i-56320)+65536:t}function nc(n){return n>=56320&&n<57344}function rc(n){return n>=55296&&n<56320}function Ll(n){return n<65536?1:2}class W{lineAt(e){if(e<0||e>this.length)throw new RangeError(`Invalid position ${e} in document of length ${this.length}`);return this.lineInner(e,!1,1,0)}line(e){if(e<1||e>this.lines)throw new RangeError(`Invalid line number ${e} in ${this.lines}-line document`);return this.lineInner(e,!0,1,0)}replace(e,t,i){[e,t]=fi(this,e,t);let r=[];return this.decompose(0,e,r,2),i.length&&i.decompose(0,i.length,r,3),this.decompose(t,this.length,r,1),nt.from(r,this.length-(t-e)+i.length)}append(e){return this.replace(this.length,this.length,e)}slice(e,t=this.length){[e,t]=fi(this,e,t);let i=[];return this.decompose(e,t,i,0),nt.from(i,t-e)}eq(e){if(e==this)return!0;if(e.length!=this.length||e.lines!=this.lines)return!1;let t=this.scanIdentical(e,1),i=this.length-this.scanIdentical(e,-1),r=new ji(this),s=new ji(e);for(let o=t,l=t;;){if(r.next(o),s.next(o),o=0,r.lineBreak!=s.lineBreak||r.done!=s.done||r.value!=s.value)return!1;if(l+=r.value.length,r.done||l>=i)return!0}}iter(e=1){return new ji(this,e)}iterRange(e,t=this.length){return new sc(this,e,t)}iterLines(e,t){let i;if(e==null)i=this.iter();else{t==null&&(t=this.lines+1);let r=this.line(e).from;i=this.iterRange(r,Math.max(r,t==this.lines+1?this.length:t<=1?0:this.line(t-1).to))}return new oc(i)}toString(){return this.sliceString(0)}toJSON(){let e=[];return this.flatten(e),e}constructor(){}static of(e){if(e.length==0)throw new RangeError("A document must have at least one line");return e.length==1&&!e[0]?W.empty:e.length<=32?new ne(e):nt.from(ne.split(e,[]))}}class ne extends W{constructor(e,t=RO(e)){super(),this.text=e,this.length=t}get lines(){return this.text.length}get children(){return null}lineInner(e,t,i,r){for(let s=0;;s++){let o=this.text[s],l=r+o.length;if((t?i:l)>=e)return new MO(r,l,i,o);r=l+1,i++}}decompose(e,t,i,r){let s=e<=0&&t>=this.length?this:new ne(Wl(this.text,e,t),Math.min(t,this.length)-Math.max(0,e));if(r&1){let o=i.pop(),l=Wn(s.text,o.text.slice(),0,s.length);if(l.length<=32)i.push(new ne(l,o.length+s.length));else{let a=l.length>>1;i.push(new ne(l.slice(0,a)),new ne(l.slice(a)))}}else i.push(s)}replace(e,t,i){if(!(i instanceof ne))return super.replace(e,t,i);[e,t]=fi(this,e,t);let r=Wn(this.text,Wn(i.text,Wl(this.text,0,e)),t),s=this.length+i.length-(t-e);return r.length<=32?new ne(r,s):nt.from(ne.split(r,[]),s)}sliceString(e,t=this.length,i=`
 `){[e,t]=fi(this,e,t);let r="";for(let s=0,o=0;s<=t&&o<this.text.length;o++){let l=this.text[o],a=s+l.length;s>e&&o&&(r+=i),e<a&&t>s&&(r+=l.slice(Math.max(0,e-s),t-s)),s=a+1}return r}flatten(e){for(let t of this.text)e.push(t)}scanIdentical(){return 0}static split(e,t){let i=[],r=-1;for(let s of e)i.push(s),r+=s.length+1,i.length==32&&(t.push(new ne(i,r)),i=[],r=-1);return r>-1&&t.push(new ne(i,r)),t}}class nt extends W{constructor(e,t){super(),this.children=e,this.length=t,this.lines=0;for(let i of e)this.lines+=i.lines}lineInner(e,t,i,r){for(let s=0;;s++){let o=this.children[s],l=r+o.length,a=i+o.lines-1;if((t?a:l)>=e)return o.lineInner(e,t,i,r);r=l+1,i=a+1}}decompose(e,t,i,r){for(let s=0,o=0;o<=t&&s<this.children.length;s++){let l=this.children[s],a=o+l.length;if(e<=a&&t>=o){let h=r&((o<=e?1:0)|(a>=t?2:0));o>=e&&a<=t&&!h?i.push(l):l.decompose(e-o,t-o,i,h)}o=a+1}}replace(e,t,i){if([e,t]=fi(this,e,t),i.lines<this.lines)for(let r=0,s=0;r<this.children.length;r++){let o=this.children[r],l=s+o.length;if(e>=s&&t<=l){let a=o.replace(e-s,t-s,i),h=this.lines-o.lines+a.lines;if(a.lines<h>>4&&a.lines>h>>6){let c=this.children.slice();return c[r]=a,new nt(c,this.length-(t-e)+i.length)}return super.replace(s,l,a)}s=l+1}return super.replace(e,t,i)}sliceString(e,t=this.length,i=`
 `){[e,t]=fi(this,e,t);let r="";for(let s=0,o=0;s<this.children.length&&o<=t;s++){let l=this.children[s],a=o+l.length;o>e&&s&&(r+=i),e<a&&t>o&&(r+=l.sliceString(e-o,t-o,i)),o=a+1}return r}flatten(e){for(let t of this.children)t.flatten(e)}scanIdentical(e,t){if(!(e instanceof nt))return 0;let i=0,[r,s,o,l]=t>0?[0,0,this.children.length,e.children.length]:[this.children.length-1,e.children.length-1,-1,-1];for(;;r+=t,s+=t){if(r==o||s==l)return i;let a=this.children[r],h=e.children[s];if(a!=h)return i+a.scanIdentical(h,t);i+=a.length+1}}static from(e,t=e.reduce((i,r)=>i+r.length+1,-1)){let i=0;for(let f of e)i+=f.lines;if(i<32){let f=[];for(let O of e)O.flatten(f);return new ne(f,t)}let r=Math.max(32,i>>5),s=r<<1,o=r>>1,l=[],a=0,h=-1,c=[];function d(f){let O;if(f.lines>s&&f instanceof nt)for(let p of f.children)d(p);else f.lines>o&&(a>o||!a)?(u(),l.push(f)):f instanceof ne&&a&&(O=c[c.length-1])instanceof ne&&f.lines+O.lines<=32?(a+=f.lines,h+=f.length+1,c[c.length-1]=new ne(O.text.concat(f.text),O.length+1+f.length)):(a+f.lines>r&&u(),a+=f.lines,h+=f.length+1,c.push(f))}function u(){a!=0&&(l.push(c.length==1?c[0]:nt.from(c,h)),h=-1,a=c.length=0)}for(let f of e)d(f);return u(),l.length==1?l[0]:new nt(l,t)}}W.empty=new ne([""],0);function RO(n){let e=-1;for(let t of n)e+=t.length+1;return e}function Wn(n,e,t=0,i=1e9){for(let r=0,s=0,o=!0;s<n.length&&r<=i;s++){let l=n[s],a=r+l.length;a>=t&&(a>i&&(l=l.slice(0,i-r)),r<t&&(l=l.slice(t-r)),o?(e[e.length-1]+=l,o=!1):e.push(l)),r=a+1}return e}function Wl(n,e,t){return Wn(n,[""],e,t)}class ji{constructor(e,t=1){this.dir=t,this.done=!1,this.lineBreak=!1,this.value="",this.nodes=[e],this.offsets=[t>0?1:(e instanceof ne?e.text.length:e.children.length)<<1]}nextInner(e,t){for(this.done=this.lineBreak=!1;;){let i=this.nodes.length-1,r=this.nodes[i],s=this.offsets[i],o=s>>1,l=r instanceof ne?r.text.length:r.children.length;if(o==(t>0?l:0)){if(i==0)return this.done=!0,this.value="",this;t>0&&this.offsets[i-1]++,this.nodes.pop(),this.offsets.pop()}else if((s&1)==(t>0?0:1)){if(this.offsets[i]+=t,e==0)return this.lineBreak=!0,this.value=`
@@ -276,48 +281,48 @@ roller.addEventListener("change", () => {
 		\${}
 	}
 }`,{label:"class",detail:"definition",type:"keyword"}),$e('import {${names}} from "${module}"\n${}',{label:"import",detail:"named",type:"keyword"}),$e('import ${name} from "${module}"\n${}',{label:"import",detail:"default",type:"keyword"})],J1=mf.concat([$e("interface ${name} {\n	${}\n}",{label:"interface",detail:"definition",type:"keyword"}),$e("type ${name} = ${type}",{label:"type",detail:"definition",type:"keyword"}),$e("enum ${name} {\n	${}\n}",{label:"enum",detail:"definition",type:"keyword"})]),Gh=new Cd,bf=new Set(["Script","Block","FunctionExpression","FunctionDeclaration","ArrowFunction","MethodDeclaration","ForStatement"]);function Ri(n){return(e,t)=>{let i=e.node.getChild("VariableDefinition");return i&&t(i,n),!0}}const eQ=["FunctionDeclaration"],tQ={FunctionDeclaration:Ri("function"),ClassDeclaration:Ri("class"),ClassExpression:()=>!0,EnumDeclaration:Ri("constant"),TypeAliasDeclaration:Ri("type"),NamespaceDeclaration:Ri("namespace"),VariableDefinition(n,e){n.matchContext(eQ)||e(n,"variable")},TypeDefinition(n,e){e(n,"type")},__proto__:null};function yf(n,e){let t=Gh.get(e);if(t)return t;let i=[],r=!0;function s(o,l){let a=n.sliceString(o.from,o.to);i.push({label:a,type:l})}return e.cursor(q.IncludeAnonymous).iterate(o=>{if(r)r=!1;else if(o.name){let l=tQ[o.name];if(l&&l(o,s)||bf.has(o.name))return!1}else if(o.to-o.from>8192){for(let l of yf(n,o.node))i.push(l);return!1}}),Gh.set(e,i),i}const Fh=/^[\w$\xa1-\uffff][\w$\d\xa1-\uffff]*$/,Sf=["TemplateString","String","RegExp","LineComment","BlockComment","VariableDefinition","TypeDefinition","Label","PropertyDefinition","PropertyName","PrivatePropertyDefinition","PrivatePropertyName","JSXText","JSXAttributeValue","JSXOpenTag","JSXCloseTag","JSXSelfClosingTag",".","?."];function iQ(n){let e=ie(n.state).resolveInner(n.pos,-1);if(Sf.indexOf(e.name)>-1)return null;let t=e.name=="VariableName"||e.to-e.from<20&&Fh.test(n.state.sliceDoc(e.from,e.to));if(!t&&!n.explicit)return null;let i=[];for(let r=e;r;r=r.parent)bf.has(r.name)&&(i=i.concat(yf(n.state.doc,r)));return{options:i,from:t?e.from:n.pos,validFor:Fh}}const dt=bi.define({name:"javascript",parser:K1.configure({props:[Wr.add({IfStatement:Fn({except:/^\s*({|else\b)/}),TryStatement:Fn({except:/^\s*({|catch\b|finally\b)/}),LabeledStatement:g0,SwitchBody:n=>{let e=n.textAfter,t=/^\s*\}/.test(e),i=/^\s*(case|default)\b/.test(e);return n.baseIndent+(t?0:i?1:2)*n.unit},Block:p0({closing:"}"}),ArrowFunction:n=>n.baseIndent+n.unit,"TemplateString BlockComment":()=>null,"Statement Property":Fn({except:/^\s*{/}),JSXElement(n){let e=/^\s*<\//.test(n.textAfter);return n.lineIndent(n.node.from)+(e?0:n.unit)},JSXEscape(n){let e=/\s*\}/.test(n.textAfter);return n.lineIndent(n.node.from)+(e?0:n.unit)},"JSXOpenTag JSXSelfClosingTag"(n){return n.column(n.node.from)+n.unit}}),Yr.add({"Block ClassBody SwitchBody EnumBody ObjectExpression ArrayExpression ObjectType":zd,BlockComment(n){return{from:n.from+2,to:n.to-2}},JSXElement(n){let e=n.firstChild;if(!e||e.name=="JSXSelfClosingTag")return null;let t=n.lastChild;return{from:e.to,to:t.type.isError?n.to:t.from}},"JSXSelfClosingTag JSXOpenTag"(n){var e;let t=(e=n.firstChild)===null||e===void 0?void 0:e.nextSibling,i=n.lastChild;return!t||t.type.isError?null:{from:t.to,to:i.type.isError?n.to:i.from}}})]}),languageData:{closeBrackets:{brackets:["(","[","{","'",'"',"`"]},commentTokens:{line:"//",block:{open:"/*",close:"*/"}},indentOnInput:/^\s*(?:case |default:|\{|\}|<\/)$/,wordChars:"$"}}),xf={test:n=>/^JSX/.test(n.name),facet:Rd({commentTokens:{block:{open:"{/*",close:"*/}"}}})},Qf=dt.configure({dialect:"ts"},"typescript"),wf=dt.configure({dialect:"jsx",props:[ll.add(n=>n.isTop?[xf]:void 0)]}),vf=dt.configure({dialect:"jsx ts",props:[ll.add(n=>n.isTop?[xf]:void 0)]},"typescript");let kf=n=>({label:n,type:"keyword"});const $f="break case const continue default delete export extends false finally in instanceof let new return static super switch this throw true typeof var yield".split(" ").map(kf),nQ=$f.concat(["declare","implements","private","protected","public"].map(kf));function Pf(n={}){let e=n.jsx?n.typescript?vf:wf:n.typescript?Qf:dt,t=n.typescript?J1.concat(nQ):mf.concat($f);return new al(e,[dt.data.of({autocomplete:jy(Sf,zu(t))}),dt.data.of({autocomplete:iQ}),n.jsx?oQ:[]])}function rQ(n){for(;;){if(n.name=="JSXOpenTag"||n.name=="JSXSelfClosingTag"||n.name=="JSXFragmentTag")return n;if(n.name=="JSXEscape"||!n.parent)return null;n=n.parent}}function Uh(n,e,t=n.length){for(let i=e?.firstChild;i;i=i.nextSibling)if(i.name=="JSXIdentifier"||i.name=="JSXBuiltin"||i.name=="JSXNamespacedName"||i.name=="JSXMemberExpression")return n.sliceString(i.from,Math.min(i.to,t));return""}const sQ=typeof navigator=="object"&&/Android\b/.test(navigator.userAgent),oQ=C.inputHandler.of((n,e,t,i,r)=>{if((sQ?n.composing:n.compositionStarted)||n.state.readOnly||e!=t||i!=">"&&i!="/"||!dt.isActiveAt(n.state,e,-1))return!1;let s=r(),{state:o}=s,l=o.changeByRange(a=>{var h;let{head:c}=a,d=ie(o).resolveInner(c-1,-1),u;if(d.name=="JSXStartTag"&&(d=d.parent),!(o.doc.sliceString(c-1,c)!=i||d.name=="JSXAttributeValue"&&d.to>c)){if(i==">"&&d.name=="JSXFragmentTag")return{range:a,changes:{from:c,insert:"</>"}};if(i=="/"&&d.name=="JSXStartCloseTag"){let f=d.parent,O=f.parent;if(O&&f.from==c-2&&((u=Uh(o.doc,O.firstChild,c))||((h=O.firstChild)===null||h===void 0?void 0:h.name)=="JSXFragmentTag")){let p=`${u}>`;return{range:k.cursor(c+p.length,-1),changes:{from:c,insert:p}}}}else if(i==">"){let f=rQ(d);if(f&&f.name=="JSXOpenTag"&&!/^\/?>|^<\//.test(o.doc.sliceString(c,c+2))&&(u=Uh(o.doc,f,c)))return{range:a,changes:{from:c,insert:`</${u}>`}}}}return{range:a}});return l.changes.empty?!1:(n.dispatch([s,o.update(l,{userEvent:"input.complete",scrollIntoView:!0})]),!0)}),Mi=["_blank","_self","_top","_parent"],Es=["ascii","utf-8","utf-16","latin1","latin1"],_s=["get","post","put","delete"],zs=["application/x-www-form-urlencoded","multipart/form-data","text/plain"],Ee=["true","false"],X={},lQ={a:{attrs:{href:null,ping:null,type:null,media:null,target:Mi,hreflang:null}},abbr:X,address:X,area:{attrs:{alt:null,coords:null,href:null,target:null,ping:null,media:null,hreflang:null,type:null,shape:["default","rect","circle","poly"]}},article:X,aside:X,audio:{attrs:{src:null,mediagroup:null,crossorigin:["anonymous","use-credentials"],preload:["none","metadata","auto"],autoplay:["autoplay"],loop:["loop"],controls:["controls"]}},b:X,base:{attrs:{href:null,target:Mi}},bdi:X,bdo:X,blockquote:{attrs:{cite:null}},body:X,br:X,button:{attrs:{form:null,formaction:null,name:null,value:null,autofocus:["autofocus"],disabled:["autofocus"],formenctype:zs,formmethod:_s,formnovalidate:["novalidate"],formtarget:Mi,type:["submit","reset","button"]}},canvas:{attrs:{width:null,height:null}},caption:X,center:X,cite:X,code:X,col:{attrs:{span:null}},colgroup:{attrs:{span:null}},command:{attrs:{type:["command","checkbox","radio"],label:null,icon:null,radiogroup:null,command:null,title:null,disabled:["disabled"],checked:["checked"]}},data:{attrs:{value:null}},datagrid:{attrs:{disabled:["disabled"],multiple:["multiple"]}},datalist:{attrs:{data:null}},dd:X,del:{attrs:{cite:null,datetime:null}},details:{attrs:{open:["open"]}},dfn:X,div:X,dl:X,dt:X,em:X,embed:{attrs:{src:null,type:null,width:null,height:null}},eventsource:{attrs:{src:null}},fieldset:{attrs:{disabled:["disabled"],form:null,name:null}},figcaption:X,figure:X,footer:X,form:{attrs:{action:null,name:null,"accept-charset":Es,autocomplete:["on","off"],enctype:zs,method:_s,novalidate:["novalidate"],target:Mi}},h1:X,h2:X,h3:X,h4:X,h5:X,h6:X,head:{children:["title","base","link","style","meta","script","noscript","command"]},header:X,hgroup:X,hr:X,html:{attrs:{manifest:null}},i:X,iframe:{attrs:{src:null,srcdoc:null,name:null,width:null,height:null,sandbox:["allow-top-navigation","allow-same-origin","allow-forms","allow-scripts"],seamless:["seamless"]}},img:{attrs:{alt:null,src:null,ismap:null,usemap:null,width:null,height:null,crossorigin:["anonymous","use-credentials"]}},input:{attrs:{alt:null,dirname:null,form:null,formaction:null,height:null,list:null,max:null,maxlength:null,min:null,name:null,pattern:null,placeholder:null,size:null,src:null,step:null,value:null,width:null,accept:["audio/*","video/*","image/*"],autocomplete:["on","off"],autofocus:["autofocus"],checked:["checked"],disabled:["disabled"],formenctype:zs,formmethod:_s,formnovalidate:["novalidate"],formtarget:Mi,multiple:["multiple"],readonly:["readonly"],required:["required"],type:["hidden","text","search","tel","url","email","password","datetime","date","month","week","time","datetime-local","number","range","color","checkbox","radio","file","submit","image","reset","button"]}},ins:{attrs:{cite:null,datetime:null}},kbd:X,keygen:{attrs:{challenge:null,form:null,name:null,autofocus:["autofocus"],disabled:["disabled"],keytype:["RSA"]}},label:{attrs:{for:null,form:null}},legend:X,li:{attrs:{value:null}},link:{attrs:{href:null,type:null,hreflang:null,media:null,sizes:["all","16x16","16x16 32x32","16x16 32x32 64x64"]}},map:{attrs:{name:null}},mark:X,menu:{attrs:{label:null,type:["list","context","toolbar"]}},meta:{attrs:{content:null,charset:Es,name:["viewport","application-name","author","description","generator","keywords"],"http-equiv":["content-language","content-type","default-style","refresh"]}},meter:{attrs:{value:null,min:null,low:null,high:null,max:null,optimum:null}},nav:X,noscript:X,object:{attrs:{data:null,type:null,name:null,usemap:null,form:null,width:null,height:null,typemustmatch:["typemustmatch"]}},ol:{attrs:{reversed:["reversed"],start:null,type:["1","a","A","i","I"]},children:["li","script","template","ul","ol"]},optgroup:{attrs:{disabled:["disabled"],label:null}},option:{attrs:{disabled:["disabled"],label:null,selected:["selected"],value:null}},output:{attrs:{for:null,form:null,name:null}},p:X,param:{attrs:{name:null,value:null}},pre:X,progress:{attrs:{value:null,max:null}},q:{attrs:{cite:null}},rp:X,rt:X,ruby:X,samp:X,script:{attrs:{type:["text/javascript"],src:null,async:["async"],defer:["defer"],charset:Es}},section:X,select:{attrs:{form:null,name:null,size:null,autofocus:["autofocus"],disabled:["disabled"],multiple:["multiple"]}},slot:{attrs:{name:null}},small:X,source:{attrs:{src:null,type:null,media:null}},span:X,strong:X,style:{attrs:{type:["text/css"],media:null,scoped:null}},sub:X,summary:X,sup:X,table:X,tbody:X,td:{attrs:{colspan:null,rowspan:null,headers:null}},template:X,textarea:{attrs:{dirname:null,form:null,maxlength:null,name:null,placeholder:null,rows:null,cols:null,autofocus:["autofocus"],disabled:["disabled"],readonly:["readonly"],required:["required"],wrap:["soft","hard"]}},tfoot:X,th:{attrs:{colspan:null,rowspan:null,headers:null,scope:["row","col","rowgroup","colgroup"]}},thead:X,time:{attrs:{datetime:null}},title:X,tr:X,track:{attrs:{src:null,label:null,default:null,kind:["subtitles","captions","descriptions","chapters","metadata"],srclang:null}},ul:{children:["li","script","template","ul","ol"]},var:X,video:{attrs:{src:null,poster:null,width:null,height:null,crossorigin:["anonymous","use-credentials"],preload:["auto","metadata","none"],autoplay:["autoplay"],mediagroup:["movie"],muted:["muted"],controls:["controls"]}},wbr:X},Tf={accesskey:null,class:null,contenteditable:Ee,contextmenu:null,dir:["ltr","rtl","auto"],draggable:["true","false","auto"],dropzone:["copy","move","link","string:","file:"],hidden:["hidden"],id:null,inert:["inert"],itemid:null,itemprop:null,itemref:null,itemscope:["itemscope"],itemtype:null,lang:["ar","bn","de","en-GB","en-US","es","fr","hi","id","ja","pa","pt","ru","tr","zh"],spellcheck:Ee,autocorrect:Ee,autocapitalize:Ee,style:null,tabindex:null,title:null,translate:["yes","no"],rel:["stylesheet","alternate","author","bookmark","help","license","next","nofollow","noreferrer","prefetch","prev","search","tag"],role:"alert application article banner button cell checkbox complementary contentinfo dialog document feed figure form grid gridcell heading img list listbox listitem main navigation region row rowgroup search switch tab table tabpanel textbox timer".split(" "),"aria-activedescendant":null,"aria-atomic":Ee,"aria-autocomplete":["inline","list","both","none"],"aria-busy":Ee,"aria-checked":["true","false","mixed","undefined"],"aria-controls":null,"aria-describedby":null,"aria-disabled":Ee,"aria-dropeffect":null,"aria-expanded":["true","false","undefined"],"aria-flowto":null,"aria-grabbed":["true","false","undefined"],"aria-haspopup":Ee,"aria-hidden":Ee,"aria-invalid":["true","false","grammar","spelling"],"aria-label":null,"aria-labelledby":null,"aria-level":null,"aria-live":["off","polite","assertive"],"aria-multiline":Ee,"aria-multiselectable":Ee,"aria-owns":null,"aria-posinset":null,"aria-pressed":["true","false","mixed","undefined"],"aria-readonly":Ee,"aria-relevant":null,"aria-required":Ee,"aria-selected":["true","false","undefined"],"aria-setsize":null,"aria-sort":["ascending","descending","none","other"],"aria-valuemax":null,"aria-valuemin":null,"aria-valuenow":null,"aria-valuetext":null},Cf="beforeunload copy cut dragstart dragover dragleave dragenter dragend drag paste focus blur change click load mousedown mouseenter mouseleave mouseup keydown keyup resize scroll unload".split(" ").map(n=>"on"+n);for(let n of Cf)Tf[n]=null;class Ar{constructor(e,t){this.tags={...lQ,...e},this.globalAttrs={...Tf,...t},this.allTags=Object.keys(this.tags),this.globalAttrNames=Object.keys(this.globalAttrs)}}Ar.default=new Ar;function Qi(n,e,t=n.length){if(!e)return"";let i=e.firstChild,r=i&&i.getChild("TagName");return r?n.sliceString(r.from,Math.min(r.to,t)):""}function wi(n,e=!1){for(;n;n=n.parent)if(n.name=="Element")if(e)e=!1;else return n;return null}function Af(n,e,t){let i=t.tags[Qi(n,wi(e))];return i?.children||t.allTags}function Zl(n,e){let t=[];for(let i=wi(e);i&&!i.type.isTop;i=wi(i.parent)){let r=Qi(n,i);if(r&&i.lastChild.name=="CloseTag")break;r&&t.indexOf(r)<0&&(e.name=="EndTag"||e.from>=i.firstChild.to)&&t.push(r)}return t}const Zf=/^[:\-\.\w\u00b7-\uffff]*$/;function Hh(n,e,t,i,r){let s=/\s*>/.test(n.sliceDoc(r,r+5))?"":">",o=wi(t,t.name=="StartTag"||t.name=="TagName");return{from:i,to:r,options:Af(n.doc,o,e).map(l=>({label:l,type:"type"})).concat(Zl(n.doc,t).map((l,a)=>({label:"/"+l,apply:"/"+l+s,type:"type",boost:99-a}))),validFor:/^\/?[:\-\.\w\u00b7-\uffff]*$/}}function Kh(n,e,t,i){let r=/\s*>/.test(n.sliceDoc(i,i+5))?"":">";return{from:t,to:i,options:Zl(n.doc,e).map((s,o)=>({label:s,apply:s+r,type:"type",boost:99-o})),validFor:Zf}}function aQ(n,e,t,i){let r=[],s=0;for(let o of Af(n.doc,t,e))r.push({label:"<"+o,type:"type"});for(let o of Zl(n.doc,t))r.push({label:"</"+o+">",type:"type",boost:99-s++});return{from:i,to:i,options:r,validFor:/^<\/?[:\-\.\w\u00b7-\uffff]*$/}}function hQ(n,e,t,i,r){let s=wi(t),o=s?e.tags[Qi(n.doc,s)]:null,l=o&&o.attrs?Object.keys(o.attrs):[],a=o&&o.globalAttrs===!1?l:l.length?l.concat(e.globalAttrNames):e.globalAttrNames;return{from:i,to:r,options:a.map(h=>({label:h,type:"property"})),validFor:Zf}}function cQ(n,e,t,i,r){var s;let o=(s=t.parent)===null||s===void 0?void 0:s.getChild("AttributeName"),l=[],a;if(o){let h=n.sliceDoc(o.from,o.to),c=e.globalAttrs[h];if(!c){let d=wi(t),u=d?e.tags[Qi(n.doc,d)]:null;c=u?.attrs&&u.attrs[h]}if(c){let d=n.sliceDoc(i,r).toLowerCase(),u='"',f='"';/^['"]/.test(d)?(a=d[0]=='"'?/^[^"]*$/:/^[^']*$/,u="",f=n.sliceDoc(r,r+1)==d[0]?"":d[0],d=d.slice(1),i++):a=/^[^\s<>='"]*$/;for(let O of c)l.push({label:O,apply:u+O+f,type:"constant"})}}return{from:i,to:r,options:l,validFor:a}}function dQ(n,e){let{state:t,pos:i}=e,r=ie(t).resolveInner(i,-1),s=r.resolve(i);for(let o=i,l;s==r&&(l=r.childBefore(o));){let a=l.lastChild;if(!a||!a.type.isError||a.from<a.to)break;s=r=l,o=a.from}return r.name=="TagName"?r.parent&&/CloseTag$/.test(r.parent.name)?Kh(t,r,r.from,i):Hh(t,n,r,r.from,i):r.name=="StartTag"||r.name=="IncompleteTag"?Hh(t,n,r,i,i):r.name=="StartCloseTag"||r.name=="IncompleteCloseTag"?Kh(t,r,i,i):r.name=="OpenTag"||r.name=="SelfClosingTag"||r.name=="AttributeName"?hQ(t,n,r,r.name=="AttributeName"?r.from:i,i):r.name=="Is"||r.name=="AttributeValue"||r.name=="UnquotedAttributeValue"?cQ(t,n,r,r.name=="Is"?i:r.from,i):e.explicit&&(s.name=="Element"||s.name=="Text"||s.name=="Document")?aQ(t,n,r,i):null}function uQ(n){let{extraTags:e,extraGlobalAttributes:t}=n,i=t||e?new Ar(e,t):Ar.default;return r=>dQ(i,r)}const fQ=dt.parser.configure({top:"SingleExpression"}),Xf=[{tag:"script",attrs:n=>n.type=="text/typescript"||n.lang=="ts",parser:Qf.parser},{tag:"script",attrs:n=>n.type=="text/babel"||n.type=="text/jsx",parser:wf.parser},{tag:"script",attrs:n=>n.type=="text/typescript-jsx",parser:vf.parser},{tag:"script",attrs(n){return/^(importmap|speculationrules|application\/(.+\+)?json)$/i.test(n.type)},parser:fQ},{tag:"script",attrs(n){return!n.type||/^(?:text|application)\/(?:x-)?(?:java|ecma)script$|^module$|^$/i.test(n.type)},parser:dt.parser},{tag:"style",attrs(n){return(!n.lang||n.lang=="css")&&(!n.type||/^(text\/)?(x-)?(stylesheet|css)$/i.test(n.type))},parser:Cr.parser}],Rf=[{name:"style",parser:Cr.parser.configure({top:"Styles"})}].concat(Cf.map(n=>({name:n,parser:dt.parser}))),Mf=bi.define({name:"html",parser:Lx.configure({props:[Wr.add({Element(n){let e=/^(\s*)(<\/)?/.exec(n.textAfter);return n.node.to<=n.pos+e[0].length?n.continue():n.lineIndent(n.node.from)+(e[2]?0:n.unit)},"OpenTag CloseTag SelfClosingTag"(n){return n.column(n.node.from)+n.unit},Document(n){if(n.pos+/\s*/.exec(n.textAfter)[0].length<n.node.to)return n.continue();let e=null,t;for(let i=n.node;;){let r=i.lastChild;if(!r||r.name!="Element"||r.to!=i.to)break;e=i=r}return e&&!((t=e.lastChild)&&(t.name=="CloseTag"||t.name=="SelfClosingTag"))?n.lineIndent(e.from)+n.unit:null}}),Yr.add({Element(n){let e=n.firstChild,t=n.lastChild;return!e||e.name!="OpenTag"?null:{from:e.to,to:t.name=="CloseTag"?t.from:n.to}}}),Fd.add({"OpenTag CloseTag":n=>n.getChild("TagName")})]}),languageData:{commentTokens:{block:{open:"<!--",close:"-->"}},indentOnInput:/^\s*<\/\w+\W$/,wordChars:"-_"}}),Kn=Mf.configure({wrap:hf(Xf,Rf)});function OQ(n={}){let e="",t;n.matchClosingTags===!1&&(e="noMatch"),n.selfClosingTags===!0&&(e=(e?e+" ":"")+"selfClosing"),(n.nestedLanguages&&n.nestedLanguages.length||n.nestedAttributes&&n.nestedAttributes.length)&&(t=hf((n.nestedLanguages||[]).concat(Xf),(n.nestedAttributes||[]).concat(Rf)));let i=t?Mf.configure({wrap:t,dialect:e}):e?Kn.configure({dialect:e}):Kn;return new al(i,[Kn.data.of({autocomplete:uQ(n)}),n.autoCloseTags!==!1?pQ:[],Pf().support,pf().support])}const Jh=new Set("area base br col command embed frame hr img input keygen link meta param source track wbr menuitem".split(" ")),pQ=C.inputHandler.of((n,e,t,i,r)=>{if(n.composing||n.state.readOnly||e!=t||i!=">"&&i!="/"||!Kn.isActiveAt(n.state,e,-1))return!1;let s=r(),{state:o}=s,l=o.changeByRange(a=>{var h,c,d;let u=o.doc.sliceString(a.from-1,a.to)==i,{head:f}=a,O=ie(o).resolveInner(f,-1),p;if(u&&i==">"&&O.name=="EndTag"){let g=O.parent;if(((c=(h=g.parent)===null||h===void 0?void 0:h.lastChild)===null||c===void 0?void 0:c.name)!="CloseTag"&&(p=Qi(o.doc,g.parent,f))&&!Jh.has(p)){let S=f+(o.doc.sliceString(f,f+1)===">"?1:0),m=`</${p}>`;return{range:a,changes:{from:f,to:S,insert:m}}}}else if(u&&i=="/"&&O.name=="IncompleteCloseTag"){let g=O.parent;if(O.from==f-2&&((d=g.lastChild)===null||d===void 0?void 0:d.name)!="CloseTag"&&(p=Qi(o.doc,g,f))&&!Jh.has(p)){let S=f+(o.doc.sliceString(f,f+1)===">"?1:0),m=`${p}>`;return{range:k.cursor(f+m.length,-1),changes:{from:f,to:S,insert:m}}}}return{range:a}});return l.changes.empty?!1:(n.dispatch([s,o.update(l,{userEvent:"input.complete",scrollIntoView:!0})]),!0)});function gQ(n,e,t,i){const r=()=>{const a=`
-			<html>
-				<head>
-					<style>${o.state.doc.toString()}</style>
-				</head>
-				<body>
-					${s.state.doc.toString()}
-					<script type="module">
-						import '${zo}'
-						${l.state.doc.toString()}
-					<\/script>
-				</body>
-			</html>
-		`;i.srcdoc=a},s=Ds(n,[OQ()],r),o=Ds(e,[pf()],r),l=Ds(t,[Pf()],r);return{htmlEditor:s,cssEditor:o,javascriptEditor:l,dispose(){s.destroy(),o.destroy(),l.destroy()}}}function Ds(n,e,t){return new C({extensions:[GS,un.of("    "),...e,C.updateListener.of(t)],parent:n})}function mQ(n,e){const t=CO[e];n.htmlEditor.dispatch({changes:{from:0,to:n.htmlEditor.state.doc.length,insert:t.html}}),n.cssEditor.dispatch({changes:{from:0,to:n.cssEditor.state.doc.length,insert:t.css}}),n.javascriptEditor.dispatch({changes:{from:0,to:n.javascriptEditor.state.doc.length,insert:t.js}})}const bQ=`<section class="introduction-container components-section">\r
-	<h1 class="introduction-title components-title">* Introduction</h1>\r
-	<div class="introduction-content components-content"></div>\r
-</section>\r
-`,yQ=`<section class="api-container components-section">\r
-	<h1 class="api-title components-title">* API</h1>\r
-	<div class="api-content components-content markdown-body"></div>\r
-</section>\r
-`,SQ=`<section class="playground-container components-section">\r
-	<h1 class="playground-title components-title">* Playground</h1>\r
-\r
-	<div class="playground-content components-content">\r
-		<div class="playground-input">\r
-			<div class="html-box">\r
-				<label class="html-label">HTML</label>\r
-			</div>\r
-			<div class="css-box">\r
-				<label class="css-label">CSS</label>\r
-			</div>\r
-			<div class="javascript-box">\r
-				<label class="javascript-label">JavaScript</label>\r
-			</div>\r
-		</div>\r
-\r
-		<div class="playground-output">\r
-			<iframe class="playground-iframe"></iframe>\r
-		</div>\r
-	</div>\r
-</section>\r
-`,xQ="A standard input field for numeric values, building upon the BaseAeroNumericInput.",QQ="A numeric input with increment and decrement buttons for easily adjusting the value.",wQ="A dynamic loading indicator with variable speed and length for tasks of unspecified duration.",vQ="A container that allows users to dynamically resize it by dragging its edges.",kQ="A select component that overcomes the styling limitations of the native select element.",$Q="An option component used with AeroSelect.",PQ="A toast component for displaying temporary notifications to users.",TQ="A popup component for displaying notifications without blocking the main thread.",CQ="A scrollable picker component that provides a tactile, wheel-style selection interface.",AQ={"aero-numeric-input":xQ,"aero-spinbox":QQ,"aero-indeterminate-spinner":wQ,"aero-resizable-box":vQ,"aero-select":kQ,"aero-option":$Q,"aero-toast":PQ,"aero-popup":TQ,"aero-roller":CQ};function ZQ(n,e){n.innerHTML=AQ[e]}const XQ=`
+      <html>
+        <head>
+          <style>${o.state.doc.toString()}</style>
+        </head>
+        <body>
+          ${s.state.doc.toString()}
+          <script type="module">
+            import '${zo}'
+            ${l.state.doc.toString()}
+          <\/script>
+        </body>
+      </html>
+    `;i.srcdoc=a},s=Ds(n,[OQ()],r),o=Ds(e,[pf()],r),l=Ds(t,[Pf()],r);return{htmlEditor:s,cssEditor:o,javascriptEditor:l,dispose(){s.destroy(),o.destroy(),l.destroy()}}}function Ds(n,e,t){return new C({extensions:[GS,un.of("    "),...e,C.updateListener.of(t)],parent:n})}function mQ(n,e){const t=CO[e];n.htmlEditor.dispatch({changes:{from:0,to:n.htmlEditor.state.doc.length,insert:t.html}}),n.cssEditor.dispatch({changes:{from:0,to:n.cssEditor.state.doc.length,insert:t.css}}),n.javascriptEditor.dispatch({changes:{from:0,to:n.javascriptEditor.state.doc.length,insert:t.js}})}const bQ=`<section class="introduction-container components-section">
+  <h1 class="introduction-title components-title">* Introduction</h1>
+  <div class="introduction-content components-content"></div>
+</section>
+`,yQ=`<section class="api-container components-section">
+  <h1 class="api-title components-title">* API</h1>
+  <div class="api-content components-content markdown-body"></div>
+</section>
+`,SQ=`<section class="playground-container components-section">
+  <h1 class="playground-title components-title">* Playground</h1>
+
+  <div class="playground-content components-content">
+    <div class="playground-input">
+      <div class="html-box">
+        <label class="html-label">HTML</label>
+      </div>
+      <div class="css-box">
+        <label class="css-label">CSS</label>
+      </div>
+      <div class="javascript-box">
+        <label class="javascript-label">JavaScript</label>
+      </div>
+    </div>
+
+    <div class="playground-output">
+      <iframe class="playground-iframe"></iframe>
+    </div>
+  </div>
+</section>
+`,xQ="A standard input field for numeric values, building upon the BaseAeroNumericInput.",QQ="A numeric input with increment and decrement buttons for easily adjusting the value.",wQ="A dynamic loading indicator with variable speed and length for tasks of unspecified duration.",vQ="A container that allows users to dynamically resize it by dragging its edges. Works with mouse, touch, and pen input.",kQ="A select component that overcomes the styling limitations of the native select element. Fully keyboard accessible: Enter/Space opens the dropdown, ArrowUp/ArrowDown move the highlight, Enter selects, and Escape closes.",$Q="An option component used with AeroSelect.",PQ="A toast component for displaying temporary notifications to users.",TQ="A popup component for displaying notifications without blocking the main thread.",CQ="A scrollable picker component that provides a tactile, wheel-style selection interface.",AQ={"aero-numeric-input":xQ,"aero-spinbox":QQ,"aero-indeterminate-spinner":wQ,"aero-resizable-box":vQ,"aero-select":kQ,"aero-option":$Q,"aero-toast":PQ,"aero-popup":TQ,"aero-roller":CQ};function ZQ(n,e){n.innerHTML=AQ[e]}const XQ=`
 
 <h3>Fields</h3>
 <table>
@@ -553,7 +558,8 @@ roller.addEventListener("change", () => {
 <tbody><tr>
 <td><code>decrement</code></td>
 
-<td>Decrements the input value by the step amount.</td>
+<td>Decrements the input value by the step amount.
+Fires \`input\` and \`change\` events when the value actually changes.</td>
 <td></td>
 <td></td>
 
@@ -561,7 +567,8 @@ roller.addEventListener("change", () => {
 <tr>
 <td><code>increment</code></td>
 
-<td>Increments the input value by the step amount.</td>
+<td>Increments the input value by the step amount.
+Fires \`input\` and \`change\` events when the value actually changes.</td>
 <td></td>
 <td></td>
 
@@ -596,13 +603,13 @@ roller.addEventListener("change", () => {
 <tbody><tr>
 <td><code>input</code></td>
 
-<td>Fired when the value of the element has changed.</td>
+<td>Fired when the value changes, including via the increment/decrement buttons.</td>
 
 </tr>
 <tr>
 <td><code>change</code></td>
 
-<td>Fired when the value of the element has been committed by the user.</td>
+<td>Fired when the value is committed, including via the increment/decrement buttons.</td>
 
 </tr>
 <tr>
@@ -1013,7 +1020,7 @@ roller.addEventListener("change", () => {
 
 <td><code>number</code></td>
 <td><code>-1</code></td>
-<td>The zero-based index of the currently selected option.\r
+<td>The zero-based index of the currently selected option.
 Setting this property will update the displayed value and fire the \`aero-select-changed\` event.</td>
 
 </tr>
@@ -1107,6 +1114,11 @@ Setting this property will update the displayed value and fire the \`aero-select
 <td><code>--aero-select-font-family</code></td>
 <td><code>san-serif</code></td>
 <td>Font family for the select text.</td>
+</tr>
+<tr>
+<td><code>--aero-select-text-align</code></td>
+<td><code>center</code></td>
+<td>Horizontal alignment of the selected text and dropdown options (left | center | right).</td>
 </tr>
 <tr>
 <td><code>--aero-select-border</code></td>
@@ -1299,47 +1311,47 @@ Setting this property will update the displayed value and fire the \`aero-select
 
 </tr>
 </tbody></table><h3>Toast Options</h3><table>
-		<thead>
-			<tr>
-				<th>Name</th>
-				<th>Type</th>
-				<th>Default</th>
-				<th>Description</th>
-			</tr>
-		</thead>
-		<tbody>
-			<tr>
-				<td><code>top</code></td>
-				<td><code>string</code></td>
-				<td><code>90%</code></td>
-				<td>Vertical position of the toast.</td>
-			</tr>
-			<tr>
-				<td><code>left</code></td>
-				<td><code>string</code></td>
-				<td><code>50%</code></td>
-				<td>Horizontal position of the toast.</td>
-			</tr>
-			<tr>
-				<td><code>ms</code></td>
-				<td><code>number</code></td>
-				<td><code>3000</code></td>
-				<td>Duration before the toast disappears (milliseconds).</td>
-			</tr>
-			<tr>
-				<td><code>background</code></td>
-				<td><code>string</code></td>
-				<td><code>"black"</code></td>
-				<td>Background color of the toast.</td>
-			</tr>
-			<tr>
-				<td><code>color</code></td>
-				<td><code>string</code></td>
-				<td><code>"white"</code></td>
-				<td>Text color of the toast.</td>
-			</tr>
-		</tbody>
-	</table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Default</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>top</code></td>
+        <td><code>string</code></td>
+        <td><code>90%</code></td>
+        <td>Vertical position of the toast.</td>
+      </tr>
+      <tr>
+        <td><code>left</code></td>
+        <td><code>string</code></td>
+        <td><code>50%</code></td>
+        <td>Horizontal position of the toast.</td>
+      </tr>
+      <tr>
+        <td><code>ms</code></td>
+        <td><code>number</code></td>
+        <td><code>3000</code></td>
+        <td>Duration before the toast disappears (milliseconds).</td>
+      </tr>
+      <tr>
+        <td><code>background</code></td>
+        <td><code>string</code></td>
+        <td><code>"black"</code></td>
+        <td>Background color of the toast.</td>
+      </tr>
+      <tr>
+        <td><code>color</code></td>
+        <td><code>string</code></td>
+        <td><code>"white"</code></td>
+        <td>Text color of the toast.</td>
+      </tr>
+    </tbody>
+  </table>
 <h3>Methods</h3>
 <table>
 <thead>
@@ -1399,71 +1411,71 @@ Setting this property will update the displayed value and fire the \`aero-select
 
 </tr>
 </tbody></table><h3>Popup Options</h3><table>
-		<thead>
-			<tr>
-				<th>Name</th>
-				<th>Type</th>
-				<th>Default</th>
-				<th>Description</th>
-			</tr>
-		</thead>
-		<tbody>
-			<tr>
-				<td><code>fontSize</code></td>
-				<td><code>string</code></td>
-				<td><code>"1rem"</code></td>
-				<td>Font size for the popup content and buttons.</td>
-			</tr>
-			<tr>
-				<td><code>containerBorder</code></td>
-				<td><code>string</code></td>
-				<td><code>"1px solid lightgrey"</code></td>
-				<td>Border style for the popup container.</td>
-			</tr>
-			<tr>
-				<td><code>containerBoxShadow</code></td>
-				<td><code>string</code></td>
-				<td><code>"0 4px 8px rgba(0, 0, 0, 0.2)"</code></td>
-				<td>Box shadow for the popup container.</td>
-			</tr>
-			<tr>
-				<td><code>titleBoundaryColor</code></td>
-				<td><code>string</code></td>
-				<td><code>"lightgrey"</code></td>
-				<td>Color of the border between title and message.</td>
-			</tr>
-			<tr>
-				<td><code>buttonPrimaryBackgroundColor</code></td>
-				<td><code>string</code></td>
-				<td><code>"#2563eb"</code></td>
-				<td>Background color for the OK button.</td>
-			</tr>
-			<tr>
-				<td><code>buttonPrimaryColor</code></td>
-				<td><code>string</code></td>
-				<td><code>"white"</code></td>
-				<td>Text color for the OK button.</td>
-			</tr>
-			<tr>
-				<td><code>buttonSecondaryBackgroundColor</code></td>
-				<td><code>string</code></td>
-				<td><code>"grey"</code></td>
-				<td>Background color for the Cancel button.</td>
-			</tr>
-			<tr>
-				<td><code>buttonSecondaryColor</code></td>
-				<td><code>string</code></td>
-				<td><code>"white"</code></td>
-				<td>Text color for the Cancel button.</td>
-			</tr>
-			<tr>
-				<td><code>buttonBorderRadius</code></td>
-				<td><code>string</code></td>
-				<td><code>"0"</code></td>
-				<td>Border radius for both buttons.</td>
-			</tr>
-		</tbody>
-	</table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Default</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>fontSize</code></td>
+        <td><code>string</code></td>
+        <td><code>"1rem"</code></td>
+        <td>Font size for the popup content and buttons.</td>
+      </tr>
+      <tr>
+        <td><code>containerBorder</code></td>
+        <td><code>string</code></td>
+        <td><code>"1px solid lightgrey"</code></td>
+        <td>Border style for the popup container.</td>
+      </tr>
+      <tr>
+        <td><code>containerBoxShadow</code></td>
+        <td><code>string</code></td>
+        <td><code>"0 4px 8px rgba(0, 0, 0, 0.2)"</code></td>
+        <td>Box shadow for the popup container.</td>
+      </tr>
+      <tr>
+        <td><code>titleBoundaryColor</code></td>
+        <td><code>string</code></td>
+        <td><code>"lightgrey"</code></td>
+        <td>Color of the border between title and message.</td>
+      </tr>
+      <tr>
+        <td><code>buttonPrimaryBackgroundColor</code></td>
+        <td><code>string</code></td>
+        <td><code>"#2563eb"</code></td>
+        <td>Background color for the OK button.</td>
+      </tr>
+      <tr>
+        <td><code>buttonPrimaryColor</code></td>
+        <td><code>string</code></td>
+        <td><code>"white"</code></td>
+        <td>Text color for the OK button.</td>
+      </tr>
+      <tr>
+        <td><code>buttonSecondaryBackgroundColor</code></td>
+        <td><code>string</code></td>
+        <td><code>"grey"</code></td>
+        <td>Background color for the Cancel button.</td>
+      </tr>
+      <tr>
+        <td><code>buttonSecondaryColor</code></td>
+        <td><code>string</code></td>
+        <td><code>"white"</code></td>
+        <td>Text color for the Cancel button.</td>
+      </tr>
+      <tr>
+        <td><code>buttonBorderRadius</code></td>
+        <td><code>string</code></td>
+        <td><code>"0"</code></td>
+        <td>Border radius for both buttons.</td>
+      </tr>
+    </tbody>
+  </table>
 
 
 <h3>Methods</h3>
@@ -1542,7 +1554,9 @@ Setting this property will update the displayed value and fire the \`aero-select
 <tbody><tr>
 <td><code>setItems</code></td>
 
-<td>Sets the list of items for the roller.</td>
+<td>Sets the list of items for the roller.
+Items are rendered as plain text, so markup in a value is displayed
+literally rather than parsed as HTML.</td>
 <td><code>items: T[]</code></td>
 <td></td>
 

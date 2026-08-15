@@ -21,12 +21,19 @@ export type AeroToastOptions = {
  */
 /**
  * A toast component for displaying temporary notifications to users.
+ * Use the static `show()` method; a manually constructed instance must be
+ * appended to the DOM by the caller.
  *
  * @extends AeroShadowElement
  */
 export declare class AeroToast extends AeroShadowElement {
     private _$text;
-    constructor(text: string, options: AeroToastOptions);
+    private _ms;
+    private _removalTimer?;
+    private _handleAnimationEnd;
+    constructor(text?: string, options?: AeroToastOptions);
+    connectedCallback(): void;
+    disconnectedCallback(): void;
     /**
      * Displays a toast notification on the screen.
      *

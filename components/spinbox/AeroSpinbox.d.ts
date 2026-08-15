@@ -7,6 +7,9 @@ import { BaseAeroNumericInput } from '../../base/BaseAeroNumericInput';
  *
  * @extends BaseAeroNumericInput
  *
+ * @fires input - Fired when the value changes, including via the increment/decrement buttons.
+ * @fires change - Fired when the value is committed, including via the increment/decrement buttons.
+ *
  * @cssprop [--aero-spinbox-button-background=lightgrey] - The background color of the increment and decrement buttons.
  */
 export declare class AeroSpinbox extends BaseAeroNumericInput {
@@ -22,7 +25,7 @@ export declare class AeroSpinbox extends BaseAeroNumericInput {
     static get observedAttributes(): string[];
     attributeChangedCallback(name: string, _oldValue: string | null, newValue: string | null): void;
     private _aeroSpinboxAttributeHandlers;
-    private _updateMinuxText;
+    private _updateMinusText;
     private _updatePlusText;
     private _updateHeight;
     /**
@@ -43,10 +46,13 @@ export declare class AeroSpinbox extends BaseAeroNumericInput {
     set plusText(text: string);
     /**
      * Decrements the input value by the step amount.
+     * Fires `input` and `change` events when the value actually changes.
      */
     decrement(): void;
     /**
      * Increments the input value by the step amount.
+     * Fires `input` and `change` events when the value actually changes.
      */
     increment(): void;
+    private _stepBy;
 }

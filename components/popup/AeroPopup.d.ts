@@ -27,6 +27,11 @@ export type AeroPopupOptions = {
  */
 /**
  * A popup component for displaying notifications to users without blocking main processor.
+ * Use the static `alert()`/`confirm()` methods; a manually constructed instance
+ * must be appended to the DOM by the caller.
+ *
+ * When several popups are stacked, only the topmost one reacts to the
+ * Enter/Escape keyboard shortcuts.
  *
  * @extends AeroShadowElement
  */
@@ -35,8 +40,12 @@ export declare class AeroPopup extends AeroShadowElement {
     private _$ok;
     private _$cancel;
     private _resolve?;
+    private _previousFocus;
+    constructor(html?: string, message?: string, options?: AeroPopupOptions);
+    connectedCallback(): void;
+    disconnectedCallback(): void;
+    private _settle;
     private _handleKeyDown;
-    constructor(html: string, message: string, options: AeroPopupOptions);
     /**
      * Displays a alert notification on the screen.
      *

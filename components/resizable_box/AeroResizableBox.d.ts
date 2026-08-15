@@ -32,6 +32,7 @@ export interface AeroResizableBoxEvents {
  */
 /**
  * A container element that can be resized by dragging its edges.
+ * Dragging works with mouse, touch, and pen input (pointer events).
  *
  * @extends AeroShadowElement
  *
@@ -58,19 +59,24 @@ export declare class AeroResizableBox extends AeroShadowElement<AeroResizableBox
     private _isRightDragging;
     private _isDragging;
     private _animationFrameId;
+    private _activePointerId;
     private _resizerHandlers;
     constructor();
     private _initializeAttributes;
     connectedCallback(): void;
     disconnectedCallback(): void;
-    private _handleMousemove;
-    private _handleMouseup;
-    private _processMousedownEvent;
+    private _handlePointermove;
+    private _clampWidth;
+    private _clampHeight;
+    private _handlePointerup;
+    private _stopDragging;
+    private _processPointerdownEvent;
     private _emitResize;
     static get observedAttributes(): string[];
     attributeChangedCallback(name: string, _oldValue: string | null, newValue: string | null): void;
     private _baseAeroResizeBoxAttributeHandlers;
     private _updateResizeState;
+    private _parseSize;
     private _updateMinWidthValue;
     private _updateMaxWidthValue;
     private _updateMinHeightValue;

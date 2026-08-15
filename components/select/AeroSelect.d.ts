@@ -18,6 +18,10 @@ export interface AeroSelectEvents {
  * `<aero-select>` is a custom select element that provides a customizable dropdown selection.
  * It uses `<aero-option>` elements as its options.
  *
+ * The host is made keyboard-focusable automatically (`tabindex="0"` unless one is provided).
+ * Keyboard interaction: Enter/Space opens the dropdown, ArrowUp/ArrowDown move the highlight,
+ * Enter commits the highlighted option, and Escape closes the dropdown.
+ *
  * @element aero-select
  * @fires aero-select-changed - Fired when the selected option changes.
  *
@@ -27,6 +31,7 @@ export interface AeroSelectEvents {
  * @cssprop [--aero-select-height=36px] - Default height of the select component.
  * @cssprop [--aero-select-font-size=16px] - Font size for the select text.
  * @cssprop [--aero-select-font-family=san-serif] - Font family for the select text.
+ * @cssprop [--aero-select-text-align=center] - Horizontal alignment of the selected text and dropdown options (left | center | right).
  * @cssprop [--aero-select-border=1px solid #000] - Border style for the select component.
  * @cssprop [--aero-select-dropdown-border=1px solid #000] - Border style for the dropdown container.
  * @cssprop [--aero-select-dropdown-z-index=100] - Z-index for the dropdown container.

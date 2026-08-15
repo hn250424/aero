@@ -1,4 +1,4 @@
-class a extends HTMLElement {
+class r extends HTMLElement {
   /**
    * The shadow root for this element.
    * @protected
@@ -61,7 +61,7 @@ class a extends HTMLElement {
     super.removeEventListener(t, e, i);
   }
 }
-class p extends a {
+class _ extends r {
   _boundDispatchInputEvent = this._dispatchInputEvent.bind(this);
   _boundDispatchChangeEvent = this._dispatchChangeEvent.bind(this);
   _boundDispatchFocusinEvent = this._dispatchFocusinEvent.bind(this);
@@ -74,12 +74,13 @@ class p extends a {
     this._$input = this.query(this.getInputSelector());
   }
   getValidateValue(t) {
-    const e = isNaN(t) ? this.min : t, n = Math.max(this.min, Math.min(this.max, e)) - this.min, r = Math.round(n / this.step) * this.step;
-    let s = this.min + r;
-    return s > this.max && (s = s - this.step), Number(s.toFixed(this.decimalPlaces));
+    if (this.min > this.max) return this.min;
+    const e = isNaN(t) ? this.min : t, n = Math.max(this.min, Math.min(this.max, e)) - this.min, s = Math.round(n / this.step) * this.step;
+    let o = this.min + s;
+    return o > this.max && (o = o - this.step), Number(o.toFixed(this.decimalPlaces));
   }
   connectedCallback() {
-    this._$input.addEventListener("input", this._boundDispatchInputEvent), this._$input.addEventListener("change", this._boundDispatchChangeEvent), this._$input.addEventListener("focusin", this._boundDispatchFocusinEvent), this._$input.addEventListener("focusout", this._boundDispatchFocusoutEvent);
+    this._$input.addEventListener("input", this._boundDispatchInputEvent), this._$input.addEventListener("change", this._boundDispatchChangeEvent), this._$input.addEventListener("focusin", this._boundDispatchFocusinEvent), this._$input.addEventListener("focusout", this._boundDispatchFocusoutEvent), this.getAttribute("value") !== null && (this.value = this.value);
   }
   disconnectedCallback() {
     this._$input.removeEventListener("input", this._boundDispatchInputEvent), this._$input.removeEventListener("change", this._boundDispatchChangeEvent), this._$input.removeEventListener(
@@ -127,7 +128,7 @@ class p extends a {
     }
   };
   _syncUI(t) {
-    t && (this._$input.value = t);
+    this._$input.value = t ?? "";
   }
   /**
    * The underlying HTML input element.
@@ -145,7 +146,9 @@ class p extends a {
    */
   get value() {
     const t = this.getAttribute("value");
-    return t === null ? this.min : Number(t);
+    if (t === null) return this.min;
+    const e = Number(t);
+    return isNaN(e) ? this.min : e;
   }
   set value(t) {
     const e = this.getValidateValue(t);
@@ -190,112 +193,119 @@ class p extends a {
   set step(t) {
     this.setAttribute("step", String(t));
   }
-  // The number of decimal places, derived from the `step` attribute.
+  // The number of decimal places, derived from the `step` and `min` attributes.
+  // 'min' participates because stepping is relative to it: with min="0.05"
+  // and step="0.1", valid values (0.05, 0.15, ...) need two decimal places.
   get decimalPlaces() {
-    const t = this.getAttribute("step");
-    if (!t || isNaN(Number(t))) return 0;
-    const e = t?.split(".");
-    return e?.length > 1 ? e[1].length : 0;
+    const t = (e) => {
+      if (!e || isNaN(Number(e))) return 0;
+      const i = e.split(".");
+      return i.length > 1 ? i[1].length : 0;
+    };
+    return Math.max(
+      t(this.getAttribute("step")),
+      t(this.getAttribute("min"))
+    );
   }
 }
-const v = `<style>\r
-	:host {\r
-		border: 1px solid #ccc;\r
-		display: block;\r
-\r
-		width: 100px;\r
-		height: 30px;\r
-	}\r
-\r
-	#input {\r
-		width: 100%;\r
-		height: 100%;\r
-		padding: 0;\r
-		border: none;\r
-\r
-		text-align: inherit;\r
-		font-size: inherit;\r
-		color: inherit;\r
-	}\r
-\r
-	#input:focus {\r
-		outline: none;\r
-	}\r
-	#input::-webkit-inner-spin-button {\r
-		appearance: none;\r
-	}\r
-</style>\r
-\r
-<input id="input" type="number" />\r
+const x = `<style>
+  :host {
+    border: 1px solid #ccc;
+    display: block;
+
+    width: 100px;
+    height: 30px;
+  }
+
+  #input {
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    border: none;
+
+    text-align: inherit;
+    font-size: inherit;
+    color: inherit;
+  }
+
+  #input:focus {
+    outline: none;
+  }
+  #input::-webkit-inner-spin-button {
+    appearance: none;
+  }
+</style>
+
+<input id="input" type="number" />
 `;
-class x extends p {
+class f extends _ {
   constructor() {
-    super(v);
+    super(x);
   }
   getInputSelector() {
     return "#input";
   }
 }
-const f = `<style>\r
-	:host {\r
-		border: 1px solid #ccc;\r
-		display: block;\r
-\r
-		width: 130px;\r
-		height: 30px;\r
-	}\r
-\r
-	#spinbox {\r
-		display: grid;\r
-	}\r
-\r
-	#spinbox,\r
-	#spinbox > * {\r
-		width: 100%;\r
-		height: 100%;\r
-		border: none;\r
-		font-size: inherit;\r
-		color: inherit;\r
-	}\r
-\r
-	#spinbox > button {\r
-		cursor: pointer;\r
-		background-color: var(--aero-spinbox-button-background, lightgrey);\r
-	}\r
-\r
-	#input {\r
-		padding: 0;\r
-		text-align: center;\r
-	}\r
-\r
-	#input:focus {\r
-		outline: none;\r
-	}\r
-	#input::-webkit-inner-spin-button {\r
-		appearance: none;\r
-	}\r
-</style>\r
-\r
-<div id="spinbox">\r
-	<button id="minus">-</button>\r
-	<input id="input" type="number" />\r
-	<button id="plus">+</button>\r
-</div>\r
+const w = `<style>
+  :host {
+    border: 1px solid #ccc;
+    display: block;
+
+    width: 130px;
+    height: 30px;
+  }
+
+  #spinbox {
+    display: grid;
+  }
+
+  #spinbox,
+  #spinbox > * {
+    width: 100%;
+    height: 100%;
+    border: none;
+    font-size: inherit;
+    color: inherit;
+  }
+
+  #spinbox > button {
+    cursor: pointer;
+    background-color: var(--aero-spinbox-button-background, lightgrey);
+  }
+
+  #input {
+    padding: 0;
+    text-align: center;
+  }
+
+  #input:focus {
+    outline: none;
+  }
+  #input::-webkit-inner-spin-button {
+    appearance: none;
+  }
+</style>
+
+<div id="spinbox">
+  <button id="minus">-</button>
+  <input id="input" type="number" />
+  <button id="plus">+</button>
+</div>
 `;
-class w extends p {
+class y extends _ {
   _boundDecrement = this.decrement.bind(this);
   _boundIncrement = this.increment.bind(this);
   _$minus;
   _$plus;
   _resizeObserver;
   constructor() {
-    super(f), this._$minus = this.query("#minus"), this._$plus = this.query("#plus"), this._updateMinuxText(this.getAttribute("minus-text")), this._updatePlusText(this.getAttribute("plus-text")), this._updateHeight(parseInt(getComputedStyle(this).height)), this._resizeObserver = new ResizeObserver((t) => {
+    super(w), this._$minus = this.query("#minus"), this._$plus = this.query("#plus"), this._updateMinusText(this.getAttribute("minus-text")), this._updatePlusText(this.getAttribute("plus-text")), this._updateHeight(parseInt(getComputedStyle(this).height)), this._resizeObserver = new ResizeObserver((t) => {
       for (const e of t) {
         const i = e.contentRect.height;
         this.applyStyles(
           `#spinbox {
-						grid-template-columns: ${i}px 1fr ${i}px;
-					}`
+            grid-template-columns: ${i}px 1fr ${i}px;
+          }`
         );
       }
     });
@@ -304,10 +314,10 @@ class w extends p {
     return "#input";
   }
   connectedCallback() {
-    this._$minus.addEventListener("click", this._boundDecrement), this._$plus.addEventListener("click", this._boundIncrement), this._resizeObserver.observe(this);
+    super.connectedCallback(), this._$minus.addEventListener("click", this._boundDecrement), this._$plus.addEventListener("click", this._boundIncrement), this._resizeObserver.observe(this);
   }
   disconnectedCallback() {
-    this._$minus.removeEventListener("click", this._boundDecrement), this._$plus.removeEventListener("click", this._boundIncrement), this._resizeObserver.disconnect();
+    super.disconnectedCallback(), this._$minus.removeEventListener("click", this._boundDecrement), this._$plus.removeEventListener("click", this._boundIncrement), this._resizeObserver.disconnect();
   }
   static get observedAttributes() {
     return [
@@ -321,13 +331,13 @@ class w extends p {
   }
   _aeroSpinboxAttributeHandlers = {
     "minus-text": (t) => {
-      this._updateMinuxText(t);
+      this._updateMinusText(t);
     },
     "plus-text": (t) => {
       this._updatePlusText(t);
     }
   };
-  _updateMinuxText(t) {
+  _updateMinusText(t) {
     this._$minus.textContent = t || "-";
   }
   _updatePlusText(t) {
@@ -336,8 +346,8 @@ class w extends p {
   _updateHeight(t) {
     t = t || 30, this.applyStyles(
       `#spinbox {
-				grid-template-columns: ${t}px 1fr ${t}px;
-			}`
+        grid-template-columns: ${t}px 1fr ${t}px;
+      }`
     );
   }
   /**
@@ -362,26 +372,30 @@ class w extends p {
   }
   /**
    * Decrements the input value by the step amount.
+   * Fires `input` and `change` events when the value actually changes.
    */
   decrement() {
-    const t = this.value - this.step;
-    this.value = this.getValidateValue(t);
+    this._stepBy(-this.step);
   }
   /**
    * Increments the input value by the step amount.
+   * Fires `input` and `change` events when the value actually changes.
    */
   increment() {
-    const t = this.value + this.step;
-    this.value = this.getValidateValue(t);
+    this._stepBy(this.step);
+  }
+  _stepBy(t) {
+    const e = this.value;
+    this.value = this.getValidateValue(this.value + t), this.value !== e && (this.forwardNativeEvent("input"), this.forwardNativeEvent("change"));
   }
 }
-const y = `<style>\r
-	:host {\r
-		display: block;\r
-	}\r
-</style>\r
+const $ = `<style>
+  :host {
+    display: block;
+  }
+</style>
 `;
-class $ extends a {
+class k extends r {
   _size;
   _thickness;
   _radius;
@@ -394,7 +408,7 @@ class $ extends a {
   _$track;
   _$arc;
   constructor() {
-    super(y), this._syncHostAttributes(), this._buildSvg(), this._syncSvgAttributes(), this._syncStyles();
+    super($), this._syncHostAttributes(), this._buildSvg(), this._syncSvgAttributes(), this._syncStyles();
   }
   _buildSvg() {
     const t = "http://www.w3.org/2000/svg";
@@ -407,126 +421,135 @@ class $ extends a {
     this._syncHostAttributes(), this._syncSvgAttributes(), this._syncStyles();
   }
   _syncHostAttributes() {
-    this._size = parseInt(this.getAttribute("size") || "50"), this._thickness = parseInt(this.getAttribute("thickness") || "4"), this._radius = this._size / 2 - this._thickness - 1, this._circumference = 2 * Math.PI * this._radius, this._trackColor = this.getAttribute("track-color") || "transparent", this._arcColor = this.getAttribute("arc-color") || "black", this._cycle = parseInt(this.getAttribute("cycle") || "2"), this._arcRatio = parseFloat(this.getAttribute("arc-ratio") || "90") / 100;
+    this._size = this._parsePositive(this.getAttribute("size"), 50), this._thickness = this._parsePositive(this.getAttribute("thickness"), 4), this._radius = Math.max(this._size / 2 - this._thickness - 1, 1), this._circumference = 2 * Math.PI * this._radius, this._trackColor = this.getAttribute("track-color") || "transparent", this._arcColor = this.getAttribute("arc-color") || "black", this._cycle = this._parsePositive(this.getAttribute("cycle"), 2), this._arcRatio = this._parsePositive(this.getAttribute("arc-ratio"), 90, 100) / 100;
+  }
+  // Parses a numeric attribute, falling back when the value is missing,
+  // not a number, not positive, or above max.
+  _parsePositive(t, e, i = 1 / 0) {
+    const n = parseFloat(t ?? "");
+    return isNaN(n) || n <= 0 || n > i ? e : n;
   }
   _syncSvgAttributes() {
     this._$svg.setAttribute("viewBox", `0 0 ${this._size} ${this._size}`), this._$svg.setAttribute("width", String(this._size)), this._$svg.setAttribute("height", String(this._size)), this._$track.setAttribute("cx", String(this._size / 2)), this._$track.setAttribute("cy", String(this._size / 2)), this._$track.setAttribute("r", String(this._radius)), this._$arc.setAttribute("cx", String(this._size / 2)), this._$arc.setAttribute("cy", String(this._size / 2)), this._$arc.setAttribute("r", String(this._radius));
   }
   _syncStyles() {
+    const t = Math.min(10, this._circumference);
     this.applyStyles(`
-			:host {
-				width: ${this._size}px;
-				height: ${this._size}px;
-			}
+      :host {
+        width: ${this._size}px;
+        height: ${this._size}px;
+      }
 
-			.track {
-				fill: none;
-				stroke: ${this._trackColor};
-				stroke-width: ${this._thickness};
-			}
+      .track {
+        fill: none;
+        stroke: ${this._trackColor};
+        stroke-width: ${this._thickness};
+      }
 
-			.arc {
-				fill: none;
-				stroke: ${this._arcColor};
-				stroke-width: ${this._thickness};
+      .arc {
+        fill: none;
+        stroke: ${this._arcColor};
+        stroke-width: ${this._thickness};
 
-				stroke-dasharray: ${this._circumference};
-				stroke-dashoffset: ${this._circumference};
+        stroke-dasharray: ${this._circumference};
+        stroke-dashoffset: ${this._circumference};
 
-				transform-origin: center;
+        transform-origin: center;
 
-				animation:
-					spin ${this._cycle}s linear infinite,
-					arc ${this._cycle}s ease-in-out infinite;
-			}
+        animation:
+          spin ${this._cycle}s linear infinite,
+          arc ${this._cycle}s ease-in-out infinite;
+      }
 
-			@keyframes spin {
-				to {
-					transform: rotate(360deg);
-				}
-			}
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
 
-			@keyframes arc {
-				0% {
-					stroke-dasharray: 10 ${this._circumference - 10};
-					stroke-dashoffset: 0;
-				}
-				50% {
-					stroke-dasharray: ${this._circumference * this._arcRatio} ${this._circumference - this._circumference * this._arcRatio};
-					stroke-dashoffset: 0;
-				}
-				100% {
-					stroke-dasharray: 10 ${this._circumference - 10};
-					stroke-dashoffset: ${this._circumference * -1};
-				}
-			}
-		`);
+      @keyframes arc {
+        0% {
+          stroke-dasharray: ${t} ${this._circumference - t};
+          stroke-dashoffset: 0;
+        }
+        50% {
+          stroke-dasharray: ${this._circumference * this._arcRatio} ${this._circumference - this._circumference * this._arcRatio};
+          stroke-dashoffset: 0;
+        }
+        100% {
+          stroke-dasharray: ${t} ${this._circumference - t};
+          stroke-dashoffset: ${this._circumference * -1};
+        }
+      }
+    `);
   }
 }
-const k = `<style>\r
-	:host {\r
-		position: relative;\r
-		display: block;\r
-		width: 300px;\r
-		height: 300px;\r
-		border: 1px solid lightgray;\r
-		box-sizing: border-box;\r
-	}\r
-\r
-	.resizer {\r
-		position: absolute;\r
-		background-color: transparent;\r
-		transition: background-color 0.3s ease;\r
-	}\r
-\r
-	.resizer:hover {\r
-		background-color: var(--aero-resizable-box-resizer-color, grey);\r
-	}\r
-\r
-	.horizontal {\r
-		width: 3px;\r
-		height: 100%;\r
-		cursor: ew-resize;\r
-	}\r
-\r
-	.vertical {\r
-		width: 100%;\r
-		height: 3px;\r
-		cursor: ns-resize;\r
-	}\r
-\r
-	#top {\r
-		left: 0;\r
-		top: 0;\r
-		transform: translateY(-50%);\r
-	}\r
-\r
-	#bottom {\r
-		left: 0;\r
-		bottom: 0;\r
-		transform: translateY(50%);\r
-	}\r
-\r
-	#left {\r
-		top: 0;\r
-		left: 0;\r
-		transform: translateX(-50%);\r
-	}\r
-\r
-	#right {\r
-		top: 0;\r
-		right: 0;\r
-		transform: translateX(50%);\r
-	}\r
-</style>\r
-\r
-<slot></slot>\r
-<div id="top" class="resizer vertical"></div>\r
-<div id="bottom" class="resizer vertical"></div>\r
-<div id="left" class="resizer horizontal"></div>\r
-<div id="right" class="resizer horizontal"></div>\r
+const z = `<style>
+  :host {
+    position: relative;
+    display: block;
+    width: 300px;
+    height: 300px;
+    border: 1px solid lightgray;
+    box-sizing: border-box;
+  }
+
+  .resizer {
+    position: absolute;
+    background-color: transparent;
+    transition: background-color 0.3s ease;
+    /* Required for pointer-event dragging on touch devices. */
+    touch-action: none;
+  }
+
+  .resizer:hover {
+    background-color: var(--aero-resizable-box-resizer-color, grey);
+  }
+
+  .horizontal {
+    width: 3px;
+    height: 100%;
+    cursor: ew-resize;
+  }
+
+  .vertical {
+    width: 100%;
+    height: 3px;
+    cursor: ns-resize;
+  }
+
+  #top {
+    left: 0;
+    top: 0;
+    transform: translateY(-50%);
+  }
+
+  #bottom {
+    left: 0;
+    bottom: 0;
+    transform: translateY(50%);
+  }
+
+  #left {
+    top: 0;
+    left: 0;
+    transform: translateX(-50%);
+  }
+
+  #right {
+    top: 0;
+    right: 0;
+    transform: translateX(50%);
+  }
+</style>
+
+<slot></slot>
+<div id="top" class="resizer vertical"></div>
+<div id="bottom" class="resizer vertical"></div>
+<div id="left" class="resizer horizontal"></div>
+<div id="right" class="resizer horizontal"></div>
 `;
-class d extends a {
+class l extends r {
   _$topResizer;
   _$bottomResizer;
   _$leftResizer;
@@ -541,86 +564,86 @@ class d extends a {
   _isRightDragging = !1;
   _isDragging = !1;
   _animationFrameId = null;
+  _activePointerId = null;
   _resizerHandlers = {
-    top: (t) => this._processMousedownEvent(t, "top"),
-    bottom: (t) => this._processMousedownEvent(t, "bottom"),
-    left: (t) => this._processMousedownEvent(t, "left"),
-    right: (t) => this._processMousedownEvent(t, "right")
+    top: (t) => this._processPointerdownEvent(t, "top"),
+    bottom: (t) => this._processPointerdownEvent(t, "bottom"),
+    left: (t) => this._processPointerdownEvent(t, "left"),
+    right: (t) => this._processPointerdownEvent(t, "right")
   };
   constructor() {
-    super(k), this._$topResizer = this.query("#top"), this._$bottomResizer = this.query("#bottom"), this._$leftResizer = this.query("#left"), this._$rightResizer = this.query("#right"), this._updateMinWidthValue(this.getAttribute("min-width")), this._updateMaxWidthValue(this.getAttribute("max-width")), this._updateMinHeightValue(this.getAttribute("min-height")), this._updateMaxHeightValue(this.getAttribute("max-height")), this._initializeAttributes();
+    super(z), this._$topResizer = this.query("#top"), this._$bottomResizer = this.query("#bottom"), this._$leftResizer = this.query("#left"), this._$rightResizer = this.query("#right"), this._updateMinWidthValue(this.getAttribute("min-width")), this._updateMaxWidthValue(this.getAttribute("max-width")), this._updateMinHeightValue(this.getAttribute("min-height")), this._updateMaxHeightValue(this.getAttribute("max-height")), this._initializeAttributes();
   }
   _initializeAttributes() {
-    d.observedAttributes.forEach((t) => {
+    l.observedAttributes.forEach((t) => {
       const e = this.getAttribute(t);
       this._baseAeroResizeBoxAttributeHandlers[t]?.(e);
     });
   }
   connectedCallback() {
-    this._updateResizeState("top", this.hasAttribute("resize-top")), this._updateResizeState("bottom", this.hasAttribute("resize-bottom")), this._updateResizeState("left", this.hasAttribute("resize-left")), this._updateResizeState("right", this.hasAttribute("resize-right")), window.addEventListener("mousemove", this._handleMousemove), window.addEventListener("mouseup", this._handleMouseup);
+    this._updateResizeState("top", this.hasAttribute("resize-top")), this._updateResizeState("bottom", this.hasAttribute("resize-bottom")), this._updateResizeState("left", this.hasAttribute("resize-left")), this._updateResizeState("right", this.hasAttribute("resize-right")), window.addEventListener("pointermove", this._handlePointermove), window.addEventListener("pointerup", this._handlePointerup), window.addEventListener("pointercancel", this._handlePointerup);
   }
   disconnectedCallback() {
-    this._updateResizeState("top", !1), this._updateResizeState("bottom", !1), this._updateResizeState("left", !1), this._updateResizeState("right", !1), window.removeEventListener("mousemove", this._handleMousemove), window.removeEventListener("mouseup", this._handleMouseup);
+    this._updateResizeState("top", !1), this._updateResizeState("bottom", !1), this._updateResizeState("left", !1), this._updateResizeState("right", !1), window.removeEventListener("pointermove", this._handlePointermove), window.removeEventListener("pointerup", this._handlePointerup), window.removeEventListener("pointercancel", this._handlePointerup), this._stopDragging();
   }
-  _handleMousemove = (t) => {
-    this._isDragging && (this._animationFrameId && cancelAnimationFrame(this._animationFrameId), this._animationFrameId = requestAnimationFrame(() => {
+  _handlePointermove = (t) => {
+    !this._isDragging || t.pointerId !== this._activePointerId || (this._animationFrameId && cancelAnimationFrame(this._animationFrameId), this._animationFrameId = requestAnimationFrame(() => {
       const e = this.getBoundingClientRect();
       if (this._isTopDragging) {
-        const i = e.bottom - t.clientY, n = Math.min(
-          Math.max(i, this._nMinHeight),
-          this._nMaxHeight
-        );
-        this.style.height = `${n}px`, this._emitResize(null, n);
+        const i = this._clampHeight(e.bottom - t.clientY);
+        this.style.height = `${i}px`, this._emitResize(null, i);
       } else if (this._isBottomDragging) {
-        const i = t.clientY - e.top, n = Math.min(
-          Math.max(i, this._nMinHeight),
-          this._nMaxHeight
-        );
-        this.style.height = `${n}px`, this._emitResize(null, n);
+        const i = this._clampHeight(t.clientY - e.top);
+        this.style.height = `${i}px`, this._emitResize(null, i);
       } else if (this._isLeftDragging) {
-        const i = e.right - t.clientX, n = Math.min(
-          Math.max(i, this._nMinWidth),
-          this._nMaxWidth
-        );
-        this.style.width = `${n}px`, this._emitResize(n, null);
+        const i = this._clampWidth(e.right - t.clientX);
+        this.style.width = `${i}px`, this._emitResize(i, null);
       } else if (this._isRightDragging) {
-        const i = t.clientX - e.left, n = Math.min(
-          Math.max(i, this._nMinWidth),
-          this._nMaxWidth
-        );
-        this.style.width = `${n}px`, this._emitResize(n, null);
+        const i = this._clampWidth(t.clientX - e.left);
+        this.style.width = `${i}px`, this._emitResize(i, null);
       }
     }));
   };
-  _handleMouseup = (t) => {
-    this._isDragging && (this.forwardCustomEvent("aero-resize-end", {
+  // When min > max, 'min' wins, mirroring CSS min-width/max-width resolution.
+  _clampWidth(t) {
+    return Math.max(Math.min(t, this._nMaxWidth), this._nMinWidth);
+  }
+  _clampHeight(t) {
+    return Math.max(Math.min(t, this._nMaxHeight), this._nMinHeight);
+  }
+  _handlePointerup = (t) => {
+    !this._isDragging || t.pointerId !== this._activePointerId || (this.forwardCustomEvent("aero-resize-end", {
       detail: {
         width: this.offsetWidth,
         height: this.offsetHeight
       }
-    }), this._animationFrameId && (cancelAnimationFrame(this._animationFrameId), this._animationFrameId = null), document.body.style.cursor = "", document.body.style.userSelect = "", this._isDragging = !1, this._isTopDragging = !1, this._isBottomDragging = !1, this._isLeftDragging = !1, this._isRightDragging = !1);
+    }), this._stopDragging());
   };
-  _processMousedownEvent = (t, e) => {
-    switch (t.preventDefault(), document.body.style.userSelect = "none", this._isDragging = !0, this.forwardCustomEvent("aero-resize-start", {
-      detail: {
-        width: this.offsetWidth,
-        height: this.offsetHeight,
-        edge: e
+  _stopDragging() {
+    this._isDragging && (this._animationFrameId && (cancelAnimationFrame(this._animationFrameId), this._animationFrameId = null), document.body.style.cursor = "", document.body.style.userSelect = "", this._isDragging = !1, this._isTopDragging = !1, this._isBottomDragging = !1, this._isLeftDragging = !1, this._isRightDragging = !1, this._activePointerId = null);
+  }
+  _processPointerdownEvent = (t, e) => {
+    if (!this._isDragging)
+      switch (t.preventDefault(), document.body.style.userSelect = "none", this._isDragging = !0, this._activePointerId = t.pointerId, this.forwardCustomEvent("aero-resize-start", {
+        detail: {
+          width: this.offsetWidth,
+          height: this.offsetHeight,
+          edge: e
+        }
+      }), e) {
+        case "top":
+          this._isTopDragging = !0, document.body.style.cursor = "ns-resize";
+          break;
+        case "bottom":
+          this._isBottomDragging = !0, document.body.style.cursor = "ns-resize";
+          break;
+        case "left":
+          this._isLeftDragging = !0, document.body.style.cursor = "ew-resize";
+          break;
+        case "right":
+          this._isRightDragging = !0, document.body.style.cursor = "ew-resize";
+          break;
       }
-    }), e) {
-      case "top":
-        this._isTopDragging = !0, document.body.style.cursor = "ns-resize";
-        break;
-      case "bottom":
-        this._isBottomDragging = !0, document.body.style.cursor = "ns-resize";
-        break;
-      case "left":
-        this._isLeftDragging = !0, document.body.style.cursor = "ew-resize";
-        break;
-      case "right":
-        this._isRightDragging = !0, document.body.style.cursor = "ew-resize";
-        break;
-    }
   };
   _emitResize(t, e) {
     this.forwardCustomEvent("aero-resize", {
@@ -687,19 +710,26 @@ class d extends a {
         i = this._$rightResizer, n = this._resizerHandlers.right;
         break;
     }
-    i.hidden = !e, e ? i.addEventListener("mousedown", n) : i.removeEventListener("mousedown", n);
+    i.hidden = !e, e ? i.addEventListener("pointerdown", n) : i.removeEventListener("pointerdown", n);
+  }
+  // Parses a size attribute, falling back when the value is missing,
+  // not a number, or negative.
+  _parseSize(t, e) {
+    if (t === null || t === "") return e;
+    const i = Number(t);
+    return isNaN(i) || i < 0 ? e : i;
   }
   _updateMinWidthValue(t) {
-    this._nMinWidth = t ? Number(t) : 0;
+    this._nMinWidth = this._parseSize(t, 0);
   }
   _updateMaxWidthValue(t) {
-    this._nMaxWidth = t ? Number(t) : 2e3;
+    this._nMaxWidth = this._parseSize(t, 2e3);
   }
   _updateMinHeightValue(t) {
-    this._nMinHeight = t ? Number(t) : 0;
+    this._nMinHeight = this._parseSize(t, 0);
   }
   _updateMaxHeightValue(t) {
-    this._nMaxHeight = t ? Number(t) : 2e3;
+    this._nMaxHeight = this._parseSize(t, 2e3);
   }
   /**
    * The minimum width of the box.
@@ -798,162 +828,166 @@ class d extends a {
     this.removeAttribute("resize-right");
   }
 }
-const z = `<style>\r
-	:host {\r
-		--aero-select-width: 100%;\r
-		--aero-select-height: 36px;\r
-\r
-		--aero-select-font-size: 16px;\r
-		--aero-select-font-family: san-serif;\r
-\r
-		--aero-select-border: 1px solid #000;\r
-\r
-		--aero-select-dropdown-border: 1px solid #000;\r
-		--aero-select-dropdown-z-index: 100;\r
-		--aero-select-dropdown-item-border: 1px solid grey;\r
-		--aero-select-dropdown-item-background: #fff;\r
-		--aero-select-dropdown-item-color: #000;\r
-\r
-		--aero-select-dropdown-hover-item-border: 1px solid grey;\r
-		--aero-select-dropdown-hover-item-background: #000;\r
-		--aero-select-dropdown-hover-item-color: white;\r
-		--aero-select-dropdown-hover-item-cursor: pointer;\r
-\r
-		--aero-select-span-background: transparent;\r
-		--aero-select-span-border: 1px solid transparent;\r
-\r
-		--aero-select-button-border: 1px solid #000;\r
-		--aero-select-button-background: lightgrey;\r
-		--aero-select-button-color: #000;\r
-\r
-		--aero-select-button-hover-border: 1px solid #000;\r
-		--aero-select-button-hover-background: grey;\r
-		--aero-select-button-hover-color: #000;\r
-		--aero-select-button-hover-cursor: pointer;\r
-\r
-		display: block;\r
-\r
-		width: var(--aero-select-width, 100%);\r
-		height: var(--aero-select-height, 36px);\r
-\r
-		font-size: var(--aero-select-font-size);\r
-		font-family: var(--aero-select-font-family);\r
-	}\r
-\r
-	::slotted(*) {\r
-    display: grid;\r
-    grid-template-columns: 1fr var(--aero-select-height, 36px);\r
-		height: var(--aero-select-height, 36px);\r
-\r
-    text-align: center;\r
-		line-height: var(--aero-select-height);\r
-\r
-		border-bottom: var(--aero-select-dropdown-item-border);\r
-		background-color: var(--aero-select-dropdown-item-background);\r
-		color: var(--aero-select-dropdown-item-color);\r
-	}\r
-\r
-	::slotted(*.highlight),\r
-	::slotted(*:hover) {\r
-		border-bottom: var(--aero-select-dropdown-hover-item-border);\r
-		background-color: var(--aero-select-dropdown-hover-item-background);\r
-		color: var(--aero-select-dropdown-hover-item-color);\r
-		cursor: var(--aero-select-dropdown-hover-item-cursor);\r
-	}\r
-\r
-	::slotted(*:last-child) {\r
-		border-bottom: none;\r
-	}\r
-\r
-	::slotted(*)::after {\r
-		content: '';\r
-	}\r
-\r
-	#overlay {\r
-		position: relative;\r
-\r
-		width: 100%;\r
-    height: 100%;\r
-	}\r
-\r
-	#container {\r
-		width: 100%;\r
-		height: 100%;\r
-\r
-		display: grid;\r
-		grid-template-columns: 1fr auto;\r
-\r
-		border: var(--aero-select-border);\r
-		box-sizing: border-box;\r
-	}\r
-\r
-	#span,\r
-	#button {\r
-		padding: 0;\r
-		margin: 0;\r
-	}\r
-\r
-	#span {\r
-		display: flex;\r
-		justify-content: center;\r
-		align-items: center;\r
-\r
-		background-color: var(--aero-select-span-background);\r
-\r
-		border: var(--aero-select-span-border);\r
-		box-sizing: border-box;\r
-	}\r
-\r
-	#span:hover {\r
-		cursor: default;\r
-	}\r
-\r
-	#button {\r
-    aspect-ratio: 1 / 1;\r
-\r
-		border: var(--aero-select-button-border);\r
-		background-color: var(--aero-select-button-background);\r
-		color: var(--aero-select-button-color);\r
-	}\r
-\r
-	#button:hover {\r
-		border: var(--aero-select-button-hover-border);\r
-		background-color: var(--aero-select-button-hover-background);\r
-		color: var(--aero-select-button-hover-color);\r
-		cursor: var(--aero-select-button-hover-cursor);\r
-	}\r
-\r
-	#dropdown {\r
-		position: fixed;\r
-		z-index: var(--aero-select-dropdown-z-index);\r
-\r
-		max-height: calc(var(--aero-select-height, 36px) * 6.5);\r
-		overflow-y: auto;\r
-\r
-		display: none;\r
-\r
-		border: var(--aero-select-dropdown-border);\r
-		box-sizing: border-box;\r
-\r
-		scrollbar-width: thin;\r
-	}\r
-\r
-	#dropdown.open {\r
-		display: block;\r
-	}\r
-</style>\r
-\r
-<div id="overlay">\r
-	<div id="container">\r
-		<span id="span"></span>\r
-		<button id="button"></button>\r
-	</div>\r
-	<div id="dropdown">\r
-		<slot></slot>\r
-	</div>\r
-</div>\r
+const E = `<style>
+  :host {
+    --aero-select-width: 100%;
+    --aero-select-height: 36px;
+
+    --aero-select-font-size: 16px;
+    --aero-select-font-family: san-serif;
+    --aero-select-text-align: center;
+
+    --aero-select-border: 1px solid #000;
+
+    --aero-select-dropdown-border: 1px solid #000;
+    --aero-select-dropdown-z-index: 100;
+    --aero-select-dropdown-item-border: 1px solid grey;
+    --aero-select-dropdown-item-background: #fff;
+    --aero-select-dropdown-item-color: #000;
+
+    --aero-select-dropdown-hover-item-border: 1px solid grey;
+    --aero-select-dropdown-hover-item-background: #000;
+    --aero-select-dropdown-hover-item-color: white;
+    --aero-select-dropdown-hover-item-cursor: pointer;
+
+    --aero-select-span-background: transparent;
+    --aero-select-span-border: 1px solid transparent;
+
+    --aero-select-button-border: 1px solid #000;
+    --aero-select-button-background: lightgrey;
+    --aero-select-button-color: #000;
+
+    --aero-select-button-hover-border: 1px solid #000;
+    --aero-select-button-hover-background: grey;
+    --aero-select-button-hover-color: #000;
+    --aero-select-button-hover-cursor: pointer;
+
+    display: block;
+
+    width: var(--aero-select-width, 100%);
+    height: var(--aero-select-height, 36px);
+
+    font-size: var(--aero-select-font-size);
+    font-family: var(--aero-select-font-family);
+  }
+
+  ::slotted(*) {
+    display: grid;
+    grid-template-columns: 1fr var(--aero-select-height, 36px);
+    height: var(--aero-select-height, 36px);
+
+    text-align: var(--aero-select-text-align);
+    line-height: var(--aero-select-height);
+
+    border-bottom: var(--aero-select-dropdown-item-border);
+    background-color: var(--aero-select-dropdown-item-background);
+    color: var(--aero-select-dropdown-item-color);
+  }
+
+  ::slotted(*.highlight),
+  ::slotted(*:hover) {
+    border-bottom: var(--aero-select-dropdown-hover-item-border);
+    background-color: var(--aero-select-dropdown-hover-item-background);
+    color: var(--aero-select-dropdown-hover-item-color);
+    cursor: var(--aero-select-dropdown-hover-item-cursor);
+  }
+
+  ::slotted(*:last-child) {
+    border-bottom: none;
+  }
+
+  ::slotted(*)::after {
+    content: '';
+  }
+
+  #overlay {
+    position: relative;
+
+    width: 100%;
+    height: 100%;
+  }
+
+  #container {
+    width: 100%;
+    height: 100%;
+
+    display: grid;
+    grid-template-columns: 1fr auto;
+
+    border: var(--aero-select-border);
+    box-sizing: border-box;
+  }
+
+  #span,
+  #button {
+    padding: 0;
+    margin: 0;
+  }
+
+  #span {
+    display: flex;
+    /* left/right are valid justify-content keywords, so the same value
+       drives both this flex row and the options' text-align. */
+    justify-content: var(--aero-select-text-align);
+    align-items: center;
+
+    background-color: var(--aero-select-span-background);
+
+    border: var(--aero-select-span-border);
+    box-sizing: border-box;
+  }
+
+  #span:hover {
+    cursor: default;
+  }
+
+  #button {
+    aspect-ratio: 1 / 1;
+
+    border: var(--aero-select-button-border);
+    background-color: var(--aero-select-button-background);
+    color: var(--aero-select-button-color);
+  }
+
+  #button:hover {
+    border: var(--aero-select-button-hover-border);
+    background-color: var(--aero-select-button-hover-background);
+    color: var(--aero-select-button-hover-color);
+    cursor: var(--aero-select-button-hover-cursor);
+  }
+
+  #dropdown {
+    position: fixed;
+    z-index: var(--aero-select-dropdown-z-index);
+
+    max-height: calc(var(--aero-select-height, 36px) * 6.5);
+    overflow-y: auto;
+
+    display: none;
+
+    border: var(--aero-select-dropdown-border);
+    box-sizing: border-box;
+
+    scrollbar-width: thin;
+  }
+
+  #dropdown.open {
+    display: block;
+  }
+</style>
+
+<div id="overlay">
+  <div id="container">
+    <span id="span"></span>
+    <!-- The host carries the tab stop; the inner button must not add a second one. -->
+    <button id="button" tabindex="-1"></button>
+  </div>
+  <div id="dropdown">
+    <slot></slot>
+  </div>
+</div>
 `;
-class A extends a {
+class A extends r {
   _handlers = {
     documentClick: this._handleDocumentClick.bind(this),
     buttonClick: this._handleButtonClick.bind(this),
@@ -971,7 +1005,7 @@ class A extends a {
   _highlightIndex = -1;
   _pendingOptionIndex;
   constructor() {
-    super(z), this._$span = this.query("#span"), this._$button = this.query("#button"), this._$dropdown = this.query("#dropdown"), this._$slot = this.query("slot"), this._$options = (this._$slot?.assignedElements() ?? []).filter(
+    super(E), this._$span = this.query("#span"), this._$button = this.query("#button"), this._$dropdown = this.query("#dropdown"), this._$slot = this.query("slot"), this._$options = (this._$slot?.assignedElements() ?? []).filter(
       (t) => t instanceof HTMLElement
     ), this._$button.textContent = this.getAttribute("button-text") ?? "▽", this._updateOptionIndex(
       this._getValidateOptionIndexByStr(
@@ -980,21 +1014,26 @@ class A extends a {
     );
   }
   connectedCallback() {
-    document.addEventListener("click", this._handlers.documentClick), this._$button.addEventListener("click", this._handlers.buttonClick), this._$dropdown.addEventListener("click", this._handlers.dropdownClick), this._$slot?.addEventListener("slotchange", this._handlers.slotChange), this.addEventListener("keydown", this._handlers.keydown);
+    this.hasAttribute("tabindex") || this.setAttribute("tabindex", "0"), document.addEventListener("click", this._handlers.documentClick), this._$button.addEventListener("click", this._handlers.buttonClick), this._$dropdown.addEventListener("click", this._handlers.dropdownClick), this._$slot?.addEventListener("slotchange", this._handlers.slotChange), this.addEventListener("keydown", this._handlers.keydown);
   }
   disconnectedCallback() {
     document.removeEventListener("click", this._handlers.documentClick), this._$button.removeEventListener("click", this._handlers.buttonClick), this._$dropdown.removeEventListener("click", this._handlers.dropdownClick), this._$slot?.removeEventListener("slotchange", this._handlers.slotChange), this.removeEventListener("keydown", this._handlers.keydown);
   }
   _handleDocumentClick(t) {
-    this._dropdown_open && (this._closeDropdown(), this._dropdown_open = !1);
+    t?.composedPath().includes(this) || this._dropdown_open && (this._closeDropdown(), this._dropdown_open = !1);
   }
   _handleButtonClick(t) {
-    t.stopPropagation(), this._dropdown_open = !this._dropdown_open, this._dropdown_open ? this._openDropdown() : this._closeDropdown();
+    this._dropdown_open = !this._dropdown_open, this._dropdown_open ? this._openDropdown() : this._closeDropdown();
   }
   _openDropdown() {
     const t = this.getBoundingClientRect(), e = this._$dropdown.offsetHeight || parseInt(getComputedStyle(this).getPropertyValue("--aero-select-height")) * 6.5, i = window.innerHeight - t.bottom, n = t.top;
-    let r = !1;
-    i < e && n > i && (r = !0), this._$dropdown.style.left = `${t.left}px`, this._$dropdown.style.width = `${t.width}px`, r ? (this._$dropdown.style.top = `${t.top - e}px`, this._$dropdown.classList.add("open-up"), this._$dropdown.classList.remove("open-down")) : (this._$dropdown.style.top = `${t.bottom}px`, this._$dropdown.classList.add("open-down"), this._$dropdown.classList.remove("open-up")), this._$dropdown.classList.add("open"), window.addEventListener(
+    let s = !1;
+    if (i < e && n > i && (s = !0), this._$dropdown.style.left = `${t.left}px`, this._$dropdown.style.width = `${t.width}px`, s ? (this._$dropdown.style.top = `${t.top - e}px`, this._$dropdown.classList.add("open-up"), this._$dropdown.classList.remove("open-down")) : (this._$dropdown.style.top = `${t.bottom}px`, this._$dropdown.classList.add("open-down"), this._$dropdown.classList.remove("open-up")), this._$dropdown.classList.add("open"), this._optionIndex >= 0) {
+      this._highlightIndex = this._optionIndex;
+      const o = this._$options[this._highlightIndex];
+      o?.classList.add("highlight"), o?.scrollIntoView({ block: "nearest" });
+    }
+    window.addEventListener(
       "scroll",
       this._handlers.documentClick,
       { capture: !0, passive: !0 }
@@ -1004,7 +1043,7 @@ class A extends a {
     );
   }
   _closeDropdown() {
-    this._$dropdown.classList.remove("open", "open-up", "open-down"), window.removeEventListener(
+    this._$options[this._highlightIndex]?.classList.remove("highlight"), this._highlightIndex = -1, this._$dropdown.classList.remove("open", "open-up", "open-down"), window.removeEventListener(
       "scroll",
       this._handlers.documentClick,
       { capture: !0 }
@@ -1030,18 +1069,11 @@ class A extends a {
       this.optionIndex = this._$options.findIndex((e) => e === t);
   }
   _handleKeydown(t) {
-    if (t.key === "Enter" || t.key === " ")
-      if (t.preventDefault(), !this._dropdown_open)
-        this._$button.click();
-      else {
-        const e = this._$options[this._highlightIndex];
-        e && (e.classList.remove("highlight"), this.optionIndex = this._highlightIndex), this._highlightIndex = -1, this._$button.click();
-      }
-    if (t.key === "ArrowDown" || t.key === "ArrowUp") {
-      if (t.preventDefault(), !this._dropdown_open || t.key === "ArrowDown" && this._highlightIndex + 1 === this._$options.length || t.key === "ArrowUp" && this._highlightIndex === -1) return;
+    if ((t.key === "Enter" || t.key === " ") && (t.preventDefault(), this._dropdown_open ? (this._$options[this._highlightIndex] && (this.optionIndex = this._highlightIndex), this._$button.click()) : this._$button.click()), t.key === "ArrowDown" || t.key === "ArrowUp") {
+      if (t.preventDefault(), !this._dropdown_open || t.key === "ArrowDown" && this._highlightIndex + 1 === this._$options.length || t.key === "ArrowUp" && this._highlightIndex <= 0) return;
       this._$options[this._highlightIndex]?.classList.remove("highlight"), this._highlightIndex = t.key === "ArrowDown" ? this._highlightIndex + 1 : this._highlightIndex - 1, this._$options[this._highlightIndex]?.classList.add("highlight"), this._$options[this._highlightIndex]?.scrollIntoView({ block: "nearest" });
     }
-    t.key === "Escape" && this._dropdown_open && (this._$button.click(), this._highlightIndex = -1);
+    t.key === "Escape" && this._dropdown_open && this._$button.click();
   }
   static get observedAttributes() {
     return ["option-index"];
@@ -1075,7 +1107,7 @@ class A extends a {
     }
     const e = this._$options[t];
     if (!e) {
-      this._pendingOptionIndex = t;
+      this._$options.length === 0 ? this._pendingOptionIndex = t : this._unsetOption();
       return;
     }
     this._optionIndex = t, this._$span.textContent = e.textContent, this.forwardCustomEvent("aero-select-changed", {
@@ -1088,13 +1120,13 @@ class A extends a {
   _getValidateOptionIndexByStr(t) {
     if (t === "") return -1;
     const e = Number(t);
-    return Number.isNaN(e) ? -1 : e;
+    return Number.isInteger(e) ? e : -1;
   }
   _unsetOption() {
     this._optionIndex = -1, this._$span.textContent = "";
   }
 }
-class E extends HTMLElement {
+class C extends HTMLElement {
   constructor() {
     super();
   }
@@ -1117,75 +1149,86 @@ class E extends HTMLElement {
     return this.textContent ?? "";
   }
 }
-const C = `<style>\r
-	:host {\r
-		position: fixed;\r
-\r
-		top: 90%;\r
-		left: 50%;\r
-\r
-		transform: translate(-50%, 10px);\r
-		opacity: 0;\r
-\r
-		animation: toast-fade linear forwards;\r
-\r
-		border-radius: 5px;\r
-	}\r
-\r
-	#box {\r
-		padding: 5px 10px;\r
-	}\r
-\r
-	@keyframes toast-fade {\r
-		0% {\r
-			transform: translate(-50%, 10px);\r
-			opacity: 0;\r
-		}\r
-		10% {\r
-			transform: translate(-50%, 0);\r
-			opacity: 1;\r
-		}\r
-		90% {\r
-			transform: translate(-50%, 0);\r
-			opacity: 1;\r
-		}\r
-		100% {\r
-			transform: translate(-50%, 10px);\r
-			opacity: 0;\r
-		}\r
-	}\r
-</style>\r
-\r
-<div id="box">\r
-	<span id="text"></span>\r
-</div>\r
-`, I = {
+const I = `<style>
+  :host {
+    position: fixed;
+
+    top: 90%;
+    left: 50%;
+
+    transform: translate(-50%, 10px);
+    opacity: 0;
+
+    animation: toast-fade linear forwards;
+
+    border-radius: 5px;
+  }
+
+  #box {
+    padding: 5px 10px;
+  }
+
+  @keyframes toast-fade {
+    0% {
+      transform: translate(-50%, 10px);
+      opacity: 0;
+    }
+    10% {
+      transform: translate(-50%, 0);
+      opacity: 1;
+    }
+    90% {
+      transform: translate(-50%, 0);
+      opacity: 1;
+    }
+    100% {
+      transform: translate(-50%, 10px);
+      opacity: 0;
+    }
+  }
+</style>
+
+<div id="box">
+  <span id="text"></span>
+</div>
+`, S = {
   top: "90%",
   left: "50%",
   ms: 3e3,
   background: "black",
   color: "white"
 };
-class l extends a {
+class c extends r {
   _$text;
-  constructor(t, e) {
-    super(C);
-    const { top: i, left: n, ms: r, background: s, color: h } = e;
-    this._$text = this.query("#text"), this._$text.textContent = t, this.applyStyles(`
-			:host {
-				top: ${i};
-				left: ${n};
-				animation-duration: ${r}ms;
-				background: ${s};
-				color: ${h};
-			}
-		`), document.body.appendChild(this), this.addEventListener(
-      "animationend",
-      () => {
-        this.remove();
-      },
-      { once: !0 }
+  _ms;
+  _removalTimer;
+  _handleAnimationEnd = () => this.remove();
+  constructor(t = "", e = {}) {
+    super(I);
+    const { top: i, left: n, ms: s, background: o, color: d } = {
+      ...S,
+      ...e
+    };
+    this._ms = s, this._$text = this.query("#text"), this._$text.textContent = t, this.applyStyles(`
+      :host {
+        top: ${i};
+        left: ${n};
+        animation-duration: ${this._ms}ms;
+        background: ${o};
+        color: ${d};
+      }
+    `);
+  }
+  connectedCallback() {
+    this.addEventListener("animationend", this._handleAnimationEnd, {
+      once: !0
+    }), this._removalTimer = window.setTimeout(
+      () => this.remove(),
+      this._ms + 100
     );
+  }
+  disconnectedCallback() {
+    this.removeEventListener("animationend", this._handleAnimationEnd), window.clearTimeout(this._removalTimer);
   }
   /**
    * Displays a toast notification on the screen.
@@ -1200,227 +1243,232 @@ class l extends a {
    * AeroToast.show('Success!', { background: 'green', ms: 3000 });
    */
   static show(t, e = {}) {
-    const i = {
-      ...I,
-      ...e
-    };
-    new l(t, i);
+    document.body.appendChild(new c(t, e));
   }
 }
-const H = `<style>\r
-	:host {\r
-		position: fixed;\r
-		top: 0;\r
-		left: 0;\r
-		width: 100%;\r
-		height: 100%;\r
-	}\r
-\r
-	#overlay {\r
-		position: relative;\r
-		width: 100%;\r
-		height: 100%;\r
-	}\r
-\r
-	#container {\r
-		position: absolute;\r
-		top: 50%;\r
-		left: 50%;\r
-		transform: translate(-50%, -50%);\r
-\r
-		min-width: 300px;\r
-		min-height: 200px;\r
-\r
-		display: grid;\r
-		grid-template-rows: 1fr 4fr;\r
-		grid-template-columns: 1fr;\r
-	}\r
-\r
-	#head {\r
-		display: grid;\r
-		place-items: center;\r
-		font-weight: bold;\r
-	}\r
-\r
-	#body {\r
-		display: grid;\r
-		grid-template-rows: 1fr auto;\r
-		grid-template-columns: 1fr;\r
-\r
-		place-items: center;\r
-	}\r
-\r
-	#button-box {\r
-		padding: 10px;\r
-	}\r
-\r
-	button {\r
-		min-width: 70px;\r
-		min-height: 30px;\r
-		border: none;\r
-	}\r
-\r
-	button:hover {\r
-		cursor: pointer;\r
-		filter: brightness(0.9);\r
-	}\r
-\r
-	button:active {\r
-		scale: 0.99;\r
-	}\r
-</style>\r
-\r
-<div id="overlay">\r
-	<div id="container">\r
-		<div id="head">\r
-			<span id="title"></span>\r
-		</div>\r
-		<div id="body">\r
-			<span id="message"></span>\r
-			<div id="button-box">\r
-				<button id="ok">ok</button>\r
-			</div>\r
-		</div>\r
-	</div>\r
-</div>\r
-`, S = `<style>\r
-	:host {\r
-		position: fixed;\r
-		top: 0;\r
-		left: 0;\r
-		width: 100%;\r
-		height: 100%;\r
-	}\r
-\r
-	#overlay {\r
-		position: relative;\r
-		width: 100%;\r
-		height: 100%;\r
-	}\r
-\r
-	#container {\r
-		position: absolute;\r
-		top: 50%;\r
-		left: 50%;\r
-		transform: translate(-50%, -50%);\r
-\r
-		min-width: 300px;\r
-		min-height: 200px;\r
-\r
-		display: grid;\r
-		grid-template-rows: 1fr 4fr;\r
-		grid-template-columns: 1fr;\r
-	}\r
-\r
-	#head {\r
-\r
-	}\r
-\r
-	#body {\r
-		display: grid;\r
-		grid-template-rows: 1fr auto;\r
-		grid-template-columns: 1fr;\r
-\r
-		place-items: center;\r
-	}\r
-\r
-	#button-box {\r
-		display: flex;\r
-		gap: 10px;\r
-		padding: 10px;\r
-	}\r
-\r
-	button {\r
-		min-width: 70px;\r
-		min-height: 30px;\r
-		border: none;\r
-	}\r
-\r
-	button:hover {\r
-		cursor: pointer;\r
-		filter: brightness(0.9);\r
-	}\r
-\r
-	button:active {\r
-		scale: 0.99;\r
-	}\r
-</style>\r
-\r
-<div id="overlay">\r
-	<div id="container">\r
-		<div id="head"></div>\r
-		<div id="body">\r
-			<span id="message"></span>\r
-			<div id="button-box">\r
-				<button id="ok">ok</button>\r
-				<button id="cancel">cancel</button>\r
-			</div>\r
-		</div>\r
-	</div>\r
-</div>\r
-`, M = {
+const p = `<style>
+  :host {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  #overlay {
+    position: relative;
+    width: 100%;
+    height: 100%;
+  }
+
+  #container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    min-width: 300px;
+    min-height: 200px;
+
+    display: grid;
+    grid-template-rows: 1fr 4fr;
+    grid-template-columns: 1fr;
+  }
+
+  #head {
+    display: grid;
+    place-items: center;
+    font-weight: bold;
+  }
+
+  #body {
+    display: grid;
+    grid-template-rows: 1fr auto;
+    grid-template-columns: 1fr;
+
+    place-items: center;
+  }
+
+  #button-box {
+    padding: 10px;
+  }
+
+  button {
+    min-width: 70px;
+    min-height: 30px;
+    border: none;
+  }
+
+  button:hover {
+    cursor: pointer;
+    filter: brightness(0.9);
+  }
+
+  button:active {
+    scale: 0.99;
+  }
+</style>
+
+<div id="overlay">
+  <div id="container">
+    <div id="head">
+      <span id="title"></span>
+    </div>
+    <div id="body">
+      <span id="message"></span>
+      <div id="button-box">
+        <button id="ok">ok</button>
+      </div>
+    </div>
+  </div>
+</div>
+`, H = `<style>
+  :host {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  #overlay {
+    position: relative;
+    width: 100%;
+    height: 100%;
+  }
+
+  #container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    min-width: 300px;
+    min-height: 200px;
+
+    display: grid;
+    grid-template-rows: 1fr 4fr;
+    grid-template-columns: 1fr;
+  }
+
+  #head {
+
+  }
+
+  #body {
+    display: grid;
+    grid-template-rows: 1fr auto;
+    grid-template-columns: 1fr;
+
+    place-items: center;
+  }
+
+  #button-box {
+    display: flex;
+    gap: 10px;
+    padding: 10px;
+  }
+
+  button {
+    min-width: 70px;
+    min-height: 30px;
+    border: none;
+  }
+
+  button:hover {
+    cursor: pointer;
+    filter: brightness(0.9);
+  }
+
+  button:active {
+    scale: 0.99;
+  }
+</style>
+
+<div id="overlay">
+  <div id="container">
+    <div id="head"></div>
+    <div id="body">
+      <span id="message"></span>
+      <div id="button-box">
+        <button id="ok">ok</button>
+        <button id="cancel">cancel</button>
+      </div>
+    </div>
+  </div>
+</div>
+`, L = {
   blue_5: "#2563eb"
-}, L = {
+}, D = {
   fontSize: "1rem",
   containerBorder: "1px solid lightgrey",
   containerBoxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)",
-  primaryBackgroundColor: `${M.blue_5}`,
+  primaryBackgroundColor: `${L.blue_5}`,
   primaryColor: "white",
   secondaryBackgroundColor: "grey",
   secondaryColor: "white",
   buttonBorderRadius: "0"
 };
-class c extends a {
+class u extends r {
   _$message;
   _$ok;
   _$cancel;
   _resolve;
-  _handleKeyDown;
-  constructor(t, e, i) {
+  _previousFocus = null;
+  constructor(t = p, e = "", i = {}) {
     super(t);
     const {
       fontSize: n,
-      containerBorder: r,
-      containerBoxShadow: s,
-      primaryBackgroundColor: h,
-      primaryColor: _,
-      secondaryBackgroundColor: g,
-      secondaryColor: m,
-      buttonBorderRadius: b
-    } = i;
+      containerBorder: s,
+      containerBoxShadow: o,
+      primaryBackgroundColor: d,
+      primaryColor: g,
+      secondaryBackgroundColor: m,
+      secondaryColor: b,
+      buttonBorderRadius: v
+    } = { ...D, ...i };
     this._$message = this.query("#message"), this._$message.textContent = e, this._$ok = this.query("#ok"), this._$cancel = this.queryOptional("#cancel"), this.applyStyles(`
-			#container {
-				font-size: ${n};
-				border: ${r};
-				box-shadow: ${s};
-			}
+      #container {
+        font-size: ${n};
+        border: ${s};
+        box-shadow: ${o};
+      }
 
-			#head {
-				background: ${h};
-			}
+      #head {
+        background: ${d};
+      }
 
-			button {
-				font-size: ${n};
-				border-radius: ${b}
-			}
+      button {
+        font-size: ${n};
+        border-radius: ${v}
+      }
 
-			#ok {
-				background-color: ${h};
-				color: ${_};
-			}
+      #ok {
+        background-color: ${d};
+        color: ${g};
+      }
 
-			#cancel {
-				background-color: ${g};
-				color: ${m};
-			}
-		`), this._$ok.onclick = () => {
-      this.remove(), this._resolve?.(!0), this._resolve = void 0;
-    }, this._$cancel && (this._$cancel.onclick = () => {
-      this.remove(), this._resolve?.(!1), this._resolve = void 0;
-    }), this._handleKeyDown = (u) => {
-      u.key === "Enter" ? this._$ok.click() : u.key === "Escape" && (this._$cancel ? this._$cancel.click() : this._$ok.click());
-    }, window.addEventListener("keydown", this._handleKeyDown), document.body.appendChild(this);
+      #cancel {
+        background-color: ${m};
+        color: ${b};
+      }
+    `), this._$ok.onclick = () => this._settle(!0), this._$cancel && (this._$cancel.onclick = () => this._settle(!1));
   }
+  connectedCallback() {
+    window.addEventListener("keydown", this._handleKeyDown), this._previousFocus = document.activeElement instanceof HTMLElement ? document.activeElement : null, this._$ok.focus();
+  }
+  disconnectedCallback() {
+    window.removeEventListener("keydown", this._handleKeyDown), this._previousFocus?.focus(), this._previousFocus = null, this._resolve?.(!1), this._resolve = void 0;
+  }
+  // Removes the popup and resolves its promise exactly once.
+  _settle(t) {
+    const e = this._resolve;
+    this._resolve = void 0, this.remove(), e?.(t);
+  }
+  _handleKeyDown = (t) => {
+    const e = document.querySelectorAll("aero-popup");
+    e[e.length - 1] === this && (t.key === "Enter" ? (t.preventDefault(), this._$ok.click()) : t.key === "Escape" && (t.preventDefault(), this._$cancel ? this._$cancel.click() : this._$ok.click()));
+  };
   /**
    * Displays a alert notification on the screen.
    *
@@ -1433,7 +1481,7 @@ class c extends a {
    * AeroPopup.alert('Hello World!');
    */
   static alert(t, e = {}) {
-    return this._create(H, t, e);
+    return this._create(p, t, e);
   }
   /**
    * Displays a confirm notification on the screen.
@@ -1447,27 +1495,23 @@ class c extends a {
    * AeroPopup.confirm('Hello World?');
    */
   static confirm(t, e = {}) {
-    return this._create(S, t, e);
+    return this._create(H, t, e);
   }
   static _create(t, e, i) {
-    const n = {
-      ...L,
-      ...i
-    };
-    return new Promise((r) => {
-      const s = new c(t, e, n);
-      s._resolve = r;
+    return new Promise((n) => {
+      const s = new u(t, e, i);
+      s._resolve = n, document.body.appendChild(s);
     });
   }
 }
-const D = `<style>\r
-\r
-</style>\r
-\r
-<div id="list"></div>\r
-<div class="highlight"></div>\r
+const M = `<style>
+
+</style>
+
+<div id="list"></div>
+<div class="highlight"></div>
 `;
-class R extends a {
+class h extends r {
   _items = [];
   _$list;
   _itemHeight = 0;
@@ -1501,7 +1545,24 @@ class R extends a {
     }, 100);
   };
   constructor() {
-    super(D), this._$list = this.query("#list"), this._itemHeight = parseInt(this.getAttribute("item-height") ?? "30"), this._visibleCount = parseInt(this.getAttribute("visible-count") ?? "5"), this._syncStyles();
+    super(M), this._$list = this.query("#list"), this._itemHeight = h._parseItemHeight(
+      this.getAttribute("item-height")
+    ), this._visibleCount = h._parseVisibleCount(
+      this.getAttribute("visible-count")
+    ), this._syncStyles();
+  }
+  // Parses the item-height attribute; invalid or non-positive values fall
+  // back to 30 (a zero height would break index calculations).
+  static _parseItemHeight(t) {
+    const e = parseInt(t ?? "");
+    return isNaN(e) || e <= 0 ? 30 : e;
+  }
+  // Parses the visible-count attribute; invalid or non-positive values fall
+  // back to 5, and even counts are bumped to the next odd number so the
+  // selected item can sit exactly in the middle.
+  static _parseVisibleCount(t) {
+    const e = parseInt(t ?? ""), i = isNaN(e) || e < 1 ? 5 : e;
+    return i % 2 === 0 ? i + 1 : i;
   }
   connectedCallback() {
     this.addEventListener("pointerdown", this._onPointerDown), this.addEventListener("wheel", this._onWheel, { passive: !1 });
@@ -1518,14 +1579,16 @@ class R extends a {
   }
   _aeroRollerAttributeHandlers = {
     "item-height": (t) => {
-      this._updateItemHeight(parseInt(t ?? "30"));
+      this._updateItemHeight(h._parseItemHeight(t));
     },
     "visible-count": (t) => {
-      this._updateVisibleCount(parseInt(t ?? "5"));
+      this._updateVisibleCount(h._parseVisibleCount(t));
     }
   };
   /**
    * Sets the list of items for the roller.
+   * Items are rendered as plain text, so markup in a value is displayed
+   * literally rather than parsed as HTML.
    * @param {T[]} items - The array of items to display.
    */
   setItems(t) {
@@ -1535,7 +1598,7 @@ class R extends a {
     this._itemHeight = t, this._updateMaxHeight(), this._syncStyles(), this.scrollToIndex(this._index);
   }
   _updateVisibleCount(t) {
-    t < 0 && (this._visibleCount = 0), this._visibleCount = t % 2 === 0 ? t + 1 : t, this._syncStyles(), this._render(), this.scrollToIndex(this._index);
+    this._visibleCount = t, this._syncStyles(), this._render(), this.scrollToIndex(this._index);
   }
   _updateMaxHeight() {
     const t = Math.max(0, this._items.length - 1);
@@ -1543,55 +1606,61 @@ class R extends a {
   }
   _syncStyles() {
     this.applyStyles(`
-			* {
-				margin: 0;
-				padding: 0;
-				box-sizing: border-box;
-			}
-
-			:host {
-				position: relative;
-				display: block;
-				height: ${this._itemHeight * this._visibleCount}px;
-				overflow: hidden;
-			}
-
-			#list {
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
       }
 
-			.item {
+      :host {
+        position: relative;
+        display: block;
+        height: ${this._itemHeight * this._visibleCount}px;
+        overflow: hidden;
+      }
+
+      #list {
+      }
+
+      .item {
         height: ${this._itemHeight}px;
 
-				text-align: center;
-				line-height: ${this._itemHeight}px;
+        text-align: center;
+        line-height: ${this._itemHeight}px;
 
-				user-select: none;
-				cursor: var(--aero-roller-item-cursor);
+        user-select: none;
+        cursor: var(--aero-roller-item-cursor);
       }
 
-			.highlight {
-				position: absolute;
-				top: 50%;
-				left: 0;
+      .highlight {
+        position: absolute;
+        top: 50%;
+        left: 0;
 
-				width: 100%;
-				height: ${this._itemHeight}px;
-				transform: translateY(-50%);
+        width: 100%;
+        height: ${this._itemHeight}px;
+        transform: translateY(-50%);
 
-				pointer-events: none;
+        pointer-events: none;
 
-				border-top: var(--aero-roller-highlight-border-top, var(--aero-roller-highlight-border, none));
-				border-bottom: var(--aero-roller-highlight-border-bottom, var(--aero-roller-highlight-border, none));
-				border-left: var(--aero-roller-highlight-border-left, var(--aero-roller-highlight-border, none));
-				border-right: var(--aero-roller-highlight-border-right, var(--aero-roller-highlight-border, none));
+        border-top: var(--aero-roller-highlight-border-top, var(--aero-roller-highlight-border, none));
+        border-bottom: var(--aero-roller-highlight-border-bottom, var(--aero-roller-highlight-border, none));
+        border-left: var(--aero-roller-highlight-border-left, var(--aero-roller-highlight-border, none));
+        border-right: var(--aero-roller-highlight-border-right, var(--aero-roller-highlight-border, none));
 
-				background: var(--aero-roller-highlight-bg, none);
-			}
-		`);
+        background: var(--aero-roller-highlight-bg, none);
+      }
+    `);
   }
   _render() {
-    const t = Math.floor(this._visibleCount / 2), e = Array(t).fill('<div class="item"></div>').join("");
-    this._$list.innerHTML = e + this._items.map((i) => `<div class="item">${i}</div>`).join("") + e;
+    const t = Math.floor(this._visibleCount / 2), e = (i) => {
+      const n = document.createElement("div");
+      n.className = "item", n.textContent = i, this._$list.appendChild(n);
+    };
+    this._$list.textContent = "";
+    for (let i = 0; i < t; i++) e("");
+    this._items.forEach((i) => e(String(i)));
+    for (let i = 0; i < t; i++) e("");
   }
   _reset() {
     this._index = 0, this._move(0, !0);
@@ -1632,31 +1701,29 @@ class R extends a {
     this._y = t, e ? this._$list.style.transition = "none" : this._$list.style.transition = "transform 0.2s ease-out", this._$list.style.transform = `translateY(${this._y}px)`;
   }
   _end() {
-    const t = Math.round(Math.abs(this._y / this._itemHeight));
-    this.scrollToIndex(t), this.dispatchEvent(
-      new CustomEvent("change", {
-        detail: { index: t, value: this._items[t] }
-      })
-    );
+    const t = this._index, e = Math.round(Math.abs(this._y / this._itemHeight));
+    this.scrollToIndex(e), this._index !== t && this.forwardCustomEvent("change", {
+      detail: { index: this._index, value: this._items[this._index] }
+    });
   }
 }
-customElements.define("aero-numeric-input", x);
-customElements.define("aero-spinbox", w);
-customElements.define("aero-indeterminate-spinner", $);
-customElements.define("aero-resizable-box", d);
+customElements.define("aero-numeric-input", f);
+customElements.define("aero-spinbox", y);
+customElements.define("aero-indeterminate-spinner", k);
+customElements.define("aero-resizable-box", l);
 customElements.define("aero-select", A);
-customElements.define("aero-option", E);
-customElements.define("aero-toast", l);
-customElements.define("aero-popup", c);
-customElements.define("aero-roller", R);
+customElements.define("aero-option", C);
+customElements.define("aero-toast", c);
+customElements.define("aero-popup", u);
+customElements.define("aero-roller", h);
 export {
-  $ as AeroIndeterminateSpinner,
-  x as AeroNumericInput,
-  E as AeroOption,
-  c as AeroPopup,
-  d as AeroResizableBox,
-  R as AeroRoller,
+  k as AeroIndeterminateSpinner,
+  f as AeroNumericInput,
+  C as AeroOption,
+  u as AeroPopup,
+  l as AeroResizableBox,
+  h as AeroRoller,
   A as AeroSelect,
-  w as AeroSpinbox,
-  l as AeroToast
+  y as AeroSpinbox,
+  c as AeroToast
 };
